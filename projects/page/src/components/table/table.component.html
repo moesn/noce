@@ -1,0 +1,69 @@
+<!--表格工具栏-->
+<ng-template #dataTitleTpl>
+  <h3>{{option.name}}</h3>
+  <nz-space>
+    <!--    模糊搜索-->
+    <ng-container *ngIf="searches.length">
+      <nz-input-group *nzSpaceItem nzSearch [nzAddOnAfter]="suffixButton">
+        <input [(ngModel)]="fuzzy.keyword" nz-input type="text" placeholder="模糊搜索"/>
+      </nz-input-group>
+      <ng-template #suffixButton>
+        <button nz-button nzSearch (click)="query()">
+          <i nz-icon nzType="search"></i>
+        </button>
+      </ng-template>
+    </ng-container>
+    <!--    增加按钮-->
+    <ng-container *ngIf="option.create">
+      <button *nzSpaceItem nz-button (click)="edit({})">
+        <i nz-icon nzType="plus"></i>
+      </button>
+    </ng-container>
+  </nz-space>
+</ng-template>
+<!--表格数据-->
+<nz-table #dataTable
+          nzSize="small"
+          [nzData]="datas"
+          [nzTitle]="dataTitleTpl"
+          [nzFrontPagination]="option.view.frontPagination"
+          [nzTotal]="total"
+          [nzPageSize]="option.view.pageSize"
+          [nzPageIndex]="pageIndex"
+          (nzQueryParams)="query($event)"
+>
+    <thead>
+    <tr>
+      <!--      显示字段表头-->
+      <ng-container *ngFor="let column of option.view.columns">
+        <th>{{column.label}}</th>
+      </ng-container>
+      <!--      操作-->
+      <ng-container *ngFor="let action of [option.update,option.delete]">
+        <th nzWidth="50px" *ngIf="action">{{action.name}}</th>
+      </ng-container>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of dataTable['data']">
+      <!--      显示字段数据-->
+      <ng-container *ngFor="let column of  option.view.columns">
+        <!--        普通列-->
+        <td>{{data[column.key]}}</td>
+      </ng-container>
+      <!--      操作按钮-->
+      <ng-container *ngFor="let action of [option.update,option.delete]">
+        <td *ngIf="action">
+          <!--          修改-->
+          <ng-container *ngIf="action===option.update">
+            <i nz-icon nzType="edit" (click)="edit(data)"></i>
+          </ng-container>
+          <!--          删除-->
+          <ng-container *ngIf="action===option.delete">
+            <i nz-icon nzType="delete" (click)="delete(data)"></i>
+          </ng-container>
+        </td>
+      </ng-container>
+    </tr>
+    </tbody>
+</nz-table>

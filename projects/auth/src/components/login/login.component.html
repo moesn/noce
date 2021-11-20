@@ -1,0 +1,63 @@
+<div class="nc-auth-login">
+  <!--用于自定义页面内容-->
+  <div class="nc-auth-header"></div>
+  <div class="nc-auth-center"></div>
+  <div class="nc-auth-lefter"></div>
+  <div class="nc-auth-righter"></div>
+  <div class="nc-auth-footer"></div>
+  <form (ngSubmit)="login()" #form="ngForm" aria-labelledby="title" class="nc-auth-form">
+    <h1 class="nc-auth-title">{{title}}</h1>
+    <!--用户名-->
+    <div>
+      <label for="input-username">用户名:</label>
+      <input [(ngModel)]="user.username"
+             #username="ngModel"
+             name="username"
+             id="input-username"
+             placeholder="请输入用户名"
+             [ngStyle]="{'border-color':username.dirty ? (username.invalid  ? '#ff3d71' : '#00997a') : ''}"
+             [required]="true"
+             [attr.aria-invalid]="username.invalid && username.touched ? true : null">
+      <ng-container *ngIf="username.invalid && username.touched">
+        <p> 用户名不能为空 </p>
+      </ng-container>
+    </div>
+    <!--密码-->
+    <div>
+      <label for="input-password">密&emsp;码:</label>
+      <input
+        [(ngModel)]="user.password"
+        #password="ngModel"
+        name="password"
+        type="password"
+        id="input-password"
+        placeholder="请输入密码"
+        [ngStyle]="{'border-color':password.dirty ? (password.invalid  ? '#ff3d71' : '#00997a') : ''}"
+        [required]="true"
+        [attr.aria-invalid]="password.invalid && password.touched ? true : null">
+      <ng-container *ngIf="password.invalid && password.touched ">
+        <p> 密码不能为空 </p>
+      </ng-container>
+    </div>
+    <!--二维码-->
+    <div *ngIf="codeimg">
+      <label for="input-vercode">验证码:</label>
+      <input
+        [(ngModel)]="user.vercode"
+        #vercode="ngModel"
+        name="vercode"
+        type="vercode"
+        id="input-vercode"
+        placeholder="请输入验证码"
+        [ngStyle]="{'border-color':vercode.dirty ? (vercode.invalid  ? '#ff3d71' : '#00997a') : ''}"
+        [required]="true"
+        [attr.aria-invalid]="vercode.invalid && vercode.touched ? true : null">
+      <img *ngIf="codeimg" [src]="codeimg" alt="验证码" (click)="getVercode()">
+      <ng-container *ngIf="vercode.invalid && vercode.touched ">
+        <p> 验证码不能为空 </p>
+      </ng-container>
+    </div>
+    <!--登录中、表单无效或者未改动时禁止点击-->
+    <button [disabled]="submitting || form.invalid || !form.dirty"> 登录</button>
+  </form>
+</div>

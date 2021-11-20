@@ -1,0 +1,47 @@
+<nz-layout>
+  <nz-header *ngIf="isAuthed">
+    <div class="logo">
+      <a href="/">
+        <img [src]="logo" alt="logo">
+        <h1>{{title}}</h1>
+      </a>
+    </div>
+    <ul nz-menu nzMode="horizontal" *ngIf="navs.length">
+      <li nz-menu-item *ngFor="let nav of navs;index as i" nzMatchRouter [routerLink]="nav.link" (click)="queryMenu(nav.link)">
+        {{nav.title}}
+      </li>
+    </ul>
+    <div class="icon">
+      <span class="header-icon" (click)="logout()">
+            <i nz-icon nzType="logout"></i>
+        </span>
+    </div>
+  </nz-header>
+  <nz-layout>
+    <nz-sider
+      nzCollapsible
+      [nzWidth]="menuWidth"
+      nzBreakpoint="md"
+      [(nzCollapsed)]="isCollapsed"
+      [nzTrigger]="" *ngIf="menu.length">
+      <ul nz-menu [nzMode]="menuMode" [nzInlineCollapsed]="isCollapsed">
+        <ng-container *ngFor="let _menu of menu">
+          <li nz-submenu [nzTitle]="_menu.title" [nzIcon]="_menu.icon" *ngIf="_menu.children" [nzOpen]="menuOpen(_menu)">
+            <ul>
+              <li nz-menu-item nzMatchRouter *ngFor="let _child of _menu.children">
+                <a [routerLink]="_child.link">{{_child.title}}</a>
+              </li>
+            </ul>
+          </li>
+          <li nz-menu-item nzMatchRouter *ngIf="!_menu.children" [routerLink]="_menu.link">
+            <i nz-icon [nzType]="_menu.icon" [ngStyle]="{'font-size': isCollapsed?'24px':'16px'}"></i>
+            <a *ngIf="!isCollapsed" style="padding-left: 10px">{{_menu.title}}</a>
+          </li>
+        </ng-container>
+      </ul>
+    </nz-sider>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

@@ -1,0 +1,122 @@
+<form nz-form #form="ngForm" class="text-{{maxLabel}}">
+  <!--  填充白色-->
+  <nz-row nzGutter="24" class="ant-component-color">
+    <!--    表单分组-->
+    <ng-container *ngFor="let formItem of option">
+      <!--      表单分组名称-->
+      <nz-col *ngIf="formItem.name" [nzSpan]="24" class="col-divider">
+        <nz-divider [nzText]="dividerTpl" nzOrientation="left"></nz-divider>
+        <ng-template #dividerTpl>
+          {{formItem.name}}
+          <!--          表单分组帮助说明-->
+          <i nz-icon nzType="question-circle" nzTheme="outline" class="tip-icon ant-info"
+             nz-tooltip nzTooltipTitle="{{formItem.tip}}" *ngIf="formItem.tip"></i>
+        </ng-template>
+      </nz-col>
+      <!--      表单项 todo 根据是否隐藏计算span-->
+      <nz-col *ngFor="let field of formItem.fields" nzSpan="{{field.span||24/cols}}">
+        <nz-form-item>
+          <nz-form-label [nzRequired]="field.required">
+            {{field.label}}
+            <!--            表单项帮助说明-->
+            <i nz-icon nzType="question-circle" nzTheme="outline" class="tip-icon ant-info"
+               nz-tooltip nzTooltipTitle="{{field.tip}}" *ngIf="field.tip"></i>
+          </nz-form-label>
+          <nz-form-control [nzErrorTip]="formErrorTpl">
+            <ng-template #formErrorTpl let-control>
+              {{getErrorTip(control, field.pattern?.name)}}
+            </ng-template>
+            <!--            普通输入框-->
+            <input nz-input autocomplete="off" *ngIf="field.type==='input'"
+                   [name]="field.key"
+                   [disabled]="isReadonly(field.readonly)"
+                   [(ngModel)]="data[field.key]"
+                   [placeholder]="getPlaceholder(field)"
+                   [required]="field.required"
+                   [pattern]="field.pattern?.reg"
+                   [minlength]="field.input.minLength"
+                   [maxlength]="field.input.maxLength"
+            />
+            <!--            文本输入框-->
+            <textarea nz-input autocomplete="off" *ngIf="field.type==='textarea'"
+                      [name]="field.key"
+                      [disabled]="isReadonly(field.readonly)"
+                      [(ngModel)]="data[field.key]"
+                      [placeholder]="getPlaceholder(field)"
+                      [required]="field.required"
+                      [pattern]="field.pattern?.reg"
+                      [minlength]="field.input.minLength"
+                      [maxlength]="field.input.maxLength"
+            ></textarea>
+            <!--            密码输入框-->
+            <nz-input-group [nzSuffix]="suffixPwd" *ngIf="field.type==='password'">
+              <input nz-input
+                     [autocomplete]="pwdEye[field.key] ? 'off' : 'new-password'"
+                     [type]="pwdEye[field.key] ? 'text' : 'password'"
+                     [name]="field.key"
+                     [disabled]="isReadonly(field.readonly)"
+                     [(ngModel)]="data[field.key]"
+                     [placeholder]="getPlaceholder(field)"
+                     [required]="field.required&&!dataBak[key]"
+                     [pattern]="field.pattern?.reg"
+                     [minlength]="field.input.minLength"
+                     [maxlength]="field.input.maxLength"
+              />
+              <ng-template #suffixPwd>
+                <i nz-icon [nzType]="pwdEye[field.key] ? 'eye-invisible' : 'eye'" (click)="pwdEye[field.key] = !pwdEye[field.key]"></i>
+              </ng-template>
+            </nz-input-group>
+            <!--            数字输入框-->
+            <nz-input-number *ngIf="field.type==='number'"
+                             [name]="field.key"
+                             [disabled]="isReadonly(field.readonly)"
+                             [(ngModel)]="data[field.key]"
+                             [required]="field.required"
+                             [pattern]="field.pattern?.reg"
+                             [nzMin]="field.number.min"
+                             [nzMax]="field.number.max"
+                             [nzStep]="1"
+            ></nz-input-number>
+            <!--            切换按钮-->
+            <nz-switch [name]="field.key" [(ngModel)]="data[field.key]" *ngIf="field.type==='switch'"></nz-switch>
+            <!--            下拉选择框-->
+            <nz-select *ngIf="field.type==='select'"
+                       nzShowSearch
+                       [nzAllowClear]="!field.required||field.select.multiple"
+                       [name]="field.key"
+                       [disabled]="isReadonly(field.readonly)"
+                       [required]="field.required"
+                       [(ngModel)]="data[field.key]"
+                       [nzOptions]="field.select.options"
+                       [nzMode]="field.select.multiple?'multiple':'default'"
+                       (ngModelChange)="optionChange($event,field.key)"
+            ></nz-select>
+            <!--            单选弹窗选择框-->
+            <input nz-input autocomplete="off" readonly placeholder="点击选择" *ngIf="field.type==='modal'"
+                   [name]="field.key"
+                   [disabled]="isReadonly(field.readonly)"
+                   [value]="getValue(data,field.modal.reverse)"
+                   (click)="openModal(field.modal)"
+            />
+            <!--            多选弹窗选择框-->
+            <textarea nz-input autocomplete="off" readonly placeholder="点击选择" *ngIf="field.type==='modal'&&field.modal.multiple"
+                      [name]="field.key"
+                      [disabled]="isReadonly(field.readonly)"
+                      [value]="getValue(data,field.modal.reverse)"
+                      (click)="openModal(field.modal)"
+            ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </ng-container>
+  </nz-row>
+  <!--  保存或取消-->
+  <div class="ant-drawer-footer">
+    <nz-button-group>
+      <button nz-button (click)="close()">取消</button>
+      <!--      无效、未编辑、保存中时禁止点击-->
+      <button nz-button nzType="primary" (click)="save()" [disabled]="form.invalid || saving || modalEmpty()">保存</button>
+    </nz-button-group>
+  </div>
+</form>
+

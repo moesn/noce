@@ -1,0 +1,77 @@
+:host {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  nz-layout {
+    height: 100vh;
+
+    nz-sider {
+      position: relative;
+      min-height: 100vh;
+      text-align: center;
+      box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
+    }
+
+    nz-header {
+      position: relative;
+      height: 60px;
+      padding: 0;
+      box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+      display: inline;
+
+      .logo {
+        position: relative;
+        width: 256px;
+        height: 60px;
+        overflow: hidden;
+        line-height: 60px;
+        transition: all .3s;
+        float: left;
+
+        img {
+          display: inline-block;
+          vertical-align: middle;
+          margin: 0 20px;
+          border-radius: 32px;
+          height: 56px;
+        }
+
+        h1 {
+          display: inline-block;
+          margin: 0;
+          font-weight: 600;
+          font-size: 16px;
+          vertical-align: middle;
+        }
+      }
+
+      .ant-menu {
+        float: left;
+        height: 60px;
+        font-size: 16px;
+        font-weight: bold;
+        overflow-y: hidden;
+      }
+
+      .icon {
+        float: right;
+
+        .header-icon {
+          display: inline-flex;
+          height: 60px;
+          padding: 20px 24px;
+          font-size: 20px;
+          cursor: pointer;
+          transition: all .3s, padding 0s;
+          float: right;
+
+          .anticon:hover {
+            color: #1890ff;
+          }
+        }
+      }
+    }
+  }
+}
+

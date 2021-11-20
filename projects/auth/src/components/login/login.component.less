@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  font-family: Open Sans, sans-serif;
+}
+
+.nc-auth-login {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.nc-auth-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 3rem;
+  margin-bottom: 1rem;
+  color: #222b45;
+}
+
+.nc-auth-form {
+  margin: auto;
+  padding-top: 25vh;
+  width: 25vw;
+}
+
+label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1rem;
+  color: #8f9bb3;
+  font-weight: 500;
+}
+
+input {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  padding: .75rem 1rem;
+  border-radius: .25rem;
+  background-color: #f7f9fc;
+  border-color: #e4e9f2;
+  color: #222b45;
+  width: 100%;
+  border-style: solid;
+  border-width: 1px;
+}
+
+#input-vercode {
+  width: 66%;
+}
+
+button {
+  margin-top: 2rem;
+  background-color: #36f;
+  border-color: #36f;
+  color: #fff;
+  padding: .75rem 1.25rem;
+  border-style: solid;
+  border-width: .0625rem;
+  text-transform: uppercase;
+  border-radius: .25rem;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  width: 100%;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+button[disabled] {
+  background-color: rgba(143, 155, 179, .24);
+  border-color: rgba(143, 155, 179, .24);
+  color: rgba(143, 155, 179, .48);
+}
+
+p {
+  color: #ff3d71;
+  margin-top: 0.5rem;
+  font-weight: 400;
+  font-size: .75rem;
+  line-height: 1rem;
+}
+
+img {
+  width: 30%;
+  float: right;
+  height: 3rem;
+  margin: auto;
+}
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #8f9bb3;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+input:-moz-placeholder, textarea:-moz-placeholder {
+  color: #8f9bb3;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: #8f9bb3;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  color: #8f9bb3;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+:focus {
+  outline: none;
+  border-color: #36f;
+}
