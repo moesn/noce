@@ -51,7 +51,7 @@ export class NcTableComponent implements OnInit {
         this.datas = res.data || [];
         this.total = res.total;
 
-        const parse = this.option.view.parse;
+        const parse = this.option.view.parseData;
         // 如果需要解析表格数据
         if (parse) {
           this.datas.forEach(data => _eval(parse)(data));
@@ -64,11 +64,6 @@ export class NcTableComponent implements OnInit {
   edit(data: any): void {
     // 更新当前操作的数据
     this.data = data;
-
-    // 编辑必须配置form项
-    if (!this.option.form) {
-      return this.notify.error('Schema未配置form表单项');
-    }
 
     // form的全局属性配置在第一个form上
     const formOne = this.option.form[0];

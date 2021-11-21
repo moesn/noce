@@ -1,0 +1,16 @@
+{
+  "$schema": "page/schema.json",
+  "table": {
+    "name": "我是表格",
+    "key": "id",
+    "view": {
+      "api": "apis.query",
+      "columns": [
+        {
+          "label": "列一",
+          "key": "key1"
+        }
+      ]
+    }
+  }
+}

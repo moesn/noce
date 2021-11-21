@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "description": "页面配置",
+  "title": "页面配置",
+  "description": "支持表格、表单、列表、树等",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -8,19 +9,39 @@
       "type": "string"
     },
     "apis": {
-      "description": "接口列表",
+      "title": "接口列表",
+      "description": "APP配置从服务端获取接口列表时，此处配置失效",
       "type": "object"
     },
     "table": {
-      "$ref": "#/definitions/table"
+      "title": "右侧表格",
+      "description": "",
+      "$ref": "#table"
+    },
+    "navs": {
+      "title": "左侧导航",
+      "description": "导航列表或导航树",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#list"
+          },
+          {
+            "$ref": "#tree"
+          }
+        ]
+      }
     }
   },
   "required": [
-    "$schema"
+    "table"
   ],
   "definitions": {
     "table": {
-      "description": "表格配置项",
+      "$id": "#table",
+      "title": "表格配置",
       "type": "object",
       "required": [
         "view"
@@ -28,18 +49,18 @@
       "additionalProperties": false,
       "properties": {
         "name": {
-          "description": "表格名称",
+          "title": "表格名称",
           "type": "string",
-          "default": ""
+          "minLength": 1
         },
         "key": {
-          "description": "表格数据的主建",
+          "title": "数据主键",
           "type": "string",
           "default": "id",
           "minLength": 1
         },
         "view": {
-          "description": "表格查看配置",
+          "title": "表格视图配置",
           "type": "object",
           "required": [
             "api",
@@ -48,34 +69,49 @@
           "additionalProperties": false,
           "properties": {
             "api": {
-              "description": "表格数据查询接口地址",
+              "title": "接口地址",
+              "description": "查询表格数据的接口地址",
               "type": "string",
-              "minLength": 1
+              "pattern": "^apis.[a-zA-Z]+$"
             },
             "body": {
-              "description": "接口参数",
+              "title": "接口参数",
+              "description": "用户自定义的查询接口参数",
+              "examples": [
+                {
+                  "roleId": "$this.list.id$"
+                }
+              ],
               "type": "object"
             },
             "pageSize": {
-              "description": "每页显示条数",
+              "title": "每页显示条数",
               "type": "integer",
-              "default": 10
+              "default": 10,
+              "multipleOf": 5,
+              "minimum": 5
             },
             "frontPagination": {
-              "description": "是否前端分页",
+              "title": "是否前端分页",
               "type": "boolean",
               "default": false
             },
-            "parse": {
-              "description": "对查询到的数据进行解析",
-              "type": "string"
+            "parseData": {
+              "title": "解析数据",
+              "description": "表格渲染之前对数据进行处理",
+              "examples": [
+                "d=>d.name=d.firstName+d.lastName",
+                "d=>{d.name=d.fullName;d.age=18}"
+              ],
+              "type": "string",
+              "pattern": "^d=>.+"
             },
             "columns": {
-              "description": "表格显示的数据列配置",
+              "title": "表格列",
+              "description": "表格每列显示配置",
               "type": "array",
               "minItems": 1,
               "items": {
-                "description": "表格列配置项",
                 "type": "object",
                 "required": [
                   "label",
@@ -84,19 +120,36 @@
                 "additionalProperties": false,
                 "properties": {
                   "label": {
-                    "description": "表头显示的文字",
+                    "title": "表格表头文字",
                     "type": "string",
                     "minLength": 1
                   },
                   "key": {
-                    "description": "表格数据的key",
+                    "title": "表格数据字段",
                     "type": "string",
                     "minLength": 1
                   },
                   "search": {
-                    "description": "表格数据是否可搜索",
+                    "title": "是否可搜索",
+                    "description": "当前字段是否支持搜索",
                     "type": "boolean",
                     "default": false
+                  },
+                  "icon": {
+                    "title": "显示图标",
+                    "type": "string"
+                  },
+                  "color": {
+                    "title": "显示颜色",
+                    "enum": [
+                      "default",
+                      "green",
+                      "blue",
+                      "yellow",
+                      "orange",
+                      "red"
+                    ],
+                    "default": "default"
                   }
                 }
               }
@@ -104,7 +157,7 @@
           }
         },
         "form": {
-          "$ref": "#/definitions/form"
+          "$ref": "#form"
         },
         "create": {
           "description": "表格数据增加配置",
@@ -183,11 +236,12 @@
       }
     },
     "form": {
-      "description": "表单配置，可配置多个表单",
+      "$id": "#form",
+      "title": "表单配置",
+      "description": "可配置多个表单",
       "type": "array",
       "minItems": 1,
       "items": {
-        "description": "表单项置项",
         "type": "object",
         "required": [
           "fields"
@@ -218,7 +272,7 @@
             "type": "string",
             "minLength": 1
           },
-          "beforeEdit": {
+          "beforeOpen": {
             "description": "表单编辑前数据处理",
             "type": "string",
             "minLength": 1
@@ -532,6 +586,36 @@
               ]
             }
           }
+        }
+      }
+    },
+    "list": {
+      "$id": "#list",
+      "title": "列表配置",
+      "description": "列表配置",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "title": "数据主建",
+          "type": "string",
+          "default": "id",
+          "minLength": 1
+        }
+      }
+    },
+    "tree": {
+      "$id": "#tree",
+      "title": "树配置",
+      "description": "树配置",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "title": "数据主建",
+          "type": "string",
+          "default": "id",
+          "minLength": 1
         }
       }
     }

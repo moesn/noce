@@ -55,7 +55,7 @@ export class NcPageComponent implements OnInit {
 
       // 提示配置apis
       if (!this.http.isValidData(getPageOption('apis'))) {
-        this.notify.error('至少在app、page之一的schema里配置apis')
+        this.notify.fatal('至少在app、page之一的schema里配置apis')
       }
     }
   }

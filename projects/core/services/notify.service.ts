@@ -33,4 +33,11 @@ export class NcNotifyService {
       nzDuration: !!duration ? duration : 3000
     });
   }
+
+  fatal(msg: string, duration?: number): void {
+    this.notify.blank(msg, '', {
+      nzClass: 'ant-bg-error',
+      nzDuration: 0
+    });
+  }
 }
