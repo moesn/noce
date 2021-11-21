@@ -25,8 +25,6 @@ export class NcFormComponent implements OnInit {
   isnew: boolean = false; // 是否是新增数据
   saving: boolean = false; // 表单是否保存中
 
-  getValue = getValueFromObject; // 表单数据反填
-
   constructor(private drawerRef: NzDrawerRef,
               private http: NcHttpService) {
     this.option = getPageOption('table.form');

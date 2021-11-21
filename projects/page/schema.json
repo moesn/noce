@@ -367,6 +367,7 @@
             "items": {
               "title": "表单字段属性设置",
               "type": "object",
+              "additionalProperties": true,
               "properties": {
                 "type": {
                   "title": "表单项类型",
@@ -642,27 +643,27 @@
                   },
                   "then": {
                     "required": [
+                      "nameKey",
                       "modal"
                     ],
                     "properties": {
+                      "nameKey": {
+                        "title": "表单名称字段",
+                        "description": "关联字段中表单数据的名称字段",
+                        "type": "string",
+                        "minLength": 1
+                      },
                       "modal": {
                         "allOf": [
                           {
                             "title": "弹窗关联配置",
                             "type": "object",
                             "required": [
-                              "formNameKey",
-                              "modalNameKey"
+                              "nameKey"
                             ],
                             "additionalProperties": false,
                             "properties": {
-                              "formNameKey": {
-                                "title": "表单名称字段",
-                                "description": "关联字段中表单数据的名称字段",
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "modalNameKey": {
+                              "nameKey": {
                                 "title": "弹窗名称字段",
                                 "description": "关联字段中弹窗数据的名称字段",
                                 "type": "string",

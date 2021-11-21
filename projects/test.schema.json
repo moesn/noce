@@ -33,12 +33,22 @@
         "beforeOpen": "d=>d",
         "fields": [
           {
-            "type": "input",
+            "type": "modal",
             "label": "dd",
             "key": "ss",
-            "input": {
-
-            }
+            "modal": {
+              "nameKey": "ss",
+              "view": {
+                "api": "apis.s",
+                "columns": [
+                  {
+                    "label": "ss",
+                    "key": "dd"
+                  }
+                ]
+              }
+            },
+            "nameKey": "ss"
           }
         ]
       }
