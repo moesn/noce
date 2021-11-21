@@ -70,21 +70,12 @@
           "additionalProperties": false,
           "properties": {
             "api": {
-              "$id": "#api",
-              "title": "接口地址",
-              "description": "查询表格数据的接口地址",
-              "type": "string",
-              "pattern": "^apis.[a-zA-Z]+$"
+              "title": "查询接口地址",
+              "$ref": "#api"
             },
             "body": {
-              "title": "接口参数",
-              "description": "用户自定义的接口参数",
-              "type": "object",
-              "examples": [
-                {
-                  "roleId": "$this.list.id$"
-                }
-              ]
+              "title": "查询接口参数",
+              "$ref": "#body"
             },
             "pageSize": {
               "title": "每页显示条数",
@@ -99,15 +90,9 @@
               "default": false
             },
             "parseData": {
-              "$id": "#parseData",
               "title": "解析数据",
               "description": "表格渲染之前对数据进行处理",
-              "type": "string",
-              "pattern": "^d=>.+",
-              "examples": [
-                "d=>d.name=d.firstName+d.lastName",
-                "d=>{d.name=d.fullName;d.age=18}"
-              ]
+              "$ref": "#parse"
             },
             "columns": {
               "title": "表格列",
@@ -176,14 +161,8 @@
               "$ref": "#api"
             },
             "body": {
-              "title": "接口参数",
-              "description": "用户自定义的接口参数",
-              "type": "object",
-              "examples": [
-                {
-                  "roleId": "$this.list.id$"
-                }
-              ]
+              "title": "增加接口参数",
+              "$ref": "#body"
             }
           }
         },
@@ -200,14 +179,8 @@
               "$ref": "#api"
             },
             "body": {
-              "title": "接口参数",
-              "description": "用户自定义的接口参数",
-              "type": "object",
-              "examples": [
-                {
-                  "roleId": "$this.list.id$"
-                }
-              ]
+              "title": "修改接口参数",
+              "$ref": "#body"
             },
             "name": {
               "default": "修改"
@@ -227,9 +200,8 @@
               "$ref": "#api"
             },
             "body": {
-              "title": "接口参数",
-              "description": "用户自定义的接口参数",
-              "type": "object",
+              "title": "删除接口参数",
+              "$ref": "#body",
               "default": {
                 "ids": [
                   "$this.data[this.key]$"
@@ -309,11 +281,11 @@
           },
           "beforeOpen": {
             "title": "表单编辑前数据处理",
-            "$ref": "#parseData"
+            "$ref": "#parse"
           },
           "beforeSave": {
             "title": "表单保存前数据处理",
-            "$ref": "#parseData"
+            "$ref": "#parse"
           },
           "fields": {
             "description": "表单字段",
@@ -371,16 +343,7 @@
                 },
                 "readonly": {
                   "title": "表单项是否只读",
-                  "description": "可通过数据内容来确定是否只读",
-                  "type": [
-                    "boolean",
-                    "string"
-                  ],
-                  "examples": [
-                    "d=>d.status===0",
-                    "d=>{return d.status===0}"
-                  ],
-                  "default": false
+                  "$ref": "#parseBool"
                 },
                 "tip": {
                   "title": "表单项说明提示",
@@ -640,7 +603,6 @@
     "list": {
       "$id": "#list",
       "title": "列表配置",
-      "description": "列表配置",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -655,7 +617,6 @@
     "tree": {
       "$id": "#tree",
       "title": "树配置",
-      "description": "树配置",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -665,6 +626,54 @@
           "default": "id",
           "minLength": 1
         }
+      }
+    },
+    "api": {
+      "$id": "#api",
+      "title": "接口地址",
+      "type": "string",
+      "pattern": "^apis.[a-zA-Z]+$"
+    },
+    "body": {
+      "$id": "#body",
+      "title": "接口参数",
+      "description": "用户自定义的接口参数",
+      "type": "object",
+      "examples": [
+        {
+          "roleId": "$this.list.id$",
+          "status": "未激活"
+        }
+      ]
+    },
+    "parse": {
+      "$id": "#parse",
+      "title": "解析数据",
+      "type": "string",
+      "pattern": "^d=>.+",
+      "examples": [
+        "d=>d.name=d.firstName+d.lastName",
+        "d=>{d.name=d.fullName;d.age=18}"
+      ]
+    },
+    "parseBool": {
+      "$id": "#parseBool",
+      "title": "真或假",
+      "description": "可通过数据内容来判断ture或false",
+      "type": [
+        "boolean",
+        "string"
+      ],
+      "examples": [
+        "d=>d.status===0",
+        "d=>{return d.status===0}"
+      ],
+      "default": false,
+      "if": {
+        "type": "string"
+      },
+      "then": {
+        "pattern": "^d=>.+"
       }
     }
   }

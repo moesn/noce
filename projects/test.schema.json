@@ -28,7 +28,8 @@
           {
             "label":"s",
             "key":"s",
-            "type":"input"
+            "type":"input",
+            "readonly": "d=>"
           }
         ]
       }
