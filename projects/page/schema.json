@@ -70,6 +70,7 @@
           "additionalProperties": false,
           "properties": {
             "api": {
+              "$id": "#api",
               "title": "接口地址",
               "description": "查询表格数据的接口地址",
               "type": "string",
@@ -98,6 +99,7 @@
               "default": false
             },
             "parseData": {
+              "$id": "#parseData",
               "title": "解析数据",
               "description": "表格渲染之前对数据进行处理",
               "type": "string",
@@ -171,8 +173,7 @@
           "properties": {
             "api": {
               "title": "新增接口地址",
-              "type": "string",
-              "pattern": "^apis.[a-zA-Z]+$"
+              "$ref": "#api"
             },
             "body": {
               "title": "接口参数",
@@ -196,8 +197,7 @@
           "properties": {
             "api": {
               "title": "修改接口地址",
-              "type": "string",
-              "pattern": "^apis.[a-zA-Z]+$"
+              "$ref": "#api"
             },
             "body": {
               "title": "接口参数",
@@ -224,8 +224,7 @@
           "properties": {
             "api": {
               "description": "删除接口地址",
-              "type": "string",
-              "pattern": "^apis.[a-zA-Z]+$"
+              "$ref": "#api"
             },
             "body": {
               "title": "接口参数",
@@ -266,6 +265,8 @@
       "uniqueItems": true,
       "minItems": 1,
       "items": {
+        "title": "表单配置项",
+        "description": "width、cols如需配置，请在第一个表单里配置",
         "type": "object",
         "required": [
           "fields"
@@ -273,38 +274,46 @@
         "additionalProperties": false,
         "properties": {
           "name": {
-            "description": "表单名称",
+            "title": "表单名称",
             "type": "string",
             "minLength": 1
           },
           "width": {
-            "description": "表单宽度，只需要在第一个表单里配",
-            "enum": [
-              360,
-              560,
-              720,
-              960
+            "title": "表单宽度",
+            "oneOf": [
+              {
+                "enum": [
+                  360,
+                  560,
+                  720,
+                  960
+                ]
+              }
             ]
           },
           "cols": {
-            "description": "表单列数，只需要在第一个表单里配",
-            "type": "integer",
+            "title": "表单列数",
+            "enum": [
+              1,
+              2,
+              3,
+              4,
+              6
+            ],
             "default": 1
           },
           "tip": {
-            "description": "表单说明提示",
+            "title": "表单说明提示",
             "type": "string",
             "minLength": 1
           },
           "beforeOpen": {
-            "description": "表单编辑前数据处理",
-            "type": "string",
-            "minLength": 1
+            "title": "表单编辑前数据处理",
+            "$ref": "#parseData"
           },
           "beforeSave": {
-            "description": "表单保存前数据处理",
-            "type": "string",
-            "minLength": 1
+            "title": "表单保存前数据处理",
+            "$ref": "#parseData"
           },
           "fields": {
             "description": "表单字段",
@@ -312,12 +321,12 @@
             "uniqueItems": true,
             "minItems": 1,
             "items": {
-              "description": "表单字段属性设置",
+              "title": "表单字段属性设置",
               "type": "object",
               "additionalProperties": false,
               "properties": {
                 "type": {
-                  "description": "表单项类型",
+                  "title": "表单项类型",
                   "enum": [
                     "input",
                     "textarea",
@@ -329,49 +338,52 @@
                     "datetime",
                     "date",
                     "time"
-                  ],
-                  "default": "input"
+                  ]
                 },
                 "label": {
-                  "description": "表单项显示的文字",
+                  "title": "表单项标签",
                   "type": "string",
                   "minLength": 1
                 },
                 "key": {
-                  "description": "表单项数据的key",
+                  "title": "表单项数据字段",
                   "type": "string",
                   "minLength": 1
                 },
                 "value": {
-                  "description": "表单项数据的默认值",
+                  "title": "表单项默认值",
                   "type": [
                     "string",
-                    "number",
-                    "integer"
+                    "number"
                   ],
                   "minLength": 1
                 },
                 "span": {
-                  "description": "表单项跨度",
+                  "title": "表单项跨度",
                   "type": "integer",
                   "minimum": 0,
                   "maximum": 24
                 },
                 "required": {
-                  "description": "表单项是否必填",
+                  "title": "表单项是否必填",
                   "type": "boolean",
                   "default": false
                 },
                 "readonly": {
-                  "description": "表单项是否只读",
+                  "title": "表单项是否只读",
+                  "description": "可通过数据内容来确定是否只读",
                   "type": [
                     "boolean",
                     "string"
                   ],
+                  "examples": [
+                    "d=>d.status===0",
+                    "d=>{return d.status===0}"
+                  ],
                   "default": false
                 },
                 "tip": {
-                  "description": "表单项说明提示",
+                  "title": "表单项说明提示",
                   "type": "string",
                   "minLength": 1
                 }
@@ -392,25 +404,25 @@
                   "then": {
                     "properties": {
                       "input": {
-                        "description": "普通输入框专属配置",
+                        "title": "普通输入框专属配置",
                         "type": "object",
                         "default": {},
                         "additionalProperties": false,
                         "properties": {
                           "minLength": {
-                            "description": "最小输入文字数量",
+                            "title": "最小输入文字数量",
                             "type": "integer",
                             "default": 1
                           },
                           "maxLength": {
-                            "description": "最大输入文字数量",
+                            "title": "最大输入文字数量",
                             "type": "integer",
                             "default": 32
                           }
                         }
                       },
                       "pattern": {
-                        "description": "表单项输入内容正则校验",
+                        "title": "内置正则校验",
                         "oneOf": [
                           {
                             "enum": [
@@ -423,7 +435,7 @@
                             ]
                           },
                           {
-                            "description": "自定义正则校验",
+                            "title": "自定义正则校验",
                             "type": "object",
                             "required": [
                               "name",
@@ -432,14 +444,14 @@
                             "additionalProperties": false,
                             "properties": {
                               "name": {
-                                "description": "正则表达式名称",
+                                "title": "正则表达式名称",
                                 "type": "string",
                                 "minLength": 1
                               },
                               "reg": {
-                                "description": "正则表达式内容",
+                                "title": "正则表达式",
                                 "type": "string",
-                                "minLength": 5
+                                "minLength": 1
                               }
                             }
                           }
@@ -477,18 +489,18 @@
                   "then": {
                     "properties": {
                       "number": {
-                        "description": "数字输入框专属配置",
+                        "title": "数字输入框专属配置",
                         "type": "object",
                         "default": {},
                         "additionalProperties": false,
                         "properties": {
                           "min": {
-                            "description": "最小输入数字",
+                            "title": "最小输入数字",
                             "type": "integer",
                             "default": -9007199254740991
                           },
                           "max": {
-                            "description": "最大输入数字",
+                            "title": "最大输入数字",
                             "type": "integer",
                             "default": 9007199254740991
                           }
@@ -511,20 +523,15 @@
                     ],
                     "properties": {
                       "select": {
-                        "description": "下拉选择框专属配置",
+                        "title": "下拉选择框专属配置",
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
                           "multiple": {
-                            "description": "是否多选",
+                            "title": "是否多选",
                             "type": "boolean",
                             "default": false
                           }
-                        },
-                        "dependencies": {
-                          "api": [
-                            "labelKey"
-                          ]
                         },
                         "oneOf": [
                           {
@@ -534,7 +541,7 @@
                             "additionalProperties": false,
                             "properties": {
                               "options": {
-                                "description": "固定选项数据",
+                                "title": "固定选项数据",
                                 "type": "array",
                                 "uniqueItems": true,
                                 "default": [],
@@ -547,14 +554,13 @@
                                   "additionalProperties": false,
                                   "properties": {
                                     "label": {
-                                      "description": "选项显示的标签",
+                                      "title": "选项显示的标签",
                                       "type": "string"
                                     },
                                     "value": {
-                                      "description": "选项提交到后台的值",
+                                      "title": "选项提交到后台的值",
                                       "type": [
                                         "string",
-                                        "integer",
                                         "number"
                                       ]
                                     }
@@ -571,17 +577,16 @@
                             "additionalProperties": false,
                             "properties": {
                               "api": {
-                                "description": "服务接口地址",
-                                "type": "string",
-                                "pattern": "^apis.[a-zA-Z]+$"
+                                "title": "服务接口地址",
+                                "$ref": "#api"
                               },
                               "labelKey": {
-                                "description": "用于展示的key",
+                                "title": "用于展示的字段",
                                 "type": "string",
                                 "minLength": 1
                               },
                               "valueKey": {
-                                "description": "用于保存值的key",
+                                "title": "用于关联的字段",
                                 "type": "string",
                                 "minLength": 1,
                                 "default": "id"

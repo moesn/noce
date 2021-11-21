@@ -23,11 +23,12 @@
     },
     "form": [
       {
+        "beforeOpen": "d=>d",
         "fields": [
           {
-            "type":"input",
             "label":"s",
-            "key":"s"
+            "key":"s",
+            "type":"input"
           }
         ]
       }
