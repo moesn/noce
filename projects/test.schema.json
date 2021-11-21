@@ -3,6 +3,15 @@
   "table": {
     "name": "我是表格",
     "key": "id",
+    "create": {
+      "api": "apis.q"
+    },
+    "update": {
+      "api": "apis.d"
+    },
+    "delete": {
+      "api": "apis.d"
+    },
     "view": {
       "api": "apis.query",
       "columns": [
@@ -11,6 +20,17 @@
           "key": "key1"
         }
       ]
-    }
+    },
+    "form": [
+      {
+        "fields": [
+          {
+            "type":"input",
+            "label":"s",
+            "key":"s"
+          }
+        ]
+      }
+    ]
   }
 }

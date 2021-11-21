@@ -22,6 +22,7 @@
       "title": "左侧导航",
       "description": "导航列表或导航树",
       "type": "array",
+      "uniqueItems": true,
       "minItems": 1,
       "items": {
         "anyOf": [
@@ -76,13 +77,13 @@
             },
             "body": {
               "title": "接口参数",
-              "description": "用户自定义的查询接口参数",
+              "description": "用户自定义的接口参数",
+              "type": "object",
               "examples": [
                 {
                   "roleId": "$this.list.id$"
                 }
-              ],
-              "type": "object"
+              ]
             },
             "pageSize": {
               "title": "每页显示条数",
@@ -99,17 +100,18 @@
             "parseData": {
               "title": "解析数据",
               "description": "表格渲染之前对数据进行处理",
+              "type": "string",
+              "pattern": "^d=>.+",
               "examples": [
                 "d=>d.name=d.firstName+d.lastName",
                 "d=>{d.name=d.fullName;d.age=18}"
-              ],
-              "type": "string",
-              "pattern": "^d=>.+"
+              ]
             },
             "columns": {
               "title": "表格列",
               "description": "表格每列显示配置",
               "type": "array",
+              "uniqueItems": true,
               "minItems": 1,
               "items": {
                 "type": "object",
@@ -160,7 +162,7 @@
           "$ref": "#form"
         },
         "create": {
-          "description": "表格数据增加配置",
+          "title": "新增接口",
           "type": "object",
           "required": [
             "api"
@@ -168,18 +170,24 @@
           "additionalProperties": false,
           "properties": {
             "api": {
-              "description": "表格数据增加接口地址",
+              "title": "新增接口地址",
               "type": "string",
-              "minLength": 1
+              "pattern": "^apis.[a-zA-Z]+$"
             },
             "body": {
-              "description": "接口参数",
-              "type": "object"
+              "title": "接口参数",
+              "description": "用户自定义的接口参数",
+              "type": "object",
+              "examples": [
+                {
+                  "roleId": "$this.list.id$"
+                }
+              ]
             }
           }
         },
         "update": {
-          "description": "表格数据修改配置",
+          "title": "修改接口",
           "type": "object",
           "required": [
             "api"
@@ -187,24 +195,27 @@
           "additionalProperties": false,
           "properties": {
             "api": {
-              "description": "表格数据修改接口地址",
+              "title": "修改接口地址",
               "type": "string",
-              "minLength": 1
+              "pattern": "^apis.[a-zA-Z]+$"
             },
             "body": {
-              "description": "接口参数",
-              "type": "object"
+              "title": "接口参数",
+              "description": "用户自定义的接口参数",
+              "type": "object",
+              "examples": [
+                {
+                  "roleId": "$this.list.id$"
+                }
+              ]
             },
             "name": {
-              "description": "修改操作的表头名称",
-              "type": "string",
-              "default": "修改",
-              "minLength": 1
+              "default": "修改"
             }
           }
         },
         "delete": {
-          "description": "表格数据删除配置",
+          "title": "删除接口",
           "type": "object",
           "required": [
             "api"
@@ -212,12 +223,13 @@
           "additionalProperties": false,
           "properties": {
             "api": {
-              "description": "表格数据删除接口地址",
+              "description": "删除接口地址",
               "type": "string",
-              "minLength": 1
+              "pattern": "^apis.[a-zA-Z]+$"
             },
             "body": {
-              "description": "接口参数",
+              "title": "接口参数",
+              "description": "用户自定义的接口参数",
               "type": "object",
               "default": {
                 "ids": [
@@ -226,13 +238,24 @@
               }
             },
             "name": {
-              "description": "删除操作的表头名称",
-              "type": "string",
-              "default": "删除",
-              "minLength": 1
+              "default": "删除"
             }
           }
         }
+      },
+      "dependencies": {
+        "create": [
+          "update",
+          "form"
+        ],
+        "update": [
+          "create",
+          "form"
+        ],
+        "form": [
+          "create",
+          "update"
+        ]
       }
     },
     "form": {
@@ -240,6 +263,7 @@
       "title": "表单配置",
       "description": "可配置多个表单",
       "type": "array",
+      "uniqueItems": true,
       "minItems": 1,
       "items": {
         "type": "object",
@@ -285,15 +309,11 @@
           "fields": {
             "description": "表单字段",
             "type": "array",
+            "uniqueItems": true,
             "minItems": 1,
             "items": {
               "description": "表单字段属性设置",
               "type": "object",
-              "required": [
-                "type",
-                "label",
-                "key"
-              ],
               "additionalProperties": false,
               "properties": {
                 "type": {
@@ -309,7 +329,8 @@
                     "datetime",
                     "date",
                     "time"
-                  ]
+                  ],
+                  "default": "input"
                 },
                 "label": {
                   "description": "表单项显示的文字",
@@ -349,148 +370,10 @@
                   ],
                   "default": false
                 },
-                "pattern": {
-                  "description": "表单项输入内容正则校验",
-                  "oneOf": [
-                    {
-                      "enum": [
-                        "字母",
-                        "数字",
-                        "汉字",
-                        "身份证",
-                        "手机号",
-                        "邮箱"
-                      ]
-                    },
-                    {
-                      "description": "自定义正则校验",
-                      "type": "object",
-                      "required": [
-                        "name",
-                        "reg"
-                      ],
-                      "additionalProperties": false,
-                      "properties": {
-                        "name": {
-                          "description": "正则表达式名称",
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "reg": {
-                          "description": "正则表达式内容",
-                          "type": "string",
-                          "minLength": 5
-                        }
-                      }
-                    }
-                  ]
-                },
                 "tip": {
                   "description": "表单项说明提示",
                   "type": "string",
                   "minLength": 1
-                },
-                "input": {
-                  "description": "普通输入框专属配置",
-                  "type": "object",
-                  "additionalProperties": false,
-                  "properties": {
-                    "minLength": {
-                      "description": "最小输入文字数量",
-                      "type": "integer",
-                      "default": 1
-                    },
-                    "maxLength": {
-                      "description": "最大输入文字数量",
-                      "type": "integer",
-                      "default": 32
-                    }
-                  }
-                },
-                "number": {
-                  "description": "数字输入框专属配置",
-                  "type": "object",
-                  "additionalProperties": false,
-                  "properties": {
-                    "min": {
-                      "description": "最小输入数字",
-                      "type": "integer",
-                      "default": -9007199254740991
-                    },
-                    "max": {
-                      "description": "最大输入数字",
-                      "type": "integer",
-                      "default": 9007199254740991
-                    }
-                  }
-                },
-                "select": {
-                  "description": "下拉选择框专属配置",
-                  "type": "object",
-                  "minProperties": 1,
-                  "additionalProperties": false,
-                  "properties": {
-                    "multiple": {
-                      "description": "是否多选",
-                      "type": "boolean",
-                      "default": false
-                    },
-                    "options": {
-                      "description": "固定选项数据",
-                      "type": "array",
-                      "default": [],
-                      "items": {
-                        "type": "object",
-                        "required": [
-                          "label",
-                          "value"
-                        ],
-                        "additionalProperties": false,
-                        "properties": {
-                          "label": {
-                            "description": "选项显示的标签",
-                            "type": "string"
-                          },
-                          "value": {
-                            "description": "选项提交到后台的值",
-                            "type": [
-                              "string",
-                              "integer",
-                              "number"
-                            ]
-                          }
-                        }
-                      }
-                    },
-                    "api": {
-                      "description": "服务接口地址",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "labelKey": {
-                      "description": "用于展示的key",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "valueKey": {
-                      "description": "用于保存值的key",
-                      "type": "string",
-                      "minLength": 1,
-                      "default": "id"
-                    }
-                  },
-                  "dependencies": {
-                    "api": [
-                      "labelKey"
-                    ]
-                  }
-                },
-                "modal": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/definitions/table"
-                    }
-                  ]
                 }
               },
               "allOf": [
@@ -500,7 +383,8 @@
                       "type": {
                         "enum": [
                           "input",
-                          "password"
+                          "password",
+                          "textarea"
                         ]
                       }
                     }
@@ -508,7 +392,58 @@
                   "then": {
                     "properties": {
                       "input": {
-                        "default": {}
+                        "description": "普通输入框专属配置",
+                        "type": "object",
+                        "default": {},
+                        "additionalProperties": false,
+                        "properties": {
+                          "minLength": {
+                            "description": "最小输入文字数量",
+                            "type": "integer",
+                            "default": 1
+                          },
+                          "maxLength": {
+                            "description": "最大输入文字数量",
+                            "type": "integer",
+                            "default": 32
+                          }
+                        }
+                      },
+                      "pattern": {
+                        "description": "表单项输入内容正则校验",
+                        "oneOf": [
+                          {
+                            "enum": [
+                              "字母",
+                              "数字",
+                              "汉字",
+                              "身份证",
+                              "手机号",
+                              "邮箱"
+                            ]
+                          },
+                          {
+                            "description": "自定义正则校验",
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "reg"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                              "name": {
+                                "description": "正则表达式名称",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "reg": {
+                                "description": "正则表达式内容",
+                                "type": "string",
+                                "minLength": 5
+                              }
+                            }
+                          }
+                        ]
                       }
                     }
                   }
@@ -517,9 +452,7 @@
                   "if": {
                     "properties": {
                       "type": {
-                        "enum": [
-                          "textarea"
-                        ]
+                        "const": "textarea"
                       }
                     }
                   },
@@ -537,16 +470,29 @@
                   "if": {
                     "properties": {
                       "type": {
-                        "enum": [
-                          "number"
-                        ]
+                        "const": "number"
                       }
                     }
                   },
                   "then": {
                     "properties": {
                       "number": {
-                        "default": {}
+                        "description": "数字输入框专属配置",
+                        "type": "object",
+                        "default": {},
+                        "additionalProperties": false,
+                        "properties": {
+                          "min": {
+                            "description": "最小输入数字",
+                            "type": "integer",
+                            "default": -9007199254740991
+                          },
+                          "max": {
+                            "description": "最大输入数字",
+                            "type": "integer",
+                            "default": 9007199254740991
+                          }
+                        }
                       }
                     }
                   }
@@ -555,31 +501,128 @@
                   "if": {
                     "properties": {
                       "type": {
-                        "enum": [
-                          "select"
-                        ]
+                        "const": "select"
                       }
                     }
                   },
                   "then": {
                     "required": [
                       "select"
-                    ]
+                    ],
+                    "properties": {
+                      "select": {
+                        "description": "下拉选择框专属配置",
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "multiple": {
+                            "description": "是否多选",
+                            "type": "boolean",
+                            "default": false
+                          }
+                        },
+                        "dependencies": {
+                          "api": [
+                            "labelKey"
+                          ]
+                        },
+                        "oneOf": [
+                          {
+                            "required": [
+                              "options"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                              "options": {
+                                "description": "固定选项数据",
+                                "type": "array",
+                                "uniqueItems": true,
+                                "default": [],
+                                "items": {
+                                  "type": "object",
+                                  "required": [
+                                    "label",
+                                    "value"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "label": {
+                                      "description": "选项显示的标签",
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "description": "选项提交到后台的值",
+                                      "type": [
+                                        "string",
+                                        "integer",
+                                        "number"
+                                      ]
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "required": [
+                              "api",
+                              "labelKey"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                              "api": {
+                                "description": "服务接口地址",
+                                "type": "string",
+                                "pattern": "^apis.[a-zA-Z]+$"
+                              },
+                              "labelKey": {
+                                "description": "用于展示的key",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "valueKey": {
+                                "description": "用于保存值的key",
+                                "type": "string",
+                                "minLength": 1,
+                                "default": "id"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
                   }
                 },
                 {
                   "if": {
                     "properties": {
                       "type": {
-                        "enum": [
-                          "modal"
-                        ]
+                        "const": "modal"
                       }
                     }
                   },
                   "then": {
                     "required": [
                       "modal"
+                    ],
+                    "properties": {
+                      "modal": {
+                        "oneOf": [
+                          {
+                            "$ref": "#table"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {},
+                  "then": {
+                    "required": [
+                      "type",
+                      "label",
+                      "key"
                     ]
                   }
                 }
