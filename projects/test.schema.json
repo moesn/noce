@@ -14,10 +14,17 @@
     },
     "view": {
       "api": "apis.query",
+      "tabs": [
+        {
+          "label": "类型一",
+          "value": 1
+        }
+      ],
       "columns": [
         {
           "label": "列一",
-          "key": "key1"
+          "key": "key1",
+          "format": "d=>s"
         }
       ]
     },
@@ -26,10 +33,12 @@
         "beforeOpen": "d=>d",
         "fields": [
           {
-            "label":"s",
-            "key":"s",
-            "type":"input",
-            "readonly": "d=>"
+            "type": "input",
+            "label": "dd",
+            "key": "ss",
+            "input": {
+
+            }
           }
         ]
       }

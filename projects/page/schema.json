@@ -94,6 +94,43 @@
               "description": "表格渲染之前对数据进行处理",
               "$ref": "#parse"
             },
+            "tabs": {
+              "title": "表格标签",
+              "description": "分标签展示不同的表格数据",
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "required": [
+                  "label",
+                  "value"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "label": {
+                    "title": "标签名称",
+                    "type": "string"
+                  },
+                  "value": {
+                    "title": "标签值",
+                    "type": [
+                      "string",
+                      "number"
+                    ]
+                  },
+                  "api": {
+                    "title": "查询接口地址",
+                    "description": "不同的标签可能需要不同的查询接口，不配置时使用表格的接口",
+                    "$ref": "#api"
+                  },
+                  "body": {
+                    "title": "查询接口参数",
+                    "$ref": "#body"
+                  }
+                }
+              }
+            },
             "columns": {
               "title": "表格列",
               "description": "表格每列显示配置",
@@ -118,11 +155,46 @@
                     "type": "string",
                     "minLength": 1
                   },
+                  "format": {
+                    "title": "表格数据格式化",
+                    "oneOf": [
+                      {
+                        "enum": [
+                          "date",
+                          "time",
+                          "datetime",
+                          "size"
+                        ]
+                      },
+                      {
+                        "$ref": "#format"
+                      }
+                    ],
+                    "minLength": 1
+                  },
                   "search": {
                     "title": "是否可搜索",
                     "description": "当前字段是否支持搜索",
                     "type": "boolean",
                     "default": false
+                  },
+                  "tabIndex": {
+                    "title": "标签索引",
+                    "description": "标记在哪些标签时显示当前字段，不配置时默认所有字段",
+                    "oneOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "integer",
+                          "minimum": 0
+                        }
+                      }
+                    ]
                   },
                   "icon": {
                     "title": "显示图标",
@@ -295,7 +367,6 @@
             "items": {
               "title": "表单字段属性设置",
               "type": "object",
-              "additionalProperties": false,
               "properties": {
                 "type": {
                   "title": "表单项类型",
@@ -575,9 +646,32 @@
                     ],
                     "properties": {
                       "modal": {
-                        "oneOf": [
+                        "allOf": [
                           {
-                            "$ref": "#table"
+                            "title": "弹窗关联配置",
+                            "type": "object",
+                            "required": [
+                              "formNameKey",
+                              "modalNameKey"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                              "formNameKey": {
+                                "title": "表单名称字段",
+                                "description": "关联字段中表单数据的名称字段",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "modalNameKey": {
+                                "title": "弹窗名称字段",
+                                "description": "关联字段中弹窗数据的名称字段",
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            }
+                          },
+                          {
+                            "$ref": "#modal"
                           }
                         ]
                       }
@@ -628,6 +722,15 @@
         }
       }
     },
+    "modal": {
+      "$id": "#modal",
+      "title": "弹窗",
+      "oneOf": [
+        {
+          "$ref": "#table"
+        }
+      ]
+    },
     "api": {
       "$id": "#api",
       "title": "接口地址",
@@ -646,9 +749,21 @@
         }
       ]
     },
+    "format": {
+      "$id": "#format",
+      "title": "格式化数据",
+      "description": "需要return返回数据",
+      "type": "string",
+      "pattern": "^d=>.+",
+      "examples": [
+        "d=>d.firstName+d.lastName",
+        "d=>{return d.firstName+d.lastName;}"
+      ]
+    },
     "parse": {
       "$id": "#parse",
       "title": "解析数据",
+      "description": "不需要return返回数据",
       "type": "string",
       "pattern": "^d=>.+",
       "examples": [
@@ -659,7 +774,7 @@
     "parseBool": {
       "$id": "#parseBool",
       "title": "真或假",
-      "description": "可通过数据内容来判断ture或false",
+      "description": "通过数据来判断时，需要返回true或false",
       "type": [
         "boolean",
         "string"
