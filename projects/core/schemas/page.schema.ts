@@ -4,7 +4,7 @@ export const NM_PAGE_SCHEMA =
     "title": "页面配置",
     "description": "支持表格、表单、列表、树等",
     "type": "object",
-    "additionalProperties": false,
+
     "properties": {
       "$schema": {
         "type": "string"
@@ -48,7 +48,7 @@ export const NM_PAGE_SCHEMA =
         "required": [
           "view"
         ],
-        "additionalProperties": false,
+
         "properties": {
           "name": {
             "title": "表格名称",
@@ -68,7 +68,7 @@ export const NM_PAGE_SCHEMA =
               "api",
               "columns"
             ],
-            "additionalProperties": false,
+
             "properties": {
               "api": {
                 "title": "查询接口地址",
@@ -107,7 +107,7 @@ export const NM_PAGE_SCHEMA =
                     "label",
                     "value"
                   ],
-                  "additionalProperties": false,
+
                   "properties": {
                     "label": {
                       "title": "标签名称",
@@ -144,7 +144,7 @@ export const NM_PAGE_SCHEMA =
                     "label",
                     "key"
                   ],
-                  "additionalProperties": false,
+
                   "properties": {
                     "label": {
                       "title": "表格表头文字",
@@ -227,7 +227,7 @@ export const NM_PAGE_SCHEMA =
             "required": [
               "api"
             ],
-            "additionalProperties": false,
+
             "properties": {
               "api": {
                 "title": "新增接口地址",
@@ -245,7 +245,7 @@ export const NM_PAGE_SCHEMA =
             "required": [
               "api"
             ],
-            "additionalProperties": false,
+
             "properties": {
               "api": {
                 "title": "修改接口地址",
@@ -256,7 +256,6 @@ export const NM_PAGE_SCHEMA =
                 "$ref": "#body"
               },
               "name": {
-                "type": "string",
                 "default": "修改"
               }
             }
@@ -267,7 +266,7 @@ export const NM_PAGE_SCHEMA =
             "required": [
               "api"
             ],
-            "additionalProperties": false,
+
             "properties": {
               "api": {
                 "description": "删除接口地址",
@@ -283,7 +282,6 @@ export const NM_PAGE_SCHEMA =
                 }
               },
               "name": {
-                "type": "string",
                 "default": "删除"
               }
             }
@@ -318,7 +316,7 @@ export const NM_PAGE_SCHEMA =
           "required": [
             "fields"
           ],
-          "additionalProperties": false,
+
           "properties": {
             "name": {
               "title": "表单名称",
@@ -370,7 +368,6 @@ export const NM_PAGE_SCHEMA =
               "items": {
                 "title": "表单字段属性设置",
                 "type": "object",
-                "additionalProperties": true,
                 "properties": {
                   "type": {
                     "title": "表单项类型",
@@ -446,7 +443,7 @@ export const NM_PAGE_SCHEMA =
                           "title": "普通输入框专属配置",
                           "type": "object",
                           "default": {},
-                          "additionalProperties": false,
+
                           "properties": {
                             "minLength": {
                               "title": "最小输入文字数量",
@@ -480,7 +477,7 @@ export const NM_PAGE_SCHEMA =
                                 "name",
                                 "reg"
                               ],
-                              "additionalProperties": false,
+
                               "properties": {
                                 "name": {
                                   "title": "正则表达式名称",
@@ -531,7 +528,7 @@ export const NM_PAGE_SCHEMA =
                           "title": "数字输入框专属配置",
                           "type": "object",
                           "default": {},
-                          "additionalProperties": false,
+
                           "properties": {
                             "min": {
                               "title": "最小输入数字",
@@ -564,7 +561,7 @@ export const NM_PAGE_SCHEMA =
                         "select": {
                           "title": "下拉选择框专属配置",
                           "type": "object",
-                          "additionalProperties": false,
+
                           "properties": {
                             "multiple": {
                               "title": "是否多选",
@@ -577,20 +574,19 @@ export const NM_PAGE_SCHEMA =
                               "required": [
                                 "options"
                               ],
-                              "additionalProperties": false,
+
                               "properties": {
                                 "options": {
                                   "title": "固定选项数据",
                                   "type": "array",
                                   "uniqueItems": true,
-                                  "default": [],
                                   "items": {
                                     "type": "object",
                                     "required": [
                                       "label",
                                       "value"
                                     ],
-                                    "additionalProperties": false,
+
                                     "properties": {
                                       "label": {
                                         "title": "选项显示的标签",
@@ -613,7 +609,7 @@ export const NM_PAGE_SCHEMA =
                                 "api",
                                 "labelKey"
                               ],
-                              "additionalProperties": false,
+
                               "properties": {
                                 "api": {
                                   "title": "服务接口地址",
@@ -627,8 +623,16 @@ export const NM_PAGE_SCHEMA =
                                 "valueKey": {
                                   "title": "用于关联的字段",
                                   "type": "string",
-                                  "minLength": 1,
-                                  "default": "id"
+                                  "minLength": 1
+                                }
+                              }
+                            }
+                          ],
+                          "allOf": [
+                            {
+                              "properties": {
+                                "valueKey": {
+                                  "default": "idss"
                                 }
                               }
                             }
@@ -660,7 +664,7 @@ export const NM_PAGE_SCHEMA =
                             "valueKey",
                             "parentKey"
                           ],
-                          "additionalProperties": false,
+
                           "properties": {
                             "multiple": {
                               "title": "是否多选",
@@ -727,7 +731,7 @@ export const NM_PAGE_SCHEMA =
                               "required": [
                                 "nameKey"
                               ],
-                              "additionalProperties": false,
+
                               "properties": {
                                 "nameKey": {
                                   "title": "弹窗名称字段",
@@ -765,12 +769,11 @@ export const NM_PAGE_SCHEMA =
         "$id": "#list",
         "title": "列表配置",
         "type": "object",
-        "additionalProperties": false,
+
         "properties": {
           "key": {
             "title": "数据主建",
             "type": "string",
-            "default": "id",
             "minLength": 1
           }
         }
@@ -779,12 +782,11 @@ export const NM_PAGE_SCHEMA =
         "$id": "#tree",
         "title": "树配置",
         "type": "object",
-        "additionalProperties": false,
+
         "properties": {
           "key": {
             "title": "数据主建",
             "type": "string",
-            "default": "id",
             "minLength": 1
           }
         }

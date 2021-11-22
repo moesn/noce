@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {getPageOption, NcHttpService} from 'noce/core';
+import {getPageOption, NcHttpService, NcNotifyService} from 'noce/core';
 import {NzDrawerRef} from 'ng-zorro-antd/drawer';
 import * as _ from 'lodash-es';
-import {_eval, getValueFromObject} from 'noce/helper';
+import {_eval} from 'noce/helper';
 
 @Component({
   selector: 'nc-form',
@@ -26,7 +26,8 @@ export class NcFormComponent implements OnInit {
   saving: boolean = false; // 表单是否保存中
 
   constructor(private drawerRef: NzDrawerRef,
-              private http: NcHttpService) {
+              private http: NcHttpService,
+              private notify: NcNotifyService) {
     this.option = getPageOption('table.form');
     this.key = getPageOption('table.key');
     this.cols = this.option[0].cols;
@@ -83,6 +84,9 @@ export class NcFormComponent implements OnInit {
                 }
               }
             });
+          } else if (!field.options) {
+            field.options = [];
+            this.notify.fatal(`Schema表单项（${field.label}）需要配置api或者options`);
           }
         }
 

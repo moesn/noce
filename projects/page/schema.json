@@ -367,7 +367,6 @@
             "items": {
               "title": "表单字段属性设置",
               "type": "object",
-              "additionalProperties": true,
               "properties": {
                 "type": {
                   "title": "表单项类型",
@@ -580,7 +579,6 @@
                                 "title": "固定选项数据",
                                 "type": "array",
                                 "uniqueItems": true,
-                                "default": [],
                                 "items": {
                                   "type": "object",
                                   "required": [
@@ -624,8 +622,16 @@
                               "valueKey": {
                                 "title": "用于关联的字段",
                                 "type": "string",
-                                "minLength": 1,
-                                "default": "id"
+                                "minLength": 1
+                              }
+                            }
+                          }
+                        ],
+                        "allOf": [
+                          {
+                            "properties": {
+                              "valueKey": {
+                                "default": "idss"
                               }
                             }
                           }
@@ -767,7 +773,6 @@
         "key": {
           "title": "数据主建",
           "type": "string",
-          "default": "id",
           "minLength": 1
         }
       }
@@ -781,7 +786,6 @@
         "key": {
           "title": "数据主建",
           "type": "string",
-          "default": "id",
           "minLength": 1
         }
       }
