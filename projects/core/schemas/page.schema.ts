@@ -4,7 +4,7 @@ export const NM_PAGE_SCHEMA =
     "title": "页面配置",
     "description": "支持表格、表单、列表、树等",
     "type": "object",
-
+    "additionalProperties": false,
     "properties": {
       "$schema": {
         "type": "string"
@@ -48,7 +48,7 @@ export const NM_PAGE_SCHEMA =
         "required": [
           "view"
         ],
-
+        "additionalProperties": false,
         "properties": {
           "name": {
             "title": "表格名称",
@@ -68,7 +68,7 @@ export const NM_PAGE_SCHEMA =
               "api",
               "columns"
             ],
-
+            "additionalProperties": false,
             "properties": {
               "api": {
                 "title": "查询接口地址",
@@ -107,7 +107,7 @@ export const NM_PAGE_SCHEMA =
                     "label",
                     "value"
                   ],
-
+                  "additionalProperties": false,
                   "properties": {
                     "label": {
                       "title": "标签名称",
@@ -144,7 +144,7 @@ export const NM_PAGE_SCHEMA =
                     "label",
                     "key"
                   ],
-
+                  "additionalProperties": false,
                   "properties": {
                     "label": {
                       "title": "表格表头文字",
@@ -227,7 +227,7 @@ export const NM_PAGE_SCHEMA =
             "required": [
               "api"
             ],
-
+            "additionalProperties": false,
             "properties": {
               "api": {
                 "title": "新增接口地址",
@@ -245,7 +245,7 @@ export const NM_PAGE_SCHEMA =
             "required": [
               "api"
             ],
-
+            "additionalProperties": false,
             "properties": {
               "api": {
                 "title": "修改接口地址",
@@ -266,7 +266,7 @@ export const NM_PAGE_SCHEMA =
             "required": [
               "api"
             ],
-
+            "additionalProperties": false,
             "properties": {
               "api": {
                 "description": "删除接口地址",
@@ -316,7 +316,7 @@ export const NM_PAGE_SCHEMA =
           "required": [
             "fields"
           ],
-
+          "additionalProperties": false,
           "properties": {
             "name": {
               "title": "表单名称",
@@ -368,6 +368,7 @@ export const NM_PAGE_SCHEMA =
               "items": {
                 "title": "表单字段属性设置",
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "type": {
                     "title": "表单项类型",
@@ -422,6 +423,217 @@ export const NM_PAGE_SCHEMA =
                     "title": "表单项说明提示",
                     "type": "string",
                     "minLength": 1
+                  },
+                  "input": {
+                    "title": "普通输入框专属配置",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "minLength": {
+                        "title": "最小输入文字数量",
+                        "type": "integer",
+                        "default": 1
+                      },
+                      "maxLength": {
+                        "title": "最大输入文字数量",
+                        "type": "integer",
+                        "default": 32
+                      }
+                    }
+                  },
+                  "pattern": {
+                    "title": "内置正则校验",
+                    "oneOf": [
+                      {
+                        "enum": [
+                          "字母",
+                          "数字",
+                          "汉字",
+                          "身份证",
+                          "手机号",
+                          "邮箱"
+                        ]
+                      },
+                      {
+                        "title": "自定义正则校验",
+                        "type": "object",
+                        "required": [
+                          "name",
+                          "reg"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "name": {
+                            "title": "正则表达式名称",
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "reg": {
+                            "title": "正则表达式",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "number": {
+                    "title": "数字输入框专属配置",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "min": {
+                        "title": "最小输入数字",
+                        "type": "integer",
+                        "default": -9007199254740991
+                      },
+                      "max": {
+                        "title": "最大输入数字",
+                        "type": "integer",
+                        "default": 9007199254740991
+                      }
+                    }
+                  },
+                  "select": {
+                    "title": "下拉选择框专属配置",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "multiple": {
+                        "title": "是否多选",
+                        "type": "boolean",
+                        "default": false
+                      },
+                      "options": {
+                        "title": "固定选项数据",
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "label",
+                            "value"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "label": {
+                              "title": "选项显示的标签",
+                              "type": "string"
+                            },
+                            "value": {
+                              "title": "选项提交到后台的值",
+                              "type": [
+                                "string",
+                                "number"
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      "api": {
+                        "title": "服务接口地址",
+                        "$ref": "#api"
+                      },
+                      "labelKey": {
+                        "title": "用于展示的字段",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "valueKey": {
+                        "title": "用于关联的字段",
+                        "type": "string",
+                        "default": "id",
+                        "minLength": 1
+                      }
+                    },
+                    "oneOf": [
+                      {
+                        "required": [
+                          "options"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "api",
+                          "labelKey"
+                        ]
+                      }
+                    ]
+                  },
+                  "treeselect": {
+                    "title": "下拉选择框专属配置",
+                    "type": "object",
+                    "required": [
+                      "api",
+                      "titleKey",
+                      "rootValue",
+                      "valueKey",
+                      "parentKey"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "multiple": {
+                        "title": "是否多选",
+                        "type": "boolean",
+                        "default": false
+                      },
+                      "api": {
+                        "title": "服务接口地址",
+                        "$ref": "#api"
+                      },
+                      "titleKey": {
+                        "title": "用于展示的字段",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "rootValue": {
+                        "title": "根节点的值",
+                        "type": [
+                          "integer",
+                          "string"
+                        ],
+                        "default": 0
+                      },
+                      "valueKey": {
+                        "title": "节点关键字段",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "parentKey": {
+                        "title": "父节点关键字段",
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  },
+                  "nameKey": {
+                    "title": "表单名称字段",
+                    "description": "关联字段中表单数据的名称字段",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "modal": {
+                    "allOf": [
+                      {
+                        "title": "弹窗关联配置",
+                        "type": "object",
+                        "required": [
+                          "nameKey"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "nameKey": {
+                            "title": "弹窗名称字段",
+                            "description": "关联字段中弹窗数据的名称字段",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      },
+                      {
+                        "$ref": "#modal"
+                      }
+                    ]
                   }
                 },
                 "allOf": [
@@ -440,58 +652,7 @@ export const NM_PAGE_SCHEMA =
                     "then": {
                       "properties": {
                         "input": {
-                          "title": "普通输入框专属配置",
-                          "type": "object",
-                          "default": {},
-
-                          "properties": {
-                            "minLength": {
-                              "title": "最小输入文字数量",
-                              "type": "integer",
-                              "default": 1
-                            },
-                            "maxLength": {
-                              "title": "最大输入文字数量",
-                              "type": "integer",
-                              "default": 32
-                            }
-                          }
-                        },
-                        "pattern": {
-                          "title": "内置正则校验",
-                          "oneOf": [
-                            {
-                              "enum": [
-                                "字母",
-                                "数字",
-                                "汉字",
-                                "身份证",
-                                "手机号",
-                                "邮箱"
-                              ]
-                            },
-                            {
-                              "title": "自定义正则校验",
-                              "type": "object",
-                              "required": [
-                                "name",
-                                "reg"
-                              ],
-
-                              "properties": {
-                                "name": {
-                                  "title": "正则表达式名称",
-                                  "type": "string",
-                                  "minLength": 1
-                                },
-                                "reg": {
-                                  "title": "正则表达式",
-                                  "type": "string",
-                                  "minLength": 1
-                                }
-                              }
-                            }
-                          ]
+                          "default": {}
                         }
                       }
                     }
@@ -525,22 +686,7 @@ export const NM_PAGE_SCHEMA =
                     "then": {
                       "properties": {
                         "number": {
-                          "title": "数字输入框专属配置",
-                          "type": "object",
-                          "default": {},
-
-                          "properties": {
-                            "min": {
-                              "title": "最小输入数字",
-                              "type": "integer",
-                              "default": -9007199254740991
-                            },
-                            "max": {
-                              "title": "最大输入数字",
-                              "type": "integer",
-                              "default": 9007199254740991
-                            }
-                          }
+                          "default": {}
                         }
                       }
                     }
@@ -556,89 +702,7 @@ export const NM_PAGE_SCHEMA =
                     "then": {
                       "required": [
                         "select"
-                      ],
-                      "properties": {
-                        "select": {
-                          "title": "下拉选择框专属配置",
-                          "type": "object",
-
-                          "properties": {
-                            "multiple": {
-                              "title": "是否多选",
-                              "type": "boolean",
-                              "default": false
-                            }
-                          },
-                          "oneOf": [
-                            {
-                              "required": [
-                                "options"
-                              ],
-
-                              "properties": {
-                                "options": {
-                                  "title": "固定选项数据",
-                                  "type": "array",
-                                  "uniqueItems": true,
-                                  "items": {
-                                    "type": "object",
-                                    "required": [
-                                      "label",
-                                      "value"
-                                    ],
-
-                                    "properties": {
-                                      "label": {
-                                        "title": "选项显示的标签",
-                                        "type": "string"
-                                      },
-                                      "value": {
-                                        "title": "选项提交到后台的值",
-                                        "type": [
-                                          "string",
-                                          "number"
-                                        ]
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            {
-                              "required": [
-                                "api",
-                                "labelKey"
-                              ],
-
-                              "properties": {
-                                "api": {
-                                  "title": "服务接口地址",
-                                  "$ref": "#api"
-                                },
-                                "labelKey": {
-                                  "title": "用于展示的字段",
-                                  "type": "string",
-                                  "minLength": 1
-                                },
-                                "valueKey": {
-                                  "title": "用于关联的字段",
-                                  "type": "string",
-                                  "minLength": 1
-                                }
-                              }
-                            }
-                          ],
-                          "allOf": [
-                            {
-                              "properties": {
-                                "valueKey": {
-                                  "default": "idss"
-                                }
-                              }
-                            }
-                          ]
-                        }
-                      }
+                      ]
                     }
                   },
                   {
@@ -652,55 +716,7 @@ export const NM_PAGE_SCHEMA =
                     "then": {
                       "required": [
                         "treeselect"
-                      ],
-                      "properties": {
-                        "treeselect": {
-                          "title": "下拉选择框专属配置",
-                          "type": "object",
-                          "required": [
-                            "api",
-                            "titleKey",
-                            "rootValue",
-                            "valueKey",
-                            "parentKey"
-                          ],
-
-                          "properties": {
-                            "multiple": {
-                              "title": "是否多选",
-                              "type": "boolean",
-                              "default": false
-                            },
-                            "api": {
-                              "title": "服务接口地址",
-                              "$ref": "#api"
-                            },
-                            "titleKey": {
-                              "title": "用于展示的字段",
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "rootValue": {
-                              "title": "根节点的值",
-                              "type": [
-                                "integer",
-                                "string"
-                              ],
-                              "default": 0
-                            },
-                            "valueKey": {
-                              "title": "节点关键字段",
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "parentKey": {
-                              "title": "父节点关键字段",
-                              "type": "string",
-                              "minLength": 1
-                            }
-                          }
-                        }
-                      }
+                      ]
                     }
                   },
                   {
@@ -715,38 +731,7 @@ export const NM_PAGE_SCHEMA =
                       "required": [
                         "nameKey",
                         "modal"
-                      ],
-                      "properties": {
-                        "nameKey": {
-                          "title": "表单名称字段",
-                          "description": "关联字段中表单数据的名称字段",
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "modal": {
-                          "allOf": [
-                            {
-                              "title": "弹窗关联配置",
-                              "type": "object",
-                              "required": [
-                                "nameKey"
-                              ],
-
-                              "properties": {
-                                "nameKey": {
-                                  "title": "弹窗名称字段",
-                                  "description": "关联字段中弹窗数据的名称字段",
-                                  "type": "string",
-                                  "minLength": 1
-                                }
-                              }
-                            },
-                            {
-                              "$ref": "#modal"
-                            }
-                          ]
-                        }
-                      }
+                      ]
                     }
                   },
                   {
@@ -769,7 +754,7 @@ export const NM_PAGE_SCHEMA =
         "$id": "#list",
         "title": "列表配置",
         "type": "object",
-
+        "additionalProperties": false,
         "properties": {
           "key": {
             "title": "数据主建",
@@ -782,7 +767,7 @@ export const NM_PAGE_SCHEMA =
         "$id": "#tree",
         "title": "树配置",
         "type": "object",
-
+        "additionalProperties": false,
         "properties": {
           "key": {
             "title": "数据主建",
