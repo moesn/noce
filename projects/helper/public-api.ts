@@ -1,3 +1,4 @@
+export * from './src/array-to-tree';
 export * from './src/base64';
 export * from './src/byte-format';
 export * from './src/eval';

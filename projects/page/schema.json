@@ -565,10 +565,7 @@
                   "type": "object",
                   "required": [
                     "api",
-                    "titleKey",
-                    "rootValue",
-                    "valueKey",
-                    "parentKey"
+                    "titleKey"
                   ],
                   "additionalProperties": false,
                   "properties": {
@@ -594,14 +591,16 @@
                       ],
                       "default": 0
                     },
-                    "valueKey": {
+                    "key": {
                       "title": "节点关键字段",
                       "type": "string",
+                      "default": "id",
                       "minLength": 1
                     },
                     "parentKey": {
                       "title": "父节点关键字段",
                       "type": "string",
+                      "default": "pid",
                       "minLength": 1
                     }
                   }

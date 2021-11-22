@@ -508,6 +508,7 @@ export const NM_PAGE_SCHEMA =
                         "title": "固定选项数据",
                         "type": "array",
                         "uniqueItems": true,
+                        "minItems": 2,
                         "items": {
                           "type": "object",
                           "required": [
@@ -565,10 +566,7 @@ export const NM_PAGE_SCHEMA =
                     "type": "object",
                     "required": [
                       "api",
-                      "titleKey",
-                      "rootValue",
-                      "valueKey",
-                      "parentKey"
+                      "titleKey"
                     ],
                     "additionalProperties": false,
                     "properties": {
@@ -594,14 +592,16 @@ export const NM_PAGE_SCHEMA =
                         ],
                         "default": 0
                       },
-                      "valueKey": {
+                      "key": {
                         "title": "节点关键字段",
                         "type": "string",
+                        "default": "id",
                         "minLength": 1
                       },
                       "parentKey": {
                         "title": "父节点关键字段",
                         "type": "string",
+                        "default": "pid",
                         "minLength": 1
                       }
                     }

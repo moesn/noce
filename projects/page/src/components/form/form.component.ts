@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {getPageOption, NcHttpService, NcNotifyService} from 'noce/core';
 import {NzDrawerRef} from 'ng-zorro-antd/drawer';
 import * as _ from 'lodash-es';
-import {_eval} from 'noce/helper';
+import {_eval, arrayToTree} from 'noce/helper';
 
 @Component({
   selector: 'nc-form',
@@ -61,6 +61,7 @@ export class NcFormComponent implements OnInit {
     // 从服务端获取表单下拉选择框的数据
     this.option.forEach((formItem: any) => {
       formItem.fields.forEach((field: any) => {
+        // 下拉选择框
         if (field.type === 'select') {
           const select = field.select
 
@@ -80,14 +81,28 @@ export class NcFormComponent implements OnInit {
 
                 // 字段必填且表单数据没有字段值，则默认选上第一个选项
                 if (field.required && !this.data[field.key]) {
-                  this.data[field.key] = options[0].value;
+                  this.data[field.key] = options[0]?.value;
                 }
               }
             });
-          } else if (!field.options) {
-            field.options = [];
-            this.notify.fatal(`Schema表单项（${field.label}）需要配置api或者options`);
           }
+        }
+
+        // 树型下拉选择框
+        if (field.type === 'treeselect') {
+          const tree = field.treeselect
+
+          this.http.post(tree.api, {}).subscribe((res: any) => {
+            if (res) {
+              // 将列表转换成树型结构，更新下拉选择数据
+              tree.nodes = arrayToTree(res.data, tree);
+
+              // 字段必填且表单数据没有字段值，则默认选上第一个选项
+              if (field.required && !this.data[field.key]) {
+                this.data[field.key] = tree.nodes[0]?.value;
+              }
+            }
+          });
         }
 
         // 密码类型的字段保存时需要加密

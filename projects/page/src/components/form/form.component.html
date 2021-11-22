@@ -90,18 +90,19 @@
                        [disabled]="isReadonly(field.readonly)"
                        [required]="field.required"
                        [(ngModel)]="data[field.key]"
-                       [nzOptions]="field.select.options"
+                       [nzOptions]="field.select.options||[]"
                        [nzMode]="field.select.multiple?'multiple':'default'"
                        (ngModelChange)="optionChange($event,field.key)"
             ></nz-select>
             <!--            树型下拉选择框-->
             <nz-tree-select nzShowSearch nzPlaceHolder="点击选择" *ngIf="field.type==='treeselect'"
+                            nzVirtualHeight="256px"
                             [nzAllowClear]="!field.required||field.treeselect.multiple"
                             [name]="field.key"
                             [nzDefaultExpandAll]="true"
                             [disabled]="isReadonly(field.readonly)"
                             [nzMultiple]="field.treeselect.multiple"
-                            [nzNodes]="field.treeselect.nodes"
+                            [nzNodes]="field.treeselect.nodes||[]"
                             [(ngModel)]="data[field.key]"
                             (ngModelChange)="optionChange($event,field.key)"
             ></nz-tree-select>
