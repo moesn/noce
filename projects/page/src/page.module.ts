@@ -16,6 +16,7 @@ import {NzInputNumberModule} from 'ng-zorro-antd/input-number';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import {NzSelectModule} from 'ng-zorro-antd/select';
 import {NzSpaceModule} from 'ng-zorro-antd/space';
+import {NzTreeSelectModule} from 'ng-zorro-antd/tree-select';
 
 const NG_MODULES = [
   FormsModule,
@@ -34,6 +35,7 @@ const NZ_MODULES = [
   NzSwitchModule,
   NzSelectModule,
   NzSpaceModule,
+  NzTreeSelectModule,
 ];
 
 const COMPONENTS = [

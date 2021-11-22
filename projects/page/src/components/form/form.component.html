@@ -78,10 +78,13 @@
                              [nzStep]="1"
             ></nz-input-number>
             <!--            切换按钮-->
-            <nz-switch [name]="field.key" [(ngModel)]="data[field.key]" *ngIf="field.type==='switch'"></nz-switch>
+            <nz-switch *ngIf="field.type==='switch'"
+                       [name]="field.key"
+                       [(ngModel)]="data[field.key]"
+                       [disabled]="isReadonly(field.readonly)"
+            ></nz-switch>
             <!--            下拉选择框-->
-            <nz-select *ngIf="field.type==='select'"
-                       nzShowSearch
+            <nz-select nzShowSearch nzPlaceHolder="点击选择" *ngIf="field.type==='select'"
                        [nzAllowClear]="!field.required||field.select.multiple"
                        [name]="field.key"
                        [disabled]="isReadonly(field.readonly)"
@@ -91,20 +94,24 @@
                        [nzMode]="field.select.multiple?'multiple':'default'"
                        (ngModelChange)="optionChange($event,field.key)"
             ></nz-select>
-            <!--            单选弹窗选择框-->
+            <!--            树型下拉选择框-->
+            <nz-tree-select nzShowSearch nzPlaceHolder="点击选择" *ngIf="field.type==='treeselect'"
+                            [nzAllowClear]="!field.required||field.treeselect.multiple"
+                            [name]="field.key"
+                            [nzDefaultExpandAll]="true"
+                            [disabled]="isReadonly(field.readonly)"
+                            [nzMultiple]="field.treeselect.multiple"
+                            [nzNodes]="field.treeselect.nodes"
+                            [(ngModel)]="data[field.key]"
+                            (ngModelChange)="optionChange($event,field.key)"
+            ></nz-tree-select>
+            <!--            弹窗选择框-->
             <input nz-input autocomplete="off" readonly placeholder="点击选择" *ngIf="field.type==='modal'"
                    [name]="field.key"
                    [disabled]="isReadonly(field.readonly)"
                    [value]="data[field.nameKey]"
                    (click)="openModal(field.modal)"
             />
-            <!--            多选弹窗选择框-->
-            <textarea nz-input autocomplete="off" readonly placeholder="点击选择" *ngIf="field.type==='modal'&&field.modal.multiple"
-                      [name]="field.key"
-                      [disabled]="isReadonly(field.readonly)"
-                      [value]="data[field.nameKey]"
-                      (click)="openModal(field.modal)"
-            ></textarea>
           </nz-form-control>
         </nz-form-item>
       </nz-col>

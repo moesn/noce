@@ -378,6 +378,7 @@
                     "password",
                     "switch",
                     "select",
+                    "treeselect",
                     "modal",
                     "datetime",
                     "date",
@@ -629,6 +630,68 @@
                             }
                           }
                         ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "type": {
+                        "const": "treeselect"
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "treeselect"
+                    ],
+                    "properties": {
+                      "treeselect": {
+                        "title": "下拉选择框专属配置",
+                        "type": "object",
+                        "required": [
+                          "api",
+                          "titleKey",
+                          "rootValue",
+                          "valueKey",
+                          "parentKey"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "multiple": {
+                            "title": "是否多选",
+                            "type": "boolean",
+                            "default": false
+                          },
+                          "api": {
+                            "title": "服务接口地址",
+                            "$ref": "#api"
+                          },
+                          "titleKey": {
+                            "title": "用于展示的字段",
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "rootValue": {
+                            "title": "根节点的值",
+                            "type": [
+                              "integer",
+                              "string"
+                            ],
+                            "default": 0
+                          },
+                          "valueKey": {
+                            "title": "节点关键字段",
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "parentKey": {
+                            "title": "父节点关键字段",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
                       }
                     }
                   }
