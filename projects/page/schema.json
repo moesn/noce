@@ -667,8 +667,10 @@
                   "then": {
                     "properties": {
                       "input": {
-                        "default": {
-                          "maxLength": 128
+                        "properties": {
+                          "maxLength": {
+                            "default": 128
+                          }
                         }
                       }
                     }

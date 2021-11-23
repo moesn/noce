@@ -668,8 +668,10 @@ export const NM_PAGE_SCHEMA =
                     "then": {
                       "properties": {
                         "input": {
-                          "default": {
-                            "maxLength": 128
+                          "properties": {
+                            "maxLength": {
+                              "default": 128
+                            }
                           }
                         }
                       }
