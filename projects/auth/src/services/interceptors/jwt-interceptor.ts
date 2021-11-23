@@ -43,7 +43,7 @@ export class NcAuthJWTInterceptor implements HttpInterceptor {
       return this.authService.isAuthenticatedOrRefresh().pipe(
         switchMap(authenticated => {
             // 认证Token有效
-            if (authenticated) {
+            if (authenticated || location.hostname === 'localhost') {
               const token = this.tokenService.getToken();
               const JWT = `${getAuthOption('interceptor.token.prefix')} ${token}`.trim();
               const headers: any = {};

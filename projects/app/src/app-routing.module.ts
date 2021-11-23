@@ -4,14 +4,16 @@ import {NcAuthGuardSerivce} from 'noce/auth';
 import {getAppOption} from 'noce/core';
 import {NcAppComponent} from './app.component';
 
+const basePath = getAppOption('base');
+
 const routes: Routes = [
   {
-    path: getAppOption('base'),
+    path: basePath,
     canActivateChild: [NcAuthGuardSerivce],
     component: NcAppComponent,
-    loadChildren:  () => import('noce/page').then(m => m.NcPageModule),
+    loadChildren: () => import('noce/page').then(m => m.NcPageModule),
   },
-  {path: '', pathMatch: 'full', redirectTo: getAppOption('base')},
+  {path: '', pathMatch: 'full', redirectTo: basePath},
 ];
 
 @NgModule({

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CanActivate, CanActivateChild} from '@angular/router';
+import {CanActivateChild} from '@angular/router';
 import {NcAuthService} from 'noce/auth';
 import {Observable, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
@@ -10,6 +10,10 @@ export class NcAuthGuardSerivce implements CanActivateChild {
   }
 
   canActivateChild(): Observable<boolean> {
+    if (location.hostname === 'localhost') {
+      return of(true);
+    }
+
     return this.authService.isAuthenticatedOrRefresh().pipe(switchMap(authed => {
       if (!authed) {
         this.authService.logout();

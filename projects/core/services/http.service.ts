@@ -41,7 +41,7 @@ export class NcHttpService {
 
     return this.http.post(getAppOption('apis.url'), {key}).pipe(
       map((res: any) => {
-        if (this.isValidData(res)) {
+        if (this.isValidResponse(res)) {
           // 无效值返回false
           return res.data;
         } else {

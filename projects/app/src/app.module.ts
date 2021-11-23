@@ -18,8 +18,8 @@ import {NZ_CONFIG, NzConfig} from 'ng-zorro-antd/core/config';
 registerLocaleData(zh);
 
 const ngZorroConfig: NzConfig = {
-  message: {nzTop: 120},
-  notification: {nzTop: 240},
+  message: {nzTop: 60},
+  notification: {nzTop: 60},
   table: {
     nzBordered: true,
     nzSize: 'small',
