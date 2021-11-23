@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {getPageOption, NcHttpService, NcNotifyService} from 'noce/core';
+import {getPageOption, NcEventService, NcHttpService} from 'noce/core';
 import {__eval, _eval, objectExtend} from 'noce/helper';
 import {NzTableQueryParams} from 'ng-zorro-antd/table';
 import {reject} from 'lodash-es';
@@ -27,7 +27,7 @@ export class NcTableComponent implements OnInit {
 
   constructor(private drawer: NzDrawerService,
               private http: NcHttpService,
-              private notify: NcNotifyService) {
+              private event: NcEventService) {
     this.option = getPageOption('table');
     this.key = this.option.key;
     // 过滤得到可以搜索的字段列表
@@ -35,7 +35,9 @@ export class NcTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.event.on('sss').subscribe(res => {
+      this.query();
+    })
   }
 
   // 查询表格数据

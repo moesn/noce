@@ -26,8 +26,7 @@ export class NcFormComponent implements OnInit {
   saving: boolean = false; // 表单是否保存中
 
   constructor(private drawerRef: NzDrawerRef,
-              private http: NcHttpService,
-              private notify: NcNotifyService) {
+              private http: NcHttpService) {
     this.option = getPageOption('table.form');
     this.key = getPageOption('table.key');
     this.cols = this.option[0].cols;

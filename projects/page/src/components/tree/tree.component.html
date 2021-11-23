@@ -1,3 +1,4 @@
+<!--操作栏-->
 <ng-template #treeTitle>
   <h3 class="nc-page-title" *ngIf="!(option.create||option.update||option.delete)">{{option.name}}</h3>
   <nz-space nzSize="large">
@@ -16,20 +17,16 @@
     </ng-container>
   </nz-space>
 </ng-template>
-
-<nz-card [id]="1"
-         [nzTitle]="treeTitle"
-         [nzBodyStyle]="{'padding-left':'6px'}"
->
+<nz-card [nzTitle]="treeTitle">
   <!--树-->
   <nz-tree #treeComponent
            [nzData]="datas"
            [nzExpandedKeys]="keys"
            [nzSelectedKeys]="keys"
-           [nzTreeTemplate]="dataTpl"
+           [nzTreeTemplate]="treeTpl"
            (nzClick)="click($event.node?.origin)"
   ></nz-tree>
-  <ng-template #dataTpl let-node>
+  <ng-template #treeTpl let-node>
     <nz-badge nzStatus="processing" *ngIf="keys[0]==node.key"></nz-badge>
     <span>{{node.title}}</span>
   </ng-template>

@@ -25,7 +25,7 @@
 <ng-template #totalTpl let-range="range" let-total>
   总{{ total }}条&emsp;当前{{ range[0] }}-{{ range[1] }}
 </ng-template>
-<!--表格数据-->
+<!--  表格数据-->
 <nz-table #dataTable
           nzSize="small"
           [nzData]="datas"
@@ -37,16 +37,16 @@
           [nzPageIndex]="pageIndex"
           (nzQueryParams)="query($event)"
 >
-    <thead>
-    <tr>
-      <!--      显示字段表头-->
-      <ng-container *ngFor="let column of option.view.columns">
-        <th>{{column.label}}</th>
-      </ng-container>
-      <!--      操作-->
-      <ng-container *ngFor="let action of [option.update,option.delete]">
-        <th nzWidth="50px" *ngIf="action">{{action.name}}</th>
-      </ng-container>
+  <thead>
+  <tr>
+    <!--      显示字段表头-->
+    <ng-container *ngFor="let column of option.view.columns">
+      <th>{{column.label}}</th>
+    </ng-container>
+    <!--      操作-->
+    <ng-container *ngFor="let action of [option.update,option.delete]">
+      <th nzWidth="50px" *ngIf="action">{{action.name}}</th>
+    </ng-container>
     </tr>
     </thead>
     <tbody>

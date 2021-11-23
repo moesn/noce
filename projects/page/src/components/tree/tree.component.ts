@@ -1,7 +1,9 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {NzDrawerRef} from 'ng-zorro-antd/drawer';
 import {NzTreeComponent} from 'ng-zorro-antd/tree';
-import {NcHttpService} from 'noce/core';
+import {NcEventService, NcHttpService} from 'noce/core';
+import * as _ from 'lodash-es';
+import {arrayToTree} from 'noce/helper';
 
 @Component({
   selector: 'nc-tree',
@@ -11,6 +13,7 @@ import {NcHttpService} from 'noce/core';
 export class NcTreeComponent implements OnInit {
   @ViewChild('treeComponent', {static: false}) dataTree!: NzTreeComponent;
   @Input() option: any; // 树选项
+  @Output() readonly treeClick = new EventEmitter<object>(); // 点击事件
 
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
 
@@ -18,7 +21,8 @@ export class NcTreeComponent implements OnInit {
   datas: any[] = []; // 树数据
   keys: any[] = []; // 选中的对象key
 
-  constructor(private http: NcHttpService) {
+  constructor(private http: NcHttpService,
+              private event: NcEventService) {
   }
 
   ngOnInit(): void {
@@ -27,28 +31,23 @@ export class NcTreeComponent implements OnInit {
   }
 
   query(): void {
-    // this.http.post(this.api.query, this.treeSchema?.body || {}).subscribe(res => {
-    //   if (res) {
-    //     // 有组时，默认选中第一个组并查询表格数据
-    //     if (_.isArray(res.data) && res.data.length) {
-    //       if (this.treeSchema?.remove) {
-    //         res.data = reject(res.data, this.treeSchema?.remove);
-    //       }
-    //       // @ts-ignore
-    //       this.datas = JSON.parse(nm.replaceAll(JSON.stringify(res.data),
-    //         `"${this.treeSchema?.primarykey || 'id'}":`, '"key":',
-    //         `"${this.treeSchema?.primaryname || 'name'}":`, '"title":',
-    //       ));
-    //       this.click(this.datas[0]);
-    //     }
-    //   }
-    // });
+    this.http.post(this.option.api, {}).subscribe(res => {
+      if (res) {
+        // 有组时，默认选中第一个组并查询表格数据
+        if (_.isArray(res.data) && res.data.length) {
+          const {key, parentKey, titleKey, rootValue} = this.option;
+          this.datas = arrayToTree(res.data, {key, parentKey, titleKey, rootValue});
+          this.click(this.datas[0]);
+        }
+      }
+    });
   }
 
   click(node: any): void {
     // 设置组，选中状态，触发查询
     this.keys = [node.key];
-    // this.treeClick.emit([node.key, node.title]);
+    this.event.emit('sss', node);
+    this.treeClick.emit([node.key, node.title]);
   }
 
   getTreeNode(): any {
