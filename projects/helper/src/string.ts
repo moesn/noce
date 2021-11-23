@@ -1,4 +1,4 @@
-export function nmString() {
+export function ncString() {
 };
 
 // @ts-ignore 获取字符串字节长度

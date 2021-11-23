@@ -1,0 +1,36 @@
+<ng-template #treeTitle>
+  <h3 class="nc-page-title" *ngIf="!(option.create||option.update||option.delete)">{{option.name}}</h3>
+  <nz-space nzSize="large">
+    <ng-container *ngIf="option.create">
+      <i nz-icon nzType="border-inner" *nzSpaceItem (click)="edit(false,true)"
+         nz-tooltip nzTooltipTitle="增加根节点"></i>
+    </ng-container>
+    <ng-container *ngIf="option.create">
+      <i nz-icon nzType="plus" *nzSpaceItem (click)="edit(false,false)"></i>
+    </ng-container>
+    <ng-container *ngIf="option.update">
+      <i nz-icon nzType="edit" *nzSpaceItem (click)="edit(true)"></i>
+    </ng-container>
+    <ng-container *ngIf="option.delete">
+      <i nz-icon nzType="delete" *nzSpaceItem (click)="delete()"></i>
+    </ng-container>
+  </nz-space>
+</ng-template>
+
+<nz-card [id]="1"
+         [nzTitle]="treeTitle"
+         [nzBodyStyle]="{'padding-left':'6px'}"
+>
+  <!--树-->
+  <nz-tree #treeComponent
+           [nzData]="datas"
+           [nzExpandedKeys]="keys"
+           [nzSelectedKeys]="keys"
+           [nzTreeTemplate]="dataTpl"
+           (nzClick)="click($event.node?.origin)"
+  ></nz-tree>
+  <ng-template #dataTpl let-node>
+    <nz-badge nzStatus="processing" *ngIf="keys[0]==node.key"></nz-badge>
+    <span>{{node.title}}</span>
+  </ng-template>
+</nz-card>

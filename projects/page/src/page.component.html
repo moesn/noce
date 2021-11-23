@@ -1,1 +1,14 @@
-<nc-table *ngIf="option?.table"></nc-table>
+<ng-container *ngFor="let nav of option?.navs">
+  <!--  导航树-->
+  <nc-tree *ngIf="nav.type==='tree'" class="nc-page-nav" [option]="nav"
+           [ngStyle]="{width:option?.navs[0]?.width}"
+  ></nc-tree>
+  <!--  导航列表-->
+  <nc-list *ngIf="nav.type==='list'" class="nc-page-nav"
+           [ngStyle]="{width:option?.navs[0]?.width}"
+  ></nc-list>
+</ng-container>
+<!--表格-->
+<nc-table *ngIf="option?.table" class="nc-page-table"
+          [ngStyle]="{width:'calc(100% - 8px - ' + option?.navs[0]?.width + ')'}"
+></nc-table>

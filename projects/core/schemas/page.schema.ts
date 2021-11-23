@@ -16,25 +16,11 @@ export const NM_PAGE_SCHEMA =
       },
       "table": {
         "title": "右侧表格",
-        "description": "",
         "$ref": "#table"
       },
       "navs": {
         "title": "左侧导航",
-        "description": "导航列表或导航树",
-        "type": "array",
-        "uniqueItems": true,
-        "minItems": 1,
-        "items": {
-          "anyOf": [
-            {
-              "$ref": "#list"
-            },
-            {
-              "$ref": "#tree"
-            }
-          ]
-        }
+        "$ref": "#navs"
       }
     },
     "required": [
@@ -562,6 +548,7 @@ export const NM_PAGE_SCHEMA =
                     ]
                   },
                   "treeselect": {
+                    "$id": "#treeselect",
                     "title": "下拉选择框专属配置",
                     "type": "object",
                     "required": [
@@ -752,30 +739,80 @@ export const NM_PAGE_SCHEMA =
           }
         }
       },
-      "list": {
-        "$id": "#list",
-        "title": "列表配置",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "key": {
-            "title": "数据主建",
-            "type": "string",
-            "minLength": 1
-          }
-        }
-      },
-      "tree": {
-        "$id": "#tree",
-        "title": "树配置",
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "key": {
-            "title": "数据主建",
-            "type": "string",
-            "minLength": 1
-          }
+      "navs": {
+        "$id": "#navs",
+        "title": "导航配置",
+        "description": "导航列表或导航树",
+        "type": "array",
+        "uniqueItems": true,
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "type",
+            "api",
+            "titleKey"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "title": "导航类型",
+              "enum": [
+                "list",
+                "tree"
+              ]
+            },
+            "width": {
+              "title": "导航宽度",
+              "type": "string",
+              "description": "固定宽度100px或百分比宽度10%",
+              "default": "200px"
+            },
+            "api": {
+              "title": "查询接口地址",
+              "$ref": "#api"
+            },
+            "titleKey": {
+              "title": "用于展示的字段",
+              "type": "string",
+              "minLength": 1
+            },
+            "rootValue": {
+              "title": "根节点的值",
+              "description": "树型导航专有配置项",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "default": 0
+            },
+            "key": {
+              "title": "数据主键",
+              "type": "string",
+              "default": "id",
+              "minLength": 1
+            },
+            "parentKey": {
+              "title": "父节点关键字段",
+              "description": "树型导航专有配置项",
+              "type": "string",
+              "default": "pid",
+              "minLength": 1
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "tree"
+                  }
+                }
+              },
+              "then": {
+              }
+            }
+          ]
         }
       },
       "modal": {

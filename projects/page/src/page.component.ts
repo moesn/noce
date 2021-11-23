@@ -4,12 +4,14 @@ import {NavigationEnd, Router} from '@angular/router';
 import * as _ from 'lodash-es';
 
 @Component({
-  templateUrl: 'page.component.html'
+  templateUrl: 'page.component.html',
+  styleUrls: ['page.component.less']
 })
 export class NcPageComponent implements OnInit {
   apis: any; // 页面可用服务接口
   option: {  // 页面选项
     table: any;
+    navs: any;
   } | undefined;
 
   constructor(private router: Router,

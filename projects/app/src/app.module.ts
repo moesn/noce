@@ -21,12 +21,17 @@ const ngZorroConfig: NzConfig = {
   message: {nzTop: 60},
   notification: {nzTop: 60},
   table: {
-    nzBordered: true,
     nzSize: 'small',
+    nzBordered: true,
     nzShowQuickJumper: true,
     nzShowSizeChanger: true,
-    nzSimple: true,
+    nzSimple: false,
     nzHideOnSinglePage: true,
+  },
+  card: {
+    nzSize: 'small',
+    nzBorderless: true,
+    nzHoverable: true,
   }
 };
 

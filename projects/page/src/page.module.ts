@@ -6,7 +6,7 @@ import {CommonModule} from '@angular/common';
 import {NzTableModule} from 'ng-zorro-antd/table';
 import {NzDividerModule} from 'ng-zorro-antd/divider';
 import {NzFormModule} from 'ng-zorro-antd/form';
-import {NcFormComponent, NcTableComponent} from './components';
+import {NcFormComponent, NcListComponent, NcTableComponent, NcTreeComponent} from './components';
 import {FormsModule} from '@angular/forms';
 import {NzDrawerModule} from 'ng-zorro-antd/drawer';
 import {NzInputModule} from 'ng-zorro-antd/input';
@@ -17,6 +17,9 @@ import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import {NzSelectModule} from 'ng-zorro-antd/select';
 import {NzSpaceModule} from 'ng-zorro-antd/space';
 import {NzTreeSelectModule} from 'ng-zorro-antd/tree-select';
+import {NzTreeModule} from 'ng-zorro-antd/tree';
+import {NzCardModule} from 'ng-zorro-antd/card';
+import {NzBadgeModule} from 'ng-zorro-antd/badge';
 
 const NG_MODULES = [
   FormsModule,
@@ -36,12 +39,17 @@ const NZ_MODULES = [
   NzSelectModule,
   NzSpaceModule,
   NzTreeSelectModule,
+  NzTreeModule,
+  NzCardModule,
+  NzBadgeModule,
 ];
 
 const COMPONENTS = [
   NcPageComponent,
   NcTableComponent,
   NcFormComponent,
+  NcTreeComponent,
+  NcListComponent
 ];
 
 @NgModule({
