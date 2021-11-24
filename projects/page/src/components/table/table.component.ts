@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {getPageOption, NcEventService, NcHttpService} from 'noce/core';
 import {__eval, _eval, objectExtend} from 'noce/helper';
 import {NzTableQueryParams} from 'ng-zorro-antd/table';
@@ -13,7 +13,7 @@ import {NcFormComponent} from '..';
   styleUrls: ['table.component.less']
 })
 export class NcTableComponent implements OnInit {
-  option: any; // 表格选项
+  @Input() option: any; // 表格选项
   data: any; // 当前操作的数据
   datas: any[] = []; // 表格数据
   searches: any = []; // 可搜索的字段
@@ -23,7 +23,7 @@ export class NcTableComponent implements OnInit {
     fuzzy: {field: [], keyword: ''} // 模糊搜索, 搜索的字段和关键字
   };
 
-  key: string; // 表格数据主键
+  key: string = ''; // 数据主键
 
   pageIndex: number = 1; // 当前页数
   total: number = 0; // 表格数据总数
@@ -33,13 +33,13 @@ export class NcTableComponent implements OnInit {
   constructor(private drawer: NzDrawerService,
               private http: NcHttpService,
               private event: NcEventService) {
-    this.option = getPageOption('table');
-    this.key = this.option.key;
-    // 过滤得到可以搜索的字段列表
-    this.searches = this.option.view.columns.filter((d: any) => d.search);
   }
 
   ngOnInit(): void {
+    this.key = this.option.key;
+    // 过滤得到可以搜索的字段列表
+    this.searches = this.option.view.columns.filter((d: any) => d.search);
+
     // 监听导航点击事件
     this.event.on('NAV_CLICK').subscribe(res => {
       // 设置关联查询参数
@@ -79,7 +79,7 @@ export class NcTableComponent implements OnInit {
   // 修改表格数据
   edit(data: any): void {
     // 更新当前操作的数据
-    this.data = data;
+    this.data = _.cloneDeep(data);
 
     // form的全局属性配置在第一个form上
     const formOne = this.option.form[0];

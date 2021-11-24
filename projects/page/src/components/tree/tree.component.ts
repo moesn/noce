@@ -3,7 +3,7 @@ import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NzTreeComponent} from 'ng-zorro-antd/tree';
 import {NcEventService, NcHttpService} from 'noce/core';
 import * as _ from 'lodash-es';
-import {arrayToTree, objectExtend} from 'noce/helper';
+import {__eval, arrayToTree, objectExtend} from 'noce/helper';
 import {NcFormComponent} from '..';
 
 @Component({
@@ -21,12 +21,15 @@ export class NcTreeComponent implements OnInit {
   datas: any[] = []; // 树数据
   keys: any[] = []; // 选中的对象key
 
+  key: string = ''; // 数据主键
+
   constructor(private drawer: NzDrawerService,
               private http: NcHttpService,
               private event: NcEventService) {
   }
 
   ngOnInit(): void {
+    this.key = this.option.key;
     this.query();
   }
 
@@ -139,27 +142,30 @@ export class NcTreeComponent implements OnInit {
 
   // 删除节点
   delete(): void {
-    // const node = this.getTreeNode();
-    // this.http.delete(this.api.delete, {ids: this.keys}).subscribe(res => {
-    //   if (res) {
-    //     const parentNode = node.parentNode;
-    //     if (parentNode) {
-    //       // 最后一个子节点删除时，更新父节点
-    //       if (parentNode.getChildren().length === 1) {
-    //         parentNode.isLeaf = true;
-    //         parentNode.origin.isLeaf = true;
-    //       }
-    //       // 默认父组并查询表格数据
-    //       this.click(parentNode.origin);
-    //       // 清除当前节点(非根节点)
-    //       node.remove();
-    //     } else {
-    //       // 删除根组时默认第一组
-    //       this.click(this.datas[0]);
-    //       // 清除根节点
-    //       this.datas = _.reject(this.datas, (d: any) => d.key === node.key);
-    //     }
-    //   }
-    // });
+    const node = this.getTreeNode();
+    // 更新当前操作的数据
+    this.data = node.origin;
+
+    this.http.delete(this.option.delete.api, __eval.call(this, this.option.delete.body)).subscribe(res => {
+      if (res) {
+        const parentNode = node.parentNode;
+        if (parentNode) {
+          // 最后一个子节点删除时，更新父节点
+          if (parentNode.getChildren().length === 1) {
+            parentNode.isLeaf = true;
+            parentNode.origin.isLeaf = true;
+          }
+          // 默认父组并查询表格数据
+          this.click(parentNode.origin);
+          // 清除当前节点(非根节点)
+          node.remove();
+        } else {
+          // 删除根组时默认第一组
+          this.click(this.datas[0]);
+          // 清除根节点
+          this.datas = _.reject(this.datas, (d: any) => d.key === node.key);
+        }
+      }
+    });
   }
 }
