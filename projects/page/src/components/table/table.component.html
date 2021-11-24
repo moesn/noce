@@ -5,7 +5,7 @@
     <!--    模糊搜索-->
     <ng-container *ngIf="searches.length">
       <nz-input-group *nzSpaceItem nzSearch [nzAddOnAfter]="suffixButton">
-        <input [(ngModel)]="fuzzy.keyword" nz-input type="text" placeholder="模糊搜索"/>
+        <input [(ngModel)]="body.fuzzy.keyword" nz-input type="text" placeholder="模糊搜索"/>
       </nz-input-group>
       <ng-template #suffixButton>
         <button nz-button nzSearch (click)="query()">

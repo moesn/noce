@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NzDrawerRef} from 'ng-zorro-antd/drawer';
 import {NzTreeComponent} from 'ng-zorro-antd/tree';
 import {NcEventService, NcHttpService} from 'noce/core';
@@ -13,7 +13,6 @@ import {arrayToTree} from 'noce/helper';
 export class NcTreeComponent implements OnInit {
   @ViewChild('treeComponent', {static: false}) dataTree!: NzTreeComponent;
   @Input() option: any; // 树选项
-  @Output() readonly treeClick = new EventEmitter<object>(); // 点击事件
 
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
 
@@ -26,32 +25,37 @@ export class NcTreeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.option)
     this.query();
   }
 
+  // 查询树数据
   query(): void {
     this.http.post(this.option.api, {}).subscribe(res => {
       if (res) {
         // 有组时，默认选中第一个组并查询表格数据
         if (_.isArray(res.data) && res.data.length) {
           const {key, parentKey, titleKey, rootValue} = this.option;
+          // 将数组转换成树型
           this.datas = arrayToTree(res.data, {key, parentKey, titleKey, rootValue});
+          // 默认自动点击第一个节点
           this.click(this.datas[0]);
         }
       }
     });
   }
 
+  // 点击树节点
   click(node: any): void {
     // 设置组，选中状态，触发查询
     this.keys = [node.key];
-    this.event.emit('sss', node);
-    this.treeClick.emit([node.key, node.title]);
+    // 树主键在表格的映射键
+    const {mappingKey} = this.option;
+    // 发出点击事件
+    this.event.emit('NAV_CLICK', {mappingKey, ...node});
   }
 
+  // 获取当前树节点
   getTreeNode(): any {
-    // 返回当前树节点
     return this.dataTree.getTreeNodeByKey(this.keys[0]);
   }
 

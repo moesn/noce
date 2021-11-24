@@ -16,7 +16,11 @@ export class NcTableComponent implements OnInit {
   data: any; // 当前操作的数据
   datas: any[] = []; // 表格数据
   searches: any = []; // 可搜索的字段
-  fuzzy = {field: [], keyword: ''} // 模糊搜索, 搜索的字段和关键字
+
+  body: any = { // 传到服务端端查询参数
+    exact: {}, // 精确查询
+    fuzzy: {field: [], keyword: ''} // 模糊搜索, 搜索的字段和关键字
+  };
 
   key: string; // 表格数据主键
 
@@ -35,7 +39,10 @@ export class NcTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.event.on('sss').subscribe(res => {
+    // 监听导航点击事件
+    this.event.on('NAV_CLICK').subscribe(res => {
+      // 设置关联查询参数
+      this.body.exact[res.mappingKey] = res.key;
       this.query();
     })
   }
@@ -43,9 +50,15 @@ export class NcTableComponent implements OnInit {
   // 查询表格数据
   query(params?: NzTableQueryParams): void {
     let body = {}; // 查询参数
+    objectExtend(this.body, params); // 记录分页、过滤、排序等表格查询参数
+
+    // 如果有导航，阻止表格自动查询
+    if (getPageOption('navs') && !Object.keys(this.body.exact).length) {
+      return;
+    }
 
     // 参数扩展，表格查询参数、用户自定义参数
-    objectExtend(body, params, this.option.view.body)
+    objectExtend(body, this.body, this.option.view.body)
 
     this.http.query(this.option.view.api, body).subscribe(res => {
       if (res) {

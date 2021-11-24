@@ -208,6 +208,7 @@ export const NM_PAGE_SCHEMA =
             "$ref": "#form"
           },
           "create": {
+            "$id": "#create",
             "title": "新增接口",
             "type": "object",
             "required": [
@@ -226,6 +227,7 @@ export const NM_PAGE_SCHEMA =
             }
           },
           "update": {
+            "$id": "#update",
             "title": "修改接口",
             "type": "object",
             "required": [
@@ -247,6 +249,7 @@ export const NM_PAGE_SCHEMA =
             }
           },
           "delete": {
+            "$id": "#delete",
             "title": "删除接口",
             "type": "object",
             "required": [
@@ -751,7 +754,8 @@ export const NM_PAGE_SCHEMA =
           "required": [
             "type",
             "api",
-            "titleKey"
+            "titleKey",
+            "mappingKey"
           ],
           "additionalProperties": false,
           "properties": {
@@ -765,7 +769,7 @@ export const NM_PAGE_SCHEMA =
             "width": {
               "title": "导航宽度",
               "type": "string",
-              "description": "固定宽度100px或百分比宽度10%",
+              "description": "固定宽度100px或百分比宽度10%，在第一个导航里设置",
               "default": "200px"
             },
             "api": {
@@ -798,7 +802,39 @@ export const NM_PAGE_SCHEMA =
               "type": "string",
               "default": "pid",
               "minLength": 1
+            },
+            "mappingKey": {
+              "title": "映射键",
+              "description": "数据主键映射到表格的对应字段",
+              "type": "string",
+              "minLength": 1
+            },
+            "form": {
+              "$ref": "#form"
+            },
+            "create": {
+              "$ref": "#create"
+            },
+            "update": {
+              "$ref": "#update"
+            },
+            "delete": {
+              "$ref": "#delete"
             }
+          },
+          "dependencies": {
+            "create": [
+              "update",
+              "form"
+            ],
+            "update": [
+              "create",
+              "form"
+            ],
+            "form": [
+              "create",
+              "update"
+            ]
           },
           "allOf": [
             {
@@ -878,7 +914,12 @@ export const NM_PAGE_SCHEMA =
         ],
         "default": false,
         "if": {
-          "type": "string"
+          "not": {
+            "enum": [
+              true,
+              false
+            ]
+          }
         },
         "then": {
           "pattern": "^d=>.+"

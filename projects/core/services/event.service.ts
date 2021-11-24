@@ -7,6 +7,8 @@ interface INcEvent {
   data?: any;
 }
 
+type NcEvents = 'NAV_CLICK' | 'todo';
+
 @Injectable()
 export class NcEventService {
   private eventBus: Subject<INcEvent>;
@@ -15,11 +17,11 @@ export class NcEventService {
     this.eventBus = new Subject<INcEvent>();
   }
 
-  public emit(key: string, data?: any): void {
+  public emit(key: NcEvents, data?: any): void {
     this.eventBus.next({key, data});
   }
 
-  public on(key: string): Observable<any> {
+  public on(key: NcEvents): Observable<any> {
     return this.eventBus.asObservable().pipe(
       filter((event: INcEvent) => event.key === key),
       map((event: INcEvent) => event.data)
