@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {getPageOption, NcHttpService, NcNotifyService} from 'noce/core';
+import {getPageOption, NcHttpService} from 'noce/core';
 import {NzDrawerRef} from 'ng-zorro-antd/drawer';
 import * as _ from 'lodash-es';
 import {_eval, arrayToTree} from 'noce/helper';
@@ -11,13 +11,14 @@ import {_eval, arrayToTree} from 'noce/helper';
 })
 export class NcFormComponent implements OnInit {
   option: any = {}; // 表单选项
+  key: string = ''; // 表单数据的主健
   data: any = {}; // 表单数据
+  api: string = ''; // 表单数据保存接口
+
   dataBak: any = {}; // 备份编辑的备份
   pwdEye: any = {}; // 存储是否显示密码的状态
   fields: any = []; // 所有表单字段
   passwords: string[] = []; // 密码属性的字段
-
-  key: string = 'id'; // 表单数据的主健,默认id
 
   maxLabel: number = 1; // 表单标签最大长度
   cols: number = 1; // 表单列数
@@ -27,22 +28,21 @@ export class NcFormComponent implements OnInit {
 
   constructor(private drawerRef: NzDrawerRef,
               private http: NcHttpService) {
-    this.option = getPageOption('table.form');
-    this.key = getPageOption('table.key');
+  }
+
+  ngOnInit(): void {
     this.cols = this.option[0].cols;
 
     // 合并所有表单项
     this.fields = _.flatten(_.zipWith(this.option, (o: any) => o.fields));
     // 计算表单项中标签的最大值
     this.maxLabel = Math.ceil(Math.max(..._.zipWith(this.fields, (d: any) => d.label.byteLength() / 2)));
-  }
 
-  ngOnInit(): void {
     // 备份数据
     this.dataBak = _.cloneDeep(this.data);
 
     // 初始数据为空则是新增
-    if (_.size(this.data) === 0) {
+    if (!_.size(this.data)) {
       this.isnew = true;
       // 新增数据时，设置默认值
       this.fields.forEach((field: any) => {
@@ -126,15 +126,13 @@ export class NcFormComponent implements OnInit {
   save(): void {
     this.saving = true;
     const body = this.filterData();
-    // 备份数据有内容时是修改，调用修改接口，否则调用增加接口
-    const action = this.isnew ? getPageOption('table.create') : getPageOption('table.update')
 
     // 保存前的数据处理
     if(this.option[0].beforeSave){
       _eval(this.option[0].beforeSave)(body);
     }
 
-    this.http.post(action.api, body, this.passwords).subscribe({
+    this.http.post(this.api, body, this.passwords).subscribe({
       next: (res: any) => {
         if (res) {
           // 保存成功，关闭弹窗
@@ -177,12 +175,23 @@ export class NcFormComponent implements OnInit {
     return invalid;
   }
 
-  // 表单项是否只读
-  isReadonly(readonly: boolean | string): boolean {
-    if (_.isString(readonly)) {
-      return _eval(readonly)(this.data);
+  // 是否只读、是否必填、是否显示
+  isTrue(value: boolean | string): boolean {
+    if (_.isString(value)) {
+      return _eval(value)(this.data);
     } else {
-      return readonly;
+      return value;
+    }
+  }
+
+  // 计算表单项宽度
+  getSpan(field: any): number {
+    if (this.isTrue(field.show)) {
+      return field.span || 24 / this.cols;
+    } else {
+      // 隐藏时设置表单项为非必填
+      field.required = false;
+      return 0
     }
   }
 

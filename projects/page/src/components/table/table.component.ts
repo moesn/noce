@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {getPageOption, NcEventService, NcHttpService} from 'noce/core';
 import {__eval, _eval, objectExtend} from 'noce/helper';
 import {NzTableQueryParams} from 'ng-zorro-antd/table';
+import * as _ from 'lodash-es';
 import {reject} from 'lodash-es';
 import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NcFormComponent} from '..';
@@ -88,14 +89,10 @@ export class NcTableComponent implements OnInit {
       nzWidth: formOne.width || formOne.cols * 360,
       nzContent: NcFormComponent,
       nzContentParams: {
-        // key: this.tableSchema?.key || 'id',
-        data: this.data,
-        // formSchema: this.formSchema,
-        // cols: this.tableSchema?.cols || 1,
-        // saveapi: this.data[this.key] ? this.tableSchema?.api.update : this.tableSchema?.api.create,
-        // listkey: this.listkey,
-        // treekey: this.treekey,
-        // update
+        option: this.option.form,
+        key: this.option.key,
+        api: _.size(data) ? this.option.update : this.option.create,
+        data: this.data
       },
       nzClosable: false,
       nzKeyboard: false,

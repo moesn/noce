@@ -1,12 +1,10 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {NzDrawerRef} from 'ng-zorro-antd/drawer';
+import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NzTreeComponent} from 'ng-zorro-antd/tree';
 import {NcEventService, NcHttpService} from 'noce/core';
 import * as _ from 'lodash-es';
-import {arrayToTree} from 'noce/helper';
-import {NmDrawerSize} from '../../../../../../lib/projects/core';
-import {NmFormComponent} from '../../../../../../lib/projects/common';
-import {nm} from '../../../../../../lib/projects/helper';
+import {arrayToTree, objectExtend} from 'noce/helper';
+import {NcFormComponent} from '..';
 
 @Component({
   selector: 'nc-tree',
@@ -23,7 +21,8 @@ export class NcTreeComponent implements OnInit {
   datas: any[] = []; // 树数据
   keys: any[] = []; // 选中的对象key
 
-  constructor(private http: NcHttpService,
+  constructor(private drawer: NzDrawerService,
+              private http: NcHttpService,
               private event: NcEventService) {
   }
 
@@ -65,35 +64,42 @@ export class NcTreeComponent implements OnInit {
   // 新增或修改树节点
   edit(update: boolean, root?: boolean): void {
     const node = this.getTreeNode();
-    // 树数据转换成表单数据
+    const {key, titleKey, parentKey, rootValue} = this.option;
+    const parentTitle = '$' + titleKey;
+
+    // 修改时树数据转换成表单数据
     if (update) {
       this.data = _.cloneDeep(node.origin);
-      this.data[this.option.key] = node.origin.key;
-      this.data[this.option.titleKey] = node.origin.title;
+      this.data[key] = node.origin.key;
+      this.data[titleKey] = node.origin.title;
+
       // 从上一级node查找父级key和title，默认0和根
-      this.data[this.option.parentKey] = node.parentNode?.origin.key || this.option.rootValue;
-      this.data[this.option.titleKey] = node.parentNode?.origin.title;
+      this.data[parentKey] = node.parentNode?.origin.key || rootValue;
     } else {
+      // 新增节点数据
       this.data = {};
+      // 增加一级节点
       if (root) {
-        // 使用上一级的key和title，默认0和根
-        this.data[this.treeSchema?.parentkey || 'pid'] = this.treeSchema?.rootvalue || 0;
-        this.data[this.treeSchema?.parentname || 'pname'] = '根';
+        this.data[parentKey] = rootValue;
+        // 增加子节点
       } else {
-        this.data[this.treeSchema?.parentkey || 'pid'] = node.origin.key;
-        this.data[this.treeSchema?.parentname || 'pname'] = node.origin.title;
+        this.data[parentKey] = node.origin.key;
+        this.data[parentTitle] = node.origin.title;
       }
     }
 
+    // form的全局属性配置在第一个form上
+    const formOne = this.option.form[0];
+
     // 打开编辑窗口
     this.drawerRef = this.drawer.create({
-      nzWidth: (this.treeSchema?.cols || 1) * NmDrawerSize.width.small,
-      nzContent: NmFormComponent,
+      nzWidth: formOne.width || formOne.cols * 360,
+      nzContent: NcFormComponent,
       nzContentParams: {
-        cols: this.treeSchema?.cols || 1,
-        saveapi: this.data[this.treeSchema?.primarykey || 'id'] ? this.api.update : this.api.create,
-        formData: this.data,
-        formSchema: this.formSchema,
+        option: this.option.form,
+        key: this.option.key,
+        api: update ? this.option.update : this.option.create,
+        data: this.data
       },
       nzClosable: false,
       nzKeyboard: false,
@@ -102,31 +108,30 @@ export class NcTreeComponent implements OnInit {
 
     this.drawerRef.afterClose.subscribe((res: any) => {
       if (res) {
-        // @ts-ignore设置组的key
-        const newNode = JSON.parse(nm.replaceAll(JSON.stringify(res),
-          `"${this.treeSchema?.primarykey}":`, '"key":',
-          `"${this.treeSchema?.primaryname}":`, '"title":',
-        ));
+        // 设置UI组件使用的字段
+        res.key = res.value = res[key];
+        res.title = res[titleKey];
 
-        // 如果是修改
+        // 修改
         if (this.data.key) {
           // 修改当前节点数据，和显示标题
-          nm.objectExtend(node.origin, newNode);
-          node.title = newNode.title;
+          objectExtend(node.origin, res);
+          node.title = res.title;
+          // 新增
         } else {
           // 设置为子节点
-          newNode.isLeaf = true;
-          // 根组
-          if (this.data[this.treeSchema?.parentkey || 'pid'] === (this.treeSchema?.rootvalue || 0)) {
-            this.datas = [...this.datas, newNode];
+          res.isLeaf = true;
+          // 一级节点
+          if (this.data[parentKey] === rootValue) {
+            this.datas = [...this.datas, res];
           } else {
             // 展开节点并插入节点
             node.isLeaf = false;
             node.setExpanded(true);
-            node.addChildren([newNode]);
+            node.addChildren([res]);
           }
           // 切换树节点并查询表格数据
-          this.click(newNode);
+          this.click(res);
         }
       }
     });

@@ -2,7 +2,13 @@ export const NM_PAGE_SCHEMA =
   {
     "$schema": "http://json-schema.org/draft-07/schema",
     "title": "页面配置",
-    "description": "支持表格、表单、列表、树等",
+    "description": "支持表格、表单、列表、树等，examples里是关键字说明",
+    "examples": [
+      "apis：api接口配置时的关键字，例：apis.userlist",
+      "this：设置动态参数时的关键字，例：$this.data.id$",
+      "$*$：动态参数时使用",
+      "$*：1、树形结构的上级名称时使用"
+    ],
     "type": "object",
     "additionalProperties": false,
     "properties": {
@@ -382,17 +388,7 @@ export const NM_PAGE_SCHEMA =
                   },
                   "key": {
                     "title": "表单项数据字段",
-                    "description": "特殊key：superName树tree的上级名称",
-                    "oneOf": [
-                      {
-                        "enum": [
-                          "superName"
-                        ]
-                      },
-                      {
-                        "type": "string"
-                      }
-                    ],
+                    "type": "string",
                     "minLength": 1
                   },
                   "value": {
@@ -417,6 +413,11 @@ export const NM_PAGE_SCHEMA =
                   "readonly": {
                     "title": "表单项是否只读",
                     "$ref": "#parseBool"
+                  },
+                  "show": {
+                    "title": "是否显示表单",
+                    "$ref": "#parseBool",
+                    "default": true
                   },
                   "tip": {
                     "title": "表单项说明提示",
