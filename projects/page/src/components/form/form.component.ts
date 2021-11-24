@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {getPageOption, NcHttpService} from 'noce/core';
+import {NcHttpService} from 'noce/core';
 import {NzDrawerRef} from 'ng-zorro-antd/drawer';
 import * as _ from 'lodash-es';
 import {_eval, arrayToTree} from 'noce/helper';
@@ -42,7 +42,7 @@ export class NcFormComponent implements OnInit {
     this.dataBak = _.cloneDeep(this.data);
 
     // 初始数据为空则是新增
-    if (!_.size(this.data)) {
+    if (!this.data[this.key]) {
       this.isnew = true;
       // 新增数据时，设置默认值
       this.fields.forEach((field: any) => {
