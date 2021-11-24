@@ -759,6 +759,11 @@ export const NM_PAGE_SCHEMA =
           ],
           "additionalProperties": false,
           "properties": {
+            "name": {
+              "title": "导航名称",
+              "type": "string",
+              "minLength": 1
+            },
             "type": {
               "title": "导航类型",
               "enum": [

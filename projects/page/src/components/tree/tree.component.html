@@ -1,18 +1,18 @@
 <!--操作栏-->
 <ng-template #treeTitle>
-  <h3 class="nc-page-title" *ngIf="!(option.create||option.update||option.delete)">{{option.name}}</h3>
+  <h3 class="nc-page-title" *ngIf="!(option.create.api||option.update.api||option.delete.api)">{{option.name}}</h3>
   <nz-space nzSize="large">
-    <ng-container *ngIf="option.create">
+    <ng-container *ngIf="option.create.api">
       <i nz-icon nzType="border-inner" *nzSpaceItem (click)="edit(false,true)"
          nz-tooltip nzTooltipTitle="增加根节点"></i>
     </ng-container>
-    <ng-container *ngIf="option.create">
+    <ng-container *ngIf="option.create.api">
       <i nz-icon nzType="plus" *nzSpaceItem (click)="edit(false,false)"></i>
     </ng-container>
-    <ng-container *ngIf="option.update">
+    <ng-container *ngIf="option.update.api">
       <i nz-icon nzType="edit" *nzSpaceItem (click)="edit(true)"></i>
     </ng-container>
-    <ng-container *ngIf="option.delete">
+    <ng-container *ngIf="option.delete.api">
       <i nz-icon nzType="delete" *nzSpaceItem (click)="delete()"></i>
     </ng-container>
   </nz-space>
