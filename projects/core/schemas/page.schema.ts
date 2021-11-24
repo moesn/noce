@@ -382,7 +382,17 @@ export const NM_PAGE_SCHEMA =
                   },
                   "key": {
                     "title": "表单项数据字段",
-                    "type": "string",
+                    "description": "特殊key：superName树tree的上级名称",
+                    "oneOf": [
+                      {
+                        "enum": [
+                          "superName"
+                        ]
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ],
                     "minLength": 1
                   },
                   "value": {

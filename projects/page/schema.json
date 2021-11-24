@@ -1,7 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
   "title": "页面配置",
-  "description": "支持表格、表单、列表、树等",
+  "description": "支持表格、表单、列表、树等，examples里是关键字说明",
+  "examples": [],
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -381,7 +382,15 @@
                 },
                 "key": {
                   "title": "表单项数据字段",
-                  "type": "string",
+                  "description": "特殊key：$superName树tree的上级名称",
+                  "anyOf": [
+                    {
+                      "const": "$superName"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ],
                   "minLength": 1
                 },
                 "value": {

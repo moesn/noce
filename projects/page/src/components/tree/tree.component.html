@@ -1,17 +1,23 @@
 <!--操作栏-->
 <ng-template #treeTitle>
+  <!--  标题-->
   <h3 class="nc-page-title" *ngIf="!(option.create.api||option.update.api||option.delete.api)">{{option.name}}</h3>
   <nz-space nzSize="large">
+    <!--    增加一级节点-->
     <ng-container *ngIf="option.create.api">
       <i nz-icon nzType="border-inner" *nzSpaceItem (click)="edit(false,true)"
-         nz-tooltip nzTooltipTitle="增加根节点"></i>
+         nz-tooltip nzTooltipTitle="增加一级节点"></i>
     </ng-container>
+    <!--    增加子节点-->
     <ng-container *ngIf="option.create.api">
-      <i nz-icon nzType="plus" *nzSpaceItem (click)="edit(false,false)"></i>
+      <i nz-icon nzType="plus" *nzSpaceItem (click)="edit(false,false)"
+         nz-tooltip nzTooltipTitle="增加子节点"></i>
     </ng-container>
+    <!--    修改节点-->
     <ng-container *ngIf="option.update.api">
       <i nz-icon nzType="edit" *nzSpaceItem (click)="edit(true)"></i>
     </ng-container>
+    <!--    删除节点-->
     <ng-container *ngIf="option.delete.api">
       <i nz-icon nzType="delete" *nzSpaceItem (click)="delete()"></i>
     </ng-container>
@@ -26,6 +32,7 @@
            [nzTreeTemplate]="treeTpl"
            (nzClick)="click($event.node?.origin)"
   ></nz-tree>
+  <!--  显示模版-->
   <ng-template #treeTpl let-node>
     <nz-badge nzStatus="processing" *ngIf="keys[0]==node.key"></nz-badge>
     <span>{{node.title}}</span>
