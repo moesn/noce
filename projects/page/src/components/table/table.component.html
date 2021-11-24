@@ -58,13 +58,13 @@
       </ng-container>
       <!--      操作按钮-->
       <ng-container *ngFor="let action of [option.update,option.delete]">
-        <td *ngIf="action">
+        <td *ngIf="action.api">
           <!--          修改-->
-          <ng-container *ngIf="action===option.update.api">
+          <ng-container *ngIf="action===option.update">
             <i nz-icon nzType="edit" (click)="edit(data)"></i>
           </ng-container>
           <!--          删除-->
-          <ng-container *ngIf="action===option.delete.api">
+          <ng-container *ngIf="action===option.delete">
             <i nz-icon nzType="delete" (click)="delete(data)"></i>
           </ng-container>
         </td>

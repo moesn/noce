@@ -42,17 +42,21 @@ export class NcPageComponent implements OnInit {
       this.http.queryApis().subscribe(apis => {
         if (apis) {
           this.apis = apis;
-          this.option = schemaToOption(schemaPath);
+          const option = schemaToOption(schemaPath);
           // 转换api为真实服务接口地址
-          this.convertApi(this.option);
-          this.convertPattern(this.option);
+          this.convertApi(option);
+          this.convertPattern(option);
+          // 转换完成后赋值,减少重绘
+          this.option = option;
         }
       })
     } else {
       // 由于配置项需要http获取，在下一个宏任务里延时加载页面配置，页面才会更新
       setTimeout(() => {
-        this.option = schemaToOption(schemaPath);
-        this.convertPattern(this.option);
+        const option = schemaToOption(schemaPath);
+        this.convertPattern(option);
+        // 转换完成后才能赋值,减少重绘
+        this.option = option;
       });
 
       // 提示配置apis
