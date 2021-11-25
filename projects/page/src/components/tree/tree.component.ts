@@ -101,7 +101,7 @@ export class NcTreeComponent implements OnInit {
       nzContentParams: {
         option: this.option.form,
         key: this.option.key,
-        api: update ? this.option.update : this.option.create,
+        action: update ? this.option.update : this.option.create,
         data: this.data
       },
       nzClosable: false,

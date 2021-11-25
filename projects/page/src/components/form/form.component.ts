@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NcHttpService} from 'noce/core';
 import {NzDrawerRef} from 'ng-zorro-antd/drawer';
 import * as _ from 'lodash-es';
-import {_eval, arrayToTree} from 'noce/helper';
+import {__eval, _eval, arrayToTree, objectExtend} from 'noce/helper';
 
 @Component({
   selector: 'nc-form',
@@ -13,7 +13,7 @@ export class NcFormComponent implements OnInit {
   option: any = {}; // 表单选项
   key: string = ''; // 表单数据的主健
   data: any = {}; // 表单数据
-  api: string = ''; // 表单数据保存接口
+  action = {api: '', body: {}}; // 表单数据保存接口
 
   dataBak: any = {}; // 备份编辑的备份
   pwdEye: any = {}; // 存储是否显示密码的状态
@@ -128,11 +128,15 @@ export class NcFormComponent implements OnInit {
     const body = this.filterData();
 
     // 保存前的数据处理
-    if(this.option[0].beforeSave){
-      _eval(this.option[0].beforeSave)(body);
+    const beforeSave = this.option[0].beforeSave;
+    if (beforeSave) {
+      _eval(beforeSave)(body);
     }
 
-    this.http.post(this.api, body, this.passwords).subscribe({
+    // 合并用户配置的参数
+    objectExtend(body, __eval.call(this, this.action.body))
+
+    this.http.post(this.action.api, body, this.passwords).subscribe({
       next: (res: any) => {
         if (res) {
           // 保存成功，关闭弹窗
