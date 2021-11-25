@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {getAppOption, getPageOption, ncGetPattern, NcHttpService, NcNotifyService, schemaToOption} from 'noce/core';
 import {NavigationEnd, Router} from '@angular/router';
 import * as _ from 'lodash-es';
@@ -7,28 +7,22 @@ import * as _ from 'lodash-es';
   templateUrl: 'page.component.html',
   styleUrls: ['page.component.less']
 })
-export class NcPageComponent implements OnInit {
+export class NcPageComponent {
   apis: any; // 页面可用服务接口
-  option: {  // 页面选项
-    table: any;
-    navs: any;
-  } | undefined;
+  table: any; // 左侧表格
+  navs: any; // 右侧导航
 
   navIndex: number = 0; // 当前导航栏
 
   constructor(private router: Router,
               private notify: NcNotifyService,
               private http: NcHttpService) {
-    // 监听路由跳转
+    // 监听路由跳转，跳转时加载新的配置
     router.events.subscribe(event => {
-      // 跳转时加载新的配置
       if (event instanceof NavigationEnd) {
         this.loadOption();
       }
     });
-  }
-
-  ngOnInit(): void {
   }
 
   // 加载页面配置选项
@@ -36,7 +30,7 @@ export class NcPageComponent implements OnInit {
     // /page/xx/yy -> /schemas/xx/yy.schema.json
     const schemaPath = location.pathname.replace(getAppOption('base'), 'schemas') + '.schema.json';
     // 由于异步渲染的原因，路由跳转时，需要先清除页面
-    this.option = undefined;
+    this.assignOption({});
 
     // 配置了从后台获取页面可用服务接口
     if (getAppOption('apis')) {
@@ -48,7 +42,7 @@ export class NcPageComponent implements OnInit {
           this.convertApi(option);
           this.convertPattern(option);
           // 转换完成后赋值,减少重绘
-          this.option = option;
+          this.assignOption(option);
         }
       })
     } else {
@@ -57,7 +51,7 @@ export class NcPageComponent implements OnInit {
         const option = schemaToOption(schemaPath);
         this.convertPattern(option);
         // 转换完成后才能赋值,减少重绘
-        this.option = option;
+        this.assignOption(option);
       });
 
       // 提示配置apis
@@ -65,6 +59,12 @@ export class NcPageComponent implements OnInit {
         this.notify.fatal('至少在app、page之一的schema里配置apis')
       }
     }
+  }
+
+  // 分配选项
+  assignOption(option: any): void {
+    this.table = option.table;
+    this.navs = option.navs;
   }
 
   // api转换

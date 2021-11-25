@@ -1,30 +1,27 @@
-<!--一个导航-->
-<ng-container *ngIf="option?.navs.length==1">
-  <div class="nc-page-nav"
-       [ngStyle]="{width:option?.navs[0]?.width}"
-       *ngFor="let nav of option?.navs">
-    <!--  导航树-->
-    <nc-tree *ngIf="nav.type==='tree'" [option]="nav"></nc-tree>
-    <!--  导航列表-->
-    <nc-list *ngIf="nav.type==='list'" [option]="nav"></nc-list>
-  </div>
-</ng-container>
-<!--多个导航-->
-<ng-container *ngIf="option?.navs.length>1">
-  <nz-carousel class="nc-page-nav"
-               [ngStyle]="{width:option?.navs[0]?.width}"
-               [nzEnableSwipe]="false"
-               (nzBeforeChange)="navIndex=$event.to">
-    <div nz-carousel-content *ngFor="let nav of option?.navs; index as i">
+<ng-container *ngIf="navs">
+  <!--一个导航-->
+  <ng-container *ngIf="navs.length==1">
+    <div class="nc-page-nav" [ngStyle]="{width:navs[0].width}" *ngFor="let nav of navs">
       <!--  导航树-->
-      <nc-tree *ngIf="nav.type==='tree' && navIndex===i" [option]="nav"></nc-tree>
+      <nc-tree *ngIf="nav.type==='tree'" [option]="nav"></nc-tree>
       <!--  导航列表-->
-      <nc-list *ngIf="nav.type==='list' && navIndex===i" [option]="nav"></nc-list>
+      <nc-list *ngIf="nav.type==='list'" [option]="nav"></nc-list>
     </div>
-  </nz-carousel>
+  </ng-container>
+  <!--多个导航-->
+  <ng-container *ngIf="navs.length>1">
+    <nz-carousel class="nc-page-nav" [ngStyle]="{width:navs[0].width}"
+                 [nzEnableSwipe]="false" (nzBeforeChange)="navIndex=$event.to">
+      <div nz-carousel-content *ngFor="let nav of navs; index as i">
+        <!--  导航树-->
+        <nc-tree *ngIf="nav.type==='tree' && navIndex===i" [option]="nav"></nc-tree>
+        <!--  导航列表-->
+        <nc-list *ngIf="nav.type==='list' && navIndex===i" [option]="nav"></nc-list>
+      </div>
+    </nz-carousel>
+  </ng-container>
 </ng-container>
 <!--表格-->
-<nc-table class="nc-page-table" *ngIf="option?.table"
-          [option]="option?.table"
-          [ngStyle]="{width:'calc(100% - 8px - ' + option?.navs[0]?.width + ')'}"
+<nc-table class="nc-page-table" [option]="table" *ngIf="table"
+          [ngStyle]="{width:navs?'calc(100% - 8px - ' + navs[0].width + ')':'100%'}"
 ></nc-table>
