@@ -20,6 +20,7 @@ import {NzTreeSelectModule} from 'ng-zorro-antd/tree-select';
 import {NzTreeModule} from 'ng-zorro-antd/tree';
 import {NzCardModule} from 'ng-zorro-antd/card';
 import {NzBadgeModule} from 'ng-zorro-antd/badge';
+import {NzListModule} from 'ng-zorro-antd/list';
 
 const NG_MODULES = [
   FormsModule,
@@ -42,6 +43,7 @@ const NZ_MODULES = [
   NzTreeModule,
   NzCardModule,
   NzBadgeModule,
+  NzListModule,
 ];
 
 const COMPONENTS = [

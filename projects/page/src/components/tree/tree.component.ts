@@ -14,7 +14,6 @@ import {NcFormComponent} from '..';
 export class NcTreeComponent implements OnInit {
   @ViewChild('treeComponent', {static: false}) dataTree!: NzTreeComponent;
   @Input() option: any; // 树选项
-
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
 
   data: any; // 当前操作的数据
