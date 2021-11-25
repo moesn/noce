@@ -105,7 +105,15 @@ export class NcTableComponent implements OnInit {
     // 更新当前操作的数据
     this.data = data;
 
-    this.http.delete(this.option.delete.api, __eval.call(this, this.option.delete.body)).subscribe((res: any) => {
+    const body = {};
+    const action = this.option.delete;
+
+    // 合并用户配置的参数
+    if (action.body) {
+      objectExtend(body, __eval.call(this, action.body))
+    }
+
+    this.http.delete(action.api, body).subscribe((res: any) => {
       if (res) {
         // 表格数据删除一条
         this.datas = reject(this.datas, (d: any) => d[this.option.key] === data[this.option.key]);

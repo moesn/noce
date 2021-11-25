@@ -21,15 +21,12 @@ export class NcTreeComponent implements OnInit {
   datas: any[] = []; // 树数据
   keys: any[] = []; // 选中的对象key
 
-  key: string = ''; // 数据主键
-
   constructor(private drawer: NzDrawerService,
               private http: NcHttpService,
               private event: NcEventService) {
   }
 
   ngOnInit(): void {
-    this.key = this.option.key;
     this.query();
   }
 
@@ -146,7 +143,15 @@ export class NcTreeComponent implements OnInit {
     // 更新当前操作的数据
     this.data = node.origin;
 
-    this.http.delete(this.option.delete.api, __eval.call(this, this.option.delete.body)).subscribe(res => {
+    const body = {};
+    const action = this.option.delete;
+
+    // 合并用户配置的参数
+    if (action.body) {
+      objectExtend(body, __eval.call(this, action.body))
+    }
+
+    this.http.delete(action.api, body).subscribe(res => {
       if (res) {
         const parentNode = node.parentNode;
         if (parentNode) {

@@ -134,7 +134,9 @@ export class NcFormComponent implements OnInit {
     }
 
     // 合并用户配置的参数
-    objectExtend(body, __eval.call(this, this.action.body))
+    if (this.action.body) {
+      objectExtend(body, __eval.call(this, this.action.body))
+    }
 
     this.http.post(this.action.api, body, this.passwords).subscribe({
       next: (res: any) => {
