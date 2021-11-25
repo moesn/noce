@@ -14,7 +14,7 @@
       </ng-template>
     </ng-container>
     <!--    增加按钮-->
-    <ng-container *ngIf="option.create.api">
+    <ng-container *ngIf="option.create?.api">
       <button *nzSpaceItem nz-button (click)="edit({})">
         <i nz-icon nzType="plus"></i>
       </button>
@@ -58,7 +58,7 @@
       </ng-container>
       <!--      操作按钮-->
       <ng-container *ngFor="let action of [option.update,option.delete]">
-        <td *ngIf="action.api">
+        <td *ngIf="action?.api">
           <!--          修改-->
           <ng-container *ngIf="action===option.update">
             <i nz-icon nzType="edit" (click)="edit(data)"></i>

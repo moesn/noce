@@ -54,7 +54,7 @@ export class NcListComponent implements OnInit {
   // 编辑
   edit(update: boolean): void {
     // 克隆数据，避免修改失败时需要还原
-    this.data = _.cloneDeep(update ? this.data : {});
+    const data = _.cloneDeep(update ? this.data : {});
 
     // form的全局属性配置在第一个form上
     const formOne = this.option.form[0];
@@ -67,7 +67,7 @@ export class NcListComponent implements OnInit {
         option: this.option.form,
         key: this.option.key,
         action: update ? this.option.update : this.option.create,
-        data: this.data
+        data: data
       },
       nzClosable: false,
       nzKeyboard: false,
@@ -76,10 +76,10 @@ export class NcListComponent implements OnInit {
 
     this.drawerRef.afterClose.subscribe((res: any) => {
       if (res) {
-        if (this.data.id) {
+        if (data.id) {
           // 根据数据主键查询
           const param: any = {};
-          param[this.key] = this.data[this.key];
+          param[this.key] = data[this.key];
           // 修改，查找替换修改数据
           objectExtend(_.find(this.datas, param), res);
         } else {

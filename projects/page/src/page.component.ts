@@ -14,6 +14,8 @@ export class NcPageComponent implements OnInit {
     navs: any;
   } | undefined;
 
+  navIndex: number = 0; // 当前导航栏
+
   constructor(private router: Router,
               private notify: NcNotifyService,
               private http: NcHttpService) {
@@ -27,7 +29,6 @@ export class NcPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   // 加载页面配置选项
