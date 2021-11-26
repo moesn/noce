@@ -530,8 +530,12 @@
                       }
                     },
                     "api": {
-                      "title": "服务接口地址",
+                      "title": "查询接口地址",
                       "$ref": "#api"
+                    },
+                    "body": {
+                      "title": "查询接口参数",
+                      "$ref": "#body"
                     },
                     "labelKey": {
                       "title": "用于展示的字段",
@@ -575,8 +579,12 @@
                       "default": false
                     },
                     "api": {
-                      "title": "服务接口地址",
+                      "title": "查询接口地址",
                       "$ref": "#api"
+                    },
+                    "body": {
+                      "title": "查询接口参数",
+                      "$ref": "#body"
                     },
                     "titleKey": {
                       "title": "用于展示的字段",
@@ -790,6 +798,10 @@
           "api": {
             "title": "查询接口地址",
             "$ref": "#api"
+          },
+          "body": {
+            "title": "查询接口参数",
+            "$ref": "#body"
           },
           "titleKey": {
             "title": "用于展示的字段",

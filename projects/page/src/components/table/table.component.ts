@@ -14,6 +14,7 @@ import {NcFormComponent} from '..';
 })
 export class NcTableComponent implements OnInit {
   @Input() option: any; // 表格选项
+  nav: any; // 选中导航的数据
   data: any; // 当前操作的数据
   datas: any[] = []; // 表格数据
   searches: any = []; // 可搜索的字段
@@ -42,6 +43,8 @@ export class NcTableComponent implements OnInit {
 
     // 监听导航点击事件
     this.event.on('NAV_CLICK').subscribe(res => {
+      // 存储导航项数据
+      this.nav = res;
       // 设置关联查询参数
       this.body.exact[res.mappingKey] = res.key;
       this.query();
@@ -54,12 +57,17 @@ export class NcTableComponent implements OnInit {
     objectExtend(this.body, params); // 记录分页、过滤、排序等表格查询参数
 
     // 如果有导航，阻止表格自动查询
-    if (getPageOption('navs') && !Object.keys(this.body.exact).length) {
+    if (getPageOption('navs') && !_.size(this.body.exact)) {
       return;
     }
 
-    // 参数扩展，表格查询参数、用户自定义参数
-    objectExtend(body, this.body, this.option.view.body)
+    // 合并表格查询参数
+    objectExtend(body, this.body)
+
+    // 合并用户配置的参数
+    if (this.option.view.body) {
+      objectExtend(body, __eval.call(this, this.option.view.body))
+    }
 
     this.http.query(this.option.view.api, body).subscribe(res => {
       if (res) {
@@ -80,9 +88,17 @@ export class NcTableComponent implements OnInit {
   edit(data: any): void {
     // 更新当前操作的数据
     this.data = _.cloneDeep(data);
+    // 附加类型、分组等关联字段
+    objectExtend(this.data, this.body.exact)
 
     // form的全局属性配置在第一个form上
     const formOne = this.option.form[0];
+
+    // 打开编辑前数据处理
+    if (formOne.beforeOpen) {
+      _eval(formOne.beforeOpen)(this.data)
+    }
+
     // 打开编辑窗口
     this.drawerRef = this.drawer.create({
       // 配置了宽度使用宽度，没有配置则使用列数乘以最小宽度360

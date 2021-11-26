@@ -407,8 +407,7 @@ export const NM_PAGE_SCHEMA =
                   },
                   "required": {
                     "title": "表单项是否必填",
-                    "type": "boolean",
-                    "default": false
+                    "$ref": "#parseBool"
                   },
                   "readonly": {
                     "title": "表单项是否只读",
@@ -532,8 +531,12 @@ export const NM_PAGE_SCHEMA =
                         }
                       },
                       "api": {
-                        "title": "服务接口地址",
+                        "title": "查询接口地址",
                         "$ref": "#api"
+                      },
+                      "body": {
+                        "title": "查询接口参数",
+                        "$ref": "#body"
                       },
                       "labelKey": {
                         "title": "用于展示的字段",
@@ -577,8 +580,12 @@ export const NM_PAGE_SCHEMA =
                         "default": false
                       },
                       "api": {
-                        "title": "服务接口地址",
+                        "title": "查询接口地址",
                         "$ref": "#api"
+                      },
+                      "body": {
+                        "title": "查询接口参数",
+                        "$ref": "#body"
                       },
                       "titleKey": {
                         "title": "用于展示的字段",
@@ -760,6 +767,7 @@ export const NM_PAGE_SCHEMA =
         "type": "array",
         "uniqueItems": true,
         "minItems": 1,
+        "maxItems": 3,
         "items": {
           "type": "object",
           "required": [
@@ -791,6 +799,10 @@ export const NM_PAGE_SCHEMA =
             "api": {
               "title": "查询接口地址",
               "$ref": "#api"
+            },
+            "body": {
+              "title": "查询接口参数",
+              "$ref": "#body"
             },
             "titleKey": {
               "title": "用于展示的字段",

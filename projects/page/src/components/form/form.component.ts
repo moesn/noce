@@ -127,15 +127,15 @@ export class NcFormComponent implements OnInit {
     this.saving = true;
     const body = this.filterData();
 
+    // 合并用户配置的参数
+    if (this.action.body) {
+      objectExtend(body, __eval.call(this, this.action.body))
+    }
+
     // 保存前的数据处理
     const beforeSave = this.option[0].beforeSave;
     if (beforeSave) {
       _eval(beforeSave)(body);
-    }
-
-    // 合并用户配置的参数
-    if (this.action.body) {
-      objectExtend(body, __eval.call(this, this.action.body))
     }
 
     this.http.post(this.action.api, body, this.passwords).subscribe({
