@@ -40,7 +40,6 @@ export const NM_PAGE_SCHEMA =
         "required": [
           "view"
         ],
-        "additionalProperties": false,
         "properties": {
           "name": {
             "title": "表格名称",
@@ -625,27 +624,7 @@ export const NM_PAGE_SCHEMA =
                     "minLength": 1
                   },
                   "modal": {
-                    "allOf": [
-                      {
-                        "title": "弹窗关联配置",
-                        "type": "object",
-                        "required": [
-                          "nameKey"
-                        ],
-                        "additionalProperties": false,
-                        "properties": {
-                          "nameKey": {
-                            "title": "弹窗名称字段",
-                            "description": "关联字段中弹窗数据的名称字段",
-                            "type": "string",
-                            "minLength": 1
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#modal"
-                      }
-                    ]
+                    "$ref": "#modal"
                   }
                 },
                 "allOf": [
@@ -886,9 +865,28 @@ export const NM_PAGE_SCHEMA =
       "modal": {
         "$id": "#modal",
         "title": "弹窗",
-        "oneOf": [
+        "allOf": [
           {
-            "$ref": "#table"
+            "title": "弹窗关联配置",
+            "type": "object",
+            "required": [
+              "nameKey"
+            ],
+            "properties": {
+              "nameKey": {
+                "title": "弹窗名称字段",
+                "description": "关联字段中弹窗数据的名称字段",
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "$ref": "#table"
+              }
+            ]
           }
         ]
       },
