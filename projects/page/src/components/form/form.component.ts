@@ -86,7 +86,7 @@ export class NcFormComponent implements OnInit {
 
                 // 字段必填且表单数据没有字段值，则默认选上第一个选项
                 if (field.required && !this.data[field.key]) {
-                  this.data[field.key] = options[0]?.value;
+                  this.data[field.key] = select.options[0]?.value;
                 }
               }
             });

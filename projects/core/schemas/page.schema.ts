@@ -10,7 +10,7 @@ export const NM_PAGE_SCHEMA =
       "$*：1、树形结构的上级名称时使用"
     ],
     "type": "object",
-    "additionalProperties": false,
+
     "properties": {
       "$schema": {
         "type": "string"
@@ -40,6 +40,7 @@ export const NM_PAGE_SCHEMA =
         "required": [
           "view"
         ],
+
         "properties": {
           "name": {
             "title": "表格名称",
@@ -59,7 +60,7 @@ export const NM_PAGE_SCHEMA =
               "api",
               "columns"
             ],
-            "additionalProperties": false,
+
             "properties": {
               "api": {
                 "title": "查询接口地址",
@@ -98,7 +99,7 @@ export const NM_PAGE_SCHEMA =
                     "label",
                     "value"
                   ],
-                  "additionalProperties": false,
+
                   "properties": {
                     "label": {
                       "title": "标签名称",
@@ -135,7 +136,7 @@ export const NM_PAGE_SCHEMA =
                     "label",
                     "key"
                   ],
-                  "additionalProperties": false,
+
                   "properties": {
                     "label": {
                       "title": "表格表头文字",
@@ -219,7 +220,7 @@ export const NM_PAGE_SCHEMA =
             "required": [
               "api"
             ],
-            "additionalProperties": false,
+
             "properties": {
               "api": {
                 "title": "新增接口地址",
@@ -238,7 +239,7 @@ export const NM_PAGE_SCHEMA =
             "required": [
               "api"
             ],
-            "additionalProperties": false,
+
             "properties": {
               "api": {
                 "title": "修改接口地址",
@@ -260,7 +261,7 @@ export const NM_PAGE_SCHEMA =
             "required": [
               "api"
             ],
-            "additionalProperties": false,
+
             "properties": {
               "api": {
                 "description": "删除接口地址",
@@ -310,7 +311,7 @@ export const NM_PAGE_SCHEMA =
           "required": [
             "fields"
           ],
-          "additionalProperties": false,
+
           "properties": {
             "name": {
               "title": "表单名称",
@@ -362,7 +363,7 @@ export const NM_PAGE_SCHEMA =
               "items": {
                 "title": "表单字段属性设置",
                 "type": "object",
-                "additionalProperties": false,
+
                 "properties": {
                   "type": {
                     "title": "表单项类型",
@@ -394,7 +395,8 @@ export const NM_PAGE_SCHEMA =
                     "title": "表单项默认值",
                     "type": [
                       "string",
-                      "number"
+                      "number",
+                      "array"
                     ],
                     "minLength": 1
                   },
@@ -425,7 +427,7 @@ export const NM_PAGE_SCHEMA =
                   "input": {
                     "title": "普通输入框专属配置",
                     "type": "object",
-                    "additionalProperties": false,
+
                     "properties": {
                       "minLength": {
                         "title": "最小输入文字数量",
@@ -463,7 +465,7 @@ export const NM_PAGE_SCHEMA =
                           "name",
                           "reg"
                         ],
-                        "additionalProperties": false,
+
                         "properties": {
                           "name": {
                             "title": "正则表达式名称",
@@ -482,7 +484,7 @@ export const NM_PAGE_SCHEMA =
                   "number": {
                     "title": "数字输入框专属配置",
                     "type": "object",
-                    "additionalProperties": false,
+
                     "properties": {
                       "min": {
                         "title": "最小输入数字",
@@ -499,7 +501,7 @@ export const NM_PAGE_SCHEMA =
                   "select": {
                     "title": "下拉选择框专属配置",
                     "type": "object",
-                    "additionalProperties": false,
+
                     "properties": {
                       "multiple": {
                         "title": "是否多选",
@@ -517,7 +519,7 @@ export const NM_PAGE_SCHEMA =
                             "label",
                             "value"
                           ],
-                          "additionalProperties": false,
+
                           "properties": {
                             "label": {
                               "title": "选项显示的标签",
@@ -575,7 +577,7 @@ export const NM_PAGE_SCHEMA =
                       "api",
                       "nameKey"
                     ],
-                    "additionalProperties": false,
+
                     "properties": {
                       "multiple": {
                         "title": "是否多选",
@@ -759,7 +761,7 @@ export const NM_PAGE_SCHEMA =
             "nameKey",
             "mappingKey"
           ],
-          "additionalProperties": false,
+
           "properties": {
             "name": {
               "title": "导航名称",
@@ -872,6 +874,7 @@ export const NM_PAGE_SCHEMA =
             "required": [
               "nameKey"
             ],
+
             "properties": {
               "nameKey": {
                 "title": "弹窗名称字段",

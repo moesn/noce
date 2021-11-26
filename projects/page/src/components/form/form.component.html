@@ -110,7 +110,7 @@
             <input nz-input autocomplete="off" readonly placeholder="点击选择" *ngIf="field.type==='modal'"
                    [name]="field.key"
                    [disabled]="isTrue(field.readonly)"
-                   [value]="data[field.nameKey]"
+                   [value]="data[field.nameKey]||''"
                    (click)="openModal(field.modal)"
             />
           </nz-form-control>

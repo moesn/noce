@@ -394,7 +394,8 @@
                   "title": "表单项默认值",
                   "type": [
                     "string",
-                    "number"
+                    "number",
+                    "array"
                   ],
                   "minLength": 1
                 },
