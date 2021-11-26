@@ -37,21 +37,21 @@ export class NcPageComponent {
       this.http.queryApis().subscribe(apis => {
         if (apis) {
           this.apis = apis;
-          const option = schemaToOption(schemaPath);
+          const options = schemaToOption(schemaPath);
           // 转换api为真实服务接口地址
-          this.convertApi(option);
-          this.convertPattern(option);
+          this.convertApi(options);
+          this.convertPattern(options);
           // 转换完成后赋值,减少重绘
-          this.assignOption(option);
+          this.assignOption(options);
         }
       })
     } else {
       // 由于配置项需要http获取，在下一个宏任务里延时加载页面配置，页面才会更新
       setTimeout(() => {
-        const option = schemaToOption(schemaPath);
-        this.convertPattern(option);
+        const options = schemaToOption(schemaPath);
+        this.convertPattern(options);
         // 转换完成后才能赋值,减少重绘
-        this.assignOption(option);
+        this.assignOption(options);
       });
 
       // 提示配置apis
@@ -62,17 +62,17 @@ export class NcPageComponent {
   }
 
   // 分配选项
-  assignOption(option: any): void {
-    this.table = option.table;
-    this.navs = option.navs;
+  assignOption(options: any): void {
+    this.table = options.table;
+    this.navs = options.navs;
   }
 
   // api转换
-  convertApi(option: any): void {
+  convertApi(options: any): void {
     // {}时查找api属性来替换
-    if (_.isPlainObject(option)) {
+    if (_.isPlainObject(options)) {
       // 遍历{}
-      _.forEach(option, (val: any, key: string, obj: any) => {
+      _.forEach(options, (val: any, key: string, obj: any) => {
         // 属性是api，并且值为apis.开头时，替换为真实api地址
         if (key === 'api' && val.startsWith('apis.')) {
           obj.api = this.apis[val.substring(5)];
@@ -81,17 +81,17 @@ export class NcPageComponent {
           this.convertApi(val);
         }
       });
-    } else if (_.isArray(option)) {
+    } else if (_.isArray(options)) {
       // 递归遍历[]
-      _.forEach(option, scm => this.convertApi(scm));
+      _.forEach(options, scm => this.convertApi(scm));
     }
   }
 
   // 正则表达式转换
-  convertPattern(option: any): void {
-    if (_.isPlainObject(option)) {
+  convertPattern(options: any): void {
+    if (_.isPlainObject(options)) {
       // 遍历{}获取form
-      _.forEach(option, (val: any, key: string) => {
+      _.forEach(options, (val: any, key: string) => {
         if (key === 'form') {
           // 遍历所有表单的所有字段
           val.forEach((form: any) => {
@@ -110,9 +110,9 @@ export class NcPageComponent {
           this.convertPattern(val);
         }
       });
-    } else if (_.isArray(option)) {
+    } else if (_.isArray(options)) {
       // 递归遍历[]
-      _.forEach(option, scm => this.convertPattern(scm));
+      _.forEach(options, scm => this.convertPattern(scm));
     }
   }
 }

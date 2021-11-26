@@ -11,7 +11,7 @@ import {__eval, objectExtend} from 'noce/helper';
   styleUrls: ['./list.component.less']
 })
 export class NcListComponent implements OnInit {
-  @Input() option: any; // 列表选项
+  @Input() options: any; // 列表选项
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
 
   data: any; // 当前操作的数据
@@ -24,13 +24,13 @@ export class NcListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.key = this.option.key;
+    this.key = this.options.key;
     this.query();
   }
 
   // 查询列表
   query(): void {
-    this.http.query(this.option.api, {}).subscribe((res: any) => {
+    this.http.query(this.options.api, {}).subscribe((res: any) => {
       if (res) {
         // 有数据时，默认选中第一个并查询表格数据
         if (_.isArray(res.data) && res.data.length) {
@@ -55,16 +55,16 @@ export class NcListComponent implements OnInit {
     const data = _.cloneDeep(update ? this.data : {});
 
     // form的全局属性配置在第一个form上
-    const formOne = this.option.form[0];
+    const formOne = this.options.form[0];
 
     // 打开编辑窗口
     this.drawerRef = this.drawer.create({
       nzWidth: formOne.width || formOne.cols * 360,
       nzContent: NcFormComponent,
       nzContentParams: {
-        option: this.option.form,
-        key: this.option.key,
-        action: update ? this.option.update : this.option.create,
+        options: this.options.form,
+        key: this.options.key,
+        action: update ? this.options.update : this.options.create,
         data: data
       },
       nzClosable: false,
@@ -93,7 +93,7 @@ export class NcListComponent implements OnInit {
   // 删除节点
   delete(): void {
     const body = {};
-    const action = this.option.delete;
+    const action = this.options.delete;
 
     // 合并用户配置的参数
     if (action.body) {

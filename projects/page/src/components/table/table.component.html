@@ -1,6 +1,6 @@
 <!--表格工具栏-->
 <ng-template #dataTitleTpl>
-  <h3 class="nc-page-title">{{option.title}}</h3>
+  <h3 class="nc-page-title">{{options.title}}</h3>
   <nz-space>
     <!--    模糊搜索-->
     <ng-container *ngIf="searches.length">
@@ -14,7 +14,7 @@
       </ng-template>
     </ng-container>
     <!--    增加按钮-->
-    <ng-container *ngIf="option.create?.api">
+    <ng-container *ngIf="options.create?.api">
       <button *nzSpaceItem nz-button (click)="edit({})">
         <i nz-icon nzType="plus"></i>
       </button>
@@ -29,42 +29,54 @@
 <nz-table #dataTable
           [nzData]="datas"
           [nzTitle]="dataTitleTpl"
-          [nzSimple]="option.simple"
-          [nzFrontPagination]="option.view.frontPagination"
+          [nzSimple]="options.view.simple"
+          [nzFrontPagination]="options.view.frontPagination"
           [nzTotal]="total"
           [nzShowTotal]="totalTpl"
-          [nzPageSize]="option.view.pageSize"
+          [nzPageSize]="options.view.pageSize"
           [nzPageIndex]="pageIndex"
           (nzQueryParams)="query($event)"
+          (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
 >
   <thead>
   <tr>
+    <!--    选择框-->
+    <th *ngIf="options.view.checkable"
+        [nzShowCheckbox]="options.view.multiple"
+        [(nzChecked)]="allChecked"
+        [nzIndeterminate]="indeterminate"
+        (nzCheckedChange)="onAllChecked($event)"
+    ></th>
     <!--      显示字段表头-->
-    <ng-container *ngFor="let column of option.view.columns">
+    <ng-container *ngFor="let column of options.view.columns">
       <th>{{column.label}}</th>
     </ng-container>
     <!--      操作-->
-    <ng-container *ngFor="let action of [option.update,option.delete]">
+    <ng-container *ngFor="let action of [options.update,options.delete]">
       <th nzWidth="50px" *ngIf="action">{{action.name}}</th>
     </ng-container>
-    </tr>
+  </tr>
     </thead>
-    <tbody>
-    <tr *ngFor="let data of dataTable['data']">
-      <!--      显示字段数据-->
-      <ng-container *ngFor="let column of  option.view.columns">
-        <!--        普通列-->
-        <td>{{data[column.key]}}</td>
-      </ng-container>
-      <!--      操作按钮-->
-      <ng-container *ngFor="let action of [option.update,option.delete]">
-        <td *ngIf="action?.api">
-          <!--          修改-->
-          <ng-container *ngIf="action===option.update">
+  <tbody>
+  <tr *ngFor="let data of dataTable['data']">
+    <!--      选择框-->
+    <td [nzChecked]="isChecked(data)" *ngIf="options.view.checkable"
+        (nzCheckedChange)="onItemChecked(data, $event)"></td>
+
+    <!--      显示字段数据-->
+    <ng-container *ngFor="let column of  options.view.columns">
+      <!--        普通列-->
+      <td>{{data[column.key]}}</td>
+    </ng-container>
+    <!--      操作按钮-->
+    <ng-container *ngFor="let action of [options.update,options.delete]">
+      <td *ngIf="action?.api">
+        <!--          修改-->
+          <ng-container *ngIf="action===options.update">
             <i nz-icon nzType="edit" (click)="edit(data)"></i>
           </ng-container>
           <!--          删除-->
-          <ng-container *ngIf="action===option.delete">
+          <ng-container *ngIf="action===options.delete">
             <i nz-icon nzType="delete" (click)="delete(data)"></i>
           </ng-container>
         </td>

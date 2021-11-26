@@ -82,6 +82,16 @@ export const NM_PAGE_SCHEMA =
                 "type": "boolean",
                 "default": false
               },
+              "checkable": {
+                "title": "是否显示选择列",
+                "type": "boolean",
+                "default": false
+              },
+              "multiple": {
+                "title": "是否支持多选",
+                "type": "boolean",
+                "default": true
+              },
               "parseData": {
                 "title": "解析数据",
                 "description": "表格渲染之前对数据进行处理",
@@ -248,6 +258,9 @@ export const NM_PAGE_SCHEMA =
               "body": {
                 "title": "修改接口参数",
                 "$ref": "#body"
+              },
+              "name": {
+                "default": "修改"
               }
             }
           },
@@ -272,6 +285,9 @@ export const NM_PAGE_SCHEMA =
                     "$this.data[this.key]$"
                   ]
                 }
+              },
+              "name": {
+                "default": "删除"
               }
             }
           }
@@ -875,6 +891,20 @@ export const NM_PAGE_SCHEMA =
                 "description": "关联字段中弹窗数据的名称字段",
                 "type": "string",
                 "minLength": 1
+              },
+              "width": {
+                "title": "弹窗宽度",
+                "oneOf": [
+                  {
+                    "enum": [
+                      360,
+                      560,
+                      720,
+                      960
+                    ]
+                  }
+                ],
+                "default": 560
               }
             }
           },

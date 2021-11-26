@@ -96,7 +96,7 @@ export function getPageOption(key: string): any {
 }
 
 // 设置页面选项
-export function setPageOption(option: any): any {
-  objectExtend(OPTIONS.page, option);
+export function setPageOption(options: any): any {
+  objectExtend(OPTIONS.page, options);
 }
 

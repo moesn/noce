@@ -13,7 +13,7 @@ import {NcFormComponent} from '..';
 })
 export class NcTreeComponent implements OnInit {
   @ViewChild('treeComponent', {static: false}) dataTree!: NzTreeComponent;
-  @Input() option: any; // 树选项
+  @Input() options: any; // 树选项
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
 
   data: any; // 当前操作的数据
@@ -31,11 +31,11 @@ export class NcTreeComponent implements OnInit {
 
   // 查询树数据
   query(): void {
-    this.http.post(this.option.api, {}).subscribe(res => {
+    this.http.post(this.options.api, {}).subscribe(res => {
       if (res) {
         // 有组时，默认选中第一个组并查询表格数据
         if (_.isArray(res.data) && res.data.length) {
-          const {key, parentKey, nameKey, rootValue} = this.option;
+          const {key, parentKey, nameKey, rootValue} = this.options;
           // 将数组转换成树型
           this.datas = arrayToTree(res.data, {key, parentKey, nameKey, rootValue});
           // 默认自动点击第一个节点
@@ -61,7 +61,7 @@ export class NcTreeComponent implements OnInit {
   // 新增或修改树节点
   edit(update: boolean, root?: boolean): void {
     const node = this.getTreeNode();
-    const {key, nameKey, parentKey, rootValue} = this.option;
+    const {key, nameKey, parentKey, rootValue} = this.options;
     const parentTitle = '$' + nameKey;
 
     // 修改时树数据转换成表单数据
@@ -86,16 +86,16 @@ export class NcTreeComponent implements OnInit {
     }
 
     // form的全局属性配置在第一个form上
-    const formOne = this.option.form[0];
+    const formOne = this.options.form[0];
 
     // 打开编辑窗口
     this.drawerRef = this.drawer.create({
       nzWidth: formOne.width || formOne.cols * 360,
       nzContent: NcFormComponent,
       nzContentParams: {
-        option: this.option.form,
-        key: this.option.key,
-        action: update ? this.option.update : this.option.create,
+        options: this.options.form,
+        key: this.options.key,
+        action: update ? this.options.update : this.options.create,
         data: this.data
       },
       nzClosable: false,
@@ -141,7 +141,7 @@ export class NcTreeComponent implements OnInit {
     this.data = node.origin;
 
     const body = {};
-    const action = this.option.delete;
+    const action = this.options.delete;
 
     // 合并用户配置的参数
     if (action.body) {

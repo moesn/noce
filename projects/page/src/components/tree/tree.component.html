@@ -1,24 +1,24 @@
 <!--操作栏-->
 <ng-template #treeTitle>
   <!--  标题-->
-  <h3 class="nc-page-title" *ngIf="!(option.create?.api||option.update?.api||option.delete?.api)">{{option.title}}</h3>
+  <h3 class="nc-page-title" *ngIf="!(options.create?.api||options.update?.api||options.delete?.api)">{{options.title}}</h3>
   <nz-space nzSize="large">
     <!--    增加一级节点-->
-    <ng-container *ngIf="option.create?.api">
+    <ng-container *ngIf="options.create?.api">
       <i nz-icon nzType="border-inner" *nzSpaceItem (click)="edit(false,true)"
          nz-tooltip nzTooltipTitle="增加一级节点"></i>
     </ng-container>
     <!--    增加子节点-->
-    <ng-container *ngIf="option.create?.api">
+    <ng-container *ngIf="options.create?.api">
       <i nz-icon nzType="plus" *nzSpaceItem (click)="edit(false,false)"
          nz-tooltip nzTooltipTitle="增加子节点"></i>
     </ng-container>
     <!--    修改节点-->
-    <ng-container *ngIf="option.update?.api">
+    <ng-container *ngIf="options.update?.api">
       <i nz-icon nzType="edit" *nzSpaceItem (click)="edit(true)"></i>
     </ng-container>
     <!--    删除节点-->
-    <ng-container *ngIf="option.delete?.api">
+    <ng-container *ngIf="options.delete?.api">
       <i nz-icon nzType="delete" *nzSpaceItem (click)="delete()"></i>
     </ng-container>
   </nz-space>

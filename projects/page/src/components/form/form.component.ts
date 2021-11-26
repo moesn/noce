@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NcHttpService} from 'noce/core';
 import {NzDrawerRef} from 'ng-zorro-antd/drawer';
 import * as _ from 'lodash-es';
+import {toArray, uniqBy} from 'lodash-es';
 import {__eval, _eval, arrayToTree, objectExtend} from 'noce/helper';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NcTableComponent} from '..';
@@ -12,7 +13,7 @@ import {NcTableComponent} from '..';
   styleUrls: ['./form.component.less']
 })
 export class NcFormComponent implements OnInit {
-  option: any = {}; // 表单选项
+  options: any = {}; // 表单选项
   key: string = ''; // 表单数据的主健
   data: any = {}; // 表单数据
   action = {api: '', body: {}}; // 表单数据保存接口
@@ -34,10 +35,10 @@ export class NcFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cols = this.option[0].cols;
+    this.cols = this.options[0].cols;
 
     // 合并所有表单项
-    this.fields = _.flatten(_.zipWith(this.option, (o: any) => o.fields));
+    this.fields = _.flatten(_.zipWith(this.options, (o: any) => o.fields));
     // 计算表单项中标签的最大值
     this.maxLabel = Math.ceil(Math.max(..._.zipWith(this.fields, (d: any) => d.label.byteLength() / 2)));
 
@@ -61,7 +62,7 @@ export class NcFormComponent implements OnInit {
   // 渲染下拉选择框
   renderSelect(): void {
     // 从服务端获取表单下拉选择框的数据
-    this.option.forEach((formItem: any) => {
+    this.options.forEach((formItem: any) => {
       formItem.fields.forEach((field: any) => {
         // 下拉选择框
         if (field.type === 'select') {
@@ -128,12 +129,46 @@ export class NcFormComponent implements OnInit {
   }
 
   // 打开选择弹窗
-  openModal(option: any): void {
-    this.modal.create({
+  openModal(field: any): void {
+    const modal = field.modal
+    // 弹窗使用简化分页
+    const view = {simple: true, checkable: true}
+    objectExtend(modal, {view});
+
+    const modalRef = this.modal.create({
+      nzWidth: modal.width,
+      nzStyle: {top: '12px'},
+      nzBodyStyle: {padding: '0 0 12px 0'},
       nzContent: NcTableComponent,
-      // 弹窗使用简化分页
-      nzComponentParams: {option: {...option, simple: true}},
+      nzComponentParams: {options: modal},
       nzClosable: false,
+      nzFooter: [
+        {
+          label: '确定',
+          onClick: (comp: NcTableComponent) => {
+            // 集合转成数组，多选时数据去重，单选时取第一个数据
+            const multiple = modal.view.multiple;
+            const arr = toArray(comp.checkedData);
+            const data: any = multiple ? uniqBy(arr, modal.key) : arr[0];
+
+            // 设置关联字段和名称
+            if (multiple) { // 多选
+              // 需要提交到后台的数据
+              this.data[field.key] = _.zipWith(data, (d: any) => d[modal.key]);
+              // 表单显示的内容
+              this.data[field.nameKey] = _.zipWith(data, (d: any) => d[modal.nameKey]);
+            } else { // 单选
+              // 需要提交到后台的数据
+              this.data[field.key] = data[modal.key];
+              // 表单显示的内容
+              this.data[field.nameKey] = data[modal.nameKey];
+            }
+
+            // 关闭弹窗
+            modalRef.close();
+          }
+        }
+      ]
     });
   }
 
@@ -153,7 +188,7 @@ export class NcFormComponent implements OnInit {
     }
 
     // 保存前的数据处理
-    const beforeSave = this.option[0].beforeSave;
+    const beforeSave = this.options[0].beforeSave;
     if (beforeSave) {
       _eval(beforeSave)(body);
     }

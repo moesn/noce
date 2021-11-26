@@ -2,7 +2,7 @@
   <!--  填充白色-->
   <nz-row nzGutter="24" class="ant-component-color">
     <!--    表单分组-->
-    <ng-container *ngFor="let formItem of option">
+    <ng-container *ngFor="let formItem of options">
       <!--      表单分组名称-->
       <nz-col *ngIf="formItem.title" [nzSpan]="24" class="col-divider">
         <nz-divider [nzText]="dividerTpl" nzOrientation="left"></nz-divider>
@@ -111,7 +111,7 @@
                    [name]="field.key"
                    [disabled]="isTrue(field.readonly)"
                    [value]="data[field.nameKey]||''"
-                   (click)="openModal(field.modal)"
+                   (click)="openModal(field)"
             />
           </nz-form-control>
         </nz-form-item>

@@ -4,7 +4,7 @@ import {__eval, _eval, objectExtend} from 'noce/helper';
 import {NzTableQueryParams} from 'ng-zorro-antd/table';
 import * as _ from 'lodash-es';
 import {reject} from 'lodash-es';
-import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
+import {NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NcFormComponent} from '..';
 
 @Component({
@@ -13,7 +13,7 @@ import {NcFormComponent} from '..';
   styleUrls: ['table.component.less']
 })
 export class NcTableComponent implements OnInit {
-  @Input() option: any; // 表格选项
+  @Input() options: any; // 表格选项
   @Input() navOption: any; // 导航选项
 
   data: any; // 当前操作的数据
@@ -30,7 +30,11 @@ export class NcTableComponent implements OnInit {
   pageIndex: number = 1; // 当前页数
   total: number = 0; // 表格数据总数
 
-  drawerRef: NzDrawerRef | any; // 表单弹窗实例
+  allChecked = false; // 当前页是否全选
+  indeterminate = false; // 当前页是否有选
+  pageDatas: any = []; // 页面显示的数据
+  checkedData = new Set<string>(); // 已选数据
+  ids: any = []; // 已选数据的id集合
 
   constructor(private drawer: NzDrawerService,
               private http: NcHttpService,
@@ -38,9 +42,9 @@ export class NcTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.key = this.option.key;
+    this.key = this.options.key;
     // 过滤得到可以搜索的字段列表
-    this.searches = this.option.view.columns.filter((d: any) => d.search);
+    this.searches = this.options.view.columns.filter((d: any) => d.search);
 
     // 监听导航点击事件
     this.event.on('NAV_CLICK').subscribe(res => {
@@ -64,17 +68,17 @@ export class NcTableComponent implements OnInit {
     objectExtend(body, this.body)
 
     // 合并用户配置的参数
-    if (this.option.view.body) {
-      objectExtend(body, __eval.call(this, this.option.view.body))
+    if (this.options.view.body) {
+      objectExtend(body, __eval.call(this, this.options.view.body))
     }
 
-    this.http.query(this.option.view.api, body).subscribe(res => {
+    this.http.query(this.options.view.api, body).subscribe(res => {
       if (res) {
         // 有些接口没有数据返回的是null
         this.datas = res.data || [];
         this.total = res.total;
 
-        const parse = this.option.view.parseData;
+        const parse = this.options.view.parseData;
         // 如果需要解析表格数据
         if (parse) {
           this.datas.forEach(data => _eval(parse)(data));
@@ -91,7 +95,7 @@ export class NcTableComponent implements OnInit {
     objectExtend(this.data, this.body.exact)
 
     // form的全局属性配置在第一个form上
-    const formOne = this.option.form[0];
+    const formOne = this.options.form[0];
 
     // 打开编辑前数据处理
     if (formOne.beforeOpen) {
@@ -99,14 +103,14 @@ export class NcTableComponent implements OnInit {
     }
 
     // 打开编辑窗口
-    this.drawerRef = this.drawer.create({
+    this.drawer.create({
       // 配置了宽度使用宽度，没有配置则使用列数乘以最小宽度360
       nzWidth: formOne.width || formOne.cols * 360,
       nzContent: NcFormComponent,
       nzContentParams: {
-        option: this.option.form,
-        key: this.option.key,
-        action: _.size(data) ? this.option.update : this.option.create,
+        options: this.options.form,
+        key: this.options.key,
+        action: _.size(data) ? this.options.update : this.options.create,
         data: this.data
       },
       nzClosable: false,
@@ -121,7 +125,7 @@ export class NcTableComponent implements OnInit {
     this.data = data;
 
     const body = {};
-    const action = this.option.delete;
+    const action = this.options.delete;
 
     // 合并用户配置的参数
     if (action.body) {
@@ -131,10 +135,58 @@ export class NcTableComponent implements OnInit {
     this.http.delete(action.api, body).subscribe((res: any) => {
       if (res) {
         // 表格数据删除一条
-        this.datas = reject(this.datas, (d: any) => d[this.option.key] === data[this.option.key]);
+        this.datas = reject(this.datas, (d: any) => d[this.options.key] === data[this.options.key]);
         // 总条数减1
         this.total -= 1;
       }
     });
+  }
+
+  // 更新已选ID集合
+  updateCheckedSet(data: any, checked: boolean): void {
+    // 选择且没被选择时add
+    if (checked && !this.isChecked(data)) {
+      // 不是多选时清除已选
+      if (!this.options.view.multiple) {
+        this.checkedData.clear();
+      }
+      this.checkedData.add(data);
+    } else {
+      // 删除所有id相同的
+      this.checkedData.forEach((d: any) => {
+        if (d[this.key] === data[this.key]) {
+          this.checkedData.delete(d);
+        }
+      });
+    }
+  }
+
+  // 选择/反选
+  onItemChecked(data: any, checked: boolean): void {
+    this.updateCheckedSet(data, checked);
+    this.refreshCheckedStatus();
+  }
+
+  // 全选
+  onAllChecked(value: boolean): void {
+    this.pageDatas.forEach((item: any) => this.updateCheckedSet(item, value));
+    this.refreshCheckedStatus();
+  }
+
+  // 当前页面展示数据改变
+  onCurrentPageDataChange($event: any): void {
+    this.pageDatas = $event;
+    this.refreshCheckedStatus();
+  }
+
+  // 刷新选择状态
+  refreshCheckedStatus(): void {
+    this.allChecked = this.pageDatas.every((item: any) => this.isChecked(item));
+    this.indeterminate = this.pageDatas.some((item: any) => this.isChecked(item)) && !this.allChecked;
+  }
+
+  // 是否已选择
+  isChecked(data: any): boolean {
+    return Array.from(this.checkedData).some((item: any) => item[this.key] === data[this.key]);
   }
 }
