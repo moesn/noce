@@ -41,10 +41,6 @@ export class NcAppComponent implements OnInit {
     if (path !== '/' && !path.startsWith('/auth')) {
       this.isAuthed = true;
 
-      // 监听浏览器后退，后退时关闭未关闭的弹出窗口
-      window.removeEventListener('popstate', this.modalClose, false);
-      window.addEventListener('popstate', this.modalClose, false);
-
       // 有顶部导航
       if (getAppOption('layout.navApi')) {
         this.navs = this.store.getNav();
@@ -63,14 +59,6 @@ export class NcAppComponent implements OnInit {
     }
   }
 
-// 关闭未关闭的弹出窗口
-  modalClose(): void {
-    // @ts-ignore
-    _.forEach(document.getElementsByClassName('ant-modal-close'), amc => amc.click());
-    // @ts-ignore
-    _.forEach(document.getElementsByClassName('ant-drawer-close'), adc => adc.click());
-  }
-
 // 展开当前导航页面的父级菜单
   menuOpen(menu: any): boolean {
     let open = false;
@@ -84,7 +72,8 @@ export class NcAppComponent implements OnInit {
 
 // 查询顶部导航
   queryNavs(): void {
-    this.http.request(getAppOption('layout.navApi.method'), getAppOption('layout.navApi.url'), {body: {}})
+    const api = getAppOption('layout.navApi');
+    this.http.request(api.method, api.url, {body: {}})
       .subscribe((res: any) => {
           if (res) {
             this.navs = res.data;
@@ -98,7 +87,8 @@ export class NcAppComponent implements OnInit {
 
   // 查询左侧菜单
   queryMenu(key: string): void {
-    this.http.request(getAppOption('layout.menuApi.method'), getAppOption('layout.menuApi.url'), {body: {key}})
+    const api = getAppOption('layout.menuApi');
+    this.http.request(api.method, api.url, {body: {key}})
       .subscribe((res: any) => {
           if (res) {
             this.menu = res.data;

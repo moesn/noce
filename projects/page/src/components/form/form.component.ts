@@ -131,7 +131,8 @@ export class NcFormComponent implements OnInit {
   openModal(option: any): void {
     this.modal.create({
       nzContent: NcTableComponent,
-      nzComponentParams: {option},
+      // 弹窗使用简化分页
+      nzComponentParams: {option: {...option, simple: true}},
       nzClosable: false,
     });
   }

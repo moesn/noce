@@ -1,7 +1,7 @@
 <!--操作栏-->
 <ng-template #treeTitle>
   <!--  标题-->
-  <h3 class="nc-page-title" *ngIf="!(option.create?.api||option.update?.api||option.delete?.api)">{{option.name}}</h3>
+  <h3 class="nc-page-title" *ngIf="!(option.create?.api||option.update?.api||option.delete?.api)">{{option.title}}</h3>
   <nz-space nzSize="large">
     <!--    增加一级节点-->
     <ng-container *ngIf="option.create?.api">

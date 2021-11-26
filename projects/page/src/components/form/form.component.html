@@ -4,10 +4,10 @@
     <!--    表单分组-->
     <ng-container *ngFor="let formItem of option">
       <!--      表单分组名称-->
-      <nz-col *ngIf="formItem.name" [nzSpan]="24" class="col-divider">
+      <nz-col *ngIf="formItem.title" [nzSpan]="24" class="col-divider">
         <nz-divider [nzText]="dividerTpl" nzOrientation="left"></nz-divider>
         <ng-template #dividerTpl>
-          {{formItem.name}}
+          {{formItem.title}}
           <!--          表单分组帮助说明-->
           <i nz-icon nzType="question-circle" nzTheme="outline" class="tip-icon ant-info"
              nz-tooltip nzTooltipTitle="{{formItem.tip}}" *ngIf="formItem.tip"></i>

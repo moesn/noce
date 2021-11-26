@@ -1,6 +1,6 @@
 <!--表格工具栏-->
 <ng-template #dataTitleTpl>
-  <h3 class="nc-page-title">{{option.name}}</h3>
+  <h3 class="nc-page-title">{{option.title}}</h3>
   <nz-space>
     <!--    模糊搜索-->
     <ng-container *ngIf="searches.length">
@@ -27,9 +27,9 @@
 </ng-template>
 <!--  表格数据-->
 <nz-table #dataTable
-          nzSize="small"
           [nzData]="datas"
           [nzTitle]="dataTitleTpl"
+          [nzSimple]="option.simple"
           [nzFrontPagination]="option.view.frontPagination"
           [nzTotal]="total"
           [nzShowTotal]="totalTpl"

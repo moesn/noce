@@ -247,6 +247,9 @@
             "body": {
               "title": "修改接口参数",
               "$ref": "#body"
+            },
+            "name": {
+              "default": "修改"
             }
           }
         },
@@ -271,6 +274,9 @@
                   "$this.data[this.key]$"
                 ]
               }
+            },
+            "name": {
+              "default": "删除"
             }
           }
         }
