@@ -837,7 +837,7 @@ export const NM_PAGE_SCHEMA =
             },
             "mappingKey": {
               "title": "映射键",
-              "description": "数据主键映射到表格的对应字段",
+              "description": "导航数据主键映射到表格的对应字段",
               "type": "string",
               "minLength": 1
             },

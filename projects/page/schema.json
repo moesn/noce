@@ -629,17 +629,10 @@
                       "title": "弹窗关联配置",
                       "type": "object",
                       "required": [
-                        "mappingKey",
                         "nameKey"
                       ],
                       "additionalProperties": false,
                       "properties": {
-                        "mappingKey": {
-                          "title": "映射键",
-                          "description": "弹窗数据主键映射到表单的对应字段",
-                          "type": "string",
-                          "minLength": 1
-                        },
                         "nameKey": {
                           "title": "弹窗名称字段",
                           "description": "关联字段中弹窗数据的名称字段",
