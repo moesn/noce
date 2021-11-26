@@ -49,10 +49,8 @@ export class NcTreeComponent implements OnInit {
   click(node: any): void {
     // 设置组，选中状态，触发查询
     this.keys = [node.key];
-    // 树主键在表格的映射键
-    const {mappingKey} = this.option;
     // 发出点击事件
-    this.event.emit('NAV_CLICK', {mappingKey, ...node});
+    this.event.emit('NAV_CLICK', node);
   }
 
   // 获取当前树节点

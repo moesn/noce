@@ -45,10 +45,8 @@ export class NcListComponent implements OnInit {
   click(data: any): void {
     // 更新选中状态
     this.data = data;
-    // 树主键在表格的映射键
-    const {mappingKey} = this.option;
     // 发出点击事件
-    this.event.emit('NAV_CLICK', {mappingKey, ...data});
+    this.event.emit('NAV_CLICK', data);
   }
 
   // 编辑

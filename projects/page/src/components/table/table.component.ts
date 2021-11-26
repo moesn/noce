@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {getPageOption, NcEventService, NcHttpService} from 'noce/core';
+import {NcEventService, NcHttpService} from 'noce/core';
 import {__eval, _eval, objectExtend} from 'noce/helper';
 import {NzTableQueryParams} from 'ng-zorro-antd/table';
 import * as _ from 'lodash-es';
@@ -14,7 +14,8 @@ import {NcFormComponent} from '..';
 })
 export class NcTableComponent implements OnInit {
   @Input() option: any; // 表格选项
-  nav: any; // 选中导航的数据
+  @Input() navOption: any; // 导航选项
+
   data: any; // 当前操作的数据
   datas: any[] = []; // 表格数据
   searches: any = []; // 可搜索的字段
@@ -43,10 +44,8 @@ export class NcTableComponent implements OnInit {
 
     // 监听导航点击事件
     this.event.on('NAV_CLICK').subscribe(res => {
-      // 存储导航项数据
-      this.nav = res;
       // 设置关联查询参数
-      this.body.exact[res.mappingKey] = res.key;
+      this.body.exact[this.navOption.mappingKey] = res.key;
       this.query();
     })
   }
@@ -56,8 +55,8 @@ export class NcTableComponent implements OnInit {
     let body = {}; // 查询参数
     objectExtend(this.body, params); // 记录分页、过滤、排序等表格查询参数
 
-    // 如果有导航，阻止表格自动查询
-    if (getPageOption('navs') && !_.size(this.body.exact)) {
+    // 如果有导航，但没有关联导航，则阻止表格自动查询
+    if (this.navOption && !this.body.exact[this.navOption.mappingKey]) {
       return;
     }
 

@@ -3,6 +3,8 @@ import {NcHttpService} from 'noce/core';
 import {NzDrawerRef} from 'ng-zorro-antd/drawer';
 import * as _ from 'lodash-es';
 import {__eval, _eval, arrayToTree, objectExtend} from 'noce/helper';
+import {NzModalService} from 'ng-zorro-antd/modal';
+import {NcTableComponent} from '..';
 
 @Component({
   selector: 'nc-form',
@@ -27,6 +29,7 @@ export class NcFormComponent implements OnInit {
   saving: boolean = false; // 表单是否保存中
 
   constructor(private drawerRef: NzDrawerRef,
+              private modal: NzModalService,
               private http: NcHttpService) {
   }
 
@@ -125,8 +128,12 @@ export class NcFormComponent implements OnInit {
   }
 
   // 打开选择弹窗
-  openModal(modal: any): void {
-
+  openModal(option: any): void {
+    this.modal.create({
+      nzContent: NcTableComponent,
+      nzComponentParams: {option},
+      nzClosable: false,
+    });
   }
 
   // 下拉选择框切换事件
@@ -181,8 +188,8 @@ export class NcFormComponent implements OnInit {
     this.drawerRef.close();
   }
 
-  // todo
-  modalEmpty(): boolean {
+  // 数据是否还是原样
+  isOriginal(): boolean {
     let invalid = false;
 
     // 如果未修改过, 则不用保存

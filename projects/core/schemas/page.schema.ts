@@ -42,8 +42,8 @@ export const NM_PAGE_SCHEMA =
         ],
 
         "properties": {
-          "name": {
-            "title": "表格名称",
+          "title": {
+            "title": "表格标题",
             "type": "string",
             "minLength": 1
           },
@@ -248,9 +248,6 @@ export const NM_PAGE_SCHEMA =
               "body": {
                 "title": "修改接口参数",
                 "$ref": "#body"
-              },
-              "name": {
-                "default": "修改"
               }
             }
           },
@@ -275,9 +272,6 @@ export const NM_PAGE_SCHEMA =
                     "$this.data[this.key]$"
                   ]
                 }
-              },
-              "name": {
-                "default": "删除"
               }
             }
           }
@@ -313,8 +307,8 @@ export const NM_PAGE_SCHEMA =
           ],
 
           "properties": {
-            "name": {
-              "title": "表单名称",
+            "title": {
+              "title": "表单标题",
               "type": "string",
               "minLength": 1
             },
@@ -763,8 +757,8 @@ export const NM_PAGE_SCHEMA =
           ],
 
           "properties": {
-            "name": {
-              "title": "导航名称",
+            "title": {
+              "title": "导航标题",
               "type": "string",
               "minLength": 1
             },
