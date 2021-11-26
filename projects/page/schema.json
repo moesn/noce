@@ -449,7 +449,11 @@
                         "汉字",
                         "身份证",
                         "手机号",
-                        "邮箱"
+                        "邮箱",
+                        "IP",
+                        "IPV4",
+                        "IPV6",
+                        "..."
                       ]
                     },
                     {
@@ -537,7 +541,7 @@
                       "title": "查询接口参数",
                       "$ref": "#body"
                     },
-                    "labelKey": {
+                    "nameKey": {
                       "title": "用于展示的字段",
                       "type": "string",
                       "minLength": 1
@@ -558,7 +562,7 @@
                     {
                       "required": [
                         "api",
-                        "labelKey"
+                        "nameKey"
                       ]
                     }
                   ]
@@ -569,7 +573,7 @@
                   "type": "object",
                   "required": [
                     "api",
-                    "titleKey"
+                    "nameKey"
                   ],
                   "additionalProperties": false,
                   "properties": {
@@ -586,7 +590,7 @@
                       "title": "查询接口参数",
                       "$ref": "#body"
                     },
-                    "titleKey": {
+                    "nameKey": {
                       "title": "用于展示的字段",
                       "type": "string",
                       "minLength": 1
@@ -625,10 +629,17 @@
                       "title": "弹窗关联配置",
                       "type": "object",
                       "required": [
+                        "mappingKey",
                         "nameKey"
                       ],
                       "additionalProperties": false,
                       "properties": {
+                        "mappingKey": {
+                          "title": "映射键",
+                          "description": "弹窗数据主键映射到表单的对应字段",
+                          "type": "string",
+                          "minLength": 1
+                        },
                         "nameKey": {
                           "title": "弹窗名称字段",
                           "description": "关联字段中弹窗数据的名称字段",
@@ -772,7 +783,7 @@
         "required": [
           "type",
           "api",
-          "titleKey",
+          "nameKey",
           "mappingKey"
         ],
         "additionalProperties": false,
@@ -803,7 +814,7 @@
             "title": "查询接口参数",
             "$ref": "#body"
           },
-          "titleKey": {
+          "nameKey": {
             "title": "用于展示的字段",
             "type": "string",
             "minLength": 1
@@ -832,7 +843,7 @@
           },
           "mappingKey": {
             "title": "映射键",
-            "description": "数据主键映射到表格的对应字段",
+            "description": "导航数据主键映射到表格的对应字段",
             "type": "string",
             "minLength": 1
           },

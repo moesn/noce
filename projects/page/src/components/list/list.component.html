@@ -23,7 +23,7 @@
     <nz-list-item *ngFor="let _data of datas" (click)="click(_data)">
       <nz-list-item-meta-title>
         <nz-badge nzStatus="processing" *ngIf="_data[key]==data[key]"></nz-badge>
-        <span [ngClass]="{'ant-info':_data[key]==data[key]}">{{ _data[option.titleKey] }}</span>
+        <span [ngClass]="{'ant-info':_data[key]==data[key]}">{{ _data[option.nameKey] }}</span>
       </nz-list-item-meta-title>
     </nz-list-item>
   </nz-list>

@@ -450,7 +450,11 @@ export const NM_PAGE_SCHEMA =
                           "汉字",
                           "身份证",
                           "手机号",
-                          "邮箱"
+                          "邮箱",
+                          "IP",
+                          "IPV4",
+                          "IPV6",
+                          "..."
                         ]
                       },
                       {
@@ -538,7 +542,7 @@ export const NM_PAGE_SCHEMA =
                         "title": "查询接口参数",
                         "$ref": "#body"
                       },
-                      "labelKey": {
+                      "nameKey": {
                         "title": "用于展示的字段",
                         "type": "string",
                         "minLength": 1
@@ -559,7 +563,7 @@ export const NM_PAGE_SCHEMA =
                       {
                         "required": [
                           "api",
-                          "labelKey"
+                          "nameKey"
                         ]
                       }
                     ]
@@ -570,7 +574,7 @@ export const NM_PAGE_SCHEMA =
                     "type": "object",
                     "required": [
                       "api",
-                      "titleKey"
+                      "nameKey"
                     ],
                     "additionalProperties": false,
                     "properties": {
@@ -587,7 +591,7 @@ export const NM_PAGE_SCHEMA =
                         "title": "查询接口参数",
                         "$ref": "#body"
                       },
-                      "titleKey": {
+                      "nameKey": {
                         "title": "用于展示的字段",
                         "type": "string",
                         "minLength": 1
@@ -773,7 +777,7 @@ export const NM_PAGE_SCHEMA =
           "required": [
             "type",
             "api",
-            "titleKey",
+            "nameKey",
             "mappingKey"
           ],
           "additionalProperties": false,
@@ -804,7 +808,7 @@ export const NM_PAGE_SCHEMA =
               "title": "查询接口参数",
               "$ref": "#body"
             },
-            "titleKey": {
+            "nameKey": {
               "title": "用于展示的字段",
               "type": "string",
               "minLength": 1

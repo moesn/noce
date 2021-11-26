@@ -35,9 +35,9 @@ export class NcTreeComponent implements OnInit {
       if (res) {
         // 有组时，默认选中第一个组并查询表格数据
         if (_.isArray(res.data) && res.data.length) {
-          const {key, parentKey, titleKey, rootValue} = this.option;
+          const {key, parentKey, nameKey, rootValue} = this.option;
           // 将数组转换成树型
-          this.datas = arrayToTree(res.data, {key, parentKey, titleKey, rootValue});
+          this.datas = arrayToTree(res.data, {key, parentKey, nameKey, rootValue});
           // 默认自动点击第一个节点
           this.click(this.datas[0]);
         }
@@ -63,14 +63,14 @@ export class NcTreeComponent implements OnInit {
   // 新增或修改树节点
   edit(update: boolean, root?: boolean): void {
     const node = this.getTreeNode();
-    const {key, titleKey, parentKey, rootValue} = this.option;
-    const parentTitle = '$' + titleKey;
+    const {key, nameKey, parentKey, rootValue} = this.option;
+    const parentTitle = '$' + nameKey;
 
     // 修改时树数据转换成表单数据
     if (update) {
       this.data = _.cloneDeep(node.origin);
       this.data[key] = node.origin.key;
-      this.data[titleKey] = node.origin.title;
+      this.data[nameKey] = node.origin.title;
 
       // 从上一级node查找父级key和title，默认0和根
       this.data[parentKey] = node.parentNode?.origin.key || rootValue;
@@ -109,7 +109,7 @@ export class NcTreeComponent implements OnInit {
       if (res) {
         // 设置UI组件使用的字段
         res.key = res.value = res[key];
-        res.title = res[titleKey];
+        res.title = res[nameKey];
 
         // 修改
         if (this.data.key) {

@@ -63,16 +63,22 @@ export class NcFormComponent implements OnInit {
         // 下拉选择框
         if (field.type === 'select') {
           const select = field.select
+          const body = {};
+
+          // 合并用户配置的参数
+          if (select.body) {
+            objectExtend(body, __eval.call(this, select.body))
+          }
 
           // 配置了api，则从服务端获取数据
           if (select.api) {
-            this.http.post(select.api, {}).subscribe((res: any) => {
+            this.http.post(select.api, body).subscribe((res: any) => {
               if (res) {
                 // 生成下拉选择项label和value
                 const options: any = [];
 
                 res.data.forEach((d: any) => options.push({
-                  label: d[select.labelKey],
+                  label: d[select.nameKey],
                   value: d[select.valueKey],
                 }));
                 // 更新下拉选择数据
@@ -90,8 +96,14 @@ export class NcFormComponent implements OnInit {
         // 树型下拉选择框
         if (field.type === 'treeselect') {
           const tree = field.treeselect
+          const body = {};
 
-          this.http.post(tree.api, {}).subscribe((res: any) => {
+          // 合并用户配置的参数
+          if (tree.body) {
+            objectExtend(body, __eval.call(this, tree.body))
+          }
+
+          this.http.post(tree.api, body).subscribe((res: any) => {
             if (res) {
               // 将列表转换成树型结构，更新下拉选择数据
               tree.nodes = arrayToTree(res.data, tree);
@@ -192,10 +204,17 @@ export class NcFormComponent implements OnInit {
 
   // 计算表单项宽度
   getSpan(field: any): number {
+    // 动态显示时，备份是否必填
+    if (_.isString(field.show) && !field._required) {
+      field._required = field.required;
+    }
+
     if (this.isTrue(field.show)) {
+      // 动态显示时，使用备份的是否必填配置
+      field.required = field._required || field.required;
       return field.span || 24 / this.cols;
     } else {
-      // 隐藏时设置表单项为非必填
+      // 动态隐藏时，隐藏后设置为非必填
       field.required = false;
       return 0
     }
