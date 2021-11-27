@@ -1,10 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NcEventService, NcHttpService} from 'noce/core';
 import {__eval, _eval, objectExtend} from 'noce/helper';
-import {NzTableQueryParams} from 'ng-zorro-antd/table';
 import * as _ from 'lodash-es';
 import {reject} from 'lodash-es';
-import {NzDrawerService} from 'ng-zorro-antd/drawer';
+import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NcFormComponent} from '..';
 
 @Component({
@@ -15,6 +14,7 @@ import {NcFormComponent} from '..';
 export class NcTableComponent implements OnInit {
   @Input() options: any; // 表格选项
   @Input() navOption: any; // 导航选项
+  drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
 
   data: any; // 当前操作的数据
   datas: any[] = []; // 表格数据
@@ -55,7 +55,7 @@ export class NcTableComponent implements OnInit {
   }
 
   // 查询表格数据
-  query(params?: NzTableQueryParams): void {
+  query(params?: any): void {
     let body = {}; // 查询参数
     objectExtend(this.body, params); // 记录分页、过滤、排序等表格查询参数
 
@@ -103,7 +103,7 @@ export class NcTableComponent implements OnInit {
     }
 
     // 打开编辑窗口
-    this.drawer.create({
+    this.drawerRef = this.drawer.create({
       // 配置了宽度使用宽度，没有配置则使用列数乘以最小宽度360
       nzWidth: formOne.width || formOne.cols * 360,
       nzContent: NcFormComponent,
@@ -116,6 +116,33 @@ export class NcTableComponent implements OnInit {
       nzClosable: false,
       nzKeyboard: false,
       nzMaskClosable: false,
+    });
+
+    this.drawerRef.afterClose.subscribe((res: any) => {
+      // 返回保存成功后的数据
+      if (res) {
+        const parse = this.options.view.parseData;
+        // 如果需要解析表格数据
+        if (parse) {
+          _eval(parse)(res)
+        }
+
+        // 有导航时刷新页面
+        if (this.navOption) {
+          this.query({});
+        } else {
+          // 编辑前的数据有主键时是修改操作
+          if (this.data[this.key]) {
+            // 查找替换修改数据
+            objectExtend(_.find(this.datas, d => d[this.key] === this.data[this.key]), res);
+          } else {
+            // 新增时将数据插入到最前面
+            this.datas = [res, ...this.datas];
+            // 总条数加1
+            this.total += 1;
+          }
+        }
+      }
     });
   }
 
