@@ -141,7 +141,8 @@ export class NcFormComponent implements OnInit {
       nzStyle: {top: '12px'},
       nzBodyStyle: {padding: '0 0 12px 0'},
       nzContent: NcTableComponent,
-      nzComponentParams: {options: modal},
+      // 弹窗选项、已选数据主键
+      nzComponentParams: {options: modal, checkedKeys: this.data[field.key]},
       nzClosable: false,
       nzFooter: [
         {

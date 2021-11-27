@@ -34,7 +34,7 @@ export class NcTableComponent implements OnInit {
   indeterminate = false; // 当前页是否有选
   pageDatas: any = []; // 页面显示的数据
   checkedData = new Set<string>(); // 已选数据
-  ids: any = []; // 已选数据的id集合
+  checkedKeys: string[] = []; // 已选数据的主键
 
   constructor(private drawer: NzDrawerService,
               private http: NcHttpService,
@@ -83,6 +83,20 @@ export class NcTableComponent implements OnInit {
         if (parse) {
           this.datas.forEach(data => _eval(parse)(data));
         }
+
+        // 表格作为弹窗时反选上已选数据
+        this.datas.forEach((d: any) => {
+          // 单选时非数组，转成数组
+          if (!_.isArray(this.checkedKeys)) {
+            this.checkedKeys = [this.checkedKeys];
+          }
+          // 主键包含在数组里的反选上
+          if (this.checkedKeys.includes(d[this.key])) {
+            this.checkedData.add(d);
+          }
+        });
+
+        this.refreshCheckedStatus();
       }
     });
   }
