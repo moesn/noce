@@ -64,13 +64,13 @@ export class NcTableComponent implements OnInit {
       return;
     }
 
-    // 合并表格查询参数
-    objectExtend(body, this.body)
-
     // 合并用户配置的参数
     if (this.options.view.body) {
-      objectExtend(body, __eval.call(this, this.options.view.body))
+      objectExtend(this.body, __eval.call(this, this.options.view.body));
     }
+
+    // 合并表格查询参数
+    objectExtend(body, this.body);
 
     this.http.query(this.options.view.api, body).subscribe(res => {
       if (res) {

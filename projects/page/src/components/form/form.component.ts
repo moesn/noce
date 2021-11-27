@@ -22,6 +22,7 @@ export class NcFormComponent implements OnInit {
   pwdEye: any = {}; // 存储是否显示密码的状态
   fields: any = []; // 所有表单字段
   passwords: string[] = []; // 密码属性的字段
+  nameKeys: string[] = []; // 表单数据中用于显示的字段
 
   maxLabel: number = 1; // 表单标签最大长度
   cols: number = 1; // 表单列数
@@ -164,6 +165,11 @@ export class NcFormComponent implements OnInit {
               this.data[field.nameKey] = data[modal.nameKey];
             }
 
+            // 记录用于显示的字段，保存前需要删除
+            if (!this.nameKeys.includes(field.nameKey)) {
+              this.nameKeys.push(field.nameKey);
+            }
+
             // 关闭弹窗
             modalRef.close();
           }
@@ -187,6 +193,9 @@ export class NcFormComponent implements OnInit {
       objectExtend(body, __eval.call(this, this.action.body))
     }
 
+    // 删除用于显示的字段
+    this.nameKeys.forEach(key => delete body[key]);
+
     // 保存前的数据处理
     const beforeSave = this.options[0].beforeSave;
     if (beforeSave) {
@@ -209,6 +218,7 @@ export class NcFormComponent implements OnInit {
 
   // 去除无效的表单数据
   filterData(): any {
+    // 克隆表单数据，避免保存出错时需要恢复表单数据
     let body = _.cloneDeep(this.data);
 
     // 修改时去除未修改的字段，保留key字段
@@ -248,7 +258,7 @@ export class NcFormComponent implements OnInit {
   // 计算表单项宽度
   getSpan(field: any): number {
     // 动态显示时，备份是否必填
-    if (_.isString(field.show) && !field._required) {
+    if (_.isString(field.show) && field._required === undefined) {
       field._required = field.required;
     }
 
