@@ -26,6 +26,7 @@ export class NcTableComponent implements OnInit {
   };
 
   key: string = ''; // 数据主键
+  height: string = ''; // 表格内容区域高度
 
   pageIndex: number = 1; // 当前页数
   total: number = 0; // 表格数据总数
@@ -39,6 +40,8 @@ export class NcTableComponent implements OnInit {
   constructor(private drawer: NzDrawerService,
               private http: NcHttpService,
               private event: NcEventService) {
+    const content: any = document.getElementsByTagName('nz-content')[0];
+    this.height = content.offsetHeight - 150 + 'px';
   }
 
   ngOnInit(): void {
