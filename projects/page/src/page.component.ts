@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {getAppOption, getPageOption, ncGetPattern, NcHttpService, NcNotifyService, schemaToOption} from 'noce/core';
+import {getAppOption, ncGetPattern, NcHttpService, NcNotifyService, schemaToOption} from 'noce/core';
 import {NavigationEnd, Router} from '@angular/router';
 import * as _ from 'lodash-es';
 import {objectExtend} from 'noce/helper';
@@ -41,7 +41,7 @@ export class NcPageComponent {
       this.http.queryApis().subscribe(apis => {
         if (apis) {
           // 合并服务接口和用户配置的接口
-          this.apis = objectExtend(options.apis || {}, apis);
+          this.apis = objectExtend(options.apis, apis);
           // 转换api为真实服务接口地址
           this.convertApi(options);
           this.convertPattern(options);

@@ -18,7 +18,8 @@ export const NM_PAGE_SCHEMA =
       "apis": {
         "title": "接口列表",
         "description": "APP配置从服务端获取接口列表时，此处配置失效",
-        "type": "object"
+        "type": "object",
+        "default": {}
       },
       "table": {
         "title": "右侧表格",
@@ -146,12 +147,16 @@ export const NM_PAGE_SCHEMA =
                 "minItems": 1,
                 "items": {
                   "type": "object",
-                  "required": [
-                    "label",
-                    "key"
-                  ],
 
                   "properties": {
+                    "type": {
+                      "title": "表格列类型",
+                      "enum": [
+                        "default",
+                        "switch",
+                        "select"
+                      ]
+                    },
                     "label": {
                       "title": "表格表头文字",
                       "type": "string",
@@ -161,6 +166,78 @@ export const NM_PAGE_SCHEMA =
                       "title": "表格数据字段",
                       "type": "string",
                       "minLength": 1
+                    },
+                    "switch": {
+                      "title": "开关切换",
+                      "type": "object",
+                      "required": [
+                        "enable",
+                        "disable"
+                      ],
+
+                      "properties": {
+                        "enable": {
+                          "$ref": "#delete",
+                          "title": "开的接口"
+                        },
+                        "disable": {
+                          "$ref": "#delete",
+                          "title": "关的接口"
+                        },
+                        "on": {
+                          "title": "开的值",
+                          "type": "integer",
+                          "default": 1
+                        },
+                        "off": {
+                          "title": "关的值",
+                          "type": "integer",
+                          "default": 0
+                        },
+                        "labelOn": {
+                          "title": "开的文字标签",
+                          "type": "string",
+                          "default": "启用"
+                        },
+                        "labelOff": {
+                          "title": "关的文字标签",
+                          "type": "string",
+                          "default": "禁用"
+                        }
+                      }
+                    },
+                    "select": {
+                      "title": "开关",
+                      "type": "object",
+                      "required": [
+                        "api"
+                      ],
+
+                      "properties": {
+                        "api": {
+                          "$ref": "#api"
+                        },
+                        "on": {
+                          "title": "开的值",
+                          "type": "integer",
+                          "default": 1
+                        },
+                        "off": {
+                          "title": "关的值",
+                          "type": "integer",
+                          "default": 0
+                        },
+                        "labelOn": {
+                          "title": "开的文字标签",
+                          "type": "string",
+                          "default": "启用"
+                        },
+                        "labelOff": {
+                          "title": "关的文字标签",
+                          "type": "string",
+                          "default": "禁用"
+                        }
+                      }
                     },
                     "format": {
                       "title": "表格数据格式化",
@@ -219,7 +296,57 @@ export const NM_PAGE_SCHEMA =
                       ],
                       "default": "default"
                     }
-                  }
+                  },
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "type": {
+                            "const": "default"
+                          }
+                        }
+                      },
+                      "then": {}
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "type": {
+                            "const": "switch"
+                          }
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "switch"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "type": {
+                            "const": "select"
+                          }
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "select"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {},
+                      "then": {
+                        "required": [
+                          "type",
+                          "label",
+                          "key"
+                        ]
+                      }
+                    }
+                  ]
                 }
               }
             }

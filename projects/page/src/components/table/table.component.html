@@ -76,7 +76,15 @@
     <!--      显示字段数据-->
     <ng-container *ngFor="let column of  options.view.columns">
       <!--        普通列-->
-      <td>{{formatData(data, column)}}</td>
+      <td *ngIf="column.type==='default'">{{formatData(data, column)}}</td>
+      <!--      开关切换-->
+      <td *ngIf="column.type==='switch'">
+        <nz-switch [name]="column.key"
+                   [ngModel]="data[column.key]==column.switch.on"
+                   [nzCheckedChildren]="column.switch.labelOn"
+                   [nzUnCheckedChildren]="column.switch.labelOff"
+                   (ngModelChange)="switch($event,data,column)"></nz-switch>
+      </td>
     </ng-container>
     <!--      操作按钮-->
     <ng-container *ngFor="let action of [options.update,options.delete]">

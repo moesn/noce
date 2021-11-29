@@ -70,8 +70,8 @@ export class NcTableComponent implements OnInit {
   switchTab(tab?: any): void {
     if (tab) {
       this.tab = tab;
-      // 合并标签接口配置
-      objectExtend(this.options.view, tab.view);
+      // 合并标签配置到表格配置
+      objectExtend(this.options, tab);
     }
 
     this.query();
@@ -199,12 +199,12 @@ export class NcTableComponent implements OnInit {
     // 更新当前操作的数据
     this.data = data;
 
-    const body = {};
     const action = this.options.delete;
+    let body = action.body;
 
     // 合并用户配置的参数
-    if (action.body) {
-      objectExtend(body, __eval.call(this, action.body))
+    if (body) {
+      body = __eval.call(this, body)
     }
 
     this.http.delete(action.api, body).subscribe((res: any) => {
@@ -215,6 +215,23 @@ export class NcTableComponent implements OnInit {
         this.total -= 1;
       }
     });
+  }
+
+  // 切换状态
+  switch(state: boolean, data: any, column: any): void {
+    // 更新当前操作的数据
+    this.data = data;
+
+    // 切换状态为true时调用enable接口，反之disable接口
+    const action = state ? column.switch.enable : column.switch.disable;
+    let body = action.body;
+
+    // 合并用户配置的参数
+    if (body) {
+      body = __eval.call(this, body)
+    }
+
+    this.http.delete(action.api, body, true).subscribe();
   }
 
   // 格式化数据显示
