@@ -895,6 +895,26 @@ export const NM_PAGE_SCHEMA =
             "title": {
               "title": "标签标题",
               "type": "string"
+            },
+            "view": {
+              "$ref": "#create",
+              "title": "查询接口配置",
+              "description": "指定当前标签下的接口配置，未指定时使用表格的配置"
+            },
+            "create": {
+              "$ref": "#create",
+              "title": "增加接口配置",
+              "description": "指定当前标签下的接口配置，未指定时使用表格的配置"
+            },
+            "update": {
+              "$ref": "#create",
+              "title": "修改接口配置",
+              "description": "指定当前标签下的接口配置，未指定时使用表格的配置"
+            },
+            "delete": {
+              "$ref": "#create",
+              "title": "删除接口配置",
+              "description": "指定当前标签下的接口配置，未指定时使用表格的配置"
             }
           }
         }

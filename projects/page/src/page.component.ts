@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {getAppOption, getPageOption, ncGetPattern, NcHttpService, NcNotifyService, schemaToOption} from 'noce/core';
 import {NavigationEnd, Router} from '@angular/router';
 import * as _ from 'lodash-es';
+import {objectExtend} from 'noce/helper';
 
 @Component({
   templateUrl: 'page.component.html',
@@ -33,12 +34,14 @@ export class NcPageComponent {
     // 由于异步渲染的原因，路由跳转时，需要先清除页面
     this.assignOption({});
 
+    const options = schemaToOption(schemaPath);
+
     // 配置了从后台获取页面可用服务接口
     if (getAppOption('apis')) {
       this.http.queryApis().subscribe(apis => {
         if (apis) {
-          this.apis = apis;
-          const options = schemaToOption(schemaPath);
+          // 合并服务接口和用户配置的接口
+          this.apis = objectExtend(options.apis || {}, apis);
           // 转换api为真实服务接口地址
           this.convertApi(options);
           this.convertPattern(options);
@@ -47,16 +50,18 @@ export class NcPageComponent {
         }
       })
     } else {
-      // 由于配置项需要http获取，在下一个宏任务里延时加载页面配置，页面才会更新
-      setTimeout(() => {
-        const options = schemaToOption(schemaPath);
-        this.convertPattern(options);
-        // 转换完成后才能赋值,减少重绘
-        this.assignOption(options);
-      });
-
-      // 提示配置apis
-      if (!this.http.isValidData(getPageOption('apis'))) {
+      if (this.http.isValidData(options.apis)) {
+        // 由于配置项需要http获取，在下一个宏任务里延时加载页面配置，页面才会更新
+        setTimeout(() => {
+          this.apis = options.apis;
+          // 转换api为真实服务接口地址
+          this.convertApi(options);
+          this.convertPattern(options);
+          // 转换完成后才能赋值,减少重绘
+          this.assignOption(options);
+        });
+      } else {
+        // 提示配置apis
         this.notify.fatal('至少在app、page之一的schema里配置apis')
       }
     }

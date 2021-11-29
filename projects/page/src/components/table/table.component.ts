@@ -52,7 +52,7 @@ export class NcTableComponent implements OnInit {
 
     // 初始选中第一个标签
     if (this.tabOption) {
-      this.tab = this.tabOption[0];
+      this.switchTab(this.tabOption[0]);
     }
 
     // 过滤得到可以搜索的字段列表
@@ -67,14 +67,25 @@ export class NcTableComponent implements OnInit {
   }
 
   // 多标签时切换标签事件
-  switchTab(tab: any): void {
-    this.tab = tab;
+  switchTab(tab?: any): void {
+    if (tab) {
+      this.tab = tab;
+      // 合并标签接口配置
+      objectExtend(this.options.view, tab.view);
+    }
+
+    this.query();
   }
 
   // 查询表格数据
   query(params?: any): void {
     let body = {}; // 查询参数
     objectExtend(this.body, params); // 记录分页、过滤、排序等表格查询参数
+
+    // 没有分页参数页不查询
+    if (!this.body.pageIndex) {
+      return;
+    }
 
     // 如果有导航，但没有关联导航，则阻止表格自动查询
     if (this.navOption && !this.body.exact[this.navOption.mappingKey]) {
