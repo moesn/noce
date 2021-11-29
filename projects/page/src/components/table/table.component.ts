@@ -15,8 +15,10 @@ import {format} from 'date-fns';
 export class NcTableComponent implements OnInit {
   @Input() options: any; // 表格选项
   @Input() navOption: any; // 导航选项
+  @Input() tabOption: any; //  标签选项
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
 
+  tab: any; // 当前标签
   data: any; // 当前操作的数据
   datas: any[] = []; // 表格数据
   searches: any = []; // 可搜索的字段
@@ -47,6 +49,12 @@ export class NcTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.key = this.options.key;
+
+    // 初始选中第一个标签
+    if (this.tabOption) {
+      this.tab = this.tabOption[0];
+    }
+
     // 过滤得到可以搜索的字段列表
     this.searches = this.options.view.columns.filter((d: any) => d.search);
 
@@ -56,6 +64,11 @@ export class NcTableComponent implements OnInit {
       this.body.exact[this.navOption.mappingKey] = res.key;
       this.query();
     })
+  }
+
+  // 多标签时切换标签事件
+  switchTab(tab: any): void {
+    this.tab = tab;
   }
 
   // 查询表格数据

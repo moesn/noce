@@ -1,6 +1,14 @@
 <!--表格工具栏-->
 <ng-template #dataTitleTpl>
-  <h3 class="nc-page-title">{{options.title}}</h3>
+  <!--  标题-->
+  <h3 class="nc-page-title" *ngIf="!tabOption">{{options.title}}</h3>
+  <!--  多标签-->
+  <nz-space class="ant-left" *ngIf="tabOption">
+    <ng-container *ngFor="let _tab of tabOption">
+      <button *nzSpaceItem nz-button [nzType]="_tab==tab?'primary':'default'" (click)="switchTab(_tab)"
+      >{{_tab.title}}</button>
+    </ng-container>
+  </nz-space>
   <nz-space>
     <!--    模糊搜索-->
     <ng-container *ngIf="searches.length">

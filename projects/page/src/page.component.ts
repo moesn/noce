@@ -11,6 +11,7 @@ export class NcPageComponent {
   apis: any; // 页面可用服务接口
   table: any; // 左侧表格
   navs: any; // 右侧导航
+  tabs: any; // 多标签表格
 
   navIndex: number = 0; // 当前导航栏
 
@@ -65,6 +66,7 @@ export class NcPageComponent {
   assignOption(options: any): void {
     this.table = options.table;
     this.navs = options.navs;
+    this.tabs = options.tabs;
   }
 
   // api转换

@@ -24,6 +24,10 @@ export const NM_PAGE_SCHEMA =
         "title": "右侧表格",
         "$ref": "#table"
       },
+      "tabs": {
+        "title": "表格标签",
+        "$ref": "#tabs"
+      },
       "navs": {
         "title": "左侧导航",
         "$ref": "#navs"
@@ -872,6 +876,27 @@ export const NM_PAGE_SCHEMA =
               }
             }
           ]
+        }
+      },
+      "tabs": {
+        "$id": "#tabs",
+        "title": "多表格标签配置",
+        "type": "array",
+        "uniqueItems": true,
+        "minItems": 1,
+        "maxItems": 10,
+        "items": {
+          "type": "object",
+          "required": [
+            "title"
+          ],
+
+          "properties": {
+            "title": {
+              "title": "标签标题",
+              "type": "string"
+            }
+          }
         }
       },
       "modal": {
