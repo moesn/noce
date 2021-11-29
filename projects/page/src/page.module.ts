@@ -23,6 +23,7 @@ import {NzBadgeModule} from 'ng-zorro-antd/badge';
 import {NzListModule} from 'ng-zorro-antd/list';
 import {NzCarouselModule} from 'ng-zorro-antd/carousel';
 import {NzModalModule} from 'ng-zorro-antd/modal';
+import {NzTabsModule} from 'ng-zorro-antd/tabs';
 
 const NG_MODULES = [
   FormsModule,
@@ -47,6 +48,7 @@ const NZ_MODULES = [
   NzBadgeModule,
   NzListModule,
   NzModalModule,
+  NzTabsModule,
   NzCarouselModule,
 ];
 

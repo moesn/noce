@@ -68,7 +68,7 @@
     <!--      显示字段数据-->
     <ng-container *ngFor="let column of  options.view.columns">
       <!--        普通列-->
-      <td>{{data[column.key]}}</td>
+      <td>{{formatData(data, column)}}</td>
     </ng-container>
     <!--      操作按钮-->
     <ng-container *ngFor="let action of [options.update,options.delete]">

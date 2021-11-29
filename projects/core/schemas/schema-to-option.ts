@@ -28,7 +28,7 @@ export function schemaToOption(path: string): any {
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
-      if (xhr.status === 200 || xhr.status == 0) {
+      if (xhr.status === 200 || xhr.status === 0) {
         try {
           options = JSON.parse(xhr.responseText);
         } catch (e) {

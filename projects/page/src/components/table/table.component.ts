@@ -5,6 +5,7 @@ import * as _ from 'lodash-es';
 import {reject} from 'lodash-es';
 import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NcFormComponent} from '..';
+import {format} from 'date-fns';
 
 @Component({
   selector: 'nc-table',
@@ -106,10 +107,16 @@ export class NcTableComponent implements OnInit {
 
   // 修改表格数据
   edit(data: any): void {
-    // 更新当前操作的数据
-    this.data = _.cloneDeep(data);
-    // 附加类型、分组等关联字段
-    objectExtend(this.data, this.body.exact)
+    let update = false;
+
+    if (_.size(data)) {
+      // 更新当前操作的数据
+      this.data = _.cloneDeep(data);
+    } else {
+      // 新增时附加类型、分组等关联字段
+      objectExtend(this.data, this.body.exact)
+      update = true;
+    }
 
     // form的全局属性配置在第一个form上
     const formOne = this.options.form[0];
@@ -127,7 +134,7 @@ export class NcTableComponent implements OnInit {
       nzContentParams: {
         options: this.options.form,
         key: this.options.key,
-        action: _.size(data) ? this.options.update : this.options.create,
+        action: update ? this.options.update : this.options.create,
         data: this.data
       },
       nzClosable: false,
@@ -184,6 +191,33 @@ export class NcTableComponent implements OnInit {
         this.total -= 1;
       }
     });
+  }
+
+  // 格式化数据显示
+  formatData(data: any, column: any): any {
+    let res = '';
+    const cformat = column.format
+
+    // 需要格式化
+    if (cformat) {
+      // 使用自定义方法格式数据
+      if (cformat.startsWith('d=>')) {
+        res = _eval(cformat)(data);
+      } else {
+        // 使用内置管道格式化
+        switch (cformat) {
+          case 'datetime':
+            res = format(new Date(data[column.key]), 'yyyy-MM-dd HH:mm:ss');
+            break;
+          default:
+        }
+      }
+      // 直接返回
+    } else {
+      return data[column.key];
+    }
+
+    return res;
   }
 
   // 更新已选ID集合
