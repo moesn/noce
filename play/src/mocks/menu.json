@@ -1,0 +1,592 @@
+{
+  "code": "0",
+  "count": 0,
+  "data": [
+    {
+      "children": [
+        {
+          "functionFlag": "appscanbaseview",
+          "functionId": 300001004,
+          "functionNum": 3,
+          "icon": "dashboard",
+          "link": "classAudit/appscanbaseview",
+          "parentFunctionid": 300001,
+          "title": "APP安全检测情况视图"
+        },
+        {
+          "functionFlag": "wholeview",
+          "functionId": 300001001,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "classAudit/wholeview",
+          "parentFunctionid": 300001,
+          "title": "整体合规统计视图"
+        },
+        {
+          "functionFlag": "sysvulnbaseview",
+          "functionId": 300001002,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "classAudit/sysvulnbaseview",
+          "parentFunctionid": 300001,
+          "title": "系统漏洞类合规情况视图"
+        },
+        {
+          "functionFlag": "webvulnbaseview",
+          "functionId": 300001003,
+          "functionNum": 2,
+          "icon": "dashboard",
+          "link": "classAudit/webvulnbaseview",
+          "parentFunctionid": 300001,
+          "title": "WEB漏洞类合规情况视图"
+        },
+        {
+          "functionFlag": "ipscanbaseview",
+          "functionId": 300001006,
+          "functionNum": 5,
+          "icon": "dashboard",
+          "link": "classAudit/ipscanbaseview",
+          "parentFunctionid": 300001,
+          "title": "互联网资产暴露情况视图"
+        },
+        {
+          "functionFlag": "weakbaseview",
+          "functionId": 300001007,
+          "functionNum": 6,
+          "icon": "dashboard",
+          "link": "classAudit/weakbaseview",
+          "parentFunctionid": 300001,
+          "title": "弱口令类合规情况视图"
+        },
+        {
+          "functionFlag": "codescanbaseview",
+          "functionId": 300001005,
+          "functionNum": 4,
+          "icon": "dashboard",
+          "link": "classAudit/codescanbaseview",
+          "parentFunctionid": 300001,
+          "title": "代码审计安全检测情况视图"
+        },
+        {
+          "functionFlag": "baselinebaseview",
+          "functionId": 300001008,
+          "functionNum": 7,
+          "icon": "dashboard",
+          "link": "classAudit/baselinebaseview",
+          "parentFunctionid": 300001,
+          "title": "安全基线类合规情况视图"
+        },
+        {
+          "functionFlag": "appsafeview",
+          "functionId": 300001009,
+          "functionNum": 9,
+          "icon": "dashboard",
+          "link": "classAudit/appsafeview",
+          "parentFunctionid": 300001,
+          "title": "应用安全视图"
+        }
+      ],
+      "functionFlag": "null",
+      "functionId": 300001,
+      "functionNum": 1,
+      "icon": "dashboard",
+      "link": "null",
+      "parentFunctionid": 300,
+      "title": "个人工作台"
+    },
+    {
+      "children": [
+        {
+          "functionFlag": "webapp",
+          "functionId": 100002004,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "resource/webapp",
+          "parentFunctionid": 100002,
+          "title": "Web应用"
+        },
+        {
+          "functionFlag": "unix",
+          "functionId": 100002001,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "resource",
+          "parentFunctionid": 100002,
+          "title": "Unix主机"
+        },
+        {
+          "functionFlag": "windows",
+          "functionId": 100002002,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "resource/windows",
+          "parentFunctionid": 100002,
+          "title": "Windows主机"
+        },
+        {
+          "functionFlag": "database",
+          "functionId": 100002003,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "resource/database",
+          "parentFunctionid": 100002,
+          "title": "数据库"
+        },
+        {
+          "functionFlag": "middleware",
+          "functionId": 100002006,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "resource/middleware",
+          "parentFunctionid": 100002,
+          "title": "中间件"
+        },
+        {
+          "functionFlag": "netdevice",
+          "functionId": 100002007,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "resource/netdevice",
+          "parentFunctionid": 100002,
+          "title": "网络设备"
+        }
+      ],
+      "functionFlag": "resource",
+      "functionId": 100002,
+      "functionNum": 2,
+      "icon": "database",
+      "link": "resource",
+      "parentFunctionid": 300,
+      "title": "资产管理"
+    },
+    {
+      "children": [
+        {
+          "functionFlag": "policy",
+          "functionId": 300002001,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "policy",
+          "parentFunctionid": 300002,
+          "title": "合规检查策略管理"
+        },
+        {
+          "functionFlag": "template",
+          "functionId": 300002002,
+          "functionNum": 2,
+          "icon": "dashboard",
+          "link": "template",
+          "parentFunctionid": 300002,
+          "title": "合规检查模板管理"
+        },
+        {
+          "functionFlag": "inspect",
+          "functionId": 300002003,
+          "functionNum": 3,
+          "icon": "dashboard",
+          "link": "inspect",
+          "parentFunctionid": 300002,
+          "title": "合规检查项管理"
+        },
+        {
+          "functionFlag": "script",
+          "functionId": 300002004,
+          "functionNum": 4,
+          "icon": "dashboard",
+          "link": "script",
+          "parentFunctionid": 300002,
+          "title": "合规检查脚本管理"
+        }
+      ],
+      "functionFlag": "null",
+      "functionId": 300002,
+      "functionNum": 3,
+      "icon": "file-protect",
+      "link": "null",
+      "parentFunctionid": 300,
+      "title": "合规标准管理"
+    },
+    {
+      "children": [
+        {
+          "functionFlag": "baseline",
+          "functionId": 300003002,
+          "functionNum": 2,
+          "icon": "dashboard",
+          "link": "task/baseline",
+          "parentFunctionid": 300003,
+          "title": "基线检测任务"
+        },
+        {
+          "functionFlag": "weak",
+          "functionId": 300003003,
+          "functionNum": 3,
+          "icon": "dashboard",
+          "link": "task/weak",
+          "parentFunctionid": 300003,
+          "title": "弱口令检测任务"
+        },
+        {
+          "functionFlag": "protect",
+          "functionId": 300003004,
+          "functionNum": 4,
+          "icon": "dashboard",
+          "link": "task/protect",
+          "parentFunctionid": 300003,
+          "title": "等保自评检测任务"
+        },
+        {
+          "functionFlag": "url",
+          "functionId": 300003005,
+          "functionNum": 5,
+          "icon": "dashboard",
+          "link": "task/url",
+          "parentFunctionid": 300003,
+          "title": "应用地址探测任务"
+        },
+        {
+          "functionFlag": "internet",
+          "functionId": 300003006,
+          "functionNum": 6,
+          "icon": "dashboard",
+          "link": "task/internet",
+          "parentFunctionid": 300003,
+          "title": "互联网暴露面检测任务"
+        },
+        {
+          "functionFlag": "app",
+          "functionId": 300003007,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "task/app",
+          "parentFunctionid": 300003,
+          "title": "App安全检测任务"
+        },
+        {
+          "functionFlag": "code",
+          "functionId": 300003008,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "task/code",
+          "parentFunctionid": 300003,
+          "title": "代码审计检测任务"
+        },
+        {
+          "functionFlag": "leak",
+          "functionId": 300003009,
+          "functionNum": 9,
+          "icon": "dashboard",
+          "link": "task/leak",
+          "parentFunctionid": 300003,
+          "title": "系统漏洞检测"
+        },
+        {
+          "functionFlag": "web",
+          "functionId": 300003011,
+          "functionNum": 11,
+          "icon": "dashboard",
+          "link": "task/web",
+          "parentFunctionid": 300003,
+          "title": "WEB漏洞检测"
+        },
+        {
+          "functionFlag": "content",
+          "functionId": 300003013,
+          "functionNum": 11,
+          "icon": "dashboard",
+          "link": "task/content",
+          "parentFunctionid": 300003,
+          "title": "内容合规检测任务"
+        },
+        {
+          "functionFlag": "manageTask",
+          "functionId": 300003001,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "task/manageTask",
+          "parentFunctionid": 300003,
+          "title": "管理合规检测任务"
+        },
+        {
+          "functionFlag": "astWhite",
+          "functionId": 300003012,
+          "functionNum": 12,
+          "icon": "dashboard",
+          "link": "task/astWhite",
+          "parentFunctionid": 300003,
+          "title": "资产白名单"
+        },
+        {
+          "functionFlag": "overall",
+          "functionId": 300003014,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "task/overall",
+          "parentFunctionid": 300003,
+          "title": "综合检测任务"
+        }
+      ],
+      "functionFlag": "task",
+      "functionId": 300003,
+      "functionNum": 4,
+      "icon": "clock-circle",
+      "link": "task",
+      "parentFunctionid": 300,
+      "title": "合规任务管理"
+    },
+    {
+      "children": [
+        {
+          "functionFlag": "priority",
+          "functionId": 300004003,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "issue/priority",
+          "parentFunctionid": 300004,
+          "title": "漏洞优先级筛选"
+        },
+        {
+          "functionFlag": "manage",
+          "functionId": 300004001,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "issue/manage",
+          "parentFunctionid": 300004,
+          "title": "问题中心"
+        },
+        {
+          "functionFlag": "white",
+          "functionId": 300004002,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "issue/white",
+          "parentFunctionid": 300004,
+          "title": "问题白名单"
+        },
+        {
+          "functionFlag": "webcheck",
+          "functionId": 300004004,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "issue/webcheck",
+          "parentFunctionid": 300004,
+          "title": "漏洞验证"
+        },
+        {
+          "functionFlag": "asttotal",
+          "functionId": 300004005,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "issue/asttotal",
+          "parentFunctionid": 300004,
+          "title": "漏洞脆弱性复查"
+        }
+      ],
+      "functionFlag": "classAudit",
+      "functionId": 300004,
+      "functionNum": 5,
+      "icon": "bug",
+      "link": "classAudit",
+      "parentFunctionid": 300,
+      "title": "合规问题跟踪管理"
+    },
+    {
+      "children": [
+        {
+          "functionFlag": "history",
+          "functionId": 300006003,
+          "functionNum": 4,
+          "icon": "dashboard",
+          "link": "manageReport/history",
+          "parentFunctionid": 300006,
+          "title": "订阅历史"
+        },
+        {
+          "functionFlag": "subscribe",
+          "functionId": 300006002,
+          "functionNum": 3,
+          "icon": "dashboard",
+          "link": "manageReport/subscribe",
+          "parentFunctionid": 300006,
+          "title": "实时指标查询"
+        },
+        {
+          "functionFlag": "report",
+          "functionId": 300006001,
+          "functionNum": 2,
+          "icon": "dashboard",
+          "link": "manageReport/report",
+          "parentFunctionid": 300006,
+          "title": "指标项管理"
+        },
+        {
+          "functionFlag": "compReport",
+          "functionId": 300006004,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "manageReport/compReport",
+          "parentFunctionid": 300006,
+          "title": "报告管理"
+        }
+      ],
+      "functionFlag": "",
+      "functionId": 300006,
+      "functionNum": 6,
+      "icon": "read",
+      "link": "manageReport",
+      "parentFunctionid": 300,
+      "title": "合规报告管理"
+    },
+    {
+      "children": [
+        {
+          "functionFlag": "policyt",
+          "functionId": 300007002,
+          "functionNum": 2,
+          "icon": "dashboard",
+          "link": "tool/policyt",
+          "parentFunctionid": 300007,
+          "title": "工具策略"
+        },
+        {
+          "functionFlag": "managet",
+          "functionId": 300007001,
+          "functionNum": 2,
+          "icon": "dashboard",
+          "link": "tool/managet",
+          "parentFunctionid": 300007,
+          "title": "工具管理"
+        }
+      ],
+      "functionFlag": "",
+      "functionId": 300007,
+      "functionNum": 7,
+      "icon": "tool",
+      "link": "tool/managet",
+      "parentFunctionid": 300,
+      "title": "检测工具管理"
+    },
+    {
+      "functionFlag": "reportManage",
+      "functionId": 300008,
+      "functionNum": 8,
+      "icon": "snippets",
+      "link": "reportManage",
+      "parentFunctionid": 300,
+      "title": "合规问题报备"
+    },
+    {
+      "functionFlag": "fragility",
+      "functionId": 300009,
+      "functionNum": 9,
+      "icon": "alert",
+      "link": "fragility",
+      "parentFunctionid": 300,
+      "title": "脆弱性管理"
+    },
+    {
+      "children": [
+        {
+          "functionFlag": "baselinek",
+          "functionId": 300005001,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "knowledge/baselinek",
+          "parentFunctionid": 300005,
+          "title": "安全基线知识库"
+        },
+        {
+          "functionFlag": "contanier",
+          "functionId": 300005002,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "knowledge/contanier",
+          "parentFunctionid": 300005,
+          "title": "容器基线知识库"
+        },
+        {
+          "functionFlag": "appk",
+          "functionId": 300005003,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "knowledge/appk",
+          "parentFunctionid": 300005,
+          "title": "App检测知识库"
+        },
+        {
+          "functionFlag": "codek",
+          "functionId": 300005004,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "knowledge/codek",
+          "parentFunctionid": 300005,
+          "title": "代码审计知识库"
+        },
+        {
+          "functionFlag": "leakk",
+          "functionId": 300005005,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "knowledge/leakk",
+          "parentFunctionid": 300005,
+          "title": "系统漏洞知识库"
+        }
+      ],
+      "functionFlag": "knowledge",
+      "functionId": 300005,
+      "functionNum": 12,
+      "icon": "solution",
+      "link": "knowledge",
+      "parentFunctionid": 300,
+      "title": "合规知识库管理"
+    },
+    {
+      "children": [
+        {
+          "functionFlag": "dict",
+          "functionId": 100001,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "dict",
+          "parentFunctionid": 100005,
+          "title": "字典管理"
+        },
+        {
+          "functionFlag": "user",
+          "functionId": 100003,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "user",
+          "parentFunctionid": 100005,
+          "title": "用户管理"
+        },
+        {
+          "functionFlag": "role",
+          "functionId": 100004,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "role",
+          "parentFunctionid": 100005,
+          "title": "权限管理"
+        },
+        {
+          "functionFlag": "log",
+          "functionId": 100006,
+          "functionNum": 1,
+          "icon": "dashboard",
+          "link": "log",
+          "parentFunctionid": 100005,
+          "title": "日志管理"
+        }
+      ],
+      "functionFlag": "null",
+      "functionId": 100005,
+      "functionNum": 15,
+      "icon": "apartment",
+      "parentFunctionid": 300,
+      "title": "系统管理"
+    }
+  ],
+  "msg": "成功",
+  "success": true
+}

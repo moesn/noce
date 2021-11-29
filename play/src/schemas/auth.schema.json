@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../lib3/projects/auth/schema.json",
+  "baseUrl": "/api/sf-auth/auth/",
+  "title": "系统名称",
+  "keepAlive": true,
+  "login": {
+    "url": "login",
+    "body": {
+      "accKey": "userName"
+    }
+  },
+  "logout": {
+    "url": "logout"
+  },
+  "refresh": {
+    "url": "refresh"
+  },
+  "success": {
+    "refreshTokenKey": "data.refreshToken"
+  },
+  "interceptor": {
+    "token": {
+      "prefix": ""
+    }
+  }
+}
