@@ -16,7 +16,7 @@ export class NcTreeComponent implements OnInit {
   @Input() options: any; // 树选项
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
 
-  data: any; // 当前操作的数据
+  data: any = {}; // 当前操作的数据
   datas: any[] = []; // 树数据
   keys: any[] = []; // 选中的对象key
 

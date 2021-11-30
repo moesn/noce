@@ -578,7 +578,7 @@ export const NM_PAGE_SCHEMA =
                       "maxLength": {
                         "title": "最大输入文字数量",
                         "type": "integer",
-                        "default": 32
+                        "default": 64
                       }
                     }
                   },
@@ -804,7 +804,7 @@ export const NM_PAGE_SCHEMA =
                         "input": {
                           "properties": {
                             "maxLength": {
-                              "default": 128
+                              "default": 258
                             }
                           }
                         }

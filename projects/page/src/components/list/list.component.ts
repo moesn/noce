@@ -14,7 +14,7 @@ export class NcListComponent implements OnInit {
   @Input() options: any; // 列表选项
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
 
-  data: any; // 当前操作的数据
+  data: any = {}; // 当前操作的数据
   datas: any[] = []; // 列表数据
   key: string = ''; // 数据主键
 

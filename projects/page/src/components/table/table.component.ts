@@ -19,7 +19,7 @@ export class NcTableComponent implements OnInit {
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
 
   tab: any; // 当前标签
-  data: any; // 当前操作的数据
+  data: any = {}; // 当前操作的数据
   datas: any[] = []; // 表格数据
   searches: any = []; // 可搜索的字段
 

@@ -110,7 +110,7 @@
           "functionId": 100002001,
           "functionNum": 1,
           "icon": "dashboard",
-          "link": "resource",
+          "link": "resource/unix",
           "parentFunctionid": 100002,
           "title": "Unix主机"
         },

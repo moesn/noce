@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../../lib3/projects/page/schema.json",
+  "$schema": "../../../../projects/page/schema.json",
   "apis": {
     "deviceWindowsList": "/basic-ast/ast/device/windows/list"
   },
@@ -134,6 +134,19 @@
               "nameKey": "groupName",
               "parentKey": "parentGroupId"
             }
+          },
+          {
+            "type":"input",
+            "label":"资产名称",
+            "key":"astName",
+            "required": true
+          },
+          {
+            "type":"input",
+            "label":"资产IP",
+            "key":"astIP",
+            "required": true,
+            "pattern": "IP"
           }
         ]
       }
