@@ -578,7 +578,7 @@ export const NM_PAGE_SCHEMA =
                       "maxLength": {
                         "title": "最大输入文字数量",
                         "type": "integer",
-                        "default": 64
+                        "default": 32
                       }
                     }
                   },
@@ -593,9 +593,11 @@ export const NM_PAGE_SCHEMA =
                           "身份证",
                           "手机号",
                           "邮箱",
+                          "URL",
                           "IP",
                           "IPV4",
                           "IPV6",
+                          "MAC",
                           "..."
                         ]
                       },
@@ -616,7 +618,7 @@ export const NM_PAGE_SCHEMA =
                           "reg": {
                             "title": "正则表达式",
                             "type": "string",
-                            "minLength": 1
+                            "pattern": "^\\^.+\\$$"
                           }
                         }
                       }
@@ -804,7 +806,7 @@ export const NM_PAGE_SCHEMA =
                         "input": {
                           "properties": {
                             "maxLength": {
-                              "default": 258
+                              "default": 128
                             }
                           }
                         }

@@ -146,7 +146,10 @@
             "label":"资产IP",
             "key":"astIP",
             "required": true,
-            "pattern": "IP"
+            "pattern": "IP",
+            "input": {
+              "maxLength": 39
+            }
           }
         ]
       }
