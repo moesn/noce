@@ -92,7 +92,7 @@
                        [(ngModel)]="data[field.key]"
                        [nzOptions]="field.select.options||[]"
                        [nzMode]="field.select.multiple?'multiple':'default'"
-                       (ngModelChange)="optionChange($event,field.key)"
+                       (ngModelChange)="optionChange(field.select)"
             ></nz-select>
             <!--            树型下拉选择框-->
             <nz-tree-select nzShowSearch nzPlaceHolder="点击选择" *ngIf="field.type==='treeselect'"
@@ -104,7 +104,7 @@
                             [nzMultiple]="field.treeselect.multiple"
                             [nzNodes]="field.treeselect.nodes||[]"
                             [(ngModel)]="data[field.key]"
-                            (ngModelChange)="optionChange($event,field.key)"
+                            (ngModelChange)="optionChange(field.treeselect)"
             ></nz-tree-select>
             <!--            弹窗选择框-->
             <input nz-input autocomplete="off" readonly placeholder="点击选择" *ngIf="field.type==='modal'"

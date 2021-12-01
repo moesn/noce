@@ -209,9 +209,6 @@
             "required": true,
             "select": {
               "api": "apis.unixAstFindBusiness",
-              "body": {
-                "dicTypeCode": "UNIX_SYSTEM"
-              },
               "valueKey": "busId",
               "nameKey": "busName"
             }
@@ -277,6 +274,27 @@
                 }
               ]
             }
+          },
+          {
+            "type": "select",
+            "label": "连接方式",
+            "key": "connectType",
+            "required": true,
+            "select": {
+              "api": "apis.unixDicList",
+              "body": {
+                "dicTypeCode": "UNIX_CONNECT_MODE"
+              },
+              "nameKey": "dicName",
+              "onClick": "d=>d.accessport=d.connectType=='-10121'?22:d.connectType=='-10122'?23:0"
+            }
+          },
+          {
+            "type": "input",
+            "label": "访问端口",
+            "key": "accessport",
+            "required": true,
+            "pattern": "数字"
           }
         ]
       }

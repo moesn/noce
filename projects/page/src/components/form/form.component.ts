@@ -49,6 +49,7 @@ export class NcFormComponent implements OnInit {
     // 初始数据为空则是新增
     if (!this.data[this.key]) {
       this.isnew = true;
+
       // 新增数据时，设置默认值
       this.fields.forEach((field: any) => {
         if (field.value !== undefined) {
@@ -92,6 +93,8 @@ export class NcFormComponent implements OnInit {
                 // 字段必填且表单数据没有字段值，则默认选上第一个选项
                 if (field.required && !this.data[field.key]) {
                   this.data[field.key] = select.options[0]?.value;
+                  // 触发事件
+                  this.optionChange(select);
                 }
               }
             });
@@ -116,6 +119,8 @@ export class NcFormComponent implements OnInit {
               // 字段必填且表单数据没有字段值，则默认选上第一个选项
               if (field.required && !this.data[field.key]) {
                 this.data[field.key] = tree.nodes[0]?.value;
+                // 触发事件
+                this.optionChange(tree);
               }
             }
           });
@@ -180,8 +185,11 @@ export class NcFormComponent implements OnInit {
   }
 
   // 下拉选择框切换事件
-  optionChange(value: any, key: string): void {
-
+  optionChange(select: any): void {
+    // 处理监听的点击事件
+    if (select.onClick) {
+      _eval(select.onClick)(this.data);
+    }
   }
 
   // 保存表单数据

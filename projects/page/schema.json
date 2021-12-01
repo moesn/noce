@@ -668,6 +668,10 @@
                       "type": "string",
                       "default": "id",
                       "minLength": 1
+                    },
+                    "onClick": {
+                      "title": "切换点击事件",
+                      "$ref": "#parse"
                     }
                   },
                   "oneOf": [

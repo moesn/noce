@@ -578,6 +578,14 @@ export const NM_PAGE_SCHEMA =
                             "type": "string",
                             "minLength": 1
                           },
+                          "tip": {
+                            "title": "输入提示",
+                            "type": "string",
+                            "minLength": 1,
+                            "examples": [
+                              "请输入有效的**"
+                            ]
+                          },
                           "reg": {
                             "title": "正则表达式",
                             "type": "string",
@@ -661,6 +669,10 @@ export const NM_PAGE_SCHEMA =
                         "type": "string",
                         "default": "id",
                         "minLength": 1
+                      },
+                      "onClick": {
+                        "title": "切换点击事件",
+                        "$ref": "#parse"
                       }
                     },
                     "oneOf": [
