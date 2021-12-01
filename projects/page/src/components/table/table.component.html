@@ -21,6 +21,10 @@
         </button>
       </ng-template>
     </ng-container>
+    <!--    刷新页面-->
+    <button *nzSpaceItem nz-button (click)="reloadPage()">
+      <i nz-icon nzType="redo" nz-tooltip nzTooltipTitle="重新加载页面"></i>
+    </button>
     <!--    增加按钮-->
     <ng-container *ngIf="options.create?.api">
       <button *nzSpaceItem nz-button (click)="edit({})">

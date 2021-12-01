@@ -51,7 +51,7 @@ export class NcFormComponent implements OnInit {
       this.isnew = true;
       // 新增数据时，设置默认值
       this.fields.forEach((field: any) => {
-        if (field.value) {
+        if (field.value !== undefined) {
           this.data[field.key] = field.value;
         }
       })

@@ -119,7 +119,6 @@
     "form": [
       {
         "cols": 3,
-        "title": "基础信息",
         "fields": [
           {
             "type": "treeselect",
@@ -147,10 +146,7 @@
             "label": "资产IP",
             "key": "astIP",
             "required": true,
-            "pattern": "IP",
-            "input": {
-              "maxLength": 39
-            }
+            "pattern": "IP"
           },
           {
             "type": "input",
@@ -179,6 +175,107 @@
                 "dicTypeCode": "UNIX_TYPE"
               },
               "nameKey": "dicName"
+            }
+          },
+          {
+            "type": "select",
+            "label": "设备类型",
+            "key": "cmDeviceSubType",
+            "required": true,
+            "select": {
+              "api": "apis.unixDeviceTypeList",
+              "body": {
+                "astType": -101
+              },
+              "nameKey": "deviceSubType"
+            }
+          },
+          {
+            "type": "select",
+            "label": "系统版本",
+            "key": "version",
+            "select": {
+              "api": "apis.unixDicList",
+              "body": {
+                "dicTypeCode": "UNIX_SYSTEM"
+              },
+              "nameKey": "dicName"
+            }
+          },
+          {
+            "type": "select",
+            "label": "业务系统",
+            "key": "busId",
+            "required": true,
+            "select": {
+              "api": "apis.unixAstFindBusiness",
+              "body": {
+                "dicTypeCode": "UNIX_SYSTEM"
+              },
+              "valueKey": "busId",
+              "nameKey": "busName"
+            }
+          },
+          {
+            "type": "select",
+            "label": "虚拟资产",
+            "key": "isvirres",
+            "value": false,
+            "select": {
+              "options": [
+                {
+                  "label": "是",
+                  "value": true
+                },
+                {
+                  "label": "否",
+                  "value": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "input",
+            "label": "虚拟ID",
+            "key": "virresid",
+            "show": "d=>d.isvirres"
+          },
+          {
+            "type": "input",
+            "label": "物理机IP",
+            "key": "physicalmacip",
+            "required": true,
+            "show": "d=>d.isvirres",
+            "pattern": "IP"
+          },
+          {
+            "type": "select",
+            "label": "资产重要性",
+            "key": "astImportanceLevel",
+            "value": 3,
+            "select": {
+              "options": [
+                {
+                  "label": "可以忽略",
+                  "value": 1
+                },
+                {
+                  "label": "低",
+                  "value": 2
+                },
+                {
+                  "label": "中等",
+                  "value": 3
+                },
+                {
+                  "label": "高",
+                  "value": 4
+                },
+                {
+                  "label": "非常高",
+                  "value": 5
+                }
+              ]
             }
           }
         ]

@@ -308,4 +308,9 @@ export class NcTableComponent implements OnInit {
   isChecked(data: any): boolean {
     return Array.from(this.checkedData).some((item: any) => item[this.key] === data[this.key]);
   }
+
+  // 重新加载页面
+  reloadPage(): void {
+    this.event.emit('RELOAD_PAGE');
+  }
 }

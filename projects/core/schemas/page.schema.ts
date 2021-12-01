@@ -102,43 +102,6 @@ export const NM_PAGE_SCHEMA =
                 "description": "表格渲染之前对数据进行处理",
                 "$ref": "#parse"
               },
-              "tabs": {
-                "title": "表格标签",
-                "description": "分标签展示不同的表格数据",
-                "type": "array",
-                "minItems": 1,
-                "uniqueItems": true,
-                "items": {
-                  "type": "object",
-                  "required": [
-                    "label",
-                    "value"
-                  ],
-
-                  "properties": {
-                    "label": {
-                      "title": "标签名称",
-                      "type": "string"
-                    },
-                    "value": {
-                      "title": "标签值",
-                      "type": [
-                        "string",
-                        "number"
-                      ]
-                    },
-                    "api": {
-                      "title": "查询接口地址",
-                      "description": "不同的标签可能需要不同的查询接口，不配置时使用表格的接口",
-                      "$ref": "#api"
-                    },
-                    "body": {
-                      "title": "查询接口参数",
-                      "$ref": "#body"
-                    }
-                  }
-                }
-              },
               "columns": {
                 "title": "表格列",
                 "description": "表格每列显示配置",
@@ -535,11 +498,11 @@ export const NM_PAGE_SCHEMA =
                   "value": {
                     "title": "表单项默认值",
                     "type": [
+                      "boolean",
                       "string",
                       "number",
                       "array"
-                    ],
-                    "minLength": 1
+                    ]
                   },
                   "span": {
                     "title": "表单项跨度",
@@ -671,7 +634,9 @@ export const NM_PAGE_SCHEMA =
                             "value": {
                               "title": "选项提交到后台的值",
                               "type": [
+                                "boolean",
                                 "string",
+                                "array",
                                 "number"
                               ]
                             }

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {getAppOption, ncGetPattern, NcHttpService, NcNotifyService, schemaToOption} from 'noce/core';
+import {getAppOption, NcEventService, ncGetPattern, NcHttpService, NcNotifyService, schemaToOption} from 'noce/core';
 import {NavigationEnd, Router} from '@angular/router';
 import * as _ from 'lodash-es';
 import {objectExtend} from 'noce/helper';
@@ -18,13 +18,19 @@ export class NcPageComponent {
 
   constructor(private router: Router,
               private notify: NcNotifyService,
-              private http: NcHttpService) {
+              private http: NcHttpService,
+              private event: NcEventService) {
     // 监听路由跳转，跳转时加载新的配置
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.loadOption();
       }
     });
+
+    // 监听重载页面事件
+    this.event.on('RELOAD_PAGE').subscribe(_ => {
+      this.loadOption();
+    })
   }
 
   // 加载页面配置选项

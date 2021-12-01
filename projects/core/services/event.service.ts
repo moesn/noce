@@ -7,7 +7,7 @@ interface INcEvent {
   data?: any;
 }
 
-type NcEvents = 'NAV_CLICK' | 'todo';
+type NcEvents = 'NAV_CLICK' | 'RELOAD_PAGE' | 'todo';
 
 @Injectable()
 export class NcEventService {
