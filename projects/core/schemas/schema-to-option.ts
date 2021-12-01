@@ -45,7 +45,12 @@ export function schemaToOption(path: string): any {
 
   // 删除$schema
   delete options.$schema;
-  console.log(options)
+
+  if (getAppOption('console')) {
+    console.clear();
+    console.log(JSON.stringify(options, null, 2));
+  }
+
   return options;
 }
 

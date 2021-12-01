@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../lib3/projects/app/schema.json",
+  "$schema": "../../../projects/app/schema.json",
   "name": "数据安全",
   "home": "user/account",
   "apis": {
@@ -11,5 +11,6 @@
       "method": "get"
     }
   },
+  "console": true,
   "pubKey": "-----BEGIN 公钥-----\n        MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIBnCBr3eKZ4IckfTYnw7Zy3LunnQHHk\n        6hwO3llcOL+4dyliulccNywKuqqaz3UXlk7N4HAK55i4w+HA64Mini0CAwEAAQ==\n        -----END 公钥-----"
 }

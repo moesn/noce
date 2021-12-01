@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../lib3/projects/auth/schema.json",
+  "$schema": "../../../projects/auth/schema.json",
   "baseUrl": "/api/sf-auth/auth/",
   "title": "系统名称",
   "keepAlive": true,

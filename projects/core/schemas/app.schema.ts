@@ -53,6 +53,11 @@ export const NM_APP_SCHEMA =
           "number"
         ],
         "default": "0"
+      },
+      "console": {
+        "title": "是否在F12控制台打印日志",
+        "type": "boolean",
+        "default": false
       }
     },
     "required": [

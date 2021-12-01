@@ -27,3 +27,5 @@
 </ng-container>
 <!--仅表格-->
 <nc-table [options]="table" [tabOption]="tabs" *ngIf="table&&!navs"></nc-table>
+
+<i nz-icon nzType="redo" class="nc-page-refresh" (click)="loadOption()"></i>
