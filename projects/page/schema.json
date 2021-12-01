@@ -577,6 +577,14 @@
                           "type": "string",
                           "minLength": 1
                         },
+                        "tip": {
+                          "title": "输入提示",
+                          "type": "string",
+                          "minLength": 1,
+                          "examples": [
+                            "请输入有效的**"
+                          ]
+                        },
                         "reg": {
                           "title": "正则表达式",
                           "type": "string",

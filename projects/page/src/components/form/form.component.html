@@ -24,7 +24,7 @@
           </nz-form-label>
           <nz-form-control [nzErrorTip]="formErrorTpl">
             <ng-template #formErrorTpl let-control>
-              {{getErrorTip(control, field.pattern?.name)}}
+              {{getErrorTip(control, field.pattern)}}
             </ng-template>
             <!--            普通输入框-->
             <input nz-input autocomplete="off" *ngIf="field.type==='input'"

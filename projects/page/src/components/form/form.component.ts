@@ -287,17 +287,24 @@ export class NcFormComponent implements OnInit {
     if (field.pattern) {
       result += result ? '的' : '';
       result += `${field.pattern.name}`;
+
+      const tip = field.pattern.tip;
+      // 使用正则校验的输入提示
+      if (tip) {
+        field.input.maxLength = 128;
+        result = tip;
+      }
     }
 
     return result;
   }
 
   // 获取错误提示信息
-  getErrorTip(control: any, name: string): string {
+  getErrorTip(control: any, pattern: any): string {
     if (control.hasError('required')) {
       return '不能为空！';
     } else if (control.hasError('pattern')) {
-      return `请输入${name}!`;
+      return pattern.tip + '!' || `请输入${pattern.name}!`;
     } else if (control.hasError('minlength')) {
       return `长度不能小于${control.errors.minlength.requiredLength}!`;
     }
