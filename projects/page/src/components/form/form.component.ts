@@ -312,7 +312,7 @@ export class NcFormComponent implements OnInit {
     if (control.hasError('required')) {
       return '不能为空！';
     } else if (control.hasError('pattern')) {
-      return pattern.tip + '!' || `请输入${pattern.name}!`;
+      return pattern.tip || `请输入${pattern.name}!`;
     } else if (control.hasError('minlength')) {
       return `长度不能小于${control.errors.minlength.requiredLength}!`;
     }

@@ -136,10 +136,10 @@ export class NcTableComponent implements OnInit {
     if (_.size(data)) {
       // 更新当前操作的数据
       this.data = _.cloneDeep(data);
+      update = true;
     } else {
       // 新增时附加类型、分组等关联字段
       objectExtend(this.data, this.body.exact)
-      update = true;
     }
 
     // form的全局属性配置在第一个form上

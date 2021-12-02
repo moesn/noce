@@ -144,7 +144,7 @@
           {
             "type": "input",
             "label": "资产IP",
-            "key": "astIP",
+            "key": "astIp",
             "required": true,
             "pattern": "IP"
           },
@@ -290,17 +290,101 @@
             }
           },
           {
-            "type": "input",
+            "type": "number",
             "label": "访问端口",
             "key": "accessport",
             "required": true,
-            "pattern": "数字"
+            "number": {
+              "min": 0,
+              "max": 65535
+            }
+          },
+          {
+            "type": "input",
+            "label": "Root提示符",
+            "key": "adminprompt",
+            "required": true,
+            "value": "#",
+            "pattern": "字符"
+          },
+          {
+            "type": "input",
+            "label": "Root切换",
+            "key": "su",
+            "required": true,
+            "value": "su",
+            "pattern": "字母"
+          },
+          {
+            "type": "password",
+            "label": "Root密码",
+            "key": "rootpwd",
+            "required": true
+          },
+          {
+            "type": "input",
+            "label": "管理帐号",
+            "key": "accountAdmin",
+            "required": true
+          },
+          {
+            "type": "password",
+            "label": "管理密码",
+            "key": "adminPwd",
+            "required": true
+          },
+          {
+            "type": "input",
+            "label": "管理提示符",
+            "key": "conprompt",
+            "required": true,
+            "value": "$",
+            "pattern": "字符"
+          },
+          {
+            "type": "input",
+            "label": "跳转机IP",
+            "key": "jumpHostIp",
+            "pattern": "IP"
+          },
+          {
+            "type": "select",
+            "label": "专业",
+            "key": "progkey",
+            "required": true,
+            "select": {
+              "api": "apis.unixDicList",
+              "body": {
+                "dicTypeCode": "RESOURCE_SUBJECT"
+              },
+              "nameKey": "dicName"
+            }
+          },
+          {
+            "type": "select",
+            "label": "所在城市",
+            "key": "areakey",
+            "select": {
+              "api": "apis.unixDicList",
+              "body": {
+                "dicTypeCode": "CITY"
+              },
+              "nameKey": "dicName"
+            }
+          },
+          {
+            "type": "textarea",
+            "label": "描述",
+            "key": "astDesc"
           }
         ]
       }
     ],
     "create": {
-      "api": "apis.deviceLinuxCreate"
+      "api": "apis.deviceLinuxCreate",
+      "body": {
+        "astType": -101
+      }
     },
     "update": {
       "api": "apis.deviceLinuxUpdate"

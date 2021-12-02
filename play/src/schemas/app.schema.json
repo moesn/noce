@@ -12,5 +12,5 @@
     }
   },
   "console": true,
-  "pubKey": "-----BEGIN 公钥-----\n        MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIBnCBr3eKZ4IckfTYnw7Zy3LunnQHHk\n        6hwO3llcOL+4dyliulccNywKuqqaz3UXlk7N4HAK55i4w+HA64Mini0CAwEAAQ==\n        -----END 公钥-----"
+  "pubKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC9ird5N1mGajRHLapIgHFfGk2Jv3vHT5AdiAoGl9Xp+j2Z9tSZi+PQ0hfY81BnV3EVO6/t0A0OGCau4G3xhdELjk1FIWv790Zq15efzdLUOHg7NZ1oQz1ilg6DhANXD904rVVH17UJYDflgdq3WAs2G1ThS/hCi85HMI7Rh7j+NwIDAQAB"
 }
