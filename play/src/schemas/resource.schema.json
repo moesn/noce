@@ -1,5 +1,33 @@
 {
   "$schema": "../../../../projects/page/schema.json",
+  "apis": {
+    "astExportExcelTemplate": "/basic-ast/import/exportExcelTemplate",
+    "astImportExcel": "/basic-ast/import/importExcel",
+    "bathCreatPasswordByResKey": "/basic-ast/batch/creatPasswordByResKey",
+    "bathModResManagerPwdExport": "/basic-ast/batch/bathModResManagerPwdExport",
+    "bathModifyResourceParams": "/basic-ast/batch/bathModifyResourceParams",
+    "deviceDelete": "/basic-ast/ast/device/delete",
+    "deviceDetail": "/basic-ast/ast/device/detail",
+    "deviceDisable": "/basic-ast/ast/device/disable",
+    "deviceEnable": "/basic-ast/ast/device/enable",
+    "deviceExport": "/basic-ast/ast/device/export",
+    "deviceLinuxCreate": "/basic-ast/ast/device/linux/create",
+    "deviceLinuxList": "/basic-ast/ast/device/linux/list",
+    "deviceLinuxUpdate": "/basic-ast/ast/device/linux/update",
+    "findBathModifyPrams": "/basic-ast/batch/findBathModifyPrams",
+    "secobjectgroupCreate": "/basic-ast/ast/secobjectgroup/create",
+    "secobjectgroupDelete": "/basic-ast/ast/secobjectgroup/delete",
+    "secobjectgroupDetail": "/basic-ast/ast/secobjectgroup/detail",
+    "secobjectgroupFind": "/basic-ast/ast/secobjectgroup/find",
+    "secobjectgroupFindRoleTree": "/basic-ast/ast/secobjectgroup/findRoleTree",
+    "secobjectgroupTree": "/basic-ast/ast/secobjectgroup/tree",
+    "secobjectgroupUpdate": "/basic-ast/ast/secobjectgroup/update",
+    "unixAstFindBusiness": "/basic-ast/ast/cm/findBusiness",
+    "unixDeviceTypeList": "/basic-ast/ast/cm-compliance-check-device-type/list",
+    "unixDicList": "/basic-dict/dict/list",
+    "unixTestConnected": "/basic-ast/ast/device/testConnected",
+    "deviceWindowsList": "/basic-ast/ast/device/windows/list"
+  },
   "navs": [
     {
       "type": "tree",
@@ -44,6 +72,28 @@
       },
       "delete": {
         "api": "apis.secobjectgroupDelete"
+      }
+    }
+  ],
+  "tabs": [
+    {
+      "title": "Unix主机",
+      "view": {
+        "api": "apis.deviceLinuxList",
+        "body": {
+          "astType": -101,
+          "type": "unix"
+        }
+      }
+    },
+    {
+      "title": "Windows主机",
+      "view": {
+        "api": "apis.deviceWindowsList",
+        "body": {
+          "astType": -102,
+          "type": "windows"
+        }
       }
     }
   ],

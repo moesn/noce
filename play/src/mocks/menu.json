@@ -3,62 +3,6 @@
   "count": 0,
   "data": [
     {
-      "children": [
-        {
-          "functionFlag": "webapp",
-          "functionId": 100002004,
-          "functionNum": 1,
-          "icon": "dashboard",
-          "link": "resource/webapp",
-          "parentFunctionid": 100002,
-          "title": "Web应用"
-        },
-        {
-          "functionFlag": "unix",
-          "functionId": 100002001,
-          "functionNum": 1,
-          "icon": "dashboard",
-          "link": "resource/unix",
-          "parentFunctionid": 100002,
-          "title": "Unix主机"
-        },
-        {
-          "functionFlag": "windows",
-          "functionId": 100002002,
-          "functionNum": 1,
-          "icon": "dashboard",
-          "link": "resource/windows",
-          "parentFunctionid": 100002,
-          "title": "Windows主机"
-        },
-        {
-          "functionFlag": "database",
-          "functionId": 100002003,
-          "functionNum": 1,
-          "icon": "dashboard",
-          "link": "resource/database",
-          "parentFunctionid": 100002,
-          "title": "数据库"
-        },
-        {
-          "functionFlag": "middleware",
-          "functionId": 100002006,
-          "functionNum": 1,
-          "icon": "dashboard",
-          "link": "resource/middleware",
-          "parentFunctionid": 100002,
-          "title": "中间件"
-        },
-        {
-          "functionFlag": "netdevice",
-          "functionId": 100002007,
-          "functionNum": 1,
-          "icon": "dashboard",
-          "link": "resource/netdevice",
-          "parentFunctionid": 100002,
-          "title": "网络设备"
-        }
-      ],
       "functionFlag": "resource",
       "functionId": 100002,
       "functionNum": 2,

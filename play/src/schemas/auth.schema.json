@@ -1,26 +1,25 @@
 {
   "$schema": "../../../projects/auth/schema.json",
-  "baseUrl": "/api/sf-auth/auth/",
+  "baseUrl": "/basic-authenticate/auth/belogin/",
   "title": "系统名称",
   "keepAlive": true,
   "login": {
     "url": "login",
     "body": {
-      "accKey": "userName"
+      "accKey": "userAccount",
+      "pwdKey": "userPwd",
+      "verKey": "imgCheckCode"
     }
   },
   "logout": {
-    "url": "logout"
+    "url": "sys/logout"
   },
   "refresh": {
     "url": "refresh"
   },
-  "success": {
-    "refreshTokenKey": "data.refreshToken"
-  },
   "interceptor": {
     "token": {
-      "prefix": ""
+      "prefix": "Authorization"
     }
   }
 }
