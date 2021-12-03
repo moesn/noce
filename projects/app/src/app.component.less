@@ -11,6 +11,15 @@
       min-height: 100vh;
       text-align: center;
       box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
+
+      // 导航条放到左侧
+      .ant-menu {
+        direction: rtl;
+
+        li {
+          direction: ltr;
+        }
+      }
     }
 
     nz-header {

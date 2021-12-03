@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../../lib3/projects/page/schema.json",
+  "table": {
+    "view": {
+      "api": "/api/sf-user/role/list",
+      "pageSize": 5,
+      "columns": [
+        {
+          "label": "角色名称",
+          "key": "rolename"
+        },
+        {
+          "label": "描述",
+          "key": "zDesc"
+        }
+      ]
+    },
+    "edit": {
+      "form": [
+        {
+          "label": "1",
+          "key": "1"
+        }
+      ]
+    },
+    "create": {
+      "api": "1"
+    },
+    "update": {
+      "api": "1"
+    },
+    "delete": {
+      "api": "1"
+    }
+  }
+}

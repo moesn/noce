@@ -10,6 +10,7 @@
   float: left;
 }
 
+// 多导航时导航条
 ::ng-deep .ant-carousel {
   .slick-dots-bottom {
     top: 39px;
@@ -27,5 +28,15 @@
     button {
       background-color: #0095ff !important;
     }
+  }
+}
+
+//导航滚动条
+::ng-deep .ant-card {
+  overflow: hidden;
+
+  .ant-card-body {
+    height: calc(100% - 40px);
+    overflow: auto;
   }
 }

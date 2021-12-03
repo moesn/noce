@@ -30,7 +30,7 @@ export class NcAppComponent implements OnInit {
               private authService: NcAuthService,
               private store: NcStoreService) {
     this.logo = getAppOption('images.logo');
-    this.title = getAppOption('name');
+    this.title = getAppOption('title');
     this.menuMode = getAppOption('layout.menuMode');
     this.menuWidth = getAppOption('layout.menuWidth');
   }

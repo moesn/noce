@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../projects/auth/schema.json",
+  "baseUrl": "/basic-authenticate/auth/belogin/",
+  "title": "视频安全准入",
+  "keepAlive": true,
+  "login": {
+    "url": "login",
+    "body": {
+      "accKey": "userAccount",
+      "pwdKey": "userPwd",
+      "verKey": "imgCheckCode"
+    }
+  },
+  "logout": {
+    "url": "sys/logout"
+  },
+  "refresh": {
+    "url": "refresh"
+  },
+  "interceptor": {
+    "token": {
+      "prefix": "Authorization"
+    }
+  }
+}

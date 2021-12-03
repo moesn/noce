@@ -1,0 +1,179 @@
+{
+  "$schema": "../../../../lib3/projects/page/schema.json",
+  "navs": [
+    {
+      "name": "部门树",
+      "type": "tree",
+      "api": "apis.deptlist",
+      "titleKey": "depName",
+      "parentKey": "supId",
+      "mappingKey": "departmentId",
+      "form": [
+        {
+          "fields": [
+            {
+              "type": "input",
+              "label": "上级部门",
+              "key": "$depName",
+              "readonly": true,
+              "show": "d=>d.$depName"
+            },
+            {
+              "type": "input",
+              "label": "部门名称",
+              "key": "depName",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "create": {
+        "api": "apis.deptcreate"
+      },
+      "update": {
+        "api": "apis.deptupdate"
+      },
+      "delete": {
+        "api": "apis.deptdelete",
+        "body": {
+          "id": "$this.data[this.key]$"
+        }
+      }
+    }
+  ],
+  "table": {
+    "name": "用户列表",
+    "key": "uid",
+    "view": {
+      "api": "apis.userlist",
+      "pageSize": 5,
+      "columns": [
+        {
+          "label": "用户名",
+          "key": "uid",
+          "search": true
+        },
+        {
+          "label": "姓名",
+          "key": "uname",
+          "search": true
+        },
+        {
+          "label": "部门",
+          "key": "depName"
+        },
+        {
+          "label": "角色",
+          "key": "rolename"
+        }
+      ]
+    },
+    "create": {
+      "api": "apis.usercreate"
+    },
+    "update": {
+      "api": "apis.userupdate"
+    },
+    "delete": {
+      "api": "apis.userdelete"
+    },
+    "form": [
+      {
+        "cols": 2,
+        "beforeSave": "d=>d.username=d.uname",
+        "fields": [
+          {
+            "type": "input",
+            "label": "用户名",
+            "key": "uid",
+            "required": true,
+            "pattern": "字母"
+          },
+          {
+            "type": "input",
+            "label": "姓名",
+            "key": "uname",
+            "required": true,
+            "pattern": "汉字"
+          },
+          {
+            "type": "password",
+            "label": "密码",
+            "key": "password",
+            "required": true
+          },
+          {
+            "type": "treeselect",
+            "label": "部门",
+            "key": "departmentId",
+            "required": true,
+            "treeselect": {
+              "api": "apis.deptlist",
+              "titleKey": "depName",
+              "parentKey": "supId"
+            }
+          },
+          {
+            "type": "select",
+            "label": "角色",
+            "key": "roleid",
+            "required": true,
+            "select": {
+              "api": "apis.rolelist",
+              "labelKey": "rolename"
+            }
+          },
+          {
+            "type": "select",
+            "label": "认证策略",
+            "key": "userAuthenPolicyId",
+            "required": true,
+            "select": {
+              "api": "apis.authpolicylist",
+              "labelKey": "authenticactionPolicyName"
+            }
+          },
+          {
+            "type": "select",
+            "label": "密码策略",
+            "key": "userPasswordPolicyId",
+            "required": true,
+            "select": {
+              "api": "apis.pwdpolicylist",
+              "labelKey": "policyName"
+            }
+          },
+          {
+            "type": "number",
+            "label": "手机号码",
+            "key": "mobile",
+            "required": true,
+            "pattern": "手机号"
+          },
+          {
+            "type": "input",
+            "label": "员工编号",
+            "key": "employeeNumber"
+          },
+          {
+            "type": "input",
+            "label": "身份证号",
+            "key": "cardid",
+            "pattern": "身份证"
+          },
+          {
+            "type": "input",
+            "label": "邮箱",
+            "key": "email",
+            "pattern": "邮箱"
+          },
+          {
+            "type": "textarea",
+            "label": "描述",
+            "key": "zDesc"
+          }
+        ]
+      }
+    ]
+  }
+}

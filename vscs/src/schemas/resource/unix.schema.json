@@ -1,0 +1,385 @@
+{
+  "$schema": "../../../../projects/page/schema.json",
+  "navs": [
+    {
+      "type": "tree",
+      "api": "apis.secobjectgroupFind",
+      "body": {
+        "parentOrgId": 0,
+        "recursion": true
+      },
+      "key": "groupId",
+      "nameKey": "groupName",
+      "parentKey": "parentGroupId",
+      "mappingKey": "astGroup",
+      "form": [
+        {
+          "fields": [
+            {
+              "type": "input",
+              "label": "父组",
+              "key": "$groupName",
+              "readonly": true,
+              "show": "d=>d.$groupName"
+            },
+            {
+              "type": "input",
+              "label": "组名称",
+              "key": "groupName",
+              "required": true
+            },
+            {
+              "type": "textarea",
+              "label": "描述",
+              "key": "groupDescription"
+            }
+          ]
+        }
+      ],
+      "create": {
+        "api": "apis.secobjectgroupCreate"
+      },
+      "update": {
+        "api": "apis.secobjectgroupUpdate"
+      },
+      "delete": {
+        "api": "apis.secobjectgroupDelete"
+      }
+    }
+  ],
+  "table": {
+    "title": "Unix主机",
+    "key": "astId",
+    "view": {
+      "api": "apis.deviceLinuxList",
+      "columns": [
+        {
+          "type": "default",
+          "label": "主机名称",
+          "key": "astName",
+          "search": true
+        },
+        {
+          "type": "default",
+          "label": "主机IP",
+          "key": "astIp",
+          "search": true
+        },
+        {
+          "type": "default",
+          "label": "资产组",
+          "key": "groupName"
+        },
+        {
+          "type": "default",
+          "label": "连通性状态",
+          "key": "astName",
+          "format": "d=>d?'网络可达':'网络不通'"
+        },
+        {
+          "type": "switch",
+          "label": "状态",
+          "key": "astStatus",
+          "switch": {
+            "enable": {
+              "api": "apis.deviceEnable"
+            },
+            "disable": {
+              "api": "apis.deviceDisable"
+            }
+          }
+        }
+      ]
+    },
+    "form": [
+      {
+        "cols": 3,
+        "title": "基础信息",
+        "fields": [
+          {
+            "type": "treeselect",
+            "label": "资产组",
+            "key": "astGroup",
+            "treeselect": {
+              "api": "apis.secobjectgroupFind",
+              "body": {
+                "parentOrgId": 0,
+                "recursion": true
+              },
+              "key": "groupId",
+              "nameKey": "groupName",
+              "parentKey": "parentGroupId"
+            }
+          },
+          {
+            "type": "input",
+            "label": "资产名称",
+            "key": "astName",
+            "required": true
+          },
+          {
+            "type": "input",
+            "label": "资产IP",
+            "key": "astIp",
+            "required": true,
+            "pattern": "IP"
+          },
+          {
+            "type": "select",
+            "label": "主机类型",
+            "key": "drivertype",
+            "required": true,
+            "select": {
+              "api": "apis.unixDicList",
+              "body": {
+                "dicTypeCode": "UNIX_TYPE"
+              },
+              "nameKey": "dicName"
+            }
+          },
+          {
+            "type": "select",
+            "label": "设备类型",
+            "key": "cmDeviceSubType",
+            "required": true,
+            "select": {
+              "api": "apis.unixDeviceTypeList",
+              "body": {
+                "astType": -101
+              },
+              "nameKey": "deviceSubType"
+            }
+          },
+          {
+            "type": "select",
+            "label": "系统版本",
+            "key": "version",
+            "select": {
+              "api": "apis.unixDicList",
+              "body": {
+                "dicTypeCode": "UNIX_SYSTEM"
+              },
+              "nameKey": "dicName"
+            }
+          },
+          {
+            "type": "select",
+            "label": "业务系统",
+            "key": "busId",
+            "required": true,
+            "select": {
+              "api": "apis.unixAstFindBusiness",
+              "valueKey": "busId",
+              "nameKey": "busName"
+            }
+          },
+          {
+            "type": "select",
+            "label": "专业",
+            "key": "progkey",
+            "required": true,
+            "select": {
+              "api": "apis.unixDicList",
+              "body": {
+                "dicTypeCode": "RESOURCE_SUBJECT"
+              },
+              "nameKey": "dicName"
+            }
+          }
+        ]
+      },
+      {
+        "title": "连接信息",
+        "fields": [
+          {
+            "type": "select",
+            "label": "连接方式",
+            "key": "connectType",
+            "required": true,
+            "select": {
+              "api": "apis.unixDicList",
+              "body": {
+                "dicTypeCode": "UNIX_CONNECT_MODE"
+              },
+              "nameKey": "dicName",
+              "onClick": "d=>d.accessport=d.connectType=='-10121'?22:d.connectType=='-10122'?23:0"
+            }
+          },
+          {
+            "type": "number",
+            "label": "访问端口",
+            "key": "accessport",
+            "required": true,
+            "number": {
+              "min": 0,
+              "max": 65535
+            }
+          },
+          {
+            "type": "input",
+            "label": "跳转机IP",
+            "key": "jumpHostIp",
+            "pattern": "IP"
+          },
+          {
+            "type": "input",
+            "label": "Root提示符",
+            "key": "adminprompt",
+            "required": true,
+            "value": "#",
+            "pattern": "字符"
+          },
+          {
+            "type": "input",
+            "label": "Root切换",
+            "key": "su",
+            "required": true,
+            "value": "su",
+            "pattern": "字母"
+          },
+          {
+            "type": "password",
+            "label": "Root密码",
+            "key": "rootpwd",
+            "required": true
+          },
+          {
+            "type": "input",
+            "label": "管理提示符",
+            "key": "conprompt",
+            "required": true,
+            "value": "$",
+            "pattern": "字符"
+          },
+          {
+            "type": "input",
+            "label": "管理帐号",
+            "key": "accountAdmin",
+            "required": true
+          },
+          {
+            "type": "password",
+            "label": "管理密码",
+            "key": "adminPwd",
+            "required": true
+          }
+        ]
+      },
+      {
+        "title": "其他信息",
+        "fields": [
+          {
+            "type": "select",
+            "label": "资产重要性",
+            "key": "astImportanceLevel",
+            "value": 3,
+            "select": {
+              "options": [
+                {
+                  "label": "可以忽略",
+                  "value": 1
+                },
+                {
+                  "label": "低",
+                  "value": 2
+                },
+                {
+                  "label": "中等",
+                  "value": 3
+                },
+                {
+                  "label": "高",
+                  "value": 4
+                },
+                {
+                  "label": "非常高",
+                  "value": 5
+                }
+              ]
+            }
+          },
+          {
+            "type": "select",
+            "label": "虚拟资产",
+            "key": "isvirres",
+            "value": false,
+            "select": {
+              "options": [
+                {
+                  "label": "是",
+                  "value": true
+                },
+                {
+                  "label": "否",
+                  "value": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "input",
+            "label": "虚拟ID",
+            "key": "virresid",
+            "show": "d=>d.isvirres"
+          },
+          {
+            "type": "input",
+            "label": "物理机IP",
+            "key": "physicalmacip",
+            "required": true,
+            "show": "d=>d.isvirres",
+            "pattern": "IP"
+          },
+          {
+            "type": "select",
+            "label": "生产厂商",
+            "key": "astVendor",
+            "select": {
+              "api": "apis.unixDicList",
+              "body": {
+                "dicTypeCode": "UNIX_VENDOR"
+              },
+              "nameKey": "dicName"
+            }
+          },
+          {
+            "type": "select",
+            "label": "所在城市",
+            "key": "areakey",
+            "select": {
+              "api": "apis.unixDicList",
+              "body": {
+                "dicTypeCode": "CITY"
+              },
+              "nameKey": "dicName"
+            }
+          },
+          {
+            "type": "input",
+            "label": "机房地址",
+            "key": "serverRoomAddress",
+            "span": 16
+          },
+          {
+            "type": "input",
+            "label": "描述",
+            "key": "astDesc",
+            "span": 24
+          }
+        ]
+      }
+    ],
+    "create": {
+      "api": "apis.deviceLinuxCreate",
+      "body": {
+        "astType": -101
+      }
+    },
+    "update": {
+      "api": "apis.deviceLinuxUpdate"
+    },
+    "delete": {
+      "api": "apis.deviceDelete"
+    }
+  }
+}

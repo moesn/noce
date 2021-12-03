@@ -8,7 +8,7 @@ export const NM_APP_SCHEMA =
       "$schema": {
         "type": "string"
       },
-      "name": {
+      "title": {
         "description": "应用名称",
         "type": "string"
       },
@@ -62,7 +62,7 @@ export const NM_APP_SCHEMA =
     },
     "required": [
       "$schema",
-      "name",
+      "title",
       "layout",
       "pubKey"
     ],

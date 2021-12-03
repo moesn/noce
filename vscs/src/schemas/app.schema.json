@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../projects/app/schema.json",
+  "title": "视频安全准入",
+  "home": "user/account",
+  "apis": {
+    "url": "/basic-author/secc-user-role/loginUserOperForm"
+  },
+  "layout": {
+    "menuApi": {
+      "url": "/mocks/menu.json",
+      "method": "get"
+    },
+    "menuMode": "inline"
+  },
+  "console": true,
+  "pubKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC9ird5N1mGajRHLapIgHFfGk2Jv3vHT5AdiAoGl9Xp+j2Z9tSZi+PQ0hfY81BnV3EVO6/t0A0OGCau4G3xhdELjk1FIWv790Zq15efzdLUOHg7NZ1oQz1ilg6DhANXD904rVVH17UJYDflgdq3WAs2G1ThS/hCi85HMI7Rh7j+NwIDAQAB"
+}

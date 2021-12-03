@@ -7,7 +7,8 @@
       </a>
     </div>
     <ul nz-menu nzMode="horizontal" *ngIf="navs.length">
-      <li nz-menu-item *ngFor="let nav of navs;index as i" nzMatchRouter [routerLink]="nav.link" (click)="queryMenu(nav.link)">
+      <li nz-menu-item *ngFor="let nav of navs;index as i"
+          nzMatchRouter [routerLink]="nav.link" (click)="queryMenu(nav.link)">
         {{nav.title}}
       </li>
     </ul>
@@ -29,7 +30,7 @@
           <li nz-submenu [nzTitle]="_menu.title" [nzIcon]="_menu.icon" *ngIf="_menu.children" [nzOpen]="menuOpen(_menu)">
             <ul>
               <li nz-menu-item nzMatchRouter *ngFor="let _child of _menu.children">
-                <a [routerLink]="_child.link">{{_child.title}}</a>
+                <a [routerLink]="[_child.link]">{{_child.title}}</a>
               </li>
             </ul>
           </li>
