@@ -7,13 +7,13 @@
   },
   "tabs": [
     {
-      "title": "违规私接事件"
+      "title": "策略"
     },
     {
-      "title": "资产状态异常事件"
+      "title": "地址池"
     },
     {
-      "title": "网络通信异常事件"
+      "title": "服务"
     }
   ],
   "table": {
@@ -27,6 +27,23 @@
           "search": true
         }
       ]
+    },
+    "form": [
+      {
+        "fields": [
+          {
+            "type":"input",
+            "label":"名称",
+            "key":"name"
+          }
+        ]
+      }
+    ],
+    "create": {
+      "api": "apis.create"
+    },
+    "update": {
+      "api": "apis.update"
     }
   }
 }

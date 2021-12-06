@@ -1,10 +1,8 @@
 {
   "$schema": "../../../projects/app/schema.json",
-  "title": "视频安全准入",
-  "home": "user/account",
-  "apis": {
-    "url": "/basic-author/secc-user-role/loginUserOperForm"
-  },
+  "title": "亿阳安全接入控制系统",
+  "base": "vscs",
+  "home": "home",
   "layout": {
     "menuApi": {
       "url": "/mocks/menu.json",
