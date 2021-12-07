@@ -3,6 +3,10 @@ const PROXY_CONFIG = {
     "target": "http://10.12.2.156:8888/",
     "secure": false,
   },
+  "/vs-": {
+    "target": "http://10.3.3.45:9000/",
+    "secure": false,
+  },
   "/api/sf": {
     "target": "http://10.3.37.16:9000",
     "secure": false,

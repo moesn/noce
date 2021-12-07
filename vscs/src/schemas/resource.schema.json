@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../../projects/page/schema.json",
+  "$schema": "../../../projects/page/schema.json",
   "apis": {
     "query": "query",
     "create": "create",
@@ -7,13 +7,10 @@
   },
   "tabs": [
     {
-      "title": "违规私接事件"
+      "title": "感知设备"
     },
     {
-      "title": "资产状态异常事件"
-    },
-    {
-      "title": "网络通信异常事件"
+      "title": "其他"
     }
   ],
   "table": {
@@ -21,12 +18,77 @@
       "api": "apis.query",
       "columns": [
         {
-          "type":"default",
-          "label":"名称",
-          "key":"name",
-          "search": true
+          "type": "default",
+          "label": "设备类型",
+          "key": "name",
+          "filters": [
+            {
+              "text": "网络摄像机",
+              "value": "1"
+            },
+            {
+              "text": "其他",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "type": "default",
+          "label": "设备名称",
+          "key": "name",
+          "search": true,
+          "sort": true
+        },
+        {
+          "type": "default",
+          "label": "设备IP",
+          "key": "name",
+          "search": true,
+          "sort": true
+        },
+        {
+          "type": "default",
+          "label": "MAC地址",
+          "key": "name",
+          "search": true,
+          "sort": true
+        },
+        {
+          "type": "default",
+          "label": "固件指纹",
+          "key": "name"
+        },
+        {
+          "type": "default",
+          "label": "网络指纹",
+          "key": "name"
+        },
+        {
+          "type": "default",
+          "label": "状态",
+          "key": "name"
         }
       ]
+    },
+    "form": [
+      {
+        "fields": [
+          {
+            "type": "input",
+            "label": "设备名称",
+            "key": "name"
+          }
+        ]
+      }
+    ],
+    "create": {
+      "api": "apis.create"
+    },
+    "update": {
+      "api": "apis.create"
+    },
+    "delete": {
+      "api": "apis.delete"
     }
   }
 }
