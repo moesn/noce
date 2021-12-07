@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {getAppOption, NcEventService, ncGetPattern, NcHttpService, NcNotifyService, schemaToOption} from 'noce/core';
 import {NavigationEnd, Router} from '@angular/router';
 import * as _ from 'lodash-es';
@@ -8,7 +8,7 @@ import {objectExtend} from 'noce/helper';
   templateUrl: 'page.component.html',
   styleUrls: ['page.component.less']
 })
-export class NcPageComponent {
+export class NcPageComponent implements OnDestroy {
   apis: any; // 页面可用服务接口
   table: any; // 左侧表格
   navs: any; // 右侧导航
@@ -33,6 +33,11 @@ export class NcPageComponent {
     this.event.on('RELOAD_PAGE').subscribe(_ => {
       this.loadOption();
     })
+  }
+
+  // 组件销毁时取消事件订阅
+  ngOnDestroy(): void {
+    this.routerEvent.unsubscribe();
   }
 
   // 加载页面配置选项
