@@ -16,12 +16,14 @@ export class NcPageComponent {
 
   navIndex: number = 0; // 当前导航栏
 
+  routerEvent: any;
+
   constructor(private router: Router,
               private notify: NcNotifyService,
               private http: NcHttpService,
               private event: NcEventService) {
     // 监听路由跳转，跳转时加载新的配置
-    router.events.subscribe(event => {
+    this.routerEvent = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.loadOption();
       }

@@ -11,7 +11,8 @@ NcCustomComponents.push({
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProbeComponent
   ],
   imports: [
     NcAppModule,
