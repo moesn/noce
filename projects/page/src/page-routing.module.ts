@@ -1,8 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import { NcCustomComponents } from 'noce/app';
 import {NcPageComponent} from './page.component';
 
 const routes: Routes = [
+  ...NcCustomComponents,
   {
     path: '**',
     component: NcPageComponent,

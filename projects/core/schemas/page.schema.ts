@@ -225,6 +225,36 @@ export const NM_PAGE_SCHEMA =
                       "type": "boolean",
                       "default": false
                     },
+                    "sort": {
+                      "title": "是否可排序",
+                      "description": "当前字段是否支持排序",
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "filters": {
+                      "title": "是否可筛选",
+                      "type": "array",
+                      "uniqueItems": true,
+                      "minItems": 2,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "text",
+                          "value"
+                        ],
+
+                        "properties": {
+                          "text": {
+                            "title": "选项显示的文字",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "选项提交到后台的值",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
                     "tabIndex": {
                       "title": "标签索引",
                       "description": "标记在哪些标签时显示当前字段，不配置时默认所有字段",

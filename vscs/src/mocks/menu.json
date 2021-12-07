@@ -2,8 +2,8 @@
   "code": "0",
   "data": [
     {
-      "title": "首页",
-      "link": "home",
+      "title": "探针管理",
+      "link": "probe",
       "icon": "dashboard"
     },
     {
@@ -17,28 +17,6 @@
       "icon": "dashboard"
     },
     {
-      "title": "探针管理",
-      "link": "scout",
-      "icon": "dashboard"
-    },
-    {
-      "title": "安全准入",
-      "icon": "dashboard",
-      "link": "security",
-      "children": [
-    {
-      "title": "黑名单",
-      "link": "black",
-      "icon": "dashboard"
-    },
-        {
-          "title": "访问控制",
-          "link": "access",
-          "icon": "dashboard"
-        }
-      ]
-    },
-    {
       "title": "系统管理",
       "icon": "dashboard",
       "link": "system",
@@ -46,11 +24,6 @@
         {
           "title": "用户管理",
           "link": "user",
-          "icon": "dashboard"
-        },
-        {
-          "title": "字典管理",
-          "link": "dict",
           "icon": "dashboard"
         },
         {

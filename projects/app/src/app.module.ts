@@ -43,7 +43,6 @@ const ngZorroConfig: NzConfig = {
   }
 };
 
-
 const NG_MODULES = [
   BrowserModule,
   BrowserAnimationsModule,

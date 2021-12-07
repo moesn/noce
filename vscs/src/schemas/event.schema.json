@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../../projects/page/schema.json",
+  "$schema": "../../../projects/page/schema.json",
   "apis": {
     "query": "query",
     "create": "create",
@@ -7,13 +7,10 @@
   },
   "tabs": [
     {
-      "title": "违规私接事件"
+      "title": "安全事件"
     },
     {
-      "title": "资产状态异常事件"
-    },
-    {
-      "title": "网络通信异常事件"
+      "title": "其他事件"
     }
   ],
   "table": {
@@ -21,10 +18,110 @@
       "api": "apis.query",
       "columns": [
         {
-          "type":"default",
-          "label":"名称",
-          "key":"name",
-          "search": true
+          "type": "default",
+          "label": "探针",
+          "key": "name",
+          "search": true,
+          "tabIndex": 0
+        },
+        {
+          "type": "default",
+          "label": "源IP:端口",
+          "key": "name",
+          "search": true,
+          "tabIndex": 0
+        },
+        {
+          "type": "default",
+          "label": "目的IP:端口",
+          "key": "name",
+          "search": true,
+          "tabIndex": 0
+        },
+        {
+          "type": "default",
+          "label": "事件描述",
+          "key": "name",
+          "search": true,
+          "tabIndex": 0
+        },
+        {
+          "type": "default",
+          "label": "事件类型",
+          "key": "name",
+          "tabIndex": 0,
+          "filters": [
+            {
+              "text": "违规访问",
+              "value": "1"
+            },
+            {
+              "text": "违规私接",
+              "value": "1"
+            },
+            {
+              "text": "固件仿冒",
+              "value": "1"
+            },
+            {
+              "text": "网络仿冒",
+              "value": "1"
+            },
+            {
+              "text": "异常通信",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "type": "default",
+          "label": "风险级别",
+          "key": "name",
+          "tabIndex": 0,
+          "filters": [
+            {
+              "text": "低危",
+              "value": "1"
+            },
+            {
+              "text": "中危",
+              "value": "1"
+            },
+            {
+              "text": "高危",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "type": "default",
+          "label": "处理动作",
+          "key": "name",
+          "tabIndex": 0,
+          "filters": [
+            {
+              "text": "阻断",
+              "value": "1"
+            },
+            {
+              "text": "放行",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "type": "default",
+          "label": "事件名称",
+          "key": "name",
+          "sort": true,
+          "tabIndex": 1
+        },
+        {
+          "type": "default",
+          "label": "时间",
+          "key": "name",
+          "sort": true,
+          "format": "datetime"
         }
       ]
     }

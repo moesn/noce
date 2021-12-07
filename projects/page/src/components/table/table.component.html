@@ -63,7 +63,16 @@
     ></th>
     <!--      显示字段表头-->
     <ng-container *ngFor="let column of options.view.columns">
-      <th>{{column.label}}</th>
+      <!--      多标签显示、过滤、排序-->
+      <th *ngIf="showColumn(column.tabIndex)"
+          [nzColumnKey]="column.key"
+          [nzShowFilter]="column.filters"
+          [nzFilters]="column.filters"
+          [nzFilterFn]="true"
+          [nzShowSort]="column.sort"
+          [nzSortFn]="true"
+      >
+        {{column.label}}</th>
     </ng-container>
     <!--      操作-->
     <ng-container *ngFor="let action of [options.update,options.delete]">
@@ -76,19 +85,21 @@
     <!--      选择框-->
     <td [nzChecked]="isChecked(data)" *ngIf="options.view.checkable"
         (nzCheckedChange)="onItemChecked(data, $event)"></td>
-
     <!--      显示字段数据-->
     <ng-container *ngFor="let column of  options.view.columns">
-      <!--        普通列-->
-      <td *ngIf="column.type==='default'">{{formatData(data, column)}}</td>
-      <!--      开关切换-->
-      <td *ngIf="column.type==='switch'">
-        <nz-switch [name]="column.key"
-                   [ngModel]="data[column.key]==column.switch.on"
-                   [nzCheckedChildren]="column.switch.labelOn"
-                   [nzUnCheckedChildren]="column.switch.labelOff"
-                   (ngModelChange)="switch($event,data,column)"></nz-switch>
-      </td>
+      <!--      多标签显示-->
+      <ng-container *ngIf="showColumn(column.tabIndex)">
+        <!--        普通列-->
+        <td *ngIf="column.type==='default'">{{formatData(data, column)}}</td>
+        <!--      开关切换-->
+        <td *ngIf="column.type==='switch'">
+          <nz-switch [name]="column.key"
+                     [ngModel]="data[column.key]==column.switch.on"
+                     [nzCheckedChildren]="column.switch.labelOn"
+                     [nzUnCheckedChildren]="column.switch.labelOff"
+                     (ngModelChange)="switch($event,data,column)"></nz-switch>
+        </td>
+      </ng-container>
     </ng-container>
     <!--      操作按钮-->
     <ng-container *ngFor="let action of [options.update,options.delete]">

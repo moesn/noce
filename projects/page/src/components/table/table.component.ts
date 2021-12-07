@@ -77,6 +77,17 @@ export class NcTableComponent implements OnInit {
     this.query();
   }
 
+  // 是否显示列
+  showColumn(tabIndex: any): boolean {
+    const idx = this.tabOption.findIndex((d: any) => d.title === this.tab.title);
+    // 没配、配了一个、配了多个
+    if (_.isArray(tabIndex)) {
+      return tabIndex.includes(idx)
+    } else {
+      return tabIndex === undefined || tabIndex === idx
+    }
+  }
+
   // 查询表格数据
   query(params?: any): void {
     let body = {}; // 查询参数

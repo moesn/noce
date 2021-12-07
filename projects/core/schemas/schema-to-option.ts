@@ -47,7 +47,6 @@ export function schemaToOption(path: string): any {
   delete options.$schema;
 
   if (getAppOption('console')) {
-    console.clear();
     console.log(JSON.stringify(options, null, 2));
   }
 
