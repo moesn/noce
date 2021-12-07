@@ -16,7 +16,8 @@ export class NcPageComponent implements OnDestroy {
 
   navIndex: number = 0; // 当前导航栏
 
-  routerEvent: any;
+  routerEvent: any; // 路由跳转订阅
+  reloadEvent: any; // 页面重载订阅
 
   constructor(private router: Router,
               private notify: NcNotifyService,
@@ -30,7 +31,7 @@ export class NcPageComponent implements OnDestroy {
     });
 
     // 监听重载页面事件
-    this.event.on('RELOAD_PAGE').subscribe(_ => {
+    this.reloadEvent = this.event.on('RELOAD_PAGE').subscribe(next => {
       this.loadOption();
     })
   }
@@ -38,6 +39,7 @@ export class NcPageComponent implements OnDestroy {
   // 组件销毁时取消事件订阅
   ngOnDestroy(): void {
     this.routerEvent.unsubscribe();
+    this.reloadEvent.unsubscribe();
   }
 
   // 加载页面配置选项
