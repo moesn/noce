@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NcEventService, NcHttpService} from 'noce/core';
 import {__eval, _eval, objectExtend} from 'noce/helper';
 import * as _ from 'lodash-es';
@@ -12,11 +12,12 @@ import {format} from 'date-fns';
   templateUrl: 'table.component.html',
   styleUrls: ['table.component.less']
 })
-export class NcTableComponent implements OnInit {
+export class NcTableComponent implements OnInit, OnDestroy {
   @Input() options: any; // 表格选项
   @Input() navOption: any; // 导航选项
   @Input() tabOption: any; //  标签选项
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
+  navClickEvent: any; // 导航点击事件
 
   tab: any; // 当前标签
   data: any = {}; // 当前操作的数据
@@ -46,7 +47,6 @@ export class NcTableComponent implements OnInit {
     const content: any = document.getElementsByTagName('nz-content')[0];
     this.height = content.offsetHeight - 150 + 'px';
   }
-
   ngOnInit(): void {
     this.key = this.options.key;
 
@@ -58,12 +58,17 @@ export class NcTableComponent implements OnInit {
     // 过滤得到可以搜索的字段列表
     this.searches = this.options.view.columns.filter((d: any) => d.search);
 
-    // 监听导航点击事件
-    this.event.on('NAV_CLICK').subscribe(res => {
+    // 订阅导航点击事件
+    this.navClickEvent = this.event.on('NAV_CLICK').subscribe(res => {
       // 设置关联查询参数
-      this.body.exact[this.navOption.mappingKey] = res.key;
+      this.body.exact[this.navOption.mappingKey] = res[this.navOption.key];
       this.query();
     })
+  }
+
+  ngOnDestroy(): void {
+    // 取消订阅导航点击事件
+    this.navClickEvent.unsubscribe();
   }
 
   // 多标签时切换标签事件

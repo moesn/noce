@@ -54,34 +54,19 @@ export class NcHttpService {
 
   // 查询数据
   query(url: string, body: any): Observable<any> {
-    // 模拟数据查询
-    if (url.includes('mock')) {
-      return this.http.get(url).pipe(
-        map((res: any) => {
-          const data: any = {data: res};
-
-          if (Array.isArray(res)) {
-            data.total = res.length;
-          }
-
-          return data;
-        }));
-    } else {
-
-      // 发送post请求
-      return this.http.post(url, this.buildBody(body)).pipe(
-        map((res: any) => {
-          // 返回数据状态码code是1
-          if (this.isValidResponse(res)) {
-            res.total = res.total || res.count;
-            return res;
-          } else {
-            this.notify.error(res.msg || '未知错误');
-            return false;
-          }
-        })
-      );
-    }
+    // 发送post请求
+    return this.http.post(url, this.buildBody(body)).pipe(
+      map((res: any) => {
+        // 返回数据状态码code是1
+        if (this.isValidResponse(res)) {
+          res.total = res.total || res.count;
+          return res;
+        } else {
+          this.notify.error(res.msg || '未知错误');
+          return false;
+        }
+      })
+    );
   }
 
   // 编辑数据

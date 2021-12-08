@@ -1,4 +1,8 @@
 const PROXY_CONFIG = {
+  "/mock": {
+    "target": "http://10.3.0.33:3000/",
+    "secure": false,
+  },
   "/basic-": {
     "target": "http://10.12.2.156:8888/",
     "secure": false,

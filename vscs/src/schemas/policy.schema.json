@@ -1,17 +1,13 @@
 {
   "$schema": "../../../projects/page/schema.json",
-  "apis": {
-    "query": "query",
-    "create": "create",
-    "update": "update"
-  },
   "navs": [
     {
       "type": "list",
       "title": "探针列表",
-      "api": "apis.query",
-      "nameKey": "ss",
-      "mappingKey": "ss"
+      "api": "apis.probelist",
+      "key": "_id",
+      "nameKey": "k1",
+      "mappingKey": "probeId"
     }
   ],
   "tabs": [
@@ -26,13 +22,14 @@
     }
   ],
   "table": {
+    "key": "_id",
     "view": {
-      "api": "apis.query",
+      "api": "apis.policylist",
       "columns": [
         {
           "type": "default",
           "label": "策略名称",
-          "key": "name",
+          "key": "k1",
           "search": true,
           "sort": true,
           "tabIndex": 0
@@ -102,14 +99,14 @@
         "fields": [
           {
             "type": "input",
-            "label": "设备名称",
-            "key": "name"
+            "label": "策略名称",
+            "key": "k1"
           }
         ]
       }
     ],
     "create": {
-      "api": "apis.create"
+      "api": "apis.policycreate"
     },
     "update": {
       "api": "apis.create"
