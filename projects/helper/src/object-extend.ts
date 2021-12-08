@@ -59,7 +59,7 @@ function isSpecificValue(val: any): boolean {
   return (
     val instanceof Date
     || val instanceof RegExp
-  ) ? true : false;
+  );
 }
 
 // 克隆日期或正则

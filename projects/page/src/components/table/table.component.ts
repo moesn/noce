@@ -16,6 +16,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   @Input() options: any; // 表格选项
   @Input() navOption: any; // 导航选项
   @Input() tabOption: any; //  标签选项
+  optionsBak: any; // 备份表格选项
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
   navClickEvent: any; // 导航点击事件
 
@@ -77,8 +78,12 @@ export class NcTableComponent implements OnInit, OnDestroy {
   switchTab(tab?: any): void {
     if (tab) {
       this.tab = tab;
-      // 合并标签配置到表格配置
-      objectExtend(this.options, tab);
+      // 备份公共table选项
+      if (!this.optionsBak) {
+        this.optionsBak = _.cloneDeep(this.options);
+      }
+      // 合并标签配置到表格配置，合并到新的对象{}，防止选项污染
+      this.options = objectExtend({}, this.optionsBak, tab);
     }
 
     // 切换回第一页
