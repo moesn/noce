@@ -81,7 +81,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
       objectExtend(this.options, tab);
     }
 
-    this.query();
+    // 切换回第一页
+    this.pageIndex = 1;
+    this.query({pageIndex: 1});
   }
 
   // 是否显示列
@@ -102,8 +104,13 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   // 查询表格数据
   query(params?: any): void {
-    let body = {}; // 查询参数
-    objectExtend(this.body, params); // 记录分页、过滤、排序等表格查询参数
+    // 清空数据
+    this.data = {};
+    this.datas = [];
+    // 查询参数
+    let body = {};
+    // 记录分页、过滤、排序等表格查询参数
+    objectExtend(this.body, params);
 
     // 没有分页参数页不查询
     if (!this.body.pageIndex) {

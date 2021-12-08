@@ -12,13 +12,31 @@
   ],
   "tabs": [
     {
-      "title": "策略"
+      "title": "策略",
+      "view": {
+        "api": "apis.policylist"
+      },
+      "create": {
+        "api": "apis.policycreate"
+      }
     },
     {
-      "title": "地址池"
+      "title": "地址池",
+      "view": {
+        "api": "apis.addresslist"
+      },
+      "create": {
+        "api": "apis.addresscreate"
+      }
     },
     {
-      "title": "服务"
+      "title": "服务",
+      "view": {
+        "api": "apis.servicelist"
+      },
+      "create": {
+        "api": "apis.servicecreate"
+      }
     }
   ],
   "table": {
@@ -83,13 +101,13 @@
         {
           "type": "default",
           "label": "地址池名称",
-          "key": "name",
+          "key": "k1",
           "tabIndex": 1
         },
         {
           "type": "default",
           "label": "服务名称",
-          "key": "name",
+          "key": "k1",
           "tabIndex": 2
         }
       ]
