@@ -109,10 +109,10 @@
       "api": "apis.policycreate"
     },
     "update": {
-      "api": "apis.create"
+      "api": "apis.policyupdate"
     },
     "delete": {
-      "api": "apis.delete"
+      "api": "apis.policydelete"
     },
     "actions": [
       {

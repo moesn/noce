@@ -1,17 +1,13 @@
 {
   "$schema": "../../../projects/page/schema.json",
-  "apis": {
-    "query": "query",
-    "create": "create",
-    "update": "update"
-  },
   "navs": [
     {
       "type": "list",
       "title": "探针列表",
-      "api": "apis.query",
-      "nameKey": "ss",
-      "mappingKey": "ss"
+      "api": "apis.probelist",
+      "key": "_id",
+      "nameKey": "k1",
+      "mappingKey": "probeId"
     }
   ],
   "tabs": [

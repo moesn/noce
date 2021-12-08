@@ -64,7 +64,7 @@
           [nzTotal]="total"
           [nzShowTotal]="totalTpl"
           [nzPageSize]="options.view.pageSize"
-          [nzPageIndex]="pageIndex"
+          [(nzPageIndex)]="pageIndex"
           [nzScroll]="{y:height}"
           [nzPageSizeOptions]="[10,20,50,100,500]"
           (nzQueryParams)="query($event)"

@@ -62,7 +62,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
     this.navClickEvent = this.event.on('NAV_CLICK').subscribe(res => {
       // 设置关联查询参数
       this.body.exact[this.navOption.mappingKey] = res[this.navOption.key];
-      this.query();
+      // 切换回第一页
+      this.pageIndex = 1;
+      this.query({pageIndex: 1});
     })
   }
 
