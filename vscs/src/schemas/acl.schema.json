@@ -16,10 +16,13 @@
   ],
   "tabs": [
     {
-      "title": "感知设备"
+      "title": "策略"
     },
     {
-      "title": "其他"
+      "title": "地址池"
+    },
+    {
+      "title": "服务"
     }
   ],
   "table": {
@@ -28,54 +31,69 @@
       "columns": [
         {
           "type": "default",
-          "label": "设备类型",
-          "key": "name",
-          "filters": [
-            {
-              "text": "网络摄像机",
-              "value": "1"
-            },
-            {
-              "text": "其他",
-              "value": "1"
-            }
-          ]
-        },
-        {
-          "type": "default",
-          "label": "设备名称",
+          "label": "策略名称",
           "key": "name",
           "search": true,
-          "sort": true
+          "sort": true,
+          "tabIndex": 0
         },
         {
           "type": "default",
-          "label": "设备IP",
+          "label": "源",
           "key": "name",
           "search": true,
-          "sort": true
+          "sort": true,
+          "tabIndex": 0
         },
         {
           "type": "default",
-          "label": "MAC地址",
+          "label": "目的",
           "key": "name",
           "search": true,
-          "sort": true
+          "sort": true,
+          "tabIndex": 0
         },
         {
           "type": "default",
-          "label": "固件指纹",
-          "key": "name"
+          "label": "服务",
+          "key": "name",
+          "tabIndex": 0
         },
         {
           "type": "default",
-          "label": "网络指纹",
-          "key": "name"
+          "label": "描述",
+          "key": "name",
+          "tabIndex": 0
+        },
+        {
+          "type": "default",
+          "label": "处理动作",
+          "key": "name",
+          "tabIndex": 0
         },
         {
           "type": "default",
           "label": "状态",
-          "key": "name"
+          "key": "name",
+          "tabIndex": 0
+        },
+        {
+          "type": "default",
+          "label": "排序",
+          "key": "name",
+          "tabIndex": 0
+        },
+        {
+          "type": "default",
+          "label": "地址池名称",
+          "key": "name",
+          "tabIndex": 1
+        },
+        {
+          "type": "default",
+          "label": "服务名称",
+          "key": "name",
+          "tabIndex": 2
         }
       ]
     },
@@ -98,10 +116,6 @@
     },
     "delete": {
       "api": "apis.delete"
-    },
-    "upload": {
-      "api": "apis.create",
-      "tip": "资产上传"
     }
   }
 }

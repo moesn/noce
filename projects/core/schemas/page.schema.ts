@@ -232,7 +232,7 @@ export const NM_PAGE_SCHEMA =
                       "default": false
                     },
                     "filters": {
-                      "title": "是否可筛选",
+                      "title": "筛选项设置",
                       "type": "array",
                       "uniqueItems": true,
                       "minItems": 2,
@@ -265,7 +265,7 @@ export const NM_PAGE_SCHEMA =
                         },
                         {
                           "type": "array",
-                          "minItems": 1,
+                          "minItems": 2,
                           "items": {
                             "type": "integer",
                             "minimum": 0
@@ -398,7 +398,7 @@ export const NM_PAGE_SCHEMA =
 
             "properties": {
               "api": {
-                "description": "删除接口地址",
+                "title": "删除接口地址",
                 "$ref": "#api"
               },
               "body": {
@@ -412,6 +412,46 @@ export const NM_PAGE_SCHEMA =
               },
               "name": {
                 "default": "删除"
+              }
+            }
+          },
+          "upload": {
+            "title": "数据上传",
+            "type": "object",
+            "required": [
+              "api"
+            ],
+
+            "properties": {
+              "api": {
+                "title": "上传接口地址",
+                "$ref": "#api"
+              },
+              "tip": {
+                "title": "按钮说明",
+                "type": "string",
+                "minLength": 1,
+                "default": "上传"
+              }
+            }
+          },
+          "download": {
+            "title": "数据下载",
+            "type": "object",
+            "required": [
+              "api"
+            ],
+
+            "properties": {
+              "api": {
+                "title": "下载接口地址",
+                "$ref": "#api"
+              },
+              "tip": {
+                "title": "按钮说明",
+                "type": "string",
+                "minLength": 1,
+                "default": "下载"
               }
             }
           }

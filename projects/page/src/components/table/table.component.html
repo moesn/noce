@@ -10,6 +10,18 @@
     </ng-container>
   </nz-space>
   <nz-space>
+    <!--    上传-->
+    <ng-container *ngIf="options.upload?.api">
+      <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="options.upload.tip">
+        <i nz-icon nzType="cloud-upload"></i>
+      </button>
+    </ng-container>
+    <!--    下载-->
+    <ng-container *ngIf="options.download?.api">
+      <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="options.download.tip">
+        <i nz-icon nzType="cloud-download"></i>
+      </button>
+    </ng-container>
     <!--    模糊搜索-->
     <ng-container *ngIf="searches.length">
       <nz-input-group *nzSpaceItem nzSearch [nzAddOnAfter]="suffixButton">

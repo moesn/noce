@@ -5,6 +5,15 @@
     "create": "create",
     "update": "update"
   },
+  "navs": [
+    {
+      "type": "list",
+      "title": "探针列表",
+      "api": "apis.query",
+      "nameKey": "ss",
+      "mappingKey": "ss"
+    }
+  ],
   "tabs": [
     {
       "title": "安全事件"
@@ -17,13 +26,6 @@
     "view": {
       "api": "apis.query",
       "columns": [
-        {
-          "type": "default",
-          "label": "探针",
-          "key": "name",
-          "search": true,
-          "tabIndex": 0
-        },
         {
           "type": "default",
           "label": "源IP:端口",

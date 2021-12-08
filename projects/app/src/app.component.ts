@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NzMenuModeType} from 'ng-zorro-antd/menu';
-import {getAppOption, NcStoreService} from 'noce/core';
+import {getAppOption, NcEventService, NcStoreService} from 'noce/core';
 import {NcAuthService} from 'noce/auth';
 
 export const themeChangeEvents: any = [];
@@ -25,10 +25,12 @@ export class NcAppComponent implements OnInit {
   menuWidth: number; // 左侧菜单宽度
 
   isAuthed = false; // 是否已认证，已认证才显示顶部Header
+  keyword = ''; // 关键字搜索
 
   constructor(private http: HttpClient,
               private authService: NcAuthService,
-              private store: NcStoreService) {
+              private store: NcStoreService,
+              private event: NcEventService) {
     this.logo = getAppOption('images.logo');
     this.title = getAppOption('title');
     this.menuMode = getAppOption('layout.menuMode');
@@ -95,6 +97,11 @@ export class NcAppComponent implements OnInit {
           }
         }
       );
+  }
+
+  // 触发搜索事件
+  search(): void {
+    this.event.emit('SEARCH', this.keyword);
   }
 
   // 触发退出事件

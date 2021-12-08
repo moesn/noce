@@ -13,8 +13,22 @@
       </li>
     </ul>
     <div class="icon">
-      <span class="header-icon" (click)="logout()">
-            <i nz-icon nzType="logout"></i>
+      <!--      todo-->
+      <a nz-dropdown [nzDropdownMenu]="menu" class="header-icon" style="padding-top: 0;line-height: 60px">
+        Admin
+      </a>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu nzSelectable>
+          <li nz-menu-item (click)="logout()">退出登录</li>
+          <li nz-menu-item>修改密码</li>
+          <li nz-menu-item nzDanger>关机/重启？</li>
+          <li nz-menu-item nzDisabled>工作模式</li>
+        </ul>
+      </nz-dropdown-menu>
+    </div>
+    <div class="icon">
+      <span class="header-icon" (click)="search()">
+            <i nz-icon nzType="search"></i>
         </span>
     </div>
   </nz-header>

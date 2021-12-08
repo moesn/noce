@@ -79,12 +79,17 @@ export class NcTableComponent implements OnInit {
 
   // 是否显示列
   showColumn(tabIndex: any): boolean {
-    const idx = this.tabOption.findIndex((d: any) => d.title === this.tab.title);
-    // 没配、配了一个、配了多个
-    if (_.isArray(tabIndex)) {
-      return tabIndex.includes(idx)
+    // 没有tab直接显示
+    if (!this.tabOption) {
+      return true
     } else {
-      return tabIndex === undefined || tabIndex === idx
+      const idx = this.tabOption.findIndex((d: any) => d.title === this.tab.title);
+      // 没配、配了一个、配了多个
+      if (_.isArray(tabIndex)) {
+        return tabIndex.includes(idx)
+      } else {
+        return tabIndex === undefined || tabIndex === idx
+      }
     }
   }
 

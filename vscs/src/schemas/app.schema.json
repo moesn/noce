@@ -3,9 +3,6 @@
   "title": "亿阳安全接入控制系统",
   "base": "vscs",
   "home": "home",
-  "apis": {
-    "url": "/vs-aaa/api/scope/page"
-  },
   "layout": {
     "menuApi": {
       "url": "/mocks/menu.json",

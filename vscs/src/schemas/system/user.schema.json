@@ -8,18 +8,10 @@
   "navs": [
     {
       "type": "list",
-      "title": "探针列表",
+      "title": "角色列表",
       "api": "apis.query",
       "nameKey": "ss",
       "mappingKey": "ss"
-    }
-  ],
-  "tabs": [
-    {
-      "title": "感知设备"
-    },
-    {
-      "title": "其他"
     }
   ],
   "table": {
@@ -28,48 +20,24 @@
       "columns": [
         {
           "type": "default",
-          "label": "设备类型",
-          "key": "name",
-          "filters": [
-            {
-              "text": "网络摄像机",
-              "value": "1"
-            },
-            {
-              "text": "其他",
-              "value": "1"
-            }
-          ]
-        },
-        {
-          "type": "default",
-          "label": "设备名称",
+          "label": "用户名",
           "key": "name",
           "search": true,
           "sort": true
         },
         {
           "type": "default",
-          "label": "设备IP",
-          "key": "name",
-          "search": true,
-          "sort": true
-        },
-        {
-          "type": "default",
-          "label": "MAC地址",
-          "key": "name",
-          "search": true,
-          "sort": true
-        },
-        {
-          "type": "default",
-          "label": "固件指纹",
+          "label": "姓名",
           "key": "name"
         },
         {
           "type": "default",
-          "label": "网络指纹",
+          "label": "描述",
+          "key": "name"
+        },
+        {
+          "type": "default",
+          "label": "最后登录时间",
           "key": "name"
         },
         {
@@ -98,10 +66,6 @@
     },
     "delete": {
       "api": "apis.delete"
-    },
-    "upload": {
-      "api": "apis.create",
-      "tip": "资产上传"
     }
   }
 }

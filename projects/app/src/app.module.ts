@@ -14,6 +14,7 @@ import zh from '@angular/common/locales/zh';
 import {registerLocaleData} from '@angular/common';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NZ_CONFIG, NzConfig} from 'ng-zorro-antd/core/config';
+import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
 
 registerLocaleData(zh);
 
@@ -54,6 +55,7 @@ const NZ_MODULES = [
   NzLayoutModule,
   NzMenuModule,
   NzIconModule,
+  NzDropDownModule,
 ];
 
 @NgModule({

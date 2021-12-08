@@ -2,46 +2,54 @@
   "code": "0",
   "data": [
     {
+      "title": "首页",
+      "link": "dashboard",
+      "icon": "dashboard"
+    },
+    {
       "title": "探针管理",
       "link": "probe",
-      "icon": "dashboard"
+      "icon": "aim"
+    },
+    {
+      "title": "访问控制",
+      "link": "acl",
+      "icon": "safety-certificate"
     },
     {
       "title": "事件中心",
       "link": "event",
-      "icon": "dashboard"
+      "icon": "thunderbolt"
     },
     {
       "title": "资产管理",
       "link": "resource",
-      "icon": "dashboard"
+      "icon": "video-camera"
     },
     {
-      "title": "系统管理",
-      "icon": "dashboard",
-      "link": "system",
-      "children": [
-        {
-          "title": "用户管理",
-          "link": "user",
-          "icon": "dashboard"
-        },
-        {
-          "title": "系统日志",
-          "link": "syslog",
-          "icon": "dashboard"
-        },
-        {
-          "title": "设置",
-          "link": "setup",
-          "icon": "dashboard"
-        },
-        {
-          "title": "关于",
-          "link": "about",
-          "icon": "dashboard"
-        }
-      ]
+      "title": "计划管理",
+      "link": "plan",
+      "icon": "hourglass"
+    },
+    {
+      "title": "用户管理",
+      "link": "user",
+      "icon": "user"
+    },
+    {
+      "title": "系统日志",
+      "link": "syslog",
+      "icon": "history"
+    },
+    {
+      "title": "设置",
+      "link": "setting",
+      "icon": "setting"
+    },
+    {
+      "title": "关于",
+      "link": "about",
+      "icon": "info-circle"
     }
   ],
   "msg": "成功"

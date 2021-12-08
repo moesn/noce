@@ -397,7 +397,7 @@
           "additionalProperties": false,
           "properties": {
             "api": {
-              "description": "删除接口地址",
+              "title": "删除接口地址",
               "$ref": "#api"
             },
             "body": {
@@ -411,6 +411,75 @@
             },
             "name": {
               "default": "删除"
+            }
+          }
+        },
+        "upload": {
+          "title": "数据上传",
+          "type": "object",
+          "required": [
+            "api"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "api": {
+              "title": "上传接口地址",
+              "$ref": "#api"
+            },
+            "tip": {
+              "title": "按钮说明",
+              "type": "string",
+              "minLength": 1,
+              "default": "上传"
+            }
+          }
+        },
+        "download": {
+          "title": "数据下载",
+          "type": "object",
+          "required": [
+            "api"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "api": {
+              "title": "下载接口地址",
+              "$ref": "#api"
+            },
+            "tip": {
+              "title": "按钮说明",
+              "type": "string",
+              "minLength": 1,
+              "default": "下载"
+            }
+          }
+        },
+        "actions": {
+          "title": "固定选项数据",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "required": [
+              "label",
+              "value"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "title": "选项显示的标签",
+                "type": "string"
+              },
+              "value": {
+                "title": "选项提交到后台的值",
+                "type": [
+                  "boolean",
+                  "string",
+                  "array",
+                  "number"
+                ]
+              }
             }
           }
         }
