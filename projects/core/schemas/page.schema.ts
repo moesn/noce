@@ -454,6 +454,37 @@ export const NM_PAGE_SCHEMA =
                 "default": "下载"
               }
             }
+          },
+          "actions": {
+            "$id": "#actions",
+            "title": "表格操作按钮扩展",
+            "type": "array",
+            "uniqueItems": true,
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "icon",
+                "tip"
+              ],
+
+              "properties": {
+                "icon": {
+                  "title": "按钮图标",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "tip": {
+                  "title": "按钮说明",
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "acts": {
+            "$ref": "#actions",
+            "title": "单元格操作扩展"
           }
         },
         "dependencies": {

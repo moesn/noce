@@ -455,33 +455,35 @@
           }
         },
         "actions": {
-          "title": "固定选项数据",
+          "$id": "#actions",
+          "title": "表格操作按钮扩展",
           "type": "array",
           "uniqueItems": true,
-          "minItems": 2,
+          "minItems": 1,
           "items": {
             "type": "object",
             "required": [
-              "label",
-              "value"
+              "icon",
+              "tip"
             ],
             "additionalProperties": false,
             "properties": {
-              "label": {
-                "title": "选项显示的标签",
-                "type": "string"
+              "icon": {
+                "title": "按钮图标",
+                "type": "string",
+                "minLength": 1
               },
-              "value": {
-                "title": "选项提交到后台的值",
-                "type": [
-                  "boolean",
-                  "string",
-                  "array",
-                  "number"
-                ]
+              "tip": {
+                "title": "按钮说明",
+                "type": "string",
+                "minLength": 1
               }
             }
           }
+        },
+        "acts": {
+          "$ref": "#actions",
+          "title": "单元格操作扩展"
         }
       },
       "dependencies": {

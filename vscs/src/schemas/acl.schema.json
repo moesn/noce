@@ -116,6 +116,12 @@
     },
     "delete": {
       "api": "apis.delete"
-    }
+    },
+    "actions": [
+      {
+        "icon": "sync",
+        "tip": "策略同步下发"
+      }
+    ]
   }
 }

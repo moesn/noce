@@ -25,7 +25,7 @@
     <!--    模糊搜索-->
     <ng-container *ngIf="searches.length">
       <nz-input-group *nzSpaceItem nzSearch [nzAddOnAfter]="suffixButton">
-        <input [(ngModel)]="body.fuzzy.keyword" nz-input type="text" placeholder="模糊搜索"/>
+        <input [(ngModel)]="body.fuzzy.keyword" nz-input type="text" placeholder="全局模糊搜索"/>
       </nz-input-group>
       <ng-template #suffixButton>
         <button nz-button nzSearch (click)="query()">
@@ -37,6 +37,12 @@
     <button *nzSpaceItem nz-button (click)="reloadPage()">
       <i nz-icon nzType="redo" nz-tooltip nzTooltipTitle="重新加载页面"></i>
     </button>
+    <!--    操作按钮扩展-->
+    <ng-container *ngFor="let action of options.actions">
+      <button *nzSpaceItem nz-button>
+        <i nz-icon [nzType]="action.icon" nz-tooltip [nzTooltipTitle]="action.tip"></i>
+      </button>
+    </ng-container>
     <!--    增加按钮-->
     <ng-container *ngIf="options.create?.api">
       <button *nzSpaceItem nz-button (click)="edit({})">
