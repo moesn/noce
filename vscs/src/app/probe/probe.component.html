@@ -2,8 +2,8 @@
          [ngStyle]="{height:edit=='f'+i?'370px':edit=='t'+i?'560px':'180px',float:i%2==0?'left':'right'}"
          [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEllipsis]">
   <nz-card-meta *ngIf="edit!='f'+i&&edit!='t'+i"
-                nzTitle="192.168.12.34"
-                nzDescription="探针名称及其他信息,,,,内存等图标"
+                nzTitle="探针名称"
+                nzDescription="IP: 192.168.12.34 掩码: 255.255.255.0 网关: 192.168.12.1"
   ></nz-card-meta>
   <form nz-form #form="ngForm" *ngIf="edit=='f'+i">
     <nz-form-item>

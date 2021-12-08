@@ -1,42 +1,45 @@
-.nc-page-nav {
-  float: left;
-  margin-right: 8px;
-  height: 100%;
-}
-
-::ng-deep .nc-page-title {
-  font-size: 16px;
-  margin: 0 0 0 10px;
-  float: left;
-}
-
-// 多导航时导航条
-::ng-deep .ant-carousel {
-  .slick-dots-bottom {
-    top: 39px;
-    margin: 0;
-    bottom: unset;
+:host {
+  .nc-page-nav {
+    float: left;
+    margin-right: 8px;
+    height: 100%;
   }
 
-  .slick-dots li {
-    width: 25%;
+  ::ng-deep .nc-page-title {
+    font-size: 16px;
+    margin: 0 0 0 10px;
+    float: left;
+  }
 
-    &.slick-active {
-      width: 50%;
+  // 多导航时导航条
+  ::ng-deep .ant-carousel {
+    .slick-dots-bottom {
+      top: 39px;
+      margin: 0;
+      bottom: unset;
     }
 
-    button {
-      background-color: #0095ff !important;
+    .slick-dots li {
+      width: 25%;
+
+      &.slick-active {
+        width: 50%;
+      }
+
+      button {
+        background-color: #0095ff !important;
+      }
     }
   }
-}
 
-//导航滚动条
-::ng-deep .ant-card {
-  overflow: hidden;
+  //导航滚动条
+  ::ng-deep .ant-card {
+    overflow: hidden;
 
-  .ant-card-body {
-    height: calc(100% - 40px);
-    overflow: auto;
+    .ant-card-body {
+      height: calc(100% - 40px);
+      overflow: auto;
+    }
   }
+
 }
