@@ -14,129 +14,155 @@
     {
       "title": "策略",
       "view": {
-        "api": "apis.policylist"
+        "api": "apis.policylist",
+        "columns": [
+          {
+            "type": "default",
+            "label": "策略名称",
+            "key": "k1",
+            "search": true,
+            "sort": true
+          },
+          {
+            "type": "default",
+            "label": "源",
+            "key": "name",
+            "search": true,
+            "sort": true
+          },
+          {
+            "type": "default",
+            "label": "目的",
+            "key": "name",
+            "search": true,
+            "sort": true
+          },
+          {
+            "type": "default",
+            "label": "服务",
+            "key": "name"
+          },
+          {
+            "type": "default",
+            "label": "描述",
+            "key": "name"
+          },
+          {
+            "type": "default",
+            "label": "处理动作",
+            "key": "name"
+          },
+          {
+            "type": "default",
+            "label": "状态",
+            "key": "name"
+          },
+          {
+            "type": "default",
+            "label": "排序",
+            "key": "name"
+          }
+        ]
       },
       "create": {
         "api": "apis.policycreate"
-      }
+      },
+      "update": {
+        "api": "apis.policyupdate"
+      },
+      "delete": {
+        "api": "apis.policydelete"
+      },
+      "form": [
+        {
+          "fields": [
+            {
+              "type": "input",
+              "label": "策略名称",
+              "key": "k1"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "icon": "sync",
+          "tip": "策略同步下发"
+        }
+      ]
     },
     {
       "title": "地址池",
       "view": {
-        "api": "apis.addresslist"
+        "api": "apis.addresslist",
+        "columns": [
+          {
+            "type": "default",
+            "label": "地址池名称",
+            "key": "k1"
+          }
+        ]
       },
       "create": {
         "api": "apis.addresscreate"
-      }
+      },
+      "update": {
+        "api": "apis.addressupdate"
+      },
+      "delete": {
+        "api": "apis.addressdelete"
+      },
+      "form": [
+        {
+          "fields": [
+            {
+              "type": "input",
+              "label": "地址池名称",
+              "key": "k1"
+            }
+          ]
+        }
+      ],
+      "actions": [
+      ]
     },
     {
       "title": "服务",
       "view": {
-        "api": "apis.servicelist"
-      },
-      "create": {
-        "api": "apis.servicecreate"
-      }
-    }
-  ],
-  "table": {
-    "key": "_id",
-    "view": {
-      "api": "apis.policylist",
-      "columns": [
-        {
-          "type": "default",
-          "label": "策略名称",
-          "key": "k1",
-          "search": true,
-          "sort": true,
-          "tabIndex": 0
-        },
-        {
-          "type": "default",
-          "label": "源",
-          "key": "name",
-          "search": true,
-          "sort": true,
-          "tabIndex": 0
-        },
-        {
-          "type": "default",
-          "label": "目的",
-          "key": "name",
-          "search": true,
-          "sort": true,
-          "tabIndex": 0
-        },
-        {
-          "type": "default",
-          "label": "服务",
-          "key": "name",
-          "tabIndex": 0
-        },
-        {
-          "type": "default",
-          "label": "描述",
-          "key": "name",
-          "tabIndex": 0
-        },
-        {
-          "type": "default",
-          "label": "处理动作",
-          "key": "name",
-          "tabIndex": 0
-        },
-        {
-          "type": "default",
-          "label": "状态",
-          "key": "name",
-          "tabIndex": 0
-        },
-        {
-          "type": "default",
-          "label": "排序",
-          "key": "name",
-          "tabIndex": 0
-        },
-        {
-          "type": "default",
-          "label": "地址池名称",
-          "key": "k1",
-          "tabIndex": 1
-        },
-        {
-          "type": "default",
-          "label": "服务名称",
-          "key": "k1",
-          "tabIndex": 2
-        }
-      ]
-    },
-    "form": [
-      {
-        "fields": [
+        "api": "apis.servicelist",
+        "columns": [
           {
-            "type": "input",
-            "label": "策略名称",
+            "type": "default",
+            "label": "服务名称",
             "key": "k1"
           }
         ]
-      }
-    ],
-    "create": {
-      "api": "apis.policycreate"
-    },
-    "update": {
-      "api": "apis.policyupdate"
-    },
-    "delete": {
-      "api": "apis.policydelete"
-    },
-    "actions": [
-      {
-        "icon": "sync",
-        "tip": "策略同步下发"
-      }
-    ]
+      },
+      "create": {
+        "api": "apis.servicecreate"
+      },
+      "update": {
+        "api": "apis.serviceupdate"
+      },
+      "delete": {
+        "api": "apis.servicedelete"
+      },
+      "form": [
+        {
+          "fields": [
+            {
+              "type": "input",
+              "label": "服务名称",
+              "key": "k1"
+            }
+          ]
+        }
+      ],
+      "actions": [
+      ]
+    }
+  ],
+  "table": {
+    "key": "_id"
   }
 }

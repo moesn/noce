@@ -34,18 +34,23 @@ export const NM_PAGE_SCHEMA =
         "$ref": "#navs"
       }
     },
-    "required": [
-      "table"
+    "anyOf": [
+      {
+        "required": [
+          "table"
+        ]
+      },
+      {
+        "required": [
+          "tabs"
+        ]
+      }
     ],
     "definitions": {
       "table": {
         "$id": "#table",
         "title": "表格配置",
         "type": "object",
-        "required": [
-          "view"
-        ],
-
         "properties": {
           "title": {
             "title": "表格标题",
@@ -59,6 +64,7 @@ export const NM_PAGE_SCHEMA =
             "minLength": 1
           },
           "view": {
+            "$id": "#view",
             "title": "表格视图配置",
             "type": "object",
             "required": [
@@ -107,7 +113,6 @@ export const NM_PAGE_SCHEMA =
                 "description": "表格每列显示配置",
                 "type": "array",
                 "uniqueItems": true,
-                "minItems": 1,
                 "items": {
                   "type": "object",
 
@@ -460,7 +465,6 @@ export const NM_PAGE_SCHEMA =
             "title": "表格操作按钮扩展",
             "type": "array",
             "uniqueItems": true,
-            "minItems": 1,
             "items": {
               "type": "object",
               "required": [
@@ -1094,37 +1098,7 @@ export const NM_PAGE_SCHEMA =
         "minItems": 1,
         "maxItems": 10,
         "items": {
-          "type": "object",
-          "required": [
-            "title"
-          ],
-
-          "properties": {
-            "title": {
-              "title": "标签标题",
-              "type": "string"
-            },
-            "view": {
-              "$ref": "#create",
-              "title": "查询接口配置",
-              "description": "指定当前标签下的接口配置，未指定时使用表格的配置"
-            },
-            "create": {
-              "$ref": "#create",
-              "title": "增加接口配置",
-              "description": "指定当前标签下的接口配置，未指定时使用表格的配置"
-            },
-            "update": {
-              "$ref": "#create",
-              "title": "修改接口配置",
-              "description": "指定当前标签下的接口配置，未指定时使用表格的配置"
-            },
-            "delete": {
-              "$ref": "#create",
-              "title": "删除接口配置",
-              "description": "指定当前标签下的接口配置，未指定时使用表格的配置"
-            }
-          }
+          "$ref": "#table"
         }
       },
       "modal": {
