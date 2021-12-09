@@ -1084,8 +1084,7 @@ export const NM_PAGE_SCHEMA =
                   }
                 }
               },
-              "then": {
-              }
+              "then": {}
             }
           ]
         }

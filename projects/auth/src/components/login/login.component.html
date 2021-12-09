@@ -5,19 +5,19 @@
   <div class="nc-auth-lefter"></div>
   <div class="nc-auth-righter"></div>
   <div class="nc-auth-footer"></div>
-  <form (ngSubmit)="login()" #form="ngForm" aria-labelledby="title" class="nc-auth-form">
+  <form #form="ngForm" (ngSubmit)="login()" aria-labelledby="title" class="nc-auth-form">
     <h1 class="nc-auth-title">{{title}}</h1>
     <!--用户名-->
     <div>
       <label for="input-username">用户名:</label>
-      <input [(ngModel)]="user.username"
-             #username="ngModel"
-             name="username"
-             id="input-username"
-             placeholder="请输入用户名"
+      <input #username="ngModel"
+             [(ngModel)]="user.username"
+             [attr.aria-invalid]="username.invalid && username.touched ? true : null"
              [ngStyle]="{'border-color':username.dirty ? (username.invalid  ? '#ff3d71' : '#00997a') : ''}"
              [required]="true"
-             [attr.aria-invalid]="username.invalid && username.touched ? true : null">
+             id="input-username"
+             name="username"
+             placeholder="请输入用户名">
       <ng-container *ngIf="username.invalid && username.touched">
         <p> 用户名不能为空 </p>
       </ng-container>
@@ -26,15 +26,15 @@
     <div>
       <label for="input-password">密&emsp;码:</label>
       <input
-        [(ngModel)]="user.password"
         #password="ngModel"
-        name="password"
-        type="password"
-        id="input-password"
-        placeholder="请输入密码"
+        [(ngModel)]="user.password"
+        [attr.aria-invalid]="password.invalid && password.touched ? true : null"
         [ngStyle]="{'border-color':password.dirty ? (password.invalid  ? '#ff3d71' : '#00997a') : ''}"
         [required]="true"
-        [attr.aria-invalid]="password.invalid && password.touched ? true : null">
+        id="input-password"
+        name="password"
+        placeholder="请输入密码"
+        type="password">
       <ng-container *ngIf="password.invalid && password.touched ">
         <p> 密码不能为空 </p>
       </ng-container>
@@ -43,16 +43,16 @@
     <div *ngIf="codeimg">
       <label for="input-vercode">验证码:</label>
       <input
-        [(ngModel)]="user.vercode"
         #vercode="ngModel"
-        name="vercode"
-        type="vercode"
-        id="input-vercode"
-        placeholder="请输入验证码"
+        [(ngModel)]="user.vercode"
+        [attr.aria-invalid]="vercode.invalid && vercode.touched ? true : null"
         [ngStyle]="{'border-color':vercode.dirty ? (vercode.invalid  ? '#ff3d71' : '#00997a') : ''}"
         [required]="true"
-        [attr.aria-invalid]="vercode.invalid && vercode.touched ? true : null">
-      <img *ngIf="codeimg" [src]="codeimg" alt="验证码" (click)="getVercode()">
+        id="input-vercode"
+        name="vercode"
+        placeholder="请输入验证码"
+        type="vercode">
+      <img (click)="getVercode()" *ngIf="codeimg" [src]="codeimg" alt="验证码">
       <ng-container *ngIf="vercode.invalid && vercode.touched ">
         <p> 验证码不能为空 </p>
       </ng-container>

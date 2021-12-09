@@ -14,4 +14,5 @@ import {NcAppModule} from 'noce/app';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

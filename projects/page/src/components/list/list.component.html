@@ -1,28 +1,28 @@
 <!--操作栏-->
 <ng-template #listTitle>
   <!--  标题-->
-  <h3 class="nc-page-title" *ngIf="!(options.create?.api||options.update?.api||options.delete?.api)">{{options.title}}</h3>
+  <h3 *ngIf="!(options.create?.api||options.update?.api||options.delete?.api)" class="nc-page-title">{{options.title}}</h3>
   <nz-space nzSize="large">
     <!--    增加节点-->
     <ng-container *ngIf="options.create?.api">
-      <i nz-icon nzType="plus" *nzSpaceItem (click)="edit(false)"></i>
+      <i (click)="edit(false)" *nzSpaceItem nz-icon nzType="plus"></i>
     </ng-container>
     <!--    修改节点-->
     <ng-container *ngIf="options.update?.api">
-      <i nz-icon nzType="edit" *nzSpaceItem (click)="edit(true)"></i>
+      <i (click)="edit(true)" *nzSpaceItem nz-icon nzType="edit"></i>
     </ng-container>
     <!--    删除节点-->
     <ng-container *ngIf="options.delete?.api">
-      <i nz-icon nzType="delete" *nzSpaceItem (click)="delete()"></i>
+      <i (click)="delete()" *nzSpaceItem nz-icon nzType="delete"></i>
     </ng-container>
   </nz-space>
 </ng-template>
 <nz-card [nzTitle]="listTitle">
   <!--树-->
   <nz-list nzSize="small" nzSplit="false">
-    <nz-list-item *ngFor="let _data of datas" (click)="click(_data)">
+    <nz-list-item (click)="click(_data)" *ngFor="let _data of datas">
       <nz-list-item-meta-title>
-        <nz-badge nzStatus="processing" *ngIf="_data[key]==data[key]"></nz-badge>
+        <nz-badge *ngIf="_data[key]==data[key]" nzStatus="processing"></nz-badge>
         <span [ngClass]="{'ant-info':_data[key]==data[key]}">{{ _data[options.nameKey] }}</span>
       </nz-list-item-meta-title>
     </nz-list-item>

@@ -48,6 +48,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     const content: any = document.getElementsByTagName('nz-content')[0];
     this.height = content.offsetHeight - 150 + 'px';
   }
+
   ngOnInit(): void {
     this.key = this.options.key;
 

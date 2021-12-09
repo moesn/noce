@@ -1,4 +1,4 @@
-export const byteFormat = function(byte: any): string {
+export const byteFormat = function (byte: any): string {
   const k = 1024;
   const dm = 2;
   const bytes = parseInt(byte, 0);

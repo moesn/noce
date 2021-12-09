@@ -1,5 +1,5 @@
 import {NmTreeTableSchema} from 'ng-more/common';
-import {NmRegExp, NmHttp, NmNotify} from 'ng-more/core';
+import {NmHttp, NmNotify, NmRegExp} from 'ng-more/core';
 import {DICT_TYPE} from '../../../config/key';
 
 export const RESOURCE_WEBAPP_SCHEMA: NmTreeTableSchema = {
@@ -59,7 +59,7 @@ export const RESOURCE_WEBAPP_SCHEMA: NmTreeTableSchema = {
             NmHttp.post(api, {id: data.astId}).subscribe((o: any) => {
               if (o.success) {
                 NmNotify.success(o.msg);
-              } 
+              }
             });
           }
         }
@@ -94,8 +94,8 @@ export const RESOURCE_WEBAPP_SCHEMA: NmTreeTableSchema = {
         }
       },
       {
-        label: '资产重要性', key: 'astImportanceLevel',type:'select',
-        options:[
+        label: '资产重要性', key: 'astImportanceLevel', type: 'select',
+        options: [
           {label: '可以忽略', value: 1},
           {label: '低', value: 2},
           {label: '中等', value: 3},

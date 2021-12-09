@@ -1,40 +1,40 @@
 <!--操作栏-->
 <ng-template #treeTitle>
   <!--  标题-->
-  <h3 class="nc-page-title" *ngIf="!(options.create?.api||options.update?.api||options.delete?.api)">{{options.title}}</h3>
+  <h3 *ngIf="!(options.create?.api||options.update?.api||options.delete?.api)" class="nc-page-title">{{options.title}}</h3>
   <nz-space nzSize="large">
     <!--    增加一级节点-->
     <ng-container *ngIf="options.create?.api">
-      <i nz-icon nzType="border-inner" *nzSpaceItem (click)="edit(false,true)"
-         nz-tooltip nzTooltipTitle="增加一级节点"></i>
+      <i (click)="edit(false,true)" *nzSpaceItem nz-icon nz-tooltip
+         nzTooltipTitle="增加一级节点" nzType="border-inner"></i>
     </ng-container>
     <!--    增加子节点-->
     <ng-container *ngIf="options.create?.api">
-      <i nz-icon nzType="plus" *nzSpaceItem (click)="edit(false,false)"
-         nz-tooltip nzTooltipTitle="增加子节点"></i>
+      <i (click)="edit(false,false)" *nzSpaceItem nz-icon nz-tooltip
+         nzTooltipTitle="增加子节点" nzType="plus"></i>
     </ng-container>
     <!--    修改节点-->
     <ng-container *ngIf="options.update?.api">
-      <i nz-icon nzType="edit" *nzSpaceItem (click)="edit(true)"></i>
+      <i (click)="edit(true)" *nzSpaceItem nz-icon nzType="edit"></i>
     </ng-container>
     <!--    删除节点-->
     <ng-container *ngIf="options.delete?.api">
-      <i nz-icon nzType="delete" *nzSpaceItem (click)="delete()"></i>
+      <i (click)="delete()" *nzSpaceItem nz-icon nzType="delete"></i>
     </ng-container>
   </nz-space>
 </ng-template>
 <nz-card [nzTitle]="treeTitle">
   <!--树-->
   <nz-tree #treeComponent
+           (nzClick)="click($event.node?.origin)"
            [nzData]="datas"
            [nzExpandedKeys]="keys"
            [nzSelectedKeys]="keys"
            [nzTreeTemplate]="treeTpl"
-           (nzClick)="click($event.node?.origin)"
   ></nz-tree>
   <!--  显示模版-->
   <ng-template #treeTpl let-node>
-    <nz-badge nzStatus="processing" *ngIf="keys[0]==node.key"></nz-badge>
+    <nz-badge *ngIf="keys[0]==node.key" nzStatus="processing"></nz-badge>
     <span>{{node.title}}</span>
   </ng-template>
 </nz-card>

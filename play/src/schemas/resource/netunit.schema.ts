@@ -1,5 +1,5 @@
 import {NmTreeTableSchema} from 'ng-more/common';
-import {NmRegExp, NmHttp, NmNotify} from 'ng-more/core';
+import {NmHttp, NmNotify, NmRegExp} from 'ng-more/core';
 import {DICT_TYPE} from '../../../config/key';
 
 export const RESOURCE_NETUNIT_SCHEMA: NmTreeTableSchema = {
@@ -60,7 +60,7 @@ export const RESOURCE_NETUNIT_SCHEMA: NmTreeTableSchema = {
             NmHttp.post(api, {id: data.astId}).subscribe((o: any) => {
               if (o.success) {
                 NmNotify.success(o.msg);
-              } 
+              }
             });
           }
         }
@@ -119,8 +119,8 @@ export const RESOURCE_NETUNIT_SCHEMA: NmTreeTableSchema = {
         }
       },
       {
-        label: '资产重要性', key: 'astImportanceLevel',type:'select',span: 8,
-        options:[
+        label: '资产重要性', key: 'astImportanceLevel', type: 'select', span: 8,
+        options: [
           {label: '可以忽略', value: 1},
           {label: '低', value: 2},
           {label: '中等', value: 3},
@@ -148,7 +148,7 @@ export const RESOURCE_NETUNIT_SCHEMA: NmTreeTableSchema = {
         }
       },
       {label: '管理帐号', key: 'accountAdmin', require: true, span: 6},
-      {label: '管理密码', key: 'adminPwd', encrypt: true, require: true ,span: 6, type: 'password'},
+      {label: '管理密码', key: 'adminPwd', encrypt: true, require: true, span: 6, type: 'password'},
       {label: '跳转机IP', key: 'jumpHostIp', span: 24},
 
       {label: '其它信息', key: '-', type: 'divider'},

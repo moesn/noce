@@ -122,7 +122,9 @@
             "type": "select",
             "label": "服务",
             "key": "services",
-            "value": ["RDP"],
+            "value": [
+              "RDP"
+            ],
             "required": true,
             "select": {
               "multiple": true,

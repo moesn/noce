@@ -73,4 +73,5 @@ const NZ_MODULES = [
     {provide: HTTP_INTERCEPTORS, useClass: NcAuthJWTInterceptor, multi: true},
   ]
 })
-export class NcAppModule {}
+export class NcAppModule {
+}

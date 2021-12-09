@@ -1,6 +1,6 @@
-<form nz-form #form="ngForm" class="text-{{maxLabel}}">
+<form #form="ngForm" class="text-{{maxLabel}}" nz-form>
   <!--  填充白色-->
-  <nz-row nzGutter="24" class="ant-component-color">
+  <nz-row class="ant-component-color" nzGutter="24">
     <!--    表单分组-->
     <ng-container *ngFor="let formItem of options">
       <!--      表单分组名称-->
@@ -9,8 +9,8 @@
         <ng-template #dividerTpl>
           {{formItem.title}}
           <!--          表单分组帮助说明-->
-          <i nz-icon nzType="question-circle" nzTheme="outline" class="tip-icon ant-info"
-             nz-tooltip nzTooltipTitle="{{formItem.tip}}" *ngIf="formItem.tip"></i>
+          <i *ngIf="formItem.tip" class="tip-icon ant-info" nz-icon nz-tooltip
+             nzTheme="outline" nzTooltipTitle="{{formItem.tip}}" nzType="question-circle"></i>
         </ng-template>
       </nz-col>
       <!--      表单项-->
@@ -19,99 +19,99 @@
           <nz-form-label [nzRequired]="isTrue(field.required)">
             {{field.label}}
             <!--            表单项帮助说明-->
-            <i nz-icon nzType="question-circle" nzTheme="outline" class="tip-icon ant-info"
-               nz-tooltip nzTooltipTitle="{{field.tip}}" *ngIf="field.tip"></i>
+            <i *ngIf="field.tip" class="tip-icon ant-info" nz-icon nz-tooltip
+               nzTheme="outline" nzTooltipTitle="{{field.tip}}" nzType="question-circle"></i>
           </nz-form-label>
           <nz-form-control [nzErrorTip]="formErrorTpl">
             <ng-template #formErrorTpl let-control>
               {{getErrorTip(control, field.pattern)}}
             </ng-template>
             <!--            普通输入框-->
-            <input nz-input autocomplete="off" *ngIf="field.type==='input'"
+            <input *ngIf="field.type==='input'" [(ngModel)]="data[field.key]" [disabled]="isTrue(field.readonly)"
+                   [maxlength]="field.input.maxLength"
+                   [minlength]="field.input.minLength"
                    [name]="field.key"
-                   [disabled]="isTrue(field.readonly)"
-                   [(ngModel)]="data[field.key]"
+                   [pattern]="field.pattern?.reg"
                    [placeholder]="getPlaceholder(field)"
                    [required]="isTrue(field.required)"
-                   [pattern]="field.pattern?.reg"
-                   [minlength]="field.input.minLength"
-                   [maxlength]="field.input.maxLength"
+                   autocomplete="off"
+                   nz-input
             />
             <!--            文本输入框-->
-            <textarea nz-input autocomplete="off" *ngIf="field.type==='textarea'"
+            <textarea *ngIf="field.type==='textarea'" [(ngModel)]="data[field.key]" [disabled]="isTrue(field.readonly)"
+                      [maxlength]="field.input.maxLength"
+                      [minlength]="field.input.minLength"
                       [name]="field.key"
-                      [disabled]="isTrue(field.readonly)"
-                      [(ngModel)]="data[field.key]"
+                      [pattern]="field.pattern?.reg"
                       [placeholder]="getPlaceholder(field)"
                       [required]="isTrue(field.required)"
-                      [pattern]="field.pattern?.reg"
-                      [minlength]="field.input.minLength"
-                      [maxlength]="field.input.maxLength"
+                      autocomplete="off"
+                      nz-input
             ></textarea>
             <!--            密码输入框-->
-            <nz-input-group [nzSuffix]="suffixPwd" *ngIf="field.type==='password'">
-              <input nz-input
+            <nz-input-group *ngIf="field.type==='password'" [nzSuffix]="suffixPwd">
+              <input [(ngModel)]="data[field.key]"
                      [autocomplete]="pwdEye[field.key] ? 'off' : 'new-password'"
-                     [type]="pwdEye[field.key] ? 'text' : 'password'"
-                     [name]="field.key"
                      [disabled]="isTrue(field.readonly)"
-                     [(ngModel)]="data[field.key]"
+                     [maxlength]="field.input.maxLength"
+                     [minlength]="field.input.minLength"
+                     [name]="field.key"
+                     [pattern]="field.pattern?.reg"
                      [placeholder]="getPlaceholder(field)"
                      [required]="isTrue(field.required)&&!dataBak[key]"
-                     [pattern]="field.pattern?.reg"
-                     [minlength]="field.input.minLength"
-                     [maxlength]="field.input.maxLength"
+                     [type]="pwdEye[field.key] ? 'text' : 'password'"
+                     nz-input
               />
               <ng-template #suffixPwd>
-                <i nz-icon [nzType]="pwdEye[field.key] ? 'eye-invisible' : 'eye'" (click)="pwdEye[field.key] = !pwdEye[field.key]"></i>
+                <i (click)="pwdEye[field.key] = !pwdEye[field.key]" [nzType]="pwdEye[field.key] ? 'eye-invisible' : 'eye'" nz-icon></i>
               </ng-template>
             </nz-input-group>
             <!--            数字输入框-->
             <nz-input-number *ngIf="field.type==='number'"
-                             [name]="field.key"
-                             [disabled]="isTrue(field.readonly)"
                              [(ngModel)]="data[field.key]"
-                             [required]="isTrue(field.required)"
-                             [pattern]="field.pattern?.reg"
-                             [nzMin]="field.number.min"
+                             [disabled]="isTrue(field.readonly)"
+                             [name]="field.key"
                              [nzMax]="field.number.max"
+                             [nzMin]="field.number.min"
                              [nzStep]="1"
+                             [pattern]="field.pattern?.reg"
+                             [required]="isTrue(field.required)"
             ></nz-input-number>
             <!--            切换按钮-->
             <nz-switch *ngIf="field.type==='switch'"
-                       [name]="field.key"
                        [(ngModel)]="data[field.key]"
                        [disabled]="isTrue(field.readonly)"
+                       [name]="field.key"
             ></nz-switch>
             <!--            下拉选择框-->
-            <nz-select nzShowSearch nzPlaceHolder="点击选择" *ngIf="field.type==='select'"
-                       [nzAllowClear]="!isTrue(field.required)||field.select.multiple"
-                       [name]="field.key"
+            <nz-select (ngModelChange)="optionChange(field.select)" *ngIf="field.type==='select'" [(ngModel)]="data[field.key]"
                        [disabled]="isTrue(field.readonly)"
-                       [required]="isTrue(field.required)"
-                       [(ngModel)]="data[field.key]"
-                       [nzOptions]="field.select.options||[]"
+                       [name]="field.key"
+                       [nzAllowClear]="!isTrue(field.required)||field.select.multiple"
                        [nzMode]="field.select.multiple?'multiple':'default'"
-                       (ngModelChange)="optionChange(field.select)"
+                       [nzOptions]="field.select.options||[]"
+                       [required]="isTrue(field.required)"
+                       nzPlaceHolder="点击选择"
+                       nzShowSearch
             ></nz-select>
             <!--            树型下拉选择框-->
-            <nz-tree-select nzShowSearch nzPlaceHolder="点击选择" *ngIf="field.type==='treeselect'"
-                            nzVirtualHeight="256px"
-                            [nzAllowClear]="!isTrue(field.required)||field.treeselect.multiple"
-                            [name]="field.key"
-                            [nzDefaultExpandAll]="true"
+            <nz-tree-select (ngModelChange)="optionChange(field.treeselect)" *ngIf="field.type==='treeselect'" [(ngModel)]="data[field.key]"
                             [disabled]="isTrue(field.readonly)"
+                            [name]="field.key"
+                            [nzAllowClear]="!isTrue(field.required)||field.treeselect.multiple"
+                            [nzDefaultExpandAll]="true"
                             [nzMultiple]="field.treeselect.multiple"
                             [nzNodes]="field.treeselect.nodes||[]"
-                            [(ngModel)]="data[field.key]"
-                            (ngModelChange)="optionChange(field.treeselect)"
+                            nzPlaceHolder="点击选择"
+                            nzShowSearch
+                            nzVirtualHeight="256px"
             ></nz-tree-select>
             <!--            弹窗选择框-->
-            <input nz-input autocomplete="off" readonly placeholder="点击选择" *ngIf="field.type==='modal'"
-                   [name]="field.key"
-                   [disabled]="isTrue(field.readonly)"
-                   [value]="data[field.nameKey]||''"
-                   (click)="openModal(field)"
+            <input (click)="openModal(field)" *ngIf="field.type==='modal'" [disabled]="isTrue(field.readonly)" [name]="field.key" [value]="data[field.nameKey]||''"
+                   autocomplete="off"
+                   nz-input
+                   placeholder="点击选择"
+                   readonly
             />
           </nz-form-control>
         </nz-form-item>
@@ -121,9 +121,9 @@
   <!--  保存或取消-->
   <div class="ant-drawer-footer">
     <nz-button-group>
-      <button nz-button (click)="close()">取消</button>
+      <button (click)="close()" nz-button>取消</button>
       <!--      无效、未编辑、保存中时禁止点击-->
-      <button nz-button nzType="primary" (click)="save()" [disabled]="form.invalid || saving || isOriginal()">保存</button>
+      <button (click)="save()" [disabled]="form.invalid || saving || isOriginal()" nz-button nzType="primary">保存</button>
     </nz-button-group>
   </div>
 </form>

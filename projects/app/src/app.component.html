@@ -6,20 +6,20 @@
         <h1>{{title}}</h1>
       </a>
     </div>
-    <ul nz-menu nzMode="horizontal" *ngIf="navs.length">
-      <li nz-menu-item *ngFor="let nav of navs;index as i"
-          nzMatchRouter [routerLink]="nav.link" (click)="queryMenu(nav.link)">
+    <ul *ngIf="navs.length" nz-menu nzMode="horizontal">
+      <li (click)="queryMenu(nav.link)" *ngFor="let nav of navs;index as i"
+          [routerLink]="nav.link" nz-menu-item nzMatchRouter>
         {{nav.title}}
       </li>
     </ul>
     <div class="icon">
       <!--      todo-->
-      <a nz-dropdown [nzDropdownMenu]="menu" class="header-icon" style="padding-top: 0;line-height: 60px">
+      <a [nzDropdownMenu]="menu" class="header-icon" nz-dropdown style="padding-top: 0;line-height: 60px">
         Admin
       </a>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu nzSelectable>
-          <li nz-menu-item (click)="logout()">退出登录</li>
+          <li (click)="logout()" nz-menu-item>退出登录</li>
           <li nz-menu-item>修改密码</li>
           <li nz-menu-item nzDanger>关机/重启？</li>
           <li nz-menu-item nzDisabled>工作模式</li>
@@ -27,29 +27,29 @@
       </nz-dropdown-menu>
     </div>
     <div class="icon">
-      <span class="header-icon" (click)="search()">
+      <span (click)="search()" class="header-icon">
             <i nz-icon nzType="search"></i>
         </span>
     </div>
   </nz-header>
   <nz-layout>
     <nz-sider
-      nzCollapsible
-      [nzWidth]="menuWidth"
-      nzBreakpoint="md"
+      *ngIf="menu.length"
       [(nzCollapsed)]="isCollapsed"
-      [nzTrigger]="" *ngIf="menu.length">
-      <ul nz-menu [nzMode]="menuMode" [nzInlineCollapsed]="isCollapsed">
+      [nzTrigger]=""
+      [nzWidth]="menuWidth"
+      nzBreakpoint="md" nzCollapsible>
+      <ul [nzInlineCollapsed]="isCollapsed" [nzMode]="menuMode" nz-menu>
         <ng-container *ngFor="let _menu of menu">
-          <li nz-submenu [nzTitle]="_menu.title" [nzIcon]="_menu.icon" *ngIf="_menu.children" [nzOpen]="menuOpen(_menu)">
+          <li *ngIf="_menu.children" [nzIcon]="_menu.icon" [nzOpen]="menuOpen(_menu)" [nzTitle]="_menu.title" nz-submenu>
             <ul>
-              <li nz-menu-item nzMatchRouter *ngFor="let _child of _menu.children">
+              <li *ngFor="let _child of _menu.children" nz-menu-item nzMatchRouter>
                 <a [routerLink]="[_menu.link,_child.link]">{{_child.title}}</a>
               </li>
             </ul>
           </li>
-          <li nz-menu-item nzMatchRouter *ngIf="!_menu.children" [routerLink]="[_menu.link]">
-            <i nz-icon [nzType]="_menu.icon" [ngStyle]="{'font-size': isCollapsed?'24px':'16px'}"></i>
+          <li *ngIf="!_menu.children" [routerLink]="[_menu.link]" nz-menu-item nzMatchRouter>
+            <i [ngStyle]="{'font-size': isCollapsed?'24px':'16px'}" [nzType]="_menu.icon" nz-icon></i>
             <a *ngIf="!isCollapsed" style="padding-left: 10px">{{_menu.title}}</a>
           </li>
         </ng-container>

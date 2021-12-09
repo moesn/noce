@@ -1,7 +1,8 @@
 import {NmTreeTableSchema} from 'ng-more/common';
-import {NmRegExp, NmHttp, NmNotify} from 'ng-more/core';
+import {NmHttp, NmNotify, NmRegExp} from 'ng-more/core';
 import {DICT_TYPE} from '../../../config/key';
-NmRegExp.hhhhp={
+
+NmRegExp.hhhhp = {
   txt: '字符!@#$%^&*>_',
   reg: new RegExp(/^[!@#$%^&*_>]+$/)
 };
@@ -64,7 +65,7 @@ export const RESOURCE_NETDEVICE_SCHEMA: NmTreeTableSchema = {
             NmHttp.post(api, {id: data.astId}).subscribe((o: any) => {
               if (o.success) {
                 NmNotify.success(o.msg);
-              } 
+              }
             });
           }
         }
@@ -133,8 +134,8 @@ export const RESOURCE_NETDEVICE_SCHEMA: NmTreeTableSchema = {
       {label: '虚拟ID', key: 'virresid', show: {link: 'isvirres', value: true}},
       {label: '物理机IP', key: 'physicalmacip', show: {link: 'isvirres', value: true}, pattern: NmRegExp.IPV46},
       {
-        label: '资产重要性', key: 'astImportanceLevel',type:'select',span: 8,
-        options:[
+        label: '资产重要性', key: 'astImportanceLevel', type: 'select', span: 8,
+        options: [
           {label: '可以忽略', value: 1},
           {label: '低', value: 2},
           {label: '中等', value: 3},
@@ -164,10 +165,10 @@ export const RESOURCE_NETDEVICE_SCHEMA: NmTreeTableSchema = {
       },
       {label: '特权提示符', key: 'adminprompt', value: '$', require: true, pattern: NmRegExp.hhhhp, span: 6},
       {label: '特权切换', key: 'su', value: 'su', require: true, span: 6},
-      {label: '特权密码', key: 'rootpwd', encrypt: true,require: true, span: 6, type: 'password'},
+      {label: '特权密码', key: 'rootpwd', encrypt: true, require: true, span: 6, type: 'password'},
       {label: '管理帐号', key: 'accountAdmin', require: true, span: 6},
-      {label: '管理密码', key: 'adminPwd', encrypt: true,require: true, span: 6, type: 'password'},
-      {label: '管理提示符', key: 'conprompt', value: '$', span: 6,require: true, pattern: NmRegExp.hhhhp},
+      {label: '管理密码', key: 'adminPwd', encrypt: true, require: true, span: 6, type: 'password'},
+      {label: '管理提示符', key: 'conprompt', value: '$', span: 6, require: true, pattern: NmRegExp.hhhhp},
       {
         label: '认证方式', key: 'authtype', require: true, type: 'select', span: 6, select: {
           api: 'netdeviceDicList',

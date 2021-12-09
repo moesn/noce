@@ -14,27 +14,6 @@ export class NcAuthJWTInterceptor implements HttpInterceptor {
               private tokenService: NcTokenService) {
   }
 
-  // 是否是不需要拦截的URL，比如登录接口、刷新Token接口
-  private isIgnoreUrl(url: string): boolean {
-    const base = getAuthOption('baseUrl');
-    const login = getAuthOption('login.url');
-    const refresh = getAuthOption('refresh.url');
-    const vercode = getAuthOption('vercode.url');
-
-    const ignores: string[] = getAuthOption('interceptor.ignoreUrls');
-
-    ignores.push(base + login);
-    ignores.push(base + refresh);
-    ignores.push(base + vercode);
-
-    return ignores.includes(url);
-  }
-
-  // 返回错误
-  private responseError(msg: string): Observable<HttpEvent<any>> {
-    return of(new HttpResponse({body: {code: -1, msg}}));
-  }
-
   // 拦截器
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (this.isIgnoreUrl(req.url)) {
@@ -82,5 +61,26 @@ export class NcAuthJWTInterceptor implements HttpInterceptor {
         ),
       );
     }
+  }
+
+  // 是否是不需要拦截的URL，比如登录接口、刷新Token接口
+  private isIgnoreUrl(url: string): boolean {
+    const base = getAuthOption('baseUrl');
+    const login = getAuthOption('login.url');
+    const refresh = getAuthOption('refresh.url');
+    const vercode = getAuthOption('vercode.url');
+
+    const ignores: string[] = getAuthOption('interceptor.ignoreUrls');
+
+    ignores.push(base + login);
+    ignores.push(base + refresh);
+    ignores.push(base + vercode);
+
+    return ignores.includes(url);
+  }
+
+  // 返回错误
+  private responseError(msg: string): Observable<HttpEvent<any>> {
+    return of(new HttpResponse({body: {code: -1, msg}}));
   }
 }

@@ -20,8 +20,12 @@
       "dom"
     ],
     "paths": {
-      "@angular/*": [ "./node_modules/@angular/*" ],
-      "noce/*": ["/Volumes/Code/Work/lib3/projects/*"]
+      "@angular/*": [
+        "./node_modules/@angular/*"
+      ],
+      "noce/*": [
+        "/Volumes/Code/Work/lib3/projects/*"
+      ]
     }
   },
   "angularCompilerOptions": {

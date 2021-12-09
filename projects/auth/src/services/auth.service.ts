@@ -13,15 +13,6 @@ export class NcAuthService {
               private tokenService: NcTokenService) {
   }
 
-  // 获取操作接口
-  private getActionPath(action: string): string {
-    const actionUrl: string = getAuthOption(`${action}.url`);
-    const baseUrl: string = getAuthOption('baseUrl');
-
-    // 如果有baseUrl，则拼接上baseUrl
-    return baseUrl ? baseUrl + actionUrl : actionUrl;
-  }
-
   // 是否认证或者可以刷新认证
   isAuthenticatedOrRefresh(): Observable<boolean> {
     const token = this.tokenService.getToken();
@@ -110,6 +101,15 @@ export class NcAuthService {
       }),
       catchError(() => of()),
     );
+  }
+
+  // 获取操作接口
+  private getActionPath(action: string): string {
+    const actionUrl: string = getAuthOption(`${action}.url`);
+    const baseUrl: string = getAuthOption('baseUrl');
+
+    // 如果有baseUrl，则拼接上baseUrl
+    return baseUrl ? baseUrl + actionUrl : actionUrl;
   }
 
   // 存储认证信息

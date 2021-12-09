@@ -3,7 +3,7 @@ import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NcEventService, NcHttpService} from 'noce/core';
 import * as _ from 'lodash-es';
 import {__eval, objectExtend} from 'noce/helper';
-import { NcFormComponent } from '..';
+import {NcFormComponent} from '..';
 
 @Component({
   selector: 'nc-list',

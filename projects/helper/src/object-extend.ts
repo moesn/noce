@@ -1,6 +1,6 @@
 // {}对象深扩展
 // @ts-ignore
-export const objectExtend = function(...objects: any[]): any {
+export const objectExtend = function (...objects: any[]): any {
   // 没有参数或第一个参数不是object
   if (arguments.length === 0 || typeof arguments[0] !== 'object') {
     return false;
@@ -15,13 +15,13 @@ export const objectExtend = function(...objects: any[]): any {
   let src; // 原值
   let val; // 新值
 
-  args.forEach(function(obj: any): void {
+  args.forEach(function (obj: any): void {
     // 不是{}
     if (typeof obj !== 'object' || Array.isArray(obj)) {
       return;
     }
 
-    Object.keys(obj).forEach(function(key): void {
+    Object.keys(obj).forEach(function (key): void {
       src = target[key];
       val = obj[key];
 
@@ -76,7 +76,7 @@ function cloneSpecificValue(val: any): any {
 // 数组深克隆
 function deepCloneArray(arr: any[]): any {
   const clone: any[] = [];
-  arr.forEach(function(item: any, index: any): void {
+  arr.forEach(function (item: any, index: any): void {
     if (typeof item === 'object' && item !== null) {
       if (Array.isArray(item)) {
         clone[index] = deepCloneArray(item);

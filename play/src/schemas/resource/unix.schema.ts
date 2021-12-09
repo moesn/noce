@@ -1,5 +1,5 @@
 import {NmTreeTableSchema} from 'ng-more/common';
-import {NmRegExp, NmHttp, NmNotify} from 'ng-more/core';
+import {NmHttp, NmNotify, NmRegExp} from 'ng-more/core';
 import {DICT_TYPE} from '../../../config/key';
 
 NmRegExp.hhhhp = {

@@ -1,51 +1,51 @@
 <!--表格工具栏-->
 <ng-template #dataTitleTpl>
   <!--  标题-->
-  <h3 class="nc-page-title" *ngIf="!tabOption">{{options.title}}</h3>
+  <h3 *ngIf="!tabOption" class="nc-page-title">{{options.title}}</h3>
   <!--  多标签-->
-  <nz-space class="ant-left" *ngIf="tabOption">
+  <nz-space *ngIf="tabOption" class="ant-left">
     <ng-container *ngFor="let _tab of tabOption">
-      <button *nzSpaceItem nz-button [nzType]="_tab==tab?'primary':'default'" (click)="switchTab(_tab)"
+      <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab==tab?'primary':'default'" nz-button
       >{{_tab.title}}</button>
     </ng-container>
   </nz-space>
   <nz-space>
     <!--    上传-->
     <ng-container *ngIf="options.upload?.api">
-      <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="options.upload.tip">
+      <button *nzSpaceItem [nzTooltipTitle]="options.upload.tip" nz-button nz-tooltip>
         <i nz-icon nzType="cloud-upload"></i>
       </button>
     </ng-container>
     <!--    下载-->
     <ng-container *ngIf="options.download?.api">
-      <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="options.download.tip">
+      <button *nzSpaceItem [nzTooltipTitle]="options.download.tip" nz-button nz-tooltip>
         <i nz-icon nzType="cloud-download"></i>
       </button>
     </ng-container>
     <!--    模糊搜索-->
     <ng-container *ngIf="searches.length">
-      <nz-input-group *nzSpaceItem nzSearch [nzAddOnAfter]="suffixButton">
-        <input [(ngModel)]="body.fuzzy.keyword" nz-input type="text" placeholder="全局模糊搜索"/>
+      <nz-input-group *nzSpaceItem [nzAddOnAfter]="suffixButton" nzSearch>
+        <input [(ngModel)]="body.fuzzy.keyword" nz-input placeholder="全局模糊搜索" type="text"/>
       </nz-input-group>
       <ng-template #suffixButton>
-        <button nz-button nzSearch (click)="query()">
+        <button (click)="query()" nz-button nzSearch>
           <i nz-icon nzType="search"></i>
         </button>
       </ng-template>
     </ng-container>
     <!--    刷新页面-->
-    <button *nzSpaceItem nz-button (click)="reloadPage()">
-      <i nz-icon nzType="redo" nz-tooltip nzTooltipTitle="重新加载页面"></i>
+    <button (click)="reloadPage()" *nzSpaceItem nz-button>
+      <i nz-icon nz-tooltip nzTooltipTitle="重新加载页面" nzType="redo"></i>
     </button>
     <!--    操作按钮扩展-->
     <ng-container *ngFor="let action of options.actions">
       <button *nzSpaceItem nz-button>
-        <i nz-icon [nzType]="action.icon" nz-tooltip [nzTooltipTitle]="action.tip"></i>
+        <i [nzTooltipTitle]="action.tip" [nzType]="action.icon" nz-icon nz-tooltip></i>
       </button>
     </ng-container>
     <!--    增加按钮-->
     <ng-container *ngIf="options.create?.api">
-      <button *nzSpaceItem nz-button (click)="edit({})">
+      <button (click)="edit({})" *nzSpaceItem nz-button>
         <i nz-icon nzType="plus"></i>
       </button>
     </ng-container>
@@ -57,36 +57,36 @@
 </ng-template>
 <!--  表格数据-->
 <nz-table #dataTable
-          [nzData]="datas"
-          [nzTitle]="dataTitleTpl"
-          [nzSimple]="options.view.simple"
-          [nzFrontPagination]="options.view.frontPagination"
-          [nzTotal]="total"
-          [nzShowTotal]="totalTpl"
-          [nzPageSize]="options.view.pageSize"
-          [(nzPageIndex)]="pageIndex"
-          [nzScroll]="{y:height}"
-          [nzPageSizeOptions]="[10,20,50,100,500]"
-          (nzQueryParams)="query($event)"
           (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+          (nzQueryParams)="query($event)"
+          [(nzPageIndex)]="pageIndex"
+          [nzData]="datas"
+          [nzFrontPagination]="options.view.frontPagination"
+          [nzPageSizeOptions]="[10,20,50,100,500]"
+          [nzPageSize]="options.view.pageSize"
+          [nzScroll]="{y:height}"
+          [nzShowTotal]="totalTpl"
+          [nzSimple]="options.view.simple"
+          [nzTitle]="dataTitleTpl"
+          [nzTotal]="total"
 >
   <thead>
   <tr>
     <!--    选择框-->
-    <th *ngIf="options.view.checkable"
-        [nzShowCheckbox]="options.view.multiple"
+    <th (nzCheckedChange)="onAllChecked($event)"
+        *ngIf="options.view.checkable"
         [(nzChecked)]="allChecked"
         [nzIndeterminate]="indeterminate"
-        (nzCheckedChange)="onAllChecked($event)"
+        [nzShowCheckbox]="options.view.multiple"
     ></th>
     <!--      显示字段表头-->
     <ng-container *ngFor="let column of options.view.columns">
       <!--      多标签显示、过滤、排序-->
       <th *ngIf="showColumn(column.tabIndex)"
           [nzColumnKey]="column.key"
-          [nzShowFilter]="column.filters"
-          [nzFilters]="column.filters"
           [nzFilterFn]="true"
+          [nzFilters]="column.filters"
+          [nzShowFilter]="column.filters"
           [nzShowSort]="column.sort"
           [nzSortFn]="true"
       >
@@ -94,15 +94,15 @@
     </ng-container>
     <!--      操作-->
     <ng-container *ngFor="let action of [options.update,options.delete]">
-      <th nzWidth="50px" *ngIf="action">{{action.name}}</th>
+      <th *ngIf="action" nzWidth="50px">{{action.name}}</th>
     </ng-container>
   </tr>
-    </thead>
+  </thead>
   <tbody>
   <tr *ngFor="let data of dataTable['data']">
     <!--      选择框-->
-    <td [nzChecked]="isChecked(data)" *ngIf="options.view.checkable"
-        (nzCheckedChange)="onItemChecked(data, $event)"></td>
+    <td (nzCheckedChange)="onItemChecked(data, $event)" *ngIf="options.view.checkable"
+        [nzChecked]="isChecked(data)"></td>
     <!--      显示字段数据-->
     <ng-container *ngFor="let column of  options.view.columns">
       <!--      多标签显示-->
@@ -111,11 +111,11 @@
         <td *ngIf="column.type==='default'">{{formatData(data, column)}}</td>
         <!--      开关切换-->
         <td *ngIf="column.type==='switch'">
-          <nz-switch [name]="column.key"
+          <nz-switch (ngModelChange)="switch($event,data,column)"
+                     [name]="column.key"
                      [ngModel]="data[column.key]==column.switch.on"
                      [nzCheckedChildren]="column.switch.labelOn"
-                     [nzUnCheckedChildren]="column.switch.labelOff"
-                     (ngModelChange)="switch($event,data,column)"></nz-switch>
+                     [nzUnCheckedChildren]="column.switch.labelOff"></nz-switch>
         </td>
       </ng-container>
     </ng-container>
@@ -123,15 +123,15 @@
     <ng-container *ngFor="let action of [options.update,options.delete]">
       <td *ngIf="action?.api">
         <!--          修改-->
-          <ng-container *ngIf="action===options.update">
-            <i nz-icon nzType="edit" (click)="edit(data)"></i>
-          </ng-container>
-          <!--          删除-->
-          <ng-container *ngIf="action===options.delete">
-            <i nz-icon nzType="delete" (click)="delete(data)"></i>
-          </ng-container>
-        </td>
-      </ng-container>
-    </tr>
-    </tbody>
+        <ng-container *ngIf="action===options.update">
+          <i (click)="edit(data)" nz-icon nzType="edit"></i>
+        </ng-container>
+        <!--          删除-->
+        <ng-container *ngIf="action===options.delete">
+          <i (click)="delete(data)" nz-icon nzType="delete"></i>
+        </ng-container>
+      </td>
+    </ng-container>
+  </tr>
+  </tbody>
 </nz-table>

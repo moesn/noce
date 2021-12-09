@@ -3,10 +3,10 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {isEqual, isPlainObject, keyBy, mapValues, omit, pickBy} from 'lodash-es';
-import { NcCryptService, NcNotifyService} from '.';
+import {NcCryptService, NcNotifyService} from '.';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {saveAs} from 'file-saver';
-import { getAppOption } from '..';
+import {getAppOption} from '..';
 
 // 发送到后台的查询参数
 export interface NcQueryParams {
@@ -26,14 +26,14 @@ export interface NcQueryParams {
 
 @Injectable()
 export class NcHttpService {
+  // 返回默认http
+  client = this.http;
+
   constructor(private http: HttpClient,
               private crypt: NcCryptService,
               private notify: NcNotifyService,
               private modalService: NzModalService) {
   }
-
-  // 返回默认http
-  client = this.http;
 
   // 查询页面接口
   queryApis(): Observable<any> {

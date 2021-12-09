@@ -1,7 +1,7 @@
 <ng-container *ngIf="navs">
   <!--一个导航-->
   <ng-container *ngIf="navs.length==1">
-    <div class="nc-page-nav" [ngStyle]="{width:navs[0].width}" *ngFor="let nav of navs">
+    <div *ngFor="let nav of navs" [ngStyle]="{width:navs[0].width}" class="nc-page-nav">
       <!--  导航树-->
       <nc-tree *ngIf="nav.type==='tree'" [options]="nav"></nc-tree>
       <!--  导航列表-->
@@ -10,9 +10,9 @@
   </ng-container>
   <!--多个导航-->
   <ng-container *ngIf="navs.length>1">
-    <nz-carousel class="nc-page-nav" [ngStyle]="{width:navs[0].width}"
-                 [nzEnableSwipe]="false" (nzBeforeChange)="navIndex=$event.to">
-      <div nz-carousel-content *ngFor="let nav of navs; index as i">
+    <nz-carousel (nzBeforeChange)="navIndex=$event.to" [ngStyle]="{width:navs[0].width}"
+                 [nzEnableSwipe]="false" class="nc-page-nav">
+      <div *ngFor="let nav of navs; index as i" nz-carousel-content>
         <!--  导航树-->
         <nc-tree *ngIf="nav.type==='tree' && navIndex===i" [options]="nav"></nc-tree>
         <!--  导航列表-->
@@ -21,9 +21,9 @@
     </nz-carousel>
   </ng-container>
   <!--表格-->
-  <nc-table class="ant-right" [options]="table" [tabOption]="tabs" [navOption]="navs[navIndex]" *ngIf="table"
-            [ngStyle]="{width:navs?'calc(100% - 8px - ' + navs[0].width + ')':'100%'}"
+  <nc-table *ngIf="table" [navOption]="navs[navIndex]" [ngStyle]="{width:navs?'calc(100% - 8px - ' + navs[0].width + ')':'100%'}" [options]="table" [tabOption]="tabs"
+            class="ant-right"
   ></nc-table>
 </ng-container>
 <!--仅表格-->
-<nc-table [options]="table" [tabOption]="tabs" *ngIf="table&&!navs"></nc-table>
+<nc-table *ngIf="table&&!navs" [options]="table" [tabOption]="tabs"></nc-table>
