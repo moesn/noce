@@ -3,9 +3,10 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {isEqual, isPlainObject, keyBy, mapValues, omit, pickBy} from 'lodash-es';
-import {getAppOption, NcCryptService, NcNotifyService} from 'noce/core';
+import { NcCryptService, NcNotifyService} from '.';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {saveAs} from 'file-saver';
+import { getAppOption } from '..';
 
 // 发送到后台的查询参数
 export interface NcQueryParams {

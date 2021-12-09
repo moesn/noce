@@ -10,7 +10,7 @@ import {NcConfirmComponent, NcHttpService} from './services/http.service';
 import {NcNotifyService} from './services/notify.service';
 import {NcCryptBase64Service, NcCryptRSAService, NcCryptService} from './services/crypt.service';
 import {getAppOption, schemaToOption} from './schemas/schema-to-option';
-import {NcEventService, NcStoreService} from 'noce/core/services';
+import {NcEventService, NcStoreService} from './services';
 
 schemaToOption('/schemas/app.schema.json');
 schemaToOption('/schemas/auth.schema.json');

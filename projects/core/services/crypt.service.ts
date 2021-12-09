@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import JSEncrypt from 'jsencrypt';
-import {getAppOption} from 'noce/core';
+import {getAppOption} from '../schemas/schema-to-option';
 
 export abstract class NcCryptService {
   abstract encrypt(token: string): string;

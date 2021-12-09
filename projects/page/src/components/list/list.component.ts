@@ -2,8 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NcEventService, NcHttpService} from 'noce/core';
 import * as _ from 'lodash-es';
-import {NcFormComponent} from 'noce/page/src/components';
 import {__eval, objectExtend} from 'noce/helper';
+import { NcFormComponent } from '..';
 
 @Component({
   selector: 'nc-list',

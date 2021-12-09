@@ -1,4 +1,4 @@
-import {urlBase64Decode} from 'noce/helper';
+import {urlBase64Decode} from './base64';
 
 function invalidJwt(): void {
   throw new Error('无效的JWT');

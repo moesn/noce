@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CanActivateChild} from '@angular/router';
-import {NcAuthService} from 'noce/auth';
+import {NcAuthService} from '.';
 import {Observable, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
