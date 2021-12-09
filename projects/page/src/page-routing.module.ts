@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {NcCustomComponents} from '..';
+import {NcCustomComponents} from 'noce/core';
 import {NcPageComponent} from './page.component';
 
 const routes: Routes = [
