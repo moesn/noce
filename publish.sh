@@ -4,4 +4,5 @@ cd projects
 npm version patch
 cd ..
 npm run build
-npm publish dist
+cd dist
+npm publish

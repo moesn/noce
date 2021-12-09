@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
 import {NzIconModule} from 'ng-zorro-antd/icon';
+import {NcPageComponent} from './page.component';
 import {NcPageRoutingModule} from './page-routing.module';
 import {CommonModule} from '@angular/common';
 import {NzTableModule} from 'ng-zorro-antd/table';
 import {NzDividerModule} from 'ng-zorro-antd/divider';
 import {NzFormModule} from 'ng-zorro-antd/form';
-import {NcFormComponent, NcListComponent, NcPageComponent, NcTableComponent, NcTreeComponent} from './components';
+import {NcFormComponent, NcListComponent, NcTableComponent, NcTreeComponent} from './components';
 import {FormsModule} from '@angular/forms';
 import {NzDrawerModule} from 'ng-zorro-antd/drawer';
 import {NzInputModule} from 'ng-zorro-antd/input';
