@@ -35,8 +35,7 @@ const COMPONENTS = [
 
 @NgModule({
   imports: [...NG_MODULES, ...NZ_MODULES, NcAuthRoutingModule],
-  declarations: [...COMPONENTS],
-  exports: [...COMPONENTS],
+  declarations: COMPONENTS,
   providers: [
     ...SERVICES,
     // 默认使用sessionStorage，保持登录时使用localStorage
