@@ -3,7 +3,7 @@ import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NzTreeComponent} from 'ng-zorro-antd/tree';
 import {NcEventService, NcHttpService} from 'noce/core';
 import * as _ from 'lodash-es';
-import {__eval, arrayToTree, objectExtend} from 'noce/helper';
+import {__eval, _eval, arrayToTree, objectExtend} from 'noce/helper';
 import {NcFormComponent} from '..';
 
 @Component({
@@ -35,11 +35,18 @@ export class NcTreeComponent implements OnInit {
       if (res) {
         // 有组时，默认选中第一个组并查询表格数据
         if (_.isArray(res.data) && res.data.length) {
+          const parse = this.options.parseData;
+          // 如果需要解析表格数据
+          if (parse) {
+            res.data.forEach((data: any) => _eval(parse)(data));
+          }
+
           const {key, parentKey, nameKey, rootValue} = this.options;
           // 将数组转换成树型
           this.datas = arrayToTree(res.data, {key, parentKey, nameKey, rootValue});
           // 默认自动点击第一个节点
           this.click(this.datas[0]);
+
         }
       }
     });

@@ -261,6 +261,7 @@
                     }
                   },
                   "tabIndex": {
+                    "$id": "#tabIndex",
                     "title": "标签索引",
                     "description": "标记在哪些标签时显示当前字段，不配置时默认所有字段",
                     "oneOf": [
@@ -1047,6 +1048,16 @@
             "description": "导航数据主键映射到表格的对应字段",
             "type": "string",
             "minLength": 1
+          },
+          "tabIndex": {
+            "title": "标签索引",
+            "$ref": "#tabIndex",
+            "description": "标记在哪些标签时显示左侧导航，不配置时默认全部"
+          },
+          "parseData": {
+            "title": "解析数据",
+            "description": "导航渲染之前对数据进行处理",
+            "$ref": "#parse"
           },
           "form": {
             "$ref": "#form"

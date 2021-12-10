@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NcEventService, NcHttpService} from 'noce/core';
 import * as _ from 'lodash-es';
-import {__eval, objectExtend} from 'noce/helper';
+import {__eval, _eval, objectExtend} from 'noce/helper';
 import {NcFormComponent} from '..';
 
 @Component({
@@ -32,9 +32,16 @@ export class NcListComponent implements OnInit {
   query(): void {
     this.http.query(this.options.api, {}).subscribe((res: any) => {
       if (res) {
-        // 有数据时，默认选中第一个并查询表格数据
+        // 有数据时
         if (_.isArray(res.data) && res.data.length) {
+          const parse = this.options.parseData;
+          // 如果需要解析表格数据
+          if (parse) {
+            res.data.forEach((data: any) => _eval(parse)(data));
+          }
+
           this.datas = res.data;
+          // 默认选中第一个并查询表格数据
           this.click(this.datas[0]);
         }
       }

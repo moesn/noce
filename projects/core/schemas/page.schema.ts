@@ -51,6 +51,7 @@ export const NM_PAGE_SCHEMA =
         "$id": "#table",
         "title": "表格配置",
         "type": "object",
+
         "properties": {
           "title": {
             "title": "表格标题",
@@ -261,6 +262,7 @@ export const NM_PAGE_SCHEMA =
                       }
                     },
                     "tabIndex": {
+                      "$id": "#tabIndex",
                       "title": "标签索引",
                       "description": "标记在哪些标签时显示当前字段，不配置时默认所有字段",
                       "oneOf": [
@@ -1048,6 +1050,15 @@ export const NM_PAGE_SCHEMA =
               "type": "string",
               "minLength": 1
             },
+            "tabIndex": {
+              "title": "标签索引",
+              "$ref": "#tabIndex"
+            },
+            "parseData": {
+              "title": "解析数据",
+              "description": "导航渲染之前对数据进行处理",
+              "$ref": "#parse"
+            },
             "form": {
               "$ref": "#form"
             },
@@ -1084,7 +1095,8 @@ export const NM_PAGE_SCHEMA =
                   }
                 }
               },
-              "then": {}
+              "then": {
+              }
             }
           ]
         }
