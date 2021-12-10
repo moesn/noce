@@ -1,6 +1,6 @@
 import {Component, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {isEqual, isPlainObject, keyBy, mapValues, omit, pickBy} from 'lodash-es';
 import {NcCryptService, NcNotifyService} from '.';
@@ -95,7 +95,7 @@ export class NcHttpService {
   }
 
   // 删除数据，其他只需要传id的接口，可以使用delete，设置noc为true即可
-  delete(url: string, body: any, noc?: boolean): Observable<any> {
+  delete(url: string, body: any, noc?: boolean): any{
     // 是否不需要删除确认
     const nocon = sessionStorage.getItem(url);
     if (nocon === 'true' || noc) {
