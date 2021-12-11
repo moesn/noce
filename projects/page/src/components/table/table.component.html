@@ -23,7 +23,9 @@
       </button>
     </ng-container>
     <!--    模糊搜索-->
-    <ng-container *ngIf="searches.length">
+    <ng-container *ngIf="searchFields.length">
+      <nz-select [nzOptions]="searchFields"
+      ></nz-select>
       <nz-input-group *nzSpaceItem [nzAddOnAfter]="suffixButton" nzSearch>
         <input [(ngModel)]="body.fuzzy.keyword" nz-input placeholder="全局模糊搜索" type="text"/>
       </nz-input-group>

@@ -24,7 +24,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   tabIndex: number = 0; // 当前标签位置
   data: any = {}; // 当前操作的数据
   datas: any[] = []; // 表格数据
-  searches: any = []; // 可搜索的字段
+  searchFields: any = []; // 可搜索的字段
 
   body: any = { // 传到服务端端查询参数
     exact: {}, // 精确查询
@@ -59,7 +59,10 @@ export class NcTableComponent implements OnInit, OnDestroy {
     }
 
     // 过滤得到可以搜索的字段列表
-    this.searches = this.options.view.columns.filter((d: any) => d.search);
+    const fields = this.options.view.columns.filter((d: any) => d.search);
+    this.searchFields = _.zipWith(fields, (d: any) => {
+      return {label: d.label, value: d.key};
+    });
 
     // 订阅导航点击事件
     this.navClickEvent = this.event.on('NAV_CLICK').subscribe(res => {
@@ -71,9 +74,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
       } else {
         delete this.body.exact[this.navOption.mappingKey];
       }
-      // 切换回第一页
+      // 切换回第一页，切换了分页会触发查询，不用执行query
       this.pageIndex = 1;
-      this.query({pageIndex: 1});
     })
   }
 
@@ -106,9 +108,14 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 合并标签配置到表格配置，合并到新的对象{}，防止选项污染
     this.options = objectExtend({}, this.optionsBak, tab);
 
-    // 切换回第一页
+    // 过滤得到可以搜索的字段列表
+    const fields = this.options.view.columns.filter((d: any) => d.search);
+    this.searchFields = _.zipWith(fields, (d: any) => {
+      return {label: d.label, value: d.key};
+    });
+
+    // 切换回第一页，切换了分页会触发查询，不用执行query
     this.pageIndex = 1;
-    this.query({pageIndex: 1});
   }
 
   // 是否显示列
@@ -137,7 +144,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     objectExtend(this.body, params);
 
     // 没有分页参数页不查询
-    if (!this.body.pageIndex) {
+    if (!this.body.pageIndex||!this.body.pageSize) {
       return;
     }
 
@@ -150,6 +157,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
     if (this.options.view.body) {
       objectExtend(this.body, __eval.call(this, this.options.view.body));
     }
+
+    this.body.fuzzy.field = this.searchFields;
 
     // 合并表格查询参数
     objectExtend(body, this.body);
