@@ -4,8 +4,8 @@
   <h3 *ngIf="!tabOption" class="nc-page-title">{{options.title}}</h3>
   <!--  多标签-->
   <nz-space *ngIf="tabOption" class="ant-left">
-    <ng-container *ngFor="let _tab of tabOption">
-      <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab==tab?'primary':'default'" nz-button
+    <ng-container *ngFor="let _tab of tabOption;index as _tabIndex">
+      <button (click)="switchTab(_tab,_tabIndex)" *nzSpaceItem [nzType]="_tab==tab?'primary':'default'" nz-button
       >{{_tab.title}}</button>
     </ng-container>
   </nz-space>

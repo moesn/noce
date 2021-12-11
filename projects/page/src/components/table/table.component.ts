@@ -21,6 +21,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   navClickEvent: any; // 导航点击事件
 
   tab: any; // 当前标签
+  tabIndex: number = 0; // 当前标签位置
   data: any = {}; // 当前操作的数据
   datas: any[] = []; // 表格数据
   searches: any = []; // 可搜索的字段
@@ -54,7 +55,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 初始选中第一个标签
     if (this.tabOption) {
-      this.switchTab(this.tabOption[0]);
+      this.switchTab(this.tabOption[0], 0);
     }
 
     // 过滤得到可以搜索的字段列表
@@ -76,16 +77,28 @@ export class NcTableComponent implements OnInit, OnDestroy {
   }
 
   // 多标签时切换标签事件
-  switchTab(tab?: any): void {
-    if (tab) {
-      this.tab = tab;
-      // 备份公共table选项
-      if (!this.optionsBak) {
-        this.optionsBak = _.cloneDeep(this.options);
-      }
-      // 合并标签配置到表格配置，合并到新的对象{}，防止选项污染
-      this.options = objectExtend({}, this.optionsBak, tab);
+  switchTab(tab: any, index: number): void {
+    this.tab = tab;
+    this.tabIndex = index;
+
+    // 根据标签配置决定是否显示左侧导航
+    let navShow;
+    const navIndex = this.navOption.tabIndex;
+    if (_.isArray(navIndex)) {
+      navShow = navIndex.includes(this.tabIndex);
+    } else {
+      navShow = navIndex === undefined || navIndex === this.tabIndex;
     }
+
+    // 是否显示导航
+    this.event.emit('TAB_CLICK', navShow);
+
+    // 备份公共table选项
+    if (!this.optionsBak) {
+      this.optionsBak = _.cloneDeep(this.options);
+    }
+    // 合并标签配置到表格配置，合并到新的对象{}，防止选项污染
+    this.options = objectExtend({}, this.optionsBak, tab);
 
     // 切换回第一页
     this.pageIndex = 1;
@@ -93,17 +106,16 @@ export class NcTableComponent implements OnInit, OnDestroy {
   }
 
   // 是否显示列
-  showColumn(tabIndex: any): boolean {
+  showColumn(index: any): boolean {
     // 没有tab直接显示
     if (!this.tabOption) {
       return true
     } else {
-      const idx = this.tabOption.findIndex((d: any) => d.title === this.tab.title);
       // 没配、配了一个、配了多个
-      if (_.isArray(tabIndex)) {
-        return tabIndex.includes(idx)
+      if (_.isArray(index)) {
+        return index.includes(this.tabIndex);
       } else {
-        return tabIndex === undefined || tabIndex === idx
+        return index === undefined || index === this.tabIndex;
       }
     }
   }

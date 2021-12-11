@@ -15,9 +15,11 @@ export class NcPageComponent implements OnDestroy {
   tabs: any; // 多标签表格
 
   navIndex: number = 0; // 当前导航栏
+  navShow: boolean = true; // 是否显示导航
 
   routerEvent: any; // 路由跳转订阅
   reloadEvent: any; // 页面重载订阅
+  tabClickEvent: any; // 标签点击事件
 
   constructor(private router: Router,
               private notify: NcNotifyService,
@@ -33,6 +35,11 @@ export class NcPageComponent implements OnDestroy {
     // 监听重载页面事件
     this.reloadEvent = this.event.on('RELOAD_PAGE').subscribe(next => {
       this.loadOption();
+    });
+
+    // 订阅标签点击事件
+    this.tabClickEvent = this.event.on('TAB_CLICK').subscribe(navShow => {
+      this.navShow = navShow;
     })
   }
 
@@ -40,6 +47,7 @@ export class NcPageComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.routerEvent.unsubscribe();
     this.reloadEvent.unsubscribe();
+    this.tabClickEvent.unsubscribe();
   }
 
   // 加载页面配置选项
