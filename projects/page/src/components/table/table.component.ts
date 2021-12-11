@@ -156,7 +156,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       update = true;
     } else {
       // 新增时附加类型、分组等关联字段
-      objectExtend(this.data, this.body.exact)
+      this.data = objectExtend(data, this.body.exact)
     }
 
     // form的全局属性配置在第一个form上
