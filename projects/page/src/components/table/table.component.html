@@ -4,8 +4,8 @@
   <h3 *ngIf="!tabOption" class="nc-page-title">{{options.title}}</h3>
   <!--  多标签-->
   <nz-space *ngIf="tabOption" class="ant-left">
-    <ng-container *ngFor="let _tab of tabOption;index as _tabIndex">
-      <button (click)="switchTab(_tab,_tabIndex)" *nzSpaceItem [nzType]="_tab==tab?'primary':'default'" nz-button
+    <ng-container *ngFor="let _tab of tabOption">
+      <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab==tab?'primary':'default'" nz-button
       >{{_tab.title}}</button>
     </ng-container>
   </nz-space>
@@ -24,11 +24,23 @@
     </ng-container>
     <!--    模糊搜索-->
     <ng-container *ngIf="searchFields.length">
-      <nz-select [nzOptions]="searchFields"
-      ></nz-select>
-      <nz-input-group *nzSpaceItem [nzAddOnAfter]="suffixButton" nzSearch>
+      <nz-input-group *nzSpaceItem [nzAddOnBefore]="prefixMenu" [nzAddOnAfter]="suffixButton" nzSearch>
         <input [(ngModel)]="body.fuzzy.keyword" nz-input placeholder="全局模糊搜索" type="text"/>
       </nz-input-group>
+      <!--      搜索字段-->
+      <ng-template #prefixMenu>
+        <a nz-dropdown [nzDropdownMenu]="menu" [nzClickHide]="false" nzPlacement="bottomCenter"
+        nz-tooltip nzTooltipTitle="设置搜索字段">
+          <i nz-icon nzType="setting"></i>
+        </a>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item *ngFor="let field of searchFields" [ngClass]="{'ant-info':field.search}"
+                (click)="field.search=!field.search">{{field.label}} </li>
+          </ul>
+        </nz-dropdown-menu>
+      </ng-template>
+      <!--      搜索按钮-->
       <ng-template #suffixButton>
         <button (click)="query()" nz-button nzSearch>
           <i nz-icon nzType="search"></i>
@@ -84,7 +96,7 @@
     <!--      显示字段表头-->
     <ng-container *ngFor="let column of options.view.columns">
       <!--      多标签显示、过滤、排序-->
-      <th *ngIf="showColumn(column.tabIndex)"
+      <th *ngIf="isCureentTab(column.tabIndex)"
           [nzColumnKey]="column.key"
           [nzFilterFn]="true"
           [nzFilters]="column.filters"
@@ -108,7 +120,7 @@
     <!--      显示字段数据-->
     <ng-container *ngFor="let column of  options.view.columns">
       <!--      多标签显示-->
-      <ng-container *ngIf="showColumn(column.tabIndex)">
+      <ng-container *ngIf="isCureentTab(column.tabIndex)">
         <!--        普通列-->
         <td *ngIf="column.type==='default'">{{formatData(data, column)}}</td>
         <!--      开关切换-->

@@ -21,7 +21,6 @@ export class NcTableComponent implements OnInit, OnDestroy {
   navClickEvent: any; // 导航点击事件
 
   tab: any; // 当前标签
-  tabIndex: number = 0; // 当前标签位置
   data: any = {}; // 当前操作的数据
   datas: any[] = []; // 表格数据
   searchFields: any = []; // 可搜索的字段
@@ -55,14 +54,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 初始选中第一个标签
     if (this.tabOption) {
-      this.switchTab(this.tabOption[0], 0);
+      this.switchTab(this.tabOption[0]);
+    } else {
+      // 过滤得到可以搜索的字段列表，设置了search并且是当前标签的
+      this.searchFields = this.options.view.columns.filter((d: any) => d.search && this.isCureentTab(d.tabIndex));
     }
-
-    // 过滤得到可以搜索的字段列表
-    const fields = this.options.view.columns.filter((d: any) => d.search);
-    this.searchFields = _.zipWith(fields, (d: any) => {
-      return {label: d.label, value: d.key};
-    });
 
     // 订阅导航点击事件
     this.navClickEvent = this.event.on('NAV_CLICK').subscribe(res => {
@@ -82,55 +78,6 @@ export class NcTableComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // 取消订阅导航点击事件
     this.navClickEvent.unsubscribe();
-  }
-
-  // 多标签时切换标签事件
-  switchTab(tab: any, index: number): void {
-    this.tab = tab;
-    this.tabIndex = index;
-
-    // 根据标签配置决定是否显示左侧导航
-    let navShow;
-    const navIndex = this.navOption.tabIndex;
-    if (_.isArray(navIndex)) {
-      navShow = navIndex.includes(this.tabIndex);
-    } else {
-      navShow = navIndex === undefined || navIndex === this.tabIndex;
-    }
-
-    // 是否显示导航
-    this.event.emit('TAB_CLICK', navShow);
-
-    // 备份公共table选项
-    if (!this.optionsBak) {
-      this.optionsBak = _.cloneDeep(this.options);
-    }
-    // 合并标签配置到表格配置，合并到新的对象{}，防止选项污染
-    this.options = objectExtend({}, this.optionsBak, tab);
-
-    // 过滤得到可以搜索的字段列表
-    const fields = this.options.view.columns.filter((d: any) => d.search);
-    this.searchFields = _.zipWith(fields, (d: any) => {
-      return {label: d.label, value: d.key};
-    });
-
-    // 切换回第一页，切换了分页会触发查询，不用执行query
-    this.pageIndex = 1;
-  }
-
-  // 是否显示列
-  showColumn(index: any): boolean {
-    // 没有tab直接显示
-    if (!this.tabOption) {
-      return true
-    } else {
-      // 没配、配了一个、配了多个
-      if (_.isArray(index)) {
-        return index.includes(this.tabIndex);
-      } else {
-        return index === undefined || index === this.tabIndex;
-      }
-    }
   }
 
   // 查询表格数据
@@ -158,7 +105,14 @@ export class NcTableComponent implements OnInit, OnDestroy {
       objectExtend(this.body, __eval.call(this, this.options.view.body));
     }
 
-    this.body.fuzzy.field = this.searchFields;
+    // 过滤得到需要搜索的字段列表
+    let searches = this.searchFields.filter((d: any) => d.search);
+    // 没有设置搜索字段时也是搜索全部可搜索的字段
+    if (!searches.length) {
+      searches = this.searchFields;
+    }
+    // 设置搜索字段key
+    this.body.fuzzy.field = _.zipWith(searches, (d: any) => d.key);
 
     // 合并表格查询参数
     objectExtend(body, this.body);
@@ -278,6 +232,42 @@ export class NcTableComponent implements OnInit, OnDestroy {
         this.total -= 1;
       }
     });
+  }
+
+  // 多标签时切换标签事件
+  switchTab(tab: any): void {
+    this.tab = tab;
+    // 是否显示导航
+    this.event.emit('TAB_CLICK', this.isCureentTab(this.navOption.tabIndex));
+
+    // 备份公共table选项
+    if (!this.optionsBak) {
+      this.optionsBak = _.cloneDeep(this.options);
+    }
+    // 合并标签配置到表格配置，合并到新的对象{}，防止选项污染
+    this.options = objectExtend({}, this.optionsBak, tab);
+
+    // 切换回第一页，切换了分页会触发查询，不用执行query
+    this.pageIndex = 1;
+    // 过滤得到可以搜索的字段列表，设置了search并且是当前标签的
+    this.searchFields = this.options.view.columns.filter((d: any) => d.search && this.isCureentTab(d.tabIndex));
+  }
+
+  // 是否当前Tab的内容
+  isCureentTab(index: any): boolean {
+    // 没有tab直接显示
+    if (!this.tabOption) {
+      return true
+    } else {
+      const idx = this.tabOption.findIndex((d: any) => d.title === this.tab.title);
+
+      // 没配、配了一个、配了多个
+      if (_.isArray(index)) {
+        return index.includes(idx);
+      } else {
+        return index === undefined || index === idx;
+      }
+    }
   }
 
   // 切换状态

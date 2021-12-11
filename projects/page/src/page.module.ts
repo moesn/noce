@@ -24,6 +24,7 @@ import {NzListModule} from 'ng-zorro-antd/list';
 import {NzCarouselModule} from 'ng-zorro-antd/carousel';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzTabsModule} from 'ng-zorro-antd/tabs';
+import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
 
 const NG_MODULES = [
   FormsModule,
@@ -49,6 +50,7 @@ const NZ_MODULES = [
   NzListModule,
   NzModalModule,
   NzTabsModule,
+  NzDropDownModule,
   NzCarouselModule,
 ];
 
