@@ -97,6 +97,7 @@
     <ng-container *ngFor="let column of options.view.columns">
       <!--      多标签显示、过滤、排序-->
       <th *ngIf="isCureentTab(column.tabIndex)"
+          [nzWidth]="column.width"
           [nzColumnKey]="column.key"
           [nzFilterFn]="true"
           [nzFilters]="column.filters"

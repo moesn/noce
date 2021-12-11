@@ -136,6 +136,11 @@ export const NM_PAGE_SCHEMA =
                       "type": "string",
                       "minLength": 1
                     },
+                    "width": {
+                      "title": "表格宽度",
+                      "type": "string",
+                      "pattern": "^[0-9]+(px|%)$"
+                    },
                     "switch": {
                       "title": "开关切换",
                       "type": "object",
@@ -176,35 +181,45 @@ export const NM_PAGE_SCHEMA =
                       }
                     },
                     "select": {
-                      "title": "开关",
+                      "title": "选择切换",
                       "type": "object",
                       "required": [
-                        "api"
+                        "api",
+                        "options"
                       ],
 
                       "properties": {
                         "api": {
                           "$ref": "#api"
                         },
-                        "on": {
-                          "title": "开的值",
-                          "type": "integer",
-                          "default": 1
-                        },
-                        "off": {
-                          "title": "关的值",
-                          "type": "integer",
-                          "default": 0
-                        },
-                        "labelOn": {
-                          "title": "开的文字标签",
-                          "type": "string",
-                          "default": "启用"
-                        },
-                        "labelOff": {
-                          "title": "关的文字标签",
-                          "type": "string",
-                          "default": "禁用"
+                        "options": {
+                          "title": "切换的选项",
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 2,
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "label",
+                              "value"
+                            ],
+
+                            "properties": {
+                              "label": {
+                                "title": "选项显示的标签",
+                                "type": "string"
+                              },
+                              "value": {
+                                "title": "选项提交到后台的值",
+                                "type": [
+                                  "boolean",
+                                  "string",
+                                  "array",
+                                  "number"
+                                ]
+                              }
+                            }
+                          }
                         }
                       }
                     },
@@ -666,6 +681,7 @@ export const NM_PAGE_SCHEMA =
                           "邮箱",
                           "URL",
                           "IP",
+                          "IP段",
                           "IPV4",
                           "IPV6",
                           "MAC",
@@ -1057,7 +1073,8 @@ export const NM_PAGE_SCHEMA =
             },
             "tabIndex": {
               "title": "标签索引",
-              "$ref": "#tabIndex"
+              "$ref": "#tabIndex",
+              "description": "标记在哪些标签时显示左侧导航，不配置时默认全部"
             },
             "parseData": {
               "title": "解析数据",
