@@ -139,7 +139,7 @@ export const NM_PAGE_SCHEMA =
                     "width": {
                       "title": "表格宽度",
                       "type": "string",
-                      "pattern": "^[0-9]+(px|%)$"
+                      "pattern": "^0|[0-9]+(px|%)$"
                     },
                     "switch": {
                       "title": "开关切换",
