@@ -21,8 +21,8 @@
     </nz-carousel>
   </ng-container>
   <!--表格-->
-  <nc-table *ngIf="table" [navOption]="navs[navIndex]" [ngStyle]="{width:navs?'calc(100% - 8px - ' + navs[0].width + ')':'100%'}" [options]="table" [tabOption]="tabs"
-            class="ant-right"
+  <nc-table *ngIf="table" [navOption]="navs[navIndex]" [options]="table" [tabOption]="tabs"
+            class="ant-right" [ngStyle]="{width:navShow&&navs?'calc(100% - 8px - ' + navs[0].width + ')':'100%'}"
   ></nc-table>
 </ng-container>
 <!--仅表格-->

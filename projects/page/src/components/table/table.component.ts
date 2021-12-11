@@ -63,8 +63,14 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 订阅导航点击事件
     this.navClickEvent = this.event.on('NAV_CLICK').subscribe(res => {
-      // 设置关联查询参数
-      this.body.exact[this.navOption.mappingKey] = res[this.navOption.key];
+      // 关联的值
+      const mappingValue = res[this.navOption.key];
+      // 点击导航时设置关联参数，返回全部时删除关联参数
+      if (mappingValue) {
+        this.body.exact[this.navOption.mappingKey] = mappingValue;
+      } else {
+        delete this.body.exact[this.navOption.mappingKey];
+      }
       // 切换回第一页
       this.pageIndex = 1;
       this.query({pageIndex: 1});
@@ -136,9 +142,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
     }
 
     // 如果有导航，但没有关联导航，则阻止表格自动查询
-    if (this.navOption && !this.body.exact[this.navOption.mappingKey]) {
-      return;
-    }
+    // if (this.navOption && !this.body.exact[this.navOption.mappingKey]) {
+    //   return;
+    // }
 
     // 合并用户配置的参数
     if (this.options.view.body) {

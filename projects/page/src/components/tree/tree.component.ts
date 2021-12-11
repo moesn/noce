@@ -45,11 +45,18 @@ export class NcTreeComponent implements OnInit {
           // 将数组转换成树型
           this.datas = arrayToTree(res.data, {key, parentKey, nameKey, rootValue});
           // 默认自动点击第一个节点
-          this.click(this.datas[0]);
-
+          // this.click(this.datas[0]);
         }
       }
     });
+  }
+
+  // 返回全部
+  rollback(): void {
+    this.data = {};
+    this.keys = [];
+    // 发出点击事件
+    this.event.emit('NAV_CLICK', this.data);
   }
 
   // 点击树节点

@@ -42,10 +42,17 @@ export class NcListComponent implements OnInit {
 
           this.datas = res.data;
           // 默认选中第一个并查询表格数据
-          this.click(this.datas[0]);
+          // this.click(this.datas[0]);
         }
       }
     });
+  }
+
+  // 返回全部
+  rollback(): void {
+    this.data = {};
+    // 发出点击事件
+    this.event.emit('NAV_CLICK', this.data);
   }
 
   // 点击
