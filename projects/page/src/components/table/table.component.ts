@@ -70,8 +70,13 @@ export class NcTableComponent implements OnInit, OnDestroy {
       } else {
         delete this.body.exact[this.navOption.mappingKey];
       }
+
       // 切换回第一页，切换了分页会触发查询，不用执行query
-      this.pageIndex = 1;
+      if (this.pageIndex !== 1) {
+        this.pageIndex = 1;
+      } else {
+        this.query({pageIndex: 1});
+      }
     })
   }
 
@@ -91,14 +96,14 @@ export class NcTableComponent implements OnInit, OnDestroy {
     objectExtend(this.body, params);
 
     // 没有分页参数页不查询
-    if (!this.body.pageIndex||!this.body.pageSize) {
+    if (!this.body.pageIndex || !this.body.pageSize) {
       return;
     }
 
     // 如果有导航，但没有关联导航，则阻止表格自动查询
-    // if (this.navOption && !this.body.exact[this.navOption.mappingKey]) {
-    //   return;
-    // }
+    if (this.navOption && this.navOption.force && !this.body.exact[this.navOption.mappingKey]) {
+      return;
+    }
 
     // 合并用户配置的参数
     if (this.options.view.body) {
@@ -249,6 +254,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 切换回第一页，切换了分页会触发查询，不用执行query
     this.pageIndex = 1;
+
     // 过滤得到可以搜索的字段列表，设置了search并且是当前标签的
     this.searchFields = this.options.view.columns.filter((d: any) => d.search && this.isCureentTab(d.tabIndex));
   }

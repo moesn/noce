@@ -42,7 +42,9 @@ export class NcListComponent implements OnInit {
 
           this.datas = res.data;
           // 默认选中第一个并查询表格数据
-          // this.click(this.datas[0]);
+          if(this.options.force){
+            this.click(this.datas[0]);
+          }
         }
       }
     });

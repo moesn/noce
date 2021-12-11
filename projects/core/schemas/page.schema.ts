@@ -1050,6 +1050,11 @@ export const NM_PAGE_SCHEMA =
               "type": "string",
               "minLength": 1
             },
+            "force": {
+              "title": "是否必须选择列表项",
+              "type": "boolean",
+              "default": false
+            },
             "tabIndex": {
               "title": "标签索引",
               "$ref": "#tabIndex"

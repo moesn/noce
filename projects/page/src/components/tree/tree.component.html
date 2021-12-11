@@ -22,8 +22,8 @@
       <i (click)="delete()" *nzSpaceItem nz-icon nzType="delete"></i>
     </ng-container>
   </nz-space>
-  <i (click)="rollback()" nz-icon nzType="rollback" class="ant-right" nz-tooltip nzTooltipTitle="返回全部"></i>
-</ng-template>
+  <i (click)="rollback()" nz-icon nzType="rollback" class="ant-right" *ngIf="!options.force&&keys.length"
+     nz-tooltip nzTooltipTitle="返回全部"></i></ng-template>
 <nz-card [nzTitle]="treeTitle">
   <!--树-->
   <nz-tree #treeComponent
