@@ -17,6 +17,7 @@ export class NcListComponent implements OnInit {
   data: any = {}; // 当前操作的数据
   datas: any[] = []; // 列表数据
   key: string = ''; // 数据主键
+  loading: boolean = false; // 是否加载数据中
 
   constructor(private drawer: NzDrawerService,
               private http: NcHttpService,
@@ -30,24 +31,29 @@ export class NcListComponent implements OnInit {
 
   // 查询列表
   query(): void {
-    this.http.query(this.options.api, {}).subscribe((res: any) => {
-      if (res) {
-        // 有数据时
-        if (_.isArray(res.data) && res.data.length) {
-          const parse = this.options.parseData;
-          // 如果需要解析表格数据
-          if (parse) {
-            res.data.forEach((data: any) => _eval(parse)(data));
-          }
+    this.loading = true;
+    this.http.query(this.options.api, {}).subscribe(
+      (res: any) => {
+        if (res) {
+          // 有数据时
+          if (_.isArray(res.data) && res.data.length) {
+            const parse = this.options.parseData;
+            // 如果需要解析表格数据
+            if (parse) {
+              res.data.forEach((data: any) => _eval(parse)(data));
+            }
 
-          this.datas = res.data;
-          // 默认选中第一个并查询表格数据
-          if(this.options.force){
-            this.click(this.datas[0]);
+            this.datas = res.data;
+            // 默认选中第一个并查询表格数据
+            if (this.options.force) {
+              this.click(this.datas[0]);
+            }
           }
         }
-      }
-    });
+      },
+      () => this.loading = false,
+      () => this.loading = false
+    );
   }
 
   // 返回全部

@@ -35,6 +35,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   pageIndex: number = 1; // 当前页数
   total: number = 0; // 表格数据总数
+  loading: boolean = false; // 是否加载数据中
 
   allChecked = false; // 当前页是否全选
   indeterminate = false; // 当前页是否有选
@@ -90,6 +91,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 清空数据
     this.data = {};
     this.datas = [];
+    this.loading = true;
+
     // 查询参数
     let body = {};
     // 记录分页、过滤、排序等表格查询参数
@@ -122,33 +125,37 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 合并表格查询参数
     objectExtend(body, this.body);
 
-    this.http.query(this.options.view.api, body).subscribe(res => {
-      if (res) {
-        // 有些接口没有数据返回的是null
-        this.datas = res.data || [];
-        this.total = res.total;
+    this.http.query(this.options.view.api, body).subscribe(
+      res => {
+        if (res) {
+          // 有些接口没有数据返回的是null
+          this.datas = res.data || [];
+          this.total = res.total;
 
-        const parse = this.options.view.parseData;
-        // 如果需要解析表格数据
-        if (parse) {
-          this.datas.forEach(data => _eval(parse)(data));
+          const parse = this.options.view.parseData;
+          // 如果需要解析表格数据
+          if (parse) {
+            this.datas.forEach(data => _eval(parse)(data));
+          }
+
+          // 表格作为弹窗时反选上已选数据
+          this.datas.forEach((d: any) => {
+            // 单选时非数组，转成数组
+            if (!_.isArray(this.checkedKeys)) {
+              this.checkedKeys = [this.checkedKeys];
+            }
+            // 主键包含在数组里的反选上
+            if (this.checkedKeys.includes(d[this.key])) {
+              this.checkedData.add(d);
+            }
+          });
+
+          this.refreshCheckedStatus();
         }
-
-        // 表格作为弹窗时反选上已选数据
-        this.datas.forEach((d: any) => {
-          // 单选时非数组，转成数组
-          if (!_.isArray(this.checkedKeys)) {
-            this.checkedKeys = [this.checkedKeys];
-          }
-          // 主键包含在数组里的反选上
-          if (this.checkedKeys.includes(d[this.key])) {
-            this.checkedData.add(d);
-          }
-        });
-
-        this.refreshCheckedStatus();
-      }
-    });
+      },
+      () => this.loading = false,
+      () => this.loading = false
+    );
   }
 
   // 修改表格数据
