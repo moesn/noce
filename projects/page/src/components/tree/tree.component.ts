@@ -45,7 +45,7 @@ export class NcTreeComponent implements OnInit {
           // 将数组转换成树型
           this.datas = arrayToTree(res.data, {key, parentKey, nameKey, rootValue});
           // 默认自动点击第一个节点
-          if (this.options.force) {
+          if (this.options.selected) {
             this.click(this.datas[0]);
           }
         }

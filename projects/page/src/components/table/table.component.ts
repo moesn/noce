@@ -104,7 +104,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     }
 
     // 如果有导航，但没有关联导航，则阻止表格自动查询
-    if (this.navOption && this.navOption.force && !this.body.exact[this.navOption.mappingKey]) {
+    if (this.navOption && this.navOption.selected && !this.body.exact[this.navOption.mappingKey]) {
       return;
     }
 

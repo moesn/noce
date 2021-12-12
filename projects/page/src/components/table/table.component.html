@@ -1,5 +1,5 @@
-<!--表格工具栏-->
-<ng-template #dataTitleTpl>
+<!--表头工具栏-->
+<ng-template #titleTpl>
   <!--  标题-->
   <h3 *ngIf="!tabOption" class="nc-page-title">{{options.title}}</h3>
   <!--  多标签-->
@@ -65,6 +65,9 @@
     </ng-container>
   </nz-space>
 </ng-template>
+<!--表脚工具栏-->
+<ng-template #footerTpl>
+</ng-template>
 <!--总条数-->
 <ng-template #totalTpl let-range="range" let-total>
   总{{ total }}条&emsp;当前{{ range[0] }}-{{ range[1] }}
@@ -81,7 +84,8 @@
           [nzScroll]="{y:height}"
           [nzShowTotal]="totalTpl"
           [nzSimple]="options.view.simple"
-          [nzTitle]="dataTitleTpl"
+          [nzTitle]="titleTpl"
+          [nzFooter]="footerTpl"
           [nzTotal]="total"
           [nzLoading]="loading"
 >

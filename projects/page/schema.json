@@ -122,7 +122,8 @@
                     "enum": [
                       "default",
                       "switch",
-                      "select"
+                      "select",
+                      "action"
                     ]
                   },
                   "label": {
@@ -221,6 +222,10 @@
                         }
                       }
                     }
+                  },
+                  "action": {
+                    "title": "自定义表格操作列",
+                    "$ref": "#action"
                   },
                   "format": {
                     "title": "表格数据格式化",
@@ -477,11 +482,10 @@
           }
         },
         "actions": {
-          "$id": "#actions",
           "title": "表格操作按钮扩展",
           "type": "array",
-          "uniqueItems": true,
           "items": {
+            "$id": "#action",
             "type": "object",
             "required": [
               "icon",
@@ -501,10 +505,6 @@
               }
             }
           }
-        },
-        "acts": {
-          "$ref": "#actions",
-          "title": "单元格操作扩展"
         }
       },
       "dependencies": {
@@ -1065,8 +1065,8 @@
             "type": "string",
             "minLength": 1
           },
-          "force": {
-            "title": "是否必须选择列表项",
+          "selected": {
+            "title": "是否必须选中列表项",
             "type": "boolean",
             "default": false
           },
