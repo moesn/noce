@@ -494,6 +494,11 @@ export const NM_PAGE_SCHEMA =
                   "title": "按钮说明",
                   "type": "string",
                   "minLength": 1
+                },
+                "confirm": {
+                  "title": "操作确认提示信息",
+                  "type": "string",
+                  "minLength": 1
                 }
               }
             }

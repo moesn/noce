@@ -25,6 +25,7 @@ import {NzCarouselModule} from 'ng-zorro-antd/carousel';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzTabsModule} from 'ng-zorro-antd/tabs';
 import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
+import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
 
 const NG_MODULES = [
   FormsModule,
@@ -51,6 +52,7 @@ const NZ_MODULES = [
   NzModalModule,
   NzTabsModule,
   NzDropDownModule,
+  NzPopconfirmModule,
   NzCarouselModule,
 ];
 

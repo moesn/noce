@@ -498,6 +498,11 @@
                 "type": "string",
                 "minLength": 1
               },
+              "confirm": {
+                "title": "操作确认提示信息",
+                "type": "string",
+                "minLength": 1
+              },
               "click": {
                 "title": "点击后触发的行为",
                 "oneOf": [

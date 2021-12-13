@@ -9,6 +9,7 @@ import {objectExtend} from 'noce/helper';
   styleUrls: ['page.component.less']
 })
 export class NcPageComponent implements OnDestroy {
+  className: string = 'nc' + location.pathname.split('/').join('-'); // 样式名称，自定义样式时可用
   apis: any; // 页面可用服务接口
   table: any; // 左侧表格
   navs: any; // 右侧导航

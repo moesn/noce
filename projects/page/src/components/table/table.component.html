@@ -54,7 +54,10 @@
     <!--    操作按钮扩展-->
     <ng-container *ngFor="let action of options.actions">
       <button *nzSpaceItem nz-button>
-        <i [nzTooltipTitle]="action.tip" [nzType]="action.icon" nz-icon nz-tooltip (click)="actionClick(action.click)"></i>
+        <i [nzTooltipTitle]="action.tip" [nzType]="action.icon" *ngIf="!action.confirm"
+           nz-icon nz-tooltip (click)="actionClick(action.click)"></i>
+        <i [nzTooltipTitle]="action.tip" [nzType]="action.icon" *ngIf="action.confirm"
+           nz-icon nz-tooltip nz-popconfirm [nzPopconfirmTitle]="action.confirm" (nzOnConfirm)="actionClick(action.click)"></i>
       </button>
     </ng-container>
     <!--    增加按钮-->

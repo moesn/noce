@@ -1,29 +1,32 @@
-<ng-container *ngIf="navs">
-  <!--一个导航-->
-  <ng-container *ngIf="navShow&&navs.length==1">
-    <div *ngFor="let nav of navs" [ngStyle]="{width:navs[0].width}" class="nc-page-nav">
-      <!--  导航树-->
-      <nc-tree *ngIf="nav.type==='tree'" [options]="nav"></nc-tree>
-      <!--  导航列表-->
-      <nc-list *ngIf="nav.type==='list'" [options]="nav"></nc-list>
-    </div>
-  </ng-container>
-  <!--多个导航-->
-  <ng-container *ngIf="navShow&&navs.length>1">
-    <nz-carousel (nzBeforeChange)="navIndex=$event.to" [ngStyle]="{width:navs[0].width}"
-                 [nzEnableSwipe]="false" class="nc-page-nav">
-      <div *ngFor="let nav of navs; index as i" nz-carousel-content>
+<div [class]="className">
+  <ng-container *ngIf="navs">
+    <!--一个导航-->
+    <ng-container *ngIf="navShow&&navs.length==1">
+      <div *ngFor="let nav of navs" [ngStyle]="{width:navs[0].width}" class="nc-page-nav">
         <!--  导航树-->
-        <nc-tree *ngIf="nav.type==='tree' && navIndex===i" [options]="nav"></nc-tree>
+        <nc-tree *ngIf="nav.type==='tree'" [options]="nav"></nc-tree>
         <!--  导航列表-->
-        <nc-list *ngIf="nav.type==='list' && navIndex===i" [options]="nav"></nc-list>
+        <nc-list *ngIf="nav.type==='list'" [options]="nav"></nc-list>
       </div>
-    </nz-carousel>
+    </ng-container>
+    <!--多个导航-->
+    <ng-container *ngIf="navShow&&navs.length>1">
+      <nz-carousel (nzBeforeChange)="navIndex=$event.to" [ngStyle]="{width:navs[0].width}"
+                   [nzEnableSwipe]="false" class="nc-page-nav">
+        <div *ngFor="let nav of navs; index as i" nz-carousel-content>
+          <!--  导航树-->
+          <nc-tree *ngIf="nav.type==='tree' && navIndex===i" [options]="nav"></nc-tree>
+          <!--  导航列表-->
+          <nc-list *ngIf="nav.type==='list' && navIndex===i" [options]="nav"></nc-list>
+        </div>
+      </nz-carousel>
+    </ng-container>
+    <!--表格-->
+    <nc-table *ngIf="table" [navOption]="navs[navIndex]" [options]="table" [tabOption]="tabs"
+              class="ant-right" [ngStyle]="{width:navShow&&navs?'calc(100% - 8px - ' + navs[0].width + ')':'100%'}"
+    ></nc-table>
   </ng-container>
-  <!--表格-->
-  <nc-table *ngIf="table" [navOption]="navs[navIndex]" [options]="table" [tabOption]="tabs"
-            class="ant-right" [ngStyle]="{width:navShow&&navs?'calc(100% - 8px - ' + navs[0].width + ')':'100%'}"
-  ></nc-table>
-</ng-container>
-<!--仅表格-->
-<nc-table *ngIf="table&&!navs" [options]="table" [tabOption]="tabs"></nc-table>
+  <!--仅表格-->
+  <nc-table *ngIf="table&&!navs" [options]="table" [tabOption]="tabs"></nc-table>
+
+</div>
