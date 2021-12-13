@@ -54,7 +54,7 @@
     <!--    操作按钮扩展-->
     <ng-container *ngFor="let action of options.actions">
       <button *nzSpaceItem nz-button>
-        <i [nzTooltipTitle]="action.tip" [nzType]="action.icon" nz-icon nz-tooltip></i>
+        <i [nzTooltipTitle]="action.tip" [nzType]="action.icon" nz-icon nz-tooltip (click)="actionClick(action.click)"></i>
       </button>
     </ng-container>
     <!--    增加按钮-->
@@ -128,7 +128,7 @@
       <!--      多标签显示-->
       <ng-container *ngIf="isCureentTab(column.tabIndex)">
         <!--        普通列-->
-        <td *ngIf="column.type==='default'">{{formatData(data, column)}}</td>
+        <td *ngIf="column.type==='default'">{{formatData(data[column.key], column)}}</td>
         <!--      开关切换-->
         <td *ngIf="column.type==='switch'">
           <nz-switch (ngModelChange)="switch($event,data,column)"

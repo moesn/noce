@@ -4,8 +4,11 @@
   "description": "支持表格、表单、列表、树等，examples里是关键字说明",
   "examples": [
     "apis：api接口配置时的关键字，例：apis.userlist",
-    "this：设置动态参数时的关键字，例：$this.data.id$",
     "$*$：动态参数时使用",
+    "this：设置动态参数时的关键字",
+    "this.data：当前操作的数据",
+    "this.nav：导航+表格时，当前操作的导航数据",
+    "例：$this.data.id$",
     "$*：1、树形结构的上级名称时使用"
   ],
   "type": "object",
@@ -480,7 +483,8 @@
             "type": "object",
             "required": [
               "icon",
-              "tip"
+              "tip",
+              "click"
             ],
             "additionalProperties": false,
             "properties": {
@@ -493,6 +497,15 @@
                 "title": "按钮说明",
                 "type": "string",
                 "minLength": 1
+              },
+              "click": {
+                "title": "点击后触发的行为",
+                "oneOf": [
+                  {
+                    "title": "仅需要调用固定接口",
+                    "$ref": "#create"
+                  }
+                ]
               }
             }
           }
@@ -784,7 +797,7 @@
                       "default": "id",
                       "minLength": 1
                     },
-                    "onClick": {
+                    "click": {
                       "title": "切换点击事件",
                       "$ref": "#parse"
                     }
@@ -1196,7 +1209,7 @@
       "type": "object",
       "examples": [
         {
-          "roleId": "$this.list.id$",
+          "roleId": "$this.nav.id$",
           "status": "未激活"
         }
       ]

@@ -19,6 +19,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   optionsBak: any; // 备份表格选项
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
   navClickEvent: any; // 导航点击事件
+  nav: any; // 导航选中项的数据
 
   tab: any; // 当前标签
   data: any = {}; // 当前操作的数据
@@ -63,6 +64,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 订阅导航点击事件
     this.navClickEvent = this.event.on('NAV_CLICK').subscribe(res => {
+      // 记录导航项的数据，供自定义操作使用
+      this.nav = res;
       // 关联的值
       const mappingValue = res[this.navOption.key];
       // 点击导航时设置关联参数，返回全部时删除关联参数
@@ -314,17 +317,26 @@ export class NcTableComponent implements OnInit, OnDestroy {
         // 使用内置管道格式化
         switch (cformat) {
           case 'datetime':
-            res = format(new Date(data[column.key]), 'yyyy-MM-dd HH:mm:ss');
+            res = format(new Date(data), 'yyyy-MM-dd HH:mm:ss');
             break;
           default:
         }
       }
       // 直接返回
     } else {
-      return data[column.key];
+      return data;
     }
 
     return res;
+  }
+
+  // 表格扩展按钮点击事件
+  actionClick(click: any): void {
+    // 仅调用接口
+    if (click.api) {
+      const body = __eval.call(this, click.body);
+      this.http.post(click.api, body).subscribe();
+    }
   }
 
   // 更新已选ID集合
