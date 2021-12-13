@@ -435,6 +435,10 @@
             }
           }
         },
+        "dragSort": {
+          "title": "表格拖拽排序",
+          "$ref": "#create"
+        },
         "upload": {
           "title": "数据上传",
           "type": "object",

@@ -60,6 +60,15 @@
            nz-icon nz-tooltip nz-popconfirm [nzPopconfirmTitle]="action.confirm" (nzOnConfirm)="actionClick(action.click)"></i>
       </button>
     </ng-container>
+    <!--    拖放排序按钮-->
+    <ng-container *ngIf="options.dragSort?.api">
+      <button (click)="sort()" *nzSpaceItem nz-button
+              nz-tooltip [nzTooltipTitle]="!options.dragable?'点击拖曳排序':'保存排序结果'">
+        <i nz-icon nzType="save" nzTheme="outline" *ngIf="options.dragable"></i>
+        <i nz-icon nzType="sort-ascending" nzTheme="outline" *ngIf="!options.dragable"></i>
+
+      </button>
+    </ng-container>
     <!--    增加按钮-->
     <ng-container *ngIf="options.create?.api">
       <button (click)="edit({})" *nzSpaceItem nz-button>
@@ -117,8 +126,8 @@
     </ng-container>
   </tr>
   </thead>
-  <tbody>
-  <tr *ngFor="let data of dataTable['data']">
+  <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+  <tr *ngFor="let data of datas" cdkDrag [cdkDragDisabled]="!options.dragable">
     <!--      选择框-->
     <td (nzCheckedChange)="onItemChecked(data, $event)" *ngIf="options.view.checkable"
         [nzChecked]="isChecked(data)"></td>

@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {DragDropModule} from '@angular/cdk/drag-drop'
 import {NzIconModule} from 'ng-zorro-antd/icon';
 import {NcPageComponent} from './page.component';
 import {NcPageRoutingModule} from './page-routing.module';
@@ -29,6 +30,7 @@ import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
 
 const NG_MODULES = [
   FormsModule,
+  DragDropModule,
 ];
 
 const NZ_MODULES = [

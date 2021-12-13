@@ -1,4 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {NcEventService, NcHttpService} from 'noce/core';
 import {__eval, _eval, objectExtend} from 'noce/helper';
 import * as _ from 'lodash-es';
@@ -336,6 +337,23 @@ export class NcTableComponent implements OnInit, OnDestroy {
     if (click.api) {
       const body = __eval.call(this, click.body);
       this.http.post(click.api, body).subscribe();
+    }
+  }
+
+  // 拖放
+  drop(event: CdkDragDrop<string[]>): void {
+    if (this.options.dragable) {
+      moveItemInArray(this.datas, event.previousIndex, event.currentIndex);
+    }
+  }
+
+  // 拖拽排序
+  sort() {
+    // 切换拖拽状态
+    this.options.dragable = !this.options.dragable;
+    // 排序结束时保存排序
+    if(!this.options.dragable){
+      console.log(_.map(this.datas, 'k1'))
     }
   }
 
