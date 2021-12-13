@@ -34,17 +34,8 @@ export const NM_PAGE_SCHEMA =
         "$ref": "#navs"
       }
     },
-    "anyOf": [
-      {
-        "required": [
-          "table"
-        ]
-      },
-      {
-        "required": [
-          "tabs"
-        ]
-      }
+    "required": [
+      "table"
     ],
     "definitions": {
       "table": {
@@ -123,7 +114,8 @@ export const NM_PAGE_SCHEMA =
                       "enum": [
                         "default",
                         "switch",
-                        "select"
+                        "select",
+                        "action"
                       ]
                     },
                     "label": {
@@ -222,6 +214,10 @@ export const NM_PAGE_SCHEMA =
                           }
                         }
                       }
+                    },
+                    "action": {
+                      "title": "自定义表格操作列",
+                      "$ref": "#action"
                     },
                     "format": {
                       "title": "表格数据格式化",
@@ -478,11 +474,10 @@ export const NM_PAGE_SCHEMA =
             }
           },
           "actions": {
-            "$id": "#actions",
             "title": "表格操作按钮扩展",
             "type": "array",
-            "uniqueItems": true,
             "items": {
+              "$id": "#action",
               "type": "object",
               "required": [
                 "icon",
@@ -502,10 +497,6 @@ export const NM_PAGE_SCHEMA =
                 }
               }
             }
-          },
-          "acts": {
-            "$ref": "#actions",
-            "title": "单元格操作扩展"
           }
         },
         "dependencies": {
@@ -934,6 +925,22 @@ export const NM_PAGE_SCHEMA =
                     "if": {
                       "properties": {
                         "type": {
+                          "const": "switch"
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "value": {
+                          "default": true
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
                           "const": "select"
                         }
                       }
@@ -1067,7 +1074,7 @@ export const NM_PAGE_SCHEMA =
               "minLength": 1
             },
             "selected": {
-              "title": "是否必须选择列表项",
+              "title": "是否必须选中列表项",
               "type": "boolean",
               "default": false
             },

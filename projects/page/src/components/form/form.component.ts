@@ -188,7 +188,8 @@ export class NcFormComponent implements OnInit {
   optionChange(select: any): void {
     // 处理监听的点击事件
     if (select.onClick) {
-      _eval(select.onClick)(this.data);
+      // 需异步执行，等待值改变
+      setTimeout(() => _eval(select.onClick)(this.data));
     }
   }
 
