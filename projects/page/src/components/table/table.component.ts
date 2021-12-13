@@ -17,6 +17,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   @Input() options: any; // 表格选项
   @Input() navOption: any; // 导航选项
   @Input() tabOption: any; //  标签选项
+
   optionsBak: any; // 备份表格选项
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
   navClickEvent: any; // 导航点击事件
@@ -128,6 +129,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 合并表格查询参数
     objectExtend(body, this.body);
+
+    // 前端分页时删除分页参数
+    if (this.options.view.frontPagination) {
+      objectExtend(body, {pageIndex: null, pageSize: null});
+    }
 
     this.http.query(this.options.view.api, body).subscribe(
       res => {
@@ -352,8 +358,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 切换拖拽状态
     this.options.dragable = !this.options.dragable;
     // 排序结束时保存排序
-    if(!this.options.dragable){
-      console.log(_.map(this.datas, 'k1'))
+    if (!this.options.dragable) {
+      this.http.post(this.options.dragSort.api, _.map(this.datas, this.key)).subscribe();
     }
   }
 

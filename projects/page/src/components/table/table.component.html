@@ -22,10 +22,14 @@
         <i nz-icon nzType="cloud-download"></i>
       </button>
     </ng-container>
+    <!--    时间范围过滤-->
+    <ng-container *ngIf="options.view?.api">
+
+    </ng-container>
     <!--    模糊搜索-->
     <ng-container *ngIf="searchFields.length">
       <nz-input-group *nzSpaceItem [nzAddOnBefore]="prefixMenu" [nzAddOnAfter]="suffixButton" nzSearch>
-        <input [(ngModel)]="body.fuzzy.keyword" nz-input placeholder="全局模糊搜索" type="text"/>
+        <input type="text" [(ngModel)]="body.fuzzy.keyword" nz-input placeholder="全局模糊搜索"/>
       </nz-input-group>
       <!--      搜索字段-->
       <ng-template #prefixMenu>
