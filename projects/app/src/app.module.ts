@@ -32,7 +32,7 @@ const ngZorroConfig: NzConfig = {
     nzShowQuickJumper: true,
     nzShowSizeChanger: true,
     nzSimple: false,
-    nzHideOnSinglePage: true,
+    nzHideOnSinglePage: false,
   },
   card: {
     nzSize: 'small',
