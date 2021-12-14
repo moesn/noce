@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NzTreeComponent} from 'ng-zorro-antd/tree';
-import {NcEventService, NcHttpService} from 'noce/core';
+import {NcEventService, NcHttpService, NcNotifyService} from 'noce/core';
 import * as _ from 'lodash-es';
 import {__eval, _eval, arrayToTree, objectExtend} from 'noce/helper';
 import {NcFormComponent} from '..';
@@ -19,9 +19,11 @@ export class NcTreeComponent implements OnInit {
   data: any = {}; // 当前操作的数据
   datas: any[] = []; // 树数据
   keys: any[] = []; // 选中的对象key
+  isInData: boolean = false; // 是否是系统内置数据
 
   constructor(private drawer: NzDrawerService,
               private http: NcHttpService,
+              private notify: NcNotifyService,
               private event: NcEventService) {
   }
 
@@ -63,6 +65,8 @@ export class NcTreeComponent implements OnInit {
 
   // 点击树节点
   click(node: any): void {
+    this.isInData = this.data[node.key]?.toString().startsWith('-');
+
     // 设置组，选中状态，触发查询
     this.keys = [node.key];
     // 发出点击事件
@@ -152,6 +156,12 @@ export class NcTreeComponent implements OnInit {
 
   // 删除节点
   delete(): void {
+    // 内置数据不可删除
+    if (this.isInData) {
+      this.notify.warning('内置数据不可删除');
+      return;
+    }
+
     const node = this.getTreeNode();
     // 更新当前操作的数据
     this.data = node.origin;

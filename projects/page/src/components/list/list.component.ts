@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
-import {NcEventService, NcHttpService} from 'noce/core';
+import {NcEventService, NcHttpService, NcNotifyService} from 'noce/core';
 import * as _ from 'lodash-es';
 import {__eval, _eval, objectExtend} from 'noce/helper';
 import {NcFormComponent} from '..';
@@ -18,9 +18,11 @@ export class NcListComponent implements OnInit {
   datas: any[] = []; // 列表数据
   key: string = ''; // 数据主键
   loading: boolean = false; // 是否加载数据中
+  isInData: boolean = false; // 是否是系统内置数据
 
   constructor(private drawer: NzDrawerService,
               private http: NcHttpService,
+              private notify: NcNotifyService,
               private event: NcEventService) {
   }
 
@@ -65,6 +67,7 @@ export class NcListComponent implements OnInit {
 
   // 点击
   click(data: any): void {
+    this.isInData = this.data[this.key]?.toString().startsWith('-');
     // 更新选中状态
     this.data = data;
     // 发出点击事件
@@ -114,6 +117,12 @@ export class NcListComponent implements OnInit {
 
   // 删除节点
   delete(): void {
+    // 内置数据不可删除
+    if (this.isInData) {
+      this.notify.warning('内置数据不可删除');
+      return;
+    }
+
     const body = {};
     const action = this.options.delete;
 
@@ -122,7 +131,7 @@ export class NcListComponent implements OnInit {
       objectExtend(body, __eval.call(this, action.body))
     }
 
-    this.http.delete(action.api, body).subscribe((res:any) => {
+    this.http.delete(action.api, body).subscribe((res: any) => {
       if (res) {
         this.datas = _.reject(this.datas, (d: any) => this.data[this.key] === d[this.key]);
         // 删除时默认选择第一个

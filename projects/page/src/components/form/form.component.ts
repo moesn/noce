@@ -29,6 +29,7 @@ export class NcFormComponent implements OnInit {
 
   isnew: boolean = false; // 是否是新增数据
   saving: boolean = false; // 表单是否保存中
+  isInData: boolean = false; // 是否是系统内置数据
 
   constructor(private drawerRef: NzDrawerRef,
               private modal: NzModalService,
@@ -37,6 +38,7 @@ export class NcFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.cols = this.options[0].cols;
+    this.isInData = this.data[this.key]?.toString().startsWith('-');
 
     // 合并所有表单项
     this.fields = _.flatten(_.zipWith(this.options, (o: any) => o.fields));
@@ -258,7 +260,9 @@ export class NcFormComponent implements OnInit {
 
   // 是否只读、是否必填、是否显示
   isTrue(value: boolean | string): boolean {
-    if (_.isString(value)) {
+    if (this.isInData) {
+      return true;
+    } else if (_.isString(value)) {
       return _eval(value)(this.data);
     } else {
       return value;

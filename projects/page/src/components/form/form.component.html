@@ -1,4 +1,4 @@
-<form #form="ngForm" class="text-{{maxLabel}}" nz-form disabled>
+<form #form="ngForm" class="text-{{maxLabel}}" nz-form>
   <!--  填充白色-->
   <nz-row class="ant-component-color" nzGutter="24">
     <!--    表单分组-->
@@ -120,10 +120,11 @@
   </nz-row>
   <!--  保存或取消-->
   <div class="ant-drawer-footer">
+    <span class="ant-left ant-disabled" style="line-height:32px">内置数据不可修改</span>
     <nz-button-group>
-      <button (click)="close()" nz-button>取消</button>
+      <button nz-button (click)="close()">取消</button>
       <!--      无效、未编辑、保存中时禁止点击-->
-      <button (click)="save()" [disabled]="form.invalid || saving || isOriginal()" nz-button nzType="primary">保存</button>
+      <button [disabled]="form.invalid || saving || isOriginal()" nz-button nzType="primary" (click)="save()">保存</button>
     </nz-button-group>
   </div>
 </form>
