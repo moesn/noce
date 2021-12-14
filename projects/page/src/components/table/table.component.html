@@ -159,14 +159,14 @@
       <td *ngIf="action?.api">
         <!--          修改-->
         <ng-container *ngIf="action===options.update">
-          <i (click)="edit(data)" nz-icon nzType="edit" *ngIf="!data[key].toString().startsWith('-')"></i>
-          <i nz-icon nzType="edit" *ngIf="data[key].toString().startsWith('-')"
+          <i (click)="edit(data)" nz-icon nzType="edit" *ngIf="!data[key]?.toString().startsWith('-')"></i>
+          <i nz-icon nzType="edit" *ngIf="data[key]?.toString().startsWith('-')"
              class="ant-disabled" nz-tooltip nzTooltipTitle="内置数据不可修改"></i>
         </ng-container>
         <!--          删除-->
         <ng-container *ngIf="action===options.delete">
-          <i (click)="delete(data)" nz-icon nzType="delete" *ngIf="!data[key].toString().startsWith('-')"></i>
-          <i nz-icon nzType="delete" *ngIf="data[key].toString().startsWith('-')"
+          <i (click)="delete(data)" nz-icon nzType="delete" *ngIf="!data[key]?.toString().startsWith('-')"></i>
+          <i nz-icon nzType="delete" *ngIf="data[key]?.toString().startsWith('-')"
              class="ant-disabled" nz-tooltip nzTooltipTitle="内置数据不可删除"></i>
         </ng-container>
       </td>

@@ -5,8 +5,11 @@ export const NM_PAGE_SCHEMA =
     "description": "支持表格、表单、列表、树等，examples里是关键字说明",
     "examples": [
       "apis：api接口配置时的关键字，例：apis.userlist",
-      "this：设置动态参数时的关键字，例：$this.data.id$",
       "$*$：动态参数时使用",
+      "this：设置动态参数时的关键字",
+      "this.data：当前操作的数据",
+      "this.nav：导航+表格时，当前操作的导航数据",
+      "例：$this.data.id$",
       "$*：1、树形结构的上级名称时使用"
     ],
     "type": "object",
@@ -433,6 +436,16 @@ export const NM_PAGE_SCHEMA =
               }
             }
           },
+          "timeKey":{
+            "title": "数据的时间字段",
+            "description": "可通过此字段设置时间范围过滤数据",
+            "type": "string",
+            "minLength": 1
+          },
+          "dragSort": {
+            "title": "表格拖拽排序",
+            "$ref": "#create"
+          },
           "upload": {
             "title": "数据上传",
             "type": "object",
@@ -481,7 +494,8 @@ export const NM_PAGE_SCHEMA =
               "type": "object",
               "required": [
                 "icon",
-                "tip"
+                "tip",
+                "click"
               ],
 
               "properties": {
@@ -499,6 +513,15 @@ export const NM_PAGE_SCHEMA =
                   "title": "操作确认提示信息",
                   "type": "string",
                   "minLength": 1
+                },
+                "click": {
+                  "title": "点击后触发的行为",
+                  "oneOf": [
+                    {
+                      "title": "仅需要调用固定接口",
+                      "$ref": "#create"
+                    }
+                  ]
                 }
               }
             }
@@ -732,6 +755,27 @@ export const NM_PAGE_SCHEMA =
                       }
                     }
                   },
+                  "switch": {
+                    "title": "开关切换",
+                    "type": "object",
+                    "required": [
+                      "labelOn",
+                      "labelOff"
+                    ],
+
+                    "properties": {
+                      "labelOn": {
+                        "title": "开的文字标签",
+                        "type": "string",
+                        "default": "启用"
+                      },
+                      "labelOff": {
+                        "title": "关的文字标签",
+                        "type": "string",
+                        "default": "禁用"
+                      }
+                    }
+                  },
                   "select": {
                     "title": "下拉选择框专属配置",
                     "type": "object",
@@ -790,7 +834,7 @@ export const NM_PAGE_SCHEMA =
                         "default": "id",
                         "minLength": 1
                       },
-                      "onClick": {
+                      "click": {
                         "title": "切换点击事件",
                         "$ref": "#parse"
                       }
@@ -936,6 +980,9 @@ export const NM_PAGE_SCHEMA =
                     },
                     "then": {
                       "properties": {
+                        "switch": {
+                          "default": {}
+                        },
                         "value": {
                           "default": true
                         }
@@ -1202,7 +1249,7 @@ export const NM_PAGE_SCHEMA =
         "type": "object",
         "examples": [
           {
-            "roleId": "$this.list.id$",
+            "roleId": "$this.nav.id$",
             "status": "未激活"
           }
         ]

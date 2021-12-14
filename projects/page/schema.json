@@ -754,6 +754,27 @@
                     }
                   }
                 },
+                "switch": {
+                  "title": "开关切换",
+                  "type": "object",
+                  "required": [
+                    "labelOn",
+                    "labelOff"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "labelOn": {
+                      "title": "开的文字标签",
+                      "type": "string",
+                      "default": "启用"
+                    },
+                    "labelOff": {
+                      "title": "关的文字标签",
+                      "type": "string",
+                      "default": "禁用"
+                    }
+                  }
+                },
                 "select": {
                   "title": "下拉选择框专属配置",
                   "type": "object",
@@ -958,6 +979,9 @@
                   },
                   "then": {
                     "properties": {
+                      "switch": {
+                        "default": {}
+                      },
                       "value": {
                         "default": true
                       }

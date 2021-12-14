@@ -82,6 +82,8 @@
                        [(ngModel)]="data[field.key]"
                        [disabled]="isTrue(field.readonly)"
                        [name]="field.key"
+                       [nzCheckedChildren]="field.switch.labelOn"
+                       [nzUnCheckedChildren]="field.switch.labelOff"
             ></nz-switch>
             <!--            下拉选择框-->
             <nz-select (ngModelChange)="optionChange(field.select)" *ngIf="field.type==='select'" [(ngModel)]="data[field.key]"
