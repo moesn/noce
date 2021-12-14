@@ -27,6 +27,7 @@ import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzTabsModule} from 'ng-zorro-antd/tabs';
 import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
 import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
+import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
 
 const NG_MODULES = [
   FormsModule,
@@ -55,6 +56,7 @@ const NZ_MODULES = [
   NzTabsModule,
   NzDropDownModule,
   NzPopconfirmModule,
+  NzDatePickerModule,
   NzCarouselModule,
 ];
 

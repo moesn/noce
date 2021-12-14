@@ -23,8 +23,11 @@
       </button>
     </ng-container>
     <!--    时间范围过滤-->
-    <ng-container *ngIf="options.view?.api">
-
+    <ng-container *ngIf="options.timeKey">
+      <nz-range-picker *nzSpaceItem nzShowTime ngModel
+                       [nzDisabledDate]="disabledDate" nzFormat="yyyy-MM-dd HH:mm"
+                       [nzRanges]="timeRanges" (ngModelChange)="timeChange($event)"
+      ></nz-range-picker>
     </ng-container>
     <!--    模糊搜索-->
     <ng-container *ngIf="searchFields.length">
@@ -34,7 +37,7 @@
       <!--      搜索字段-->
       <ng-template #prefixMenu>
         <a nz-dropdown [nzDropdownMenu]="menu" [nzClickHide]="false" nzPlacement="bottomCenter"
-        nz-tooltip nzTooltipTitle="设置搜索字段">
+           nz-tooltip nzTooltipTitle="设置搜索字段">
           <i nz-icon nzType="setting"></i>
         </a>
         <nz-dropdown-menu #menu="nzDropdownMenu">

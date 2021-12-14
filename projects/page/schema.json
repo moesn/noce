@@ -435,6 +435,12 @@
             }
           }
         },
+        "timeKey":{
+          "title": "数据的时间字段",
+          "description": "可通过此字段设置时间范围过滤数据",
+          "type": "string",
+          "minLength": 1
+        },
         "dragSort": {
           "title": "表格拖拽排序",
           "$ref": "#create"

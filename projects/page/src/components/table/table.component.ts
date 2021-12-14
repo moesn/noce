@@ -6,7 +6,7 @@ import * as _ from 'lodash-es';
 import {reject} from 'lodash-es';
 import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NcFormComponent} from '..';
-import {format} from 'date-fns';
+import {differenceInCalendarDays, format} from 'date-fns';
 
 @Component({
   selector: 'nc-table',
@@ -29,6 +29,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   searchFields: any = []; // 可搜索的字段
 
   body: any = { // 传到服务端端查询参数
+    range: {}, // 按时间范围过滤
     exact: {}, // 精确查询
     fuzzy: {field: [], keyword: ''} // 模糊搜索, 搜索的字段和关键字
   };
@@ -45,6 +46,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
   pageDatas: any = []; // 页面显示的数据
   checkedData = new Set<string>(); // 已选数据
   checkedKeys: string[] = []; // 已选数据的主键
+
+  timeRanges: any; // 时间范围
+  disabledDate = (current: Date): boolean => differenceInCalendarDays(current, new Date()) > 0; // 只能选择当前日期之前的时间
 
   constructor(private drawer: NzDrawerService,
               private http: NcHttpService,
@@ -322,11 +326,15 @@ export class NcTableComponent implements OnInit, OnDestroy {
         res = _eval(cformat)(data);
       } else {
         // 使用内置管道格式化
-        switch (cformat) {
-          case 'datetime':
-            res = format(new Date(data), 'yyyy-MM-dd HH:mm:ss');
-            break;
-          default:
+        try {
+          switch (cformat) {
+            case 'datetime':
+              res = format(data, 'yyyy-MM-dd HH:mm:ss');
+              break;
+            default:
+          }
+        } catch (_) {
+          // 捕获数据异常
         }
       }
       // 直接返回
@@ -361,6 +369,18 @@ export class NcTableComponent implements OnInit, OnDestroy {
     if (!this.options.dragable) {
       this.http.post(this.options.dragSort.api, _.map(this.datas, this.key)).subscribe();
     }
+  }
+
+  // 选择时间范围
+  timeChange(event: any): void {
+    // 处理时间后查询数据
+    if (event && event.length === 2) {
+      this.body.range[this.options.timeKey] = [
+        format(event[0], 'yyyy-MM-dd HH:mm'),
+        format(event[1], 'yyyy-MM-dd HH:mm')
+      ]
+    }
+    this.query();
   }
 
   // 更新已选ID集合
