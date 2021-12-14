@@ -9,16 +9,16 @@
          nzTooltipTitle="增加一级节点" nzType="border-inner"></i>
     </ng-container>
     <!--    增加子节点-->
-    <ng-container *ngIf="options.create?.api">
+    <ng-container *ngIf="options.create?.api&&keys.length">
       <i (click)="edit(false,false)" *nzSpaceItem nz-icon nz-tooltip
          nzTooltipTitle="增加子节点" nzType="plus"></i>
     </ng-container>
     <!--    修改节点-->
-    <ng-container *ngIf="options.update?.api">
+    <ng-container *ngIf="options.update?.api&&keys.length">
       <i (click)="edit(true)" *nzSpaceItem nz-icon nzType="edit"></i>
     </ng-container>
     <!--    删除节点-->
-    <ng-container *ngIf="options.delete?.api">
+    <ng-container *ngIf="options.delete?.api&&keys.length">
       <i (click)="delete()" *nzSpaceItem nz-icon nzType="delete"></i>
     </ng-container>
   </nz-space>

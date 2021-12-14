@@ -8,11 +8,11 @@
       <i (click)="edit(false)" *nzSpaceItem nz-icon nzType="plus"></i>
     </ng-container>
     <!--    修改节点-->
-    <ng-container *ngIf="options.update?.api">
+    <ng-container *ngIf="options.update?.api&&data[key]">
       <i (click)="edit(true)" *nzSpaceItem nz-icon nzType="edit"></i>
     </ng-container>
     <!--    删除节点-->
-    <ng-container *ngIf="options.delete?.api">
+    <ng-container *ngIf="options.delete?.api&&data[key]">
       <i (click)="delete()" *nzSpaceItem nz-icon nzType="delete"></i>
     </ng-container>
   </nz-space>
