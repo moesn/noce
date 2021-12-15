@@ -55,17 +55,22 @@
       </ng-template>
     </ng-container>
     <!--    刷新页面-->
-    <button (click)="reloadPage()" *nzSpaceItem nz-button>
-      <i nz-icon nz-tooltip nzTooltipTitle="重新加载页面" nzType="redo"></i>
+    <button (click)="reloadPage()" *nzSpaceItem nz-button nz-tooltip nzTooltipTitle="重新加载页面">
+      <i nz-icon nzType="redo"></i>
     </button>
     <!--    操作按钮扩展-->
     <ng-container *ngFor="let action of options.actions">
-      <button *nzSpaceItem nz-button>
-        <i [nzTooltipTitle]="action.tip" [nzType]="action.icon" *ngIf="!action.confirm"
-           nz-icon nz-tooltip (click)="actionClick(action.click)"></i>
-        <i [nzTooltipTitle]="action.tip" [nzType]="action.icon" *ngIf="action.confirm"
-           nz-icon nz-tooltip nz-popconfirm [nzPopconfirmTitle]="action.confirm" (nzOnConfirm)="actionClick(action.click)"></i>
-      </button>
+      <ng-container *ngIf="!action.confirm">
+        <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip" (click)="actionClick(action.click)">
+          <i nz-icon [nzType]="action.icon"></i>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="action.confirm">
+        <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
+                nz-popconfirm [nzPopconfirmTitle]="action.confirm" (nzOnConfirm)="actionClick(action.click)">
+          <i nz-icon [nzType]="action.icon"></i>
+        </button>
+      </ng-container>
     </ng-container>
     <!--    拖放排序按钮-->
     <ng-container *ngIf="options.dragSort?.api">

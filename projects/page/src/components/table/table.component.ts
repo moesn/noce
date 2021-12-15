@@ -357,7 +357,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 仅调用接口
     if (click.api) {
       const body = __eval.call(this, click.body);
-      this.http.post(click.api, body).subscribe();
+      this.http.post(click.api, body).subscribe(res => {
+        if (res && click.refresh) {
+          this.query();
+        }
+      });
     }
   }
 
