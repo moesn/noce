@@ -202,7 +202,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
         options: this.options.form,
         key: this.options.key,
         action: update ? this.options.update : this.options.create,
-        data: this.data
+        data: this.data,
+        tab: this.tab,
+        nav: this.nav
       },
       nzClosable: false,
       nzKeyboard: false,

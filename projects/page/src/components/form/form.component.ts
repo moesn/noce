@@ -18,6 +18,9 @@ export class NcFormComponent implements OnInit {
   data: any = {}; // 表单数据
   action = {api: '', body: {}}; // 表单数据保存接口
 
+  nav: any; // 导航选中项的数据
+  tab: any; // 当前标签
+
   dataBak: any = {}; // 备份编辑的备份
   pwdEye: any = {}; // 存储是否显示密码的状态
   fields: any = []; // 所有表单字段
@@ -29,7 +32,7 @@ export class NcFormComponent implements OnInit {
 
   isnew: boolean = false; // 是否是新增数据
   saving: boolean = false; // 表单是否保存中
-  isInData: boolean = false; // 是否是系统内置数据
+  isInitData: boolean = false; // 是否是系统内置数据
 
   constructor(private drawerRef: NzDrawerRef,
               private modal: NzModalService,
@@ -38,7 +41,7 @@ export class NcFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.cols = this.options[0].cols;
-    this.isInData = this.data[this.key]?.toString().startsWith('-');
+    this.isInitData = this.data[this.key]?.toString().startsWith('-');
 
     // 合并所有表单项
     this.fields = _.flatten(_.zipWith(this.options, (o: any) => o.fields));
@@ -260,7 +263,7 @@ export class NcFormComponent implements OnInit {
 
   // 是否只读、是否必填、是否显示
   isTrue(value: boolean | string): boolean {
-    if (this.isInData) {
+    if (this.isInitData) {
       return true;
     } else if (_.isString(value)) {
       return _eval(value)(this.data);
@@ -304,7 +307,6 @@ export class NcFormComponent implements OnInit {
       const tip = field.pattern.tip;
       // 使用正则校验的输入提示
       if (tip) {
-        field.input.maxLength = 128;
         result = tip;
       }
     }

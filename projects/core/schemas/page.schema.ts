@@ -253,27 +253,60 @@ export const NM_PAGE_SCHEMA =
                     },
                     "filters": {
                       "title": "筛选项设置",
-                      "type": "array",
-                      "uniqueItems": true,
-                      "minItems": 2,
-                      "items": {
-                        "type": "object",
-                        "required": [
-                          "text",
-                          "value"
-                        ],
+                      "oneOf": [
+                        {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 2,
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "text",
+                              "value"
+                            ],
 
-                        "properties": {
-                          "text": {
-                            "title": "选项显示的文字",
-                            "type": "string"
-                          },
-                          "value": {
-                            "title": "选项提交到后台的值",
-                            "type": "string"
+                            "properties": {
+                              "text": {
+                                "title": "选项显示的文字",
+                                "type": "string"
+                              },
+                              "value": {
+                                "title": "选项提交到后台的值",
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "api",
+                            "textKey",
+                            "valueKey"
+                          ],
+
+                          "properties": {
+                            "api": {
+                              "title": "查询接口地址",
+                              "$ref": "#api"
+                            },
+                            "body": {
+                              "title": "查询接口参数",
+                              "$ref": "#body"
+                            },
+                            "textKey": {
+                              "title": "选项显示的字段",
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "valueKey": {
+                              "title": "选项提交到后台的字段",
+                              "type": "string",
+                              "minLength": 1
+                            }
                           }
                         }
-                      }
+                      ]
                     },
                     "tabIndex": {
                       "$id": "#tabIndex",

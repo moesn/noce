@@ -18,7 +18,7 @@ export class NcListComponent implements OnInit {
   datas: any[] = []; // 列表数据
   key: string = ''; // 数据主键
   loading: boolean = false; // 是否加载数据中
-  isInData: boolean = false; // 是否是系统内置数据
+  isInitData: boolean = false; // 是否是系统内置数据
 
   constructor(private drawer: NzDrawerService,
               private http: NcHttpService,
@@ -67,7 +67,7 @@ export class NcListComponent implements OnInit {
 
   // 点击
   click(data: any): void {
-    this.isInData = this.data[this.key]?.toString().startsWith('-');
+    this.isInitData = this.data[this.key]?.toString().startsWith('-');
     // 更新选中状态
     this.data = data;
     // 发出点击事件
@@ -118,7 +118,7 @@ export class NcListComponent implements OnInit {
   // 删除节点
   delete(): void {
     // 内置数据不可删除
-    if (this.isInData) {
+    if (this.isInitData) {
       this.notify.warning('内置数据不可删除');
       return;
     }

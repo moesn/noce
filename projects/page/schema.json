@@ -8,6 +8,7 @@
     "this：设置动态参数时的关键字",
     "this.data：当前操作的数据",
     "this.nav：导航+表格时，当前操作的导航数据",
+    "this.tab：多标签表格时，当前标签数据",
     "例：$this.data.id$",
     "$*：1、树形结构的上级名称时使用"
   ],
@@ -252,27 +253,60 @@
                   },
                   "filters": {
                     "title": "筛选项设置",
-                    "type": "array",
-                    "uniqueItems": true,
-                    "minItems": 2,
-                    "items": {
-                      "type": "object",
-                      "required": [
-                        "text",
-                        "value"
-                      ],
-                      "additionalProperties": false,
-                      "properties": {
-                        "text": {
-                          "title": "选项显示的文字",
-                          "type": "string"
-                        },
-                        "value": {
-                          "title": "选项提交到后台的值",
-                          "type": "string"
+                    "oneOf": [
+                      {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "minItems": 2,
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "text",
+                            "value"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "text": {
+                              "title": "选项显示的文字",
+                              "type": "string"
+                            },
+                            "value": {
+                              "title": "选项提交到后台的值",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "required": [
+                          "api",
+                          "textKey",
+                          "valueKey"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "api": {
+                            "title": "查询接口地址",
+                            "$ref": "#api"
+                          },
+                          "body": {
+                            "title": "查询接口参数",
+                            "$ref": "#body"
+                          },
+                          "textKey": {
+                            "title": "选项显示的字段",
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "valueKey": {
+                            "title": "选项提交到后台的字段",
+                            "type": "string",
+                            "minLength": 1
+                          }
                         }
                       }
-                    }
+                    ]
                   },
                   "tabIndex": {
                     "$id": "#tabIndex",
