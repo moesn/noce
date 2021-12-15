@@ -60,14 +60,18 @@
     </button>
     <!--    操作按钮扩展-->
     <ng-container *ngFor="let action of options.actions">
+<!--      不需要二次确认-->
       <ng-container *ngIf="!action.confirm">
         <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
-                (click)="actionClick(action.click)" [disabled]="!action.clickable&&!getCheckedKeys().length">
+                [disabled]="!action.clickable&&!getCheckedKeys().length"
+                (click)="actionClick(action.click)">
           <i nz-icon [nzType]="action.icon"></i>
         </button>
       </ng-container>
+      <!--      需要二次确认-->
       <ng-container *ngIf="action.confirm">
-        <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip" [disabled]="!action.clickable&&!getCheckedKeys().length"
+        <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
+                [disabled]="!action.clickable&&!getCheckedKeys().length"
                 nz-popconfirm [nzPopconfirmTitle]="action.confirm" (nzOnConfirm)="actionClick(action.click)">
           <i nz-icon [nzType]="action.icon"></i>
         </button>
