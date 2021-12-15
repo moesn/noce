@@ -867,6 +867,11 @@
                       "default": "id",
                       "minLength": 1
                     },
+                    "trigger": {
+                      "title": "通过其他选择框触发查询数据",
+                      "type": "string",
+                      "minLength": 1
+                    },
                     "click": {
                       "title": "切换点击事件",
                       "$ref": "#parse"

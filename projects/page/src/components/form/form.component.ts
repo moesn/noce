@@ -67,7 +67,7 @@ export class NcFormComponent implements OnInit {
   }
 
   // 渲染下拉选择框
-  renderSelect(): void {
+  renderSelect(key?: string): void {
     // 从服务端获取表单下拉选择框的数据
     this.options.forEach((formItem: any) => {
       formItem.fields.forEach((field: any) => {
@@ -81,8 +81,8 @@ export class NcFormComponent implements OnInit {
             objectExtend(body, __eval.call(this, select.body))
           }
 
-          // 配置了api，则从服务端获取数据
-          if (select.api) {
+          // 1、初始化时没有key，配置了api，且不需要触发加载；2、根据key延迟获取数据
+          if (((!key && !select.trigger) || select.trigger === key) && select.api) {
             this.http.post(select.api, body).subscribe((res: any) => {
               if (res) {
                 // 生成下拉选择项label和value
@@ -190,12 +190,16 @@ export class NcFormComponent implements OnInit {
   }
 
   // 下拉选择框切换事件
-  optionChange(select: any): void {
+  optionChange(field: any): void {
+    const select = field.select;
     // 处理监听的点击事件
     if (select.click) {
       // 需异步执行，等待值改变
       setTimeout(() => _eval(select.click)(this.data));
     }
+
+    // 触发关联查询
+    this.renderSelect(field.key);
   }
 
   // 保存表单数据
