@@ -438,6 +438,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
     return Array.from(this.checkedData).some((item: any) => item[this.key] === data[this.key]);
   }
 
+  // 获取已选数据的主键集合
+  getCheckedKeys(): string[] {
+    return _.zipWith(_.toArray(this.checkedData), (d: any) => d[this.key]);
+  }
+
   // 重新加载页面
   reloadPage(): void {
     this.event.emit('RELOAD_PAGE');

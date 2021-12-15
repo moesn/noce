@@ -1,4 +1,4 @@
-import {isNumber, isObject} from 'lodash-es';
+import {isArray, isNumber, isObject} from 'lodash-es';
 
 // 代替eval
 export const _eval = function (this: any, fn: string): Function {
@@ -29,6 +29,11 @@ export const __eval = function (this: any, data: any): any {
       sufs.push(i + 1);
     }
 
+    // 保留[],防止join的toString方法将数组转换成字符串
+    if (isArray(str)) {
+      str = JSON.stringify(str);
+    }
+
     return str;
     // 替换数字前后的字符串，去掉引号，防止数字转换成字符串
   }).map((d: string, i: number) => {
@@ -41,5 +46,6 @@ export const __eval = function (this: any, data: any): any {
     return d;
   })
 
-  return JSON.parse(strs.join(''));
+  // 处理[]，转换成数组
+  return strs.join('').replace(/\"\[/g, '[').replace(/\]\"/g, ']');
 };
