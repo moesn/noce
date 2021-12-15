@@ -573,6 +573,12 @@
                 "type": "boolean",
                 "default": false
               },
+              "clickable": {
+                "title": "是否可点击",
+                "description": "false时需要选择了数据后才可以点击",
+                "type": "boolean",
+                "default": true
+              },
               "click": {
                 "title": "点击后触发的行为",
                 "oneOf": [

@@ -10,6 +10,7 @@ export const NM_PAGE_SCHEMA =
       "this.data：当前操作的数据",
       "this.nav：导航+表格时，当前操作的导航数据",
       "this.tab：多标签表格时，当前标签数据",
+      "this.getCheckedKeys()：表格中获取选中数据的主键集合",
       "例：$this.data.id$",
       "$*：1、树形结构的上级名称时使用"
     ],
@@ -567,6 +568,17 @@ export const NM_PAGE_SCHEMA =
                   "title": "操作确认提示信息",
                   "type": "string",
                   "minLength": 1
+                },
+                "refresh": {
+                  "title": "操作成功后是否刷新数据",
+                  "type": "boolean",
+                  "default": false
+                },
+                "clickable": {
+                  "title": "是否可点击",
+                  "description": "false时需要选择了数据后才可以点击",
+                  "type": "boolean",
+                  "default": true
                 },
                 "click": {
                   "title": "点击后触发的行为",
@@ -1362,6 +1374,7 @@ export const NM_PAGE_SCHEMA =
       }
     }
   }
+
 
 
 
