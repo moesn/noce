@@ -9,6 +9,7 @@ export const NM_PAGE_SCHEMA =
       "this：设置动态参数时的关键字",
       "this.data：当前操作的数据",
       "this.nav：导航+表格时，当前操作的导航数据",
+      "this.tab：多标签表格时，当前标签数据",
       "例：$this.data.id$",
       "$*：1、树形结构的上级名称时使用"
     ],
@@ -75,6 +76,12 @@ export const NM_PAGE_SCHEMA =
               "body": {
                 "title": "查询接口参数",
                 "$ref": "#body"
+              },
+              "ellipsis": {
+                "title": "超长数据省略显示",
+                "description": "超过最大显示长度时省略显示，鼠标移动上去会显示完整数据",
+                "type": "integer",
+                "default": 10
               },
               "pageSize": {
                 "title": "每页显示条数",
@@ -354,6 +361,20 @@ export const NM_PAGE_SCHEMA =
                         }
                       },
                       "then": {}
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "type": {
+                            "const": "action"
+                          }
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "action"
+                        ]
+                      }
                     },
                     {
                       "if": {
@@ -865,6 +886,11 @@ export const NM_PAGE_SCHEMA =
                         "title": "用于关联的字段",
                         "type": "string",
                         "default": "id",
+                        "minLength": 1
+                      },
+                      "trigger": {
+                        "title": "通过其他选择框触发查询数据",
+                        "type": "string",
                         "minLength": 1
                       },
                       "click": {

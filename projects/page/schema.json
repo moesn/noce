@@ -76,6 +76,12 @@
               "title": "查询接口参数",
               "$ref": "#body"
             },
+            "ellipsis": {
+              "title": "超长数据省略显示",
+              "description": "超过最大显示长度时省略显示，鼠标移动上去会显示完整数据",
+              "type": "integer",
+              "default": 10
+            },
             "pageSize": {
               "title": "每页显示条数",
               "type": "integer",
@@ -354,6 +360,20 @@
                       }
                     },
                     "then": {}
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "const": "action"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "action"
+                      ]
+                    }
                   },
                   {
                     "if": {

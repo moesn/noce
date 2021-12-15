@@ -143,7 +143,10 @@
       <!--      多标签显示-->
       <ng-container *ngIf="isCureentTab(column.tabIndex)">
         <!--        普通列-->
-        <td *ngIf="column.type==='default'">{{formatData(data[column.key], column)}}</td>
+        <td *ngIf="column.type==='default'" nz-tooltip [nzTooltipTitle]="data[column.key]"
+            [nzTooltipTrigger]="data[column.key].length>options.view.ellipsis?'hover':null">
+          {{formatData(data[column.key], column)}}
+        </td>
         <!--      开关切换-->
         <td *ngIf="column.type==='switch'">
           <nz-switch (ngModelChange)="switch($event,data,column)"
@@ -151,6 +154,10 @@
                      [ngModel]="data[column.key]==column.switch.on"
                      [nzCheckedChildren]="column.switch.labelOn"
                      [nzUnCheckedChildren]="column.switch.labelOff"></nz-switch>
+        </td>
+        <td *ngIf="column.type==='action'">
+          <i [nzTooltipTitle]="column.action.tip" [nzType]="column.action.icon"
+             nz-icon nz-tooltip (click)="actionClick(column.action.click)"></i>
         </td>
       </ng-container>
     </ng-container>
