@@ -107,7 +107,7 @@
   <thead>
   <tr>
     <!--    选择框-->
-    <th (nzCheckedChange)="onAllChecked($event)"
+    <th (nzCheckedChange)="onAllChecked($event)" nzWidth="40px"
         *ngIf="options.view.checkable"
         [(nzChecked)]="allChecked"
         [nzIndeterminate]="indeterminate"
@@ -136,8 +136,9 @@
   <tbody cdkDropList (cdkDropListDropped)="drop($event)">
   <tr *ngFor="let data of datas" cdkDrag [cdkDragDisabled]="!options.dragable">
     <!--      选择框-->
-    <td (nzCheckedChange)="onItemChecked(data, $event)" *ngIf="options.view.checkable"
-        [nzChecked]="isChecked(data)"></td>
+    <td *ngIf="options.view.checkable" [nzChecked]="isChecked(data)"
+        (nzCheckedChange)="onItemChecked(data, $event)">
+    </td>
     <!--      显示字段数据-->
     <ng-container *ngFor="let column of  options.view.columns">
       <!--      多标签显示-->
