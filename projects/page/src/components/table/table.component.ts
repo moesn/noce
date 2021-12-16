@@ -380,12 +380,18 @@ export class NcTableComponent implements OnInit, OnDestroy {
         objectExtend(body, {ids: this.getCheckedKeys()});
       }
 
+      this.loading = option.refresh;
       // 调用接口后需要刷新时重新查询数据
       this.http.post(option.api, body).subscribe(res => {
-        if (res && option.refresh) {
-          this.query();
-        }
-      });
+          if (res && this.loading) {
+            this.query();
+          } else {
+            // 接口异常时停止加载状态
+            this.loading = false
+          }
+        }, // 接口错误时停止加载状态
+        () => this.loading = false
+      );
     }
   }
 

@@ -131,7 +131,8 @@
                   "type": {
                     "title": "表格列类型",
                     "enum": [
-                      "default",
+                      "text",
+                      "icon",
                       "switch",
                       "select",
                       "action"
@@ -365,11 +366,25 @@
                     "if": {
                       "properties": {
                         "type": {
-                          "const": "default"
+                          "const": "text"
                         }
                       }
                     },
                     "then": {}
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "const": "icon"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "icon"
+                      ]
+                    }
                   },
                   {
                     "if": {

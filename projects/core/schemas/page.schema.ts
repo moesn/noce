@@ -132,7 +132,8 @@ export const NM_PAGE_SCHEMA =
                     "type": {
                       "title": "表格列类型",
                       "enum": [
-                        "default",
+                        "text",
+                        "icon",
                         "switch",
                         "select",
                         "action"
@@ -366,11 +367,25 @@ export const NM_PAGE_SCHEMA =
                       "if": {
                         "properties": {
                           "type": {
-                            "const": "default"
+                            "const": "text"
                           }
                         }
                       },
                       "then": {}
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "type": {
+                            "const": "icon"
+                          }
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "icon"
+                        ]
+                      }
                     },
                     {
                       "if": {
