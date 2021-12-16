@@ -351,13 +351,21 @@ export const NM_PAGE_SCHEMA =
                     },
                     "color": {
                       "title": "显示颜色",
-                      "enum": [
-                        "default",
-                        "green",
-                        "blue",
-                        "yellow",
-                        "orange",
-                        "red"
+                      "oneOf": [
+                        {
+                          "enum": [
+                            "default",
+                            "green",
+                            "blue",
+                            "yellow",
+                            "orange",
+                            "red",
+                            "disabled"
+                          ]
+                        },
+                        {
+                          "$ref": "#format"
+                        }
                       ],
                       "default": "default"
                     }

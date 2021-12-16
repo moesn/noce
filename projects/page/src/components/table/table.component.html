@@ -160,6 +160,10 @@
             [nzTooltipTrigger]="data[column.key]?.length>options.view.ellipsis?'hover':null">
           {{formatData(data[column.key], column)}}
         </td>
+        <!--        图标-->
+        <td *ngIf="column.type==='icon'">
+          <i nz-icon [nzType]="column.icon" [class]="formatColor(data[column.key],column.color)"></i>
+        </td>
         <!--      开关切换-->
         <td *ngIf="column.type==='switch'">
           <nz-switch (ngModelChange)="switch($event,data,column)"
@@ -168,6 +172,7 @@
                      [nzCheckedChildren]="column.switch.labelOn"
                      [nzUnCheckedChildren]="column.switch.labelOff"></nz-switch>
         </td>
+        <!--        操作列-->
         <td *ngIf="column.type==='action'">
           <i [nzTooltipTitle]="column.action.tip" [nzType]="column.action.icon"
              nz-icon nz-tooltip (click)="actionClick(column.action.click)"></i>

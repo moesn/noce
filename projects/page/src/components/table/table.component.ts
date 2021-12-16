@@ -318,6 +318,16 @@ export class NcTableComponent implements OnInit, OnDestroy {
     this.http.delete(action.api, body, true).subscribe();
   }
 
+  // 格式化显示颜色
+  formatColor(data: any, color: string): any {
+    // 动态颜色获取
+    if (color.startsWith('d=>')) {
+      color = _eval(color)(data);
+    }
+
+    return 'ant-' + color
+  }
+
   // 格式化数据显示
   formatData(data: any, column: any): any {
     let res = '';
