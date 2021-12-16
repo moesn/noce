@@ -7,6 +7,7 @@ import {reject} from 'lodash-es';
 import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NcFormComponent} from '..';
 import {differenceInCalendarDays, format} from 'date-fns';
+import {NzModalService} from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'nc-table',
@@ -51,6 +52,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   disabledDate = (current: Date): boolean => differenceInCalendarDays(current, new Date()) > 0; // 只能选择当前日期之前的时间
 
   constructor(private drawer: NzDrawerService,
+              private modal: NzModalService,
               private http: NcHttpService,
               private event: NcEventService) {
     const content: any = document.getElementsByTagName('nz-content')[0];
@@ -353,19 +355,34 @@ export class NcTableComponent implements OnInit, OnDestroy {
   }
 
   // 表格扩展按钮点击事件
-  actionClick(click: any): void {
-    // 仅调用接口
-    if (click.api) {
+  actionClick(option: any): void {
+    // 表格弹窗
+    if (option.view) {
+      // 弹窗简单分页，不能重载页面
+      option.view.simple = true;
+      option.view.reload = false;
+
+      this.modal.create({
+        nzWidth: option.view.width,
+        nzStyle: {top: '12px'},
+        nzBodyStyle: {padding: '0 0 12px 0'},
+        nzContent: NcTableComponent,
+        nzComponentParams: {options: option},
+        nzClosable: false,
+        nzFooter: null
+      });
+
+    } else if (option.api) { // 仅调用接口
       // 转换用户参数
-      const body = click.body ? __eval.call(this, click.body) : {};
+      const body = option.body ? __eval.call(this, option.body) : {};
       // 选择数据后点击时，需要提交数据主键集合
-      if (click.checkToClick) {
+      if (option.checkToClick) {
         objectExtend(body, {ids: this.getCheckedKeys()});
       }
 
       // 调用接口后需要刷新时重新查询数据
-      this.http.post(click.api, body).subscribe(res => {
-        if (res && click.refresh) {
+      this.http.post(option.api, body).subscribe(res => {
+        if (res && option.refresh) {
           this.query();
         }
       });

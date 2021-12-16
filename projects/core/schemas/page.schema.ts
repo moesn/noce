@@ -10,7 +10,6 @@ export const NM_PAGE_SCHEMA =
       "this.data：当前操作的数据",
       "this.nav：导航+表格时，当前操作的导航数据",
       "this.tab：多标签表格时，当前标签数据",
-      "this.getCheckedKeys()：表格中获取选中数据的主键集合",
       "例：$this.data.id$",
       "$*：1、树形结构的上级名称时使用"
     ],
@@ -90,6 +89,16 @@ export const NM_PAGE_SCHEMA =
                 "default": 10,
                 "multipleOf": 5,
                 "minimum": 5
+              },
+              "width": {
+                "title": "表格作为弹窗时的宽度",
+                "$ref": "#width",
+                "default": 360
+              },
+              "reload": {
+                "title": "是否可以重新加载页面",
+                "type": "boolean",
+                "default": true
               },
               "frontPagination": {
                 "title": "是否前端分页",
@@ -595,6 +604,11 @@ export const NM_PAGE_SCHEMA =
                           "$ref": "#create"
                         }
                       ]
+                    },
+                    {
+                      "title": "点击后弹出表格",
+                      "$ref": "#table",
+                      "required": ["view"]
                     }
                   ]
                 }
@@ -639,6 +653,7 @@ export const NM_PAGE_SCHEMA =
               "minLength": 1
             },
             "width": {
+              "$id": "#width",
               "title": "表单宽度",
               "oneOf": [
                 {
