@@ -356,7 +356,14 @@ export class NcTableComponent implements OnInit, OnDestroy {
   actionClick(click: any): void {
     // 仅调用接口
     if (click.api) {
-      const body = __eval.call(this, click.body);
+      // 转换用户参数
+      const body = click.body ? __eval.call(this, click.body) : {};
+      // 选择数据后点击时，需要提交数据主键集合
+      if (click.checkToClick) {
+        objectExtend(body, {ids: this.getCheckedKeys()});
+      }
+
+      // 调用接口后需要刷新时重新查询数据
       this.http.post(click.api, body).subscribe(res => {
         if (res && click.refresh) {
           this.query();

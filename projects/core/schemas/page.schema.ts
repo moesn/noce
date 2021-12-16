@@ -569,23 +569,32 @@ export const NM_PAGE_SCHEMA =
                   "type": "string",
                   "minLength": 1
                 },
-                "refresh": {
-                  "title": "操作成功后是否刷新数据",
-                  "type": "boolean",
-                  "default": false
-                },
-                "clickable": {
-                  "title": "是否可点击",
-                  "description": "false时需要选择了数据后才可以点击",
-                  "type": "boolean",
-                  "default": true
-                },
                 "click": {
                   "title": "点击后触发的行为",
                   "oneOf": [
                     {
-                      "title": "仅需要调用固定接口",
-                      "$ref": "#create"
+                      "allOf": [
+                        {
+                          "title": "仅调用接口",
+                          "type": "object",
+
+                          "properties": {
+                            "refresh": {
+                              "title": "操作成功后是否刷新数据",
+                              "type": "boolean"
+                            },
+                            "checkToClick": {
+                              "title": "是否需要选择数据",
+                              "description": "true时需要选择了数据后才可以点击",
+                              "type": "boolean"
+                            }
+                          }
+                        },
+                        {
+                          "title": "仅需要调用固定接口",
+                          "$ref": "#create"
+                        }
+                      ]
                     }
                   ]
                 }
