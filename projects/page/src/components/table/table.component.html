@@ -101,8 +101,7 @@
   总{{ total }}条&emsp;当前{{ range[0] }}-{{ range[1] }}
 </ng-template>
 <!--  表格数据-->
-<nz-table #dataTable
-          (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+<nz-table (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
           (nzQueryParams)="query($event)"
           [(nzPageIndex)]="pageIndex"
           [nzData]="datas"
