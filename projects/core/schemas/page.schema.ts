@@ -731,6 +731,7 @@ export const NM_PAGE_SCHEMA =
                       "number",
                       "password",
                       "switch",
+                      "tree",
                       "select",
                       "treeselect",
                       "modal",
@@ -886,6 +887,52 @@ export const NM_PAGE_SCHEMA =
                         "title": "关的文字标签",
                         "type": "string",
                         "default": "禁用"
+                      }
+                    }
+                  },
+                  "tree": {
+                    "title": "树型表单",
+                    "description": "用于类似功能菜单授权的选择",
+                    "type": "object",
+                    "required": [
+                      "all",
+                      "checked",
+                      "nameKey"
+                    ],
+
+                    "properties": {
+                      "all": {
+                        "title": "所有数据查询接口地址",
+                        "$ref": "#create"
+                      },
+                      "checked": {
+                        "title": "已选数据查询接口地址",
+                        "$ref": "#create"
+                      },
+                      "nameKey": {
+                        "title": "用于展示的字段",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "rootValue": {
+                        "title": "根节点的值",
+                        "type": [
+                          "integer",
+                          "string"
+                        ],
+                        "default": 0
+                      },
+                      "key": {
+                        "title": "节点关键字段",
+                        "type": "string",
+                        "default": "id",
+                        "minLength": 1
+                      },
+                      "parentKey": {
+                        "title": "父节点关键字段",
+                        "type": "string",
+                        "default": "pid",
+                        "minLength": 1
                       }
                     }
                   },
@@ -1118,6 +1165,20 @@ export const NM_PAGE_SCHEMA =
                     "then": {
                       "required": [
                         "select"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "const": "tree"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "tree"
                       ]
                     }
                   },

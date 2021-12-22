@@ -131,6 +131,38 @@ export class NcFormComponent implements OnInit {
           });
         }
 
+        // 树型选择
+        if (field.type === 'tree') {
+          const tree = field.tree
+          // 所有选项和已选项
+          const allBody = {};
+          const checkedBody = {};
+
+          // 合并用户配置的参数
+          if (tree.all.body) {
+            objectExtend(allBody, __eval.call(this, tree.all.body))
+          }
+          if (tree.checked.body) {
+            objectExtend(checkedBody, __eval.call(this, tree.checked.body))
+          }
+
+          // 查询所有选项数据
+          this.http.post(tree.all.api, allBody).subscribe((res: any) => {
+            if (res) {
+              // 将列表转换成树型结构
+              tree.nodes = arrayToTree(res.data, tree);
+            }
+          });
+
+          // 查询已选数据
+          this.http.post(tree.checked.api, checkedBody).subscribe((res: any) => {
+            if (res) {
+              // 将列表转换成树型结构
+              this.data[field.key] = res.data;
+            }
+          });
+        }
+
         // 密码类型的字段保存时需要加密
         if (field.type === 'password') {
           this.passwords.push(field.key);
