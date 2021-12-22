@@ -1,4 +1,4 @@
-<div [class]="className">
+<div [class]="className" style="height: 100%">
   <ng-container *ngIf="navs">
     <!--一个导航-->
     <ng-container *ngIf="navShow&&navs.length==1">
@@ -28,5 +28,4 @@
   </ng-container>
   <!--仅表格-->
   <nc-table *ngIf="table&&!navs" [options]="table" [tabOption]="tabs"></nc-table>
-
 </div>

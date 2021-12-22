@@ -20,7 +20,7 @@
      nz-tooltip nzTooltipTitle="返回全部"></i>
 </ng-template>
 <nz-card [nzTitle]="listTitle">
-  <!--树-->
+  <!--列表-->
   <nz-list nzSize="small" nzSplit="false" [nzLoading]="loading">
     <nz-list-item (click)="click(_data)" *ngFor="let _data of datas">
       <nz-list-item-meta-title>
