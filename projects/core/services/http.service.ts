@@ -63,7 +63,7 @@ export class NcHttpService {
           res.total = res.total || res.count;
           return res;
         } else {
-          this.notify.error(res.msg || '未知错误');
+          this.notify.error(res.msg || '系统错误');
           return false;
         }
       })
@@ -87,7 +87,7 @@ export class NcHttpService {
         if (this.isValidResponse(res)) {
           return res;
         } else {
-          this.notify.error(res.msg || '未知错误');
+          this.notify.error(res.msg || '系统错误');
           return false;
         }
       })
@@ -154,7 +154,7 @@ export class NcHttpService {
             const filename = res.data.substr(res.data.lastIndexOf('/') + 1);
             saveAs(res.data, filename);
           } else {
-            this.notify.error(res.msg || '未知错误');
+            this.notify.error(res.msg || '系统错误');
           }
         })
       ).subscribe();
