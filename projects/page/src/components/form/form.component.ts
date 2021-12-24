@@ -94,13 +94,6 @@ export class NcFormComponent implements OnInit {
                 }));
                 // 更新下拉选择数据
                 select.options = options;
-
-                // 字段必填且表单数据没有字段值，则默认选上第一个选项
-                if (field.required && !this.data[field.key] && !select.multiple) {
-                  this.data[field.key] = select.options[0]?.value;
-                  // 触发事件
-                  this.optionChange(field);
-                }
               }
             });
           }
@@ -120,13 +113,6 @@ export class NcFormComponent implements OnInit {
             if (res) {
               // 将列表转换成树型结构，更新下拉选择数据
               tree.nodes = arrayToTree(res.data, tree);
-
-              // 字段必填且表单数据没有字段值，则默认选上第一个选项
-              if (field.required && !this.data[field.key] && !tree.multiple) {
-                this.data[field.key] = tree.nodes[0]?.value;
-                // 触发事件
-                this.optionChange(field);
-              }
             }
           });
         }
