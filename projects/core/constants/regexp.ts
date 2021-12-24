@@ -4,7 +4,7 @@ interface NcRegItem {
   tip?: string,
 }
 
-const NcRegExp: NcRegItem[] = [
+export const NcRegExp: NcRegItem[] = [
   {
     name: '字母',
     reg: '^[a-zA-Z]+$'
