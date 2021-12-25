@@ -149,4 +149,10 @@
     </nz-button-group>
   </div>
 </form>
-
+<!--保存中-->
+<nz-modal [nzVisible]="saving" [nzFooter]="null" [nzClosable]="false" nzClassName="nc-form-saving">
+  <ng-container *nzModalContent>
+    <nz-spin nzTip="保存中..." nzSize="large">
+    </nz-spin>
+  </ng-container>
+</nz-modal>

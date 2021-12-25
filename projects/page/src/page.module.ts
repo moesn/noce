@@ -28,6 +28,7 @@ import {NzTabsModule} from 'ng-zorro-antd/tabs';
 import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
 import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
 import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
+import {NzSpinModule} from 'ng-zorro-antd/spin';
 
 const NG_MODULES = [
   FormsModule,
@@ -58,6 +59,7 @@ const NZ_MODULES = [
   NzPopconfirmModule,
   NzDatePickerModule,
   NzCarouselModule,
+  NzSpinModule,
 ];
 
 const COMPONENTS = [

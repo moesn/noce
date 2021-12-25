@@ -100,8 +100,13 @@ export const NM_PAGE_SCHEMA =
                 "type": "boolean",
                 "default": true
               },
-              "frontPagination": {
-                "title": "是否前端分页",
+              "singlePage": {
+                "title": "是否不分页",
+                "type": "boolean",
+                "default": false
+              },
+              "showIndex": {
+                "title": "是否显示序号",
                 "type": "boolean",
                 "default": false
               },

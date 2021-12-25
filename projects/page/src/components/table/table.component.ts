@@ -136,8 +136,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 合并表格查询参数
     objectExtend(body, this.body);
 
-    // 前端分页时删除分页参数
-    if (this.options.view.frontPagination) {
+    // 单页时删除分页参数
+    if (this.options.view.singlePage) {
       objectExtend(body, {pageIndex: null, pageSize: null});
     }
 
