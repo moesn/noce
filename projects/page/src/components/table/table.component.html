@@ -124,7 +124,7 @@
         [nzIndeterminate]="indeterminate"
         [nzShowCheckbox]="options.view.multiple"
     ></th>
-<!--    序号-->
+    <!--    序号-->
     <th *ngIf="options.view.showIndex">序号</th>
     <!--      显示字段表头-->
     <ng-container *ngFor="let column of options.view.columns">
@@ -147,9 +147,9 @@
   </tr>
   </thead>
   <tbody cdkDropList (cdkDropListDropped)="drop($event)">
-  <tr *ngFor="let data of datas;index as i" cdkDrag [cdkDragDisabled]="!options.dragable">
-<!--    序号-->
-    <td *ngIf="options.view.showIndex">{{i+1}}</td>
+  <tr *ngFor="let data of datas;index as i" [cdkDragDisabled]="!options.dragable" cdkDrag>
+    <!--    序号-->
+    <td *ngIf="options.view.showIndex">{{i + 1}}</td>
     <!--      选择框-->
     <td *ngIf="options.view.checkable" [nzChecked]="isChecked(data)"
         (nzCheckedChange)="onItemChecked(data, $event)">

@@ -142,13 +142,13 @@ export class NcTableComponent implements OnInit, OnDestroy {
     }
 
     this.http.query(this.options.view.api, body).subscribe(
-      res => {
-        if (res) {
-          // 有些接口没有数据返回的是null
-          this.datas = res.data || [];
-          this.total = res.total;
+        res => {
+          if (res) {
+            // 有些接口没有数据返回的是null
+            this.datas = res.data || [];
+            this.total = res.total;
 
-          const parse = this.options.view.parseData;
+            const parse = this.options.view.parseData;
           // 如果需要解析表格数据
           if (parse) {
             this.datas.forEach(data => _eval(parse)(data));
