@@ -1,12 +1,13 @@
 import {Component, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {isEqual, isPlainObject, keyBy, mapValues, omit, pickBy} from 'lodash-es';
 import {NcCryptService, NcNotifyService} from '.';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {saveAs} from 'file-saver';
 import {getAppOption} from '..';
+import {_eval} from 'noce/helper';
 
 // 发送到后台的查询参数
 export interface NcQueryParams {
@@ -54,7 +55,11 @@ export class NcHttpService {
   }
 
   // 查询数据
-  query(url: string, body: any): Observable<any> {
+  query(url: string, body: any, pipe?: string): Observable<any> {
+    // 用户自定义数据处理
+    if (pipe) {
+      _eval(pipe)(body);
+    }
     // 发送post请求
     return this.http.post(url, this.buildBody(body)).pipe(
       map((res: any) => {
@@ -71,7 +76,12 @@ export class NcHttpService {
   }
 
   // 编辑数据
-  post(url: string, body: any, encrypt?: string[]): Observable<any> {
+  post(url: string, body: any, pipe?: string, encrypt?: string[]): Observable<any> {
+    // 用户自定义数据处理
+    if (pipe) {
+      _eval(pipe)(body);
+    }
+
     // 加密数据
     if (encrypt) {
       encrypt.forEach(key => {
@@ -95,7 +105,12 @@ export class NcHttpService {
   }
 
   // 删除数据，其他只需要传id的接口，可以使用delete，设置noc为true即可
-  delete(url: string, body: any, noc?: boolean): any{
+  delete(url: string, body: any, pipe?: string, noc?: boolean): any {
+    // 用户自定义数据处理
+    if (pipe) {
+      _eval(pipe)(body);
+    }
+
     // 是否不需要删除确认
     const nocon = sessionStorage.getItem(url);
     if (nocon === 'true' || noc) {

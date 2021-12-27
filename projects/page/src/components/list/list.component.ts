@@ -34,7 +34,7 @@ export class NcListComponent implements OnInit {
   // 查询列表
   query(): void {
     this.loading = true;
-    this.http.query(this.options.api, {}).subscribe(
+    this.http.query(this.options.api, {}, this.options.pipe).subscribe(
       (res: any) => {
         if (res) {
           // 有数据时

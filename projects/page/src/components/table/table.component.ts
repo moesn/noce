@@ -141,14 +141,14 @@ export class NcTableComponent implements OnInit, OnDestroy {
       objectExtend(body, {pageIndex: null, pageSize: null});
     }
 
-    this.http.query(this.options.view.api, body).subscribe(
-        res => {
-          if (res) {
-            // 有些接口没有数据返回的是null
-            this.datas = res.data || [];
-            this.total = res.total;
+    this.http.query(this.options.view.api, body, this.options.view.pipe).subscribe(
+      res => {
+        if (res) {
+          // 有些接口没有数据返回的是null
+          this.datas = res.data || [];
+          this.total = res.total;
 
-            const parse = this.options.view.parseData;
+          const parse = this.options.view.parseData;
           // 如果需要解析表格数据
           if (parse) {
             this.datas.forEach(data => _eval(parse)(data));
@@ -392,7 +392,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
       this.loading = option.refresh;
       // 调用接口后需要刷新时重新查询数据
-      this.http.post(option.api, body).subscribe(res => {
+      this.http.post(option.api, body, option.pipe).subscribe(res => {
           if (res && this.loading) {
             this.query();
           } else {
@@ -418,7 +418,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     this.options.dragable = !this.options.dragable;
     // 排序结束时保存排序
     if (!this.options.dragable) {
-      this.http.post(this.options.dragSort.api, _.map(this.datas, this.key)).subscribe();
+      this.http.post(this.options.dragSort.api, _.map(this.datas, this.key), this.options.dragSort.pipe).subscribe();
     }
   }
 

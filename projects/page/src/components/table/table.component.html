@@ -105,6 +105,7 @@
           (nzQueryParams)="query($event)"
           [(nzPageIndex)]="pageIndex"
           [nzData]="datas"
+          [nzFrontPagination]="false"
           [nzHideOnSinglePage]="options.view.singlePage"
           [nzPageSizeOptions]="[10,20,50,100,500]"
           [nzPageSize]="options.view.singlePage?10000:options.view.pageSize"
@@ -125,7 +126,7 @@
         [nzShowCheckbox]="options.view.multiple"
     ></th>
     <!--    序号-->
-    <th *ngIf="options.view.showIndex">序号</th>
+    <th *ngIf="options.view.showIndex" nzWidth="50px">序号</th>
     <!--      显示字段表头-->
     <ng-container *ngFor="let column of options.view.columns">
       <!--      多标签显示、过滤、排序-->

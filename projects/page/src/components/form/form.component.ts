@@ -16,7 +16,7 @@ export class NcFormComponent implements OnInit {
   options: any = {}; // 表单选项
   key: string = ''; // 表单数据的主健
   data: any = {}; // 表单数据
-  action = {api: '', body: {}}; // 表单数据保存接口
+  action = {api: '', body: {}, pipe: ''}; // 表单数据保存接口
 
   nav: any; // 导航选中项的数据
   tab: any; // 当前标签
@@ -83,7 +83,7 @@ export class NcFormComponent implements OnInit {
 
           // 1、初始化时没有key，配置了api，且不需要触发加载；2、根据key延迟获取数据
           if (((!key && !select.trigger) || select.trigger === key) && select.api) {
-            this.http.post(select.api, body).subscribe((res: any) => {
+            this.http.post(select.api, body, select.pipe).subscribe((res: any) => {
               if (res) {
                 // 生成下拉选择项label和value
                 const options: any = [];
@@ -109,7 +109,7 @@ export class NcFormComponent implements OnInit {
             objectExtend(body, __eval.call(this, tree.body))
           }
 
-          this.http.post(tree.api, body).subscribe((res: any) => {
+          this.http.post(tree.api, body, tree.pipe).subscribe((res: any) => {
             if (res) {
               // 将列表转换成树型结构，更新下拉选择数据
               tree.nodes = arrayToTree(res.data, tree);
@@ -133,7 +133,7 @@ export class NcFormComponent implements OnInit {
           }
 
           // 查询所有选项数据
-          this.http.post(tree.all.api, allBody).subscribe((res: any) => {
+          this.http.post(tree.all.api, allBody, tree.all.pipe).subscribe((res: any) => {
             if (res) {
               // 将列表转换成树型结构
               tree.nodes = arrayToTree(res.data, tree);
@@ -141,7 +141,7 @@ export class NcFormComponent implements OnInit {
           });
 
           // 查询已选数据
-          this.http.post(tree.checked.api, checkedBody).subscribe((res: any) => {
+          this.http.post(tree.checked.api, checkedBody, tree.checked.pipe).subscribe((res: any) => {
             if (res) {
               // 将列表转换成树型结构
               this.data[field.key] = res.data;
@@ -239,7 +239,7 @@ export class NcFormComponent implements OnInit {
       _eval(beforeSave)(body);
     }
 
-    this.http.post(this.action.api, body, this.passwords).subscribe({
+    this.http.post(this.action.api, body, this.action.pipe, this.passwords).subscribe({
       next: (res: any) => {
         if (res) {
           // 保存成功，关闭弹窗

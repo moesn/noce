@@ -33,7 +33,7 @@ export class NcTreeComponent implements OnInit {
 
   // 查询树数据
   query(): void {
-    this.http.post(this.options.api, {}).subscribe(res => {
+    this.http.post(this.options.api, {}, this.options.pipe).subscribe(res => {
       if (res) {
         // 有组时，默认选中第一个组并查询表格数据
         if (_.isArray(res.data) && res.data.length) {
