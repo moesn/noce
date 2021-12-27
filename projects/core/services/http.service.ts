@@ -1,7 +1,8 @@
 import {Component, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
+import * as _ from 'lodash-es';
 import {isEqual, isPlainObject, keyBy, mapValues, omit, pickBy} from 'lodash-es';
 import {NcCryptService, NcNotifyService} from '.';
 import {NzModalService} from 'ng-zorro-antd/modal';
@@ -29,6 +30,11 @@ export interface NcQueryParams {
 export class NcHttpService {
   // 返回默认http
   client = this.http;
+
+  lastQuery = { //最近查询
+    time: 0,
+    bodyY: {}
+  };
 
   constructor(private http: HttpClient,
               private crypt: NcCryptService,
@@ -60,8 +66,19 @@ export class NcHttpService {
     if (pipe) {
       _eval(pipe)(body);
     }
+
+    const bodyY = this.buildBody(body);
+    console.log(new Date().getTime() - this.lastQuery.time)
+    // 防止一秒内重复查询
+    if (_.isEqual(this.lastQuery.bodyY, bodyY) && (new Date().getTime() - this.lastQuery.time < 1000)) {
+      return of(false);
+    }
+
+    // 记录最近一次查询
+    this.lastQuery = {time: new Date().getTime(), bodyY};
+
     // 发送post请求
-    return this.http.post(url, this.buildBody(body)).pipe(
+    return this.http.post(url, bodyY).pipe(
       map((res: any) => {
         // 返回数据状态码code是1
         if (this.isValidResponse(res)) {
