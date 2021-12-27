@@ -254,7 +254,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       body = __eval.call(this, body)
     }
 
-    this.http.delete(action.api, body).subscribe((res: any) => {
+    this.http.delete(action.api, body,action.pipe).subscribe((res: any) => {
       if (res) {
         // 表格数据删除一条
         this.datas = reject(this.datas, (d: any) => d[this.options.key] === data[this.options.key]);
@@ -315,7 +315,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       body = __eval.call(this, body)
     }
 
-    this.http.delete(action.api, body, true).subscribe();
+    this.http.delete(action.api, body,action.pipe, true).subscribe();
   }
 
   // 格式化显示颜色

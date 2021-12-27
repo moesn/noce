@@ -174,7 +174,7 @@ export class NcTreeComponent implements OnInit {
       objectExtend(body, __eval.call(this, action.body))
     }
 
-    this.http.delete(action.api, body).subscribe((res: any) => {
+    this.http.delete(action.api, body,action.pipe).subscribe((res: any) => {
       if (res) {
         const parentNode = node.parentNode;
         if (parentNode) {

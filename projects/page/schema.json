@@ -63,7 +63,6 @@
           "title": "表格视图配置",
           "type": "object",
           "required": [
-            "api",
             "columns"
           ],
           "additionalProperties": false,
@@ -199,44 +198,48 @@
                         "title": "选择切换",
                         "type": "object",
                         "required": [
-                          "api",
                           "options"
                         ],
                         "additionalProperties": false,
-                        "properties": {
-                          "api": {
-                            "$ref": "#api"
+                        "allOf": [
+                          {
+                            "title": "切换接口",
+                            "$ref": "#post"
                           },
-                          "options": {
-                            "title": "切换的选项",
-                            "type": "array",
-                            "uniqueItems": true,
-                            "minItems": 2,
-                            "items": {
-                              "type": "object",
-                              "required": [
-                                "label",
-                                "value"
-                              ],
-                              "additionalProperties": false,
-                              "properties": {
-                                "label": {
-                                  "title": "选项显示的标签",
-                                  "type": "string"
-                                },
-                                "value": {
-                                  "title": "选项提交到后台的值",
-                                  "type": [
-                                    "boolean",
-                                    "string",
-                                    "array",
-                                    "number"
-                                  ]
+                          {
+                            "properties": {
+                              "options": {
+                                "title": "切换的选项",
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 2,
+                                "items": {
+                                  "type": "object",
+                                  "required": [
+                                    "label",
+                                    "value"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "label": {
+                                      "title": "选项显示的标签",
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "title": "选项提交到后台的值",
+                                      "type": [
+                                        "boolean",
+                                        "string",
+                                        "array",
+                                        "number"
+                                      ]
+                                    }
+                                  }
                                 }
                               }
                             }
                           }
-                        }
+                        ]
                       },
                       "action": {
                         "title": "自定义表格操作列",
@@ -300,7 +303,6 @@
                           {
                             "type": "object",
                             "required": [
-                              "api",
                               "textKey",
                               "valueKey"
                             ],
@@ -523,42 +525,49 @@
         "upload": {
           "title": "数据上传",
           "type": "object",
-          "required": [
-            "api"
-          ],
           "additionalProperties": false,
-          "properties": {
-            "api": {
+          "allOf": [
+            {
               "title": "上传接口地址",
-              "$ref": "#api"
+              "$ref": "#post"
             },
-            "tip": {
-              "title": "按钮说明",
-              "type": "string",
-              "minLength": 1,
-              "default": "上传"
+            {
+              "properties": {
+                "tip": {
+                  "title": "按钮说明",
+                  "type": "string",
+                  "minLength": 1,
+                  "default": "上传"
+                }
+              }
             }
-          }
+          ]
         },
         "download": {
           "title": "数据下载",
           "type": "object",
-          "required": [
-            "api"
-          ],
           "additionalProperties": false,
-          "properties": {
-            "api": {
+          "allOf": [
+            {
               "title": "下载接口地址",
-              "$ref": "#api"
+              "$ref": "#post"
             },
-            "tip": {
-              "title": "按钮说明",
-              "type": "string",
-              "minLength": 1,
-              "default": "下载"
+            {
+              "properties": {
+                "tip": {
+                  "title": "按钮说明",
+                  "type": "string",
+                  "minLength": 1,
+                  "default": "下载"
+                },
+                "blob": {
+                  "title": "是否是流下载",
+                  "type": "boolean",
+                  "default": false
+                }
+              }
             }
-          }
+          ]
         },
         "actions": {
           "title": "表格操作按钮扩展",
@@ -927,70 +936,75 @@
                   "title": "下拉选择框专属配置",
                   "type": "object",
                   "additionalProperties": false,
-                  "allOf": [
-                    {
+                  "properties": {
+                    "api": {
                       "title": "查询接口地址",
-                      "$ref": "#post"
+                      "$ref": "#api"
                     },
-                    {
-                      "properties": {
-                        "multiple": {
-                          "title": "是否多选",
-                          "type": "boolean",
-                          "default": false
-                        },
-                        "options": {
-                          "title": "固定选项数据",
-                          "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 2,
-                          "items": {
-                            "type": "object",
-                            "required": [
-                              "label",
-                              "value"
-                            ],
-                            "additionalProperties": false,
-                            "properties": {
-                              "label": {
-                                "title": "选项显示的标签",
-                                "type": "string"
-                              },
-                              "value": {
-                                "title": "选项提交到后台的值",
-                                "type": [
-                                  "boolean",
-                                  "string",
-                                  "array",
-                                  "number"
-                                ]
-                              }
-                            }
+                    "body": {
+                      "title": "查询接口参数",
+                      "$ref": "#body"
+                    },
+                    "pipe": {
+                      "title": "处理数据",
+                      "description": "调用服务接口之前处理数据",
+                      "$ref": "#parse"
+                    },
+                    "multiple": {
+                      "title": "是否多选",
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "options": {
+                      "title": "固定选项数据",
+                      "type": "array",
+                      "uniqueItems": true,
+                      "minItems": 2,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "label",
+                          "value"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "label": {
+                            "title": "选项显示的标签",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "选项提交到后台的值",
+                            "type": [
+                              "boolean",
+                              "string",
+                              "array",
+                              "number"
+                            ]
                           }
-                        },
-                        "nameKey": {
-                          "title": "用于展示的字段",
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "valueKey": {
-                          "title": "用于关联的字段",
-                          "type": "string",
-                          "default": "id",
-                          "minLength": 1
-                        },
-                        "trigger": {
-                          "title": "通过其他选择框触发查询数据",
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "click": {
-                          "title": "切换点击事件",
-                          "$ref": "#parse"
                         }
                       }
+                    },
+                    "nameKey": {
+                      "title": "用于展示的字段",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "valueKey": {
+                      "title": "用于关联的字段",
+                      "type": "string",
+                      "default": "id",
+                      "minLength": 1
+                    },
+                    "trigger": {
+                      "title": "通过其他选择框触发查询数据",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "click": {
+                      "title": "切换点击事件",
+                      "$ref": "#parse"
                     }
-                  ],
+                  },
                   "oneOf": [
                     {
                       "required": [
@@ -1010,7 +1024,6 @@
                   "title": "下拉选择框专属配置",
                   "type": "object",
                   "required": [
-                    "api",
                     "nameKey"
                   ],
                   "additionalProperties": false,
@@ -1226,7 +1239,6 @@
         "type": "object",
         "required": [
           "type",
-          "api",
           "nameKey",
           "mappingKey"
         ],
