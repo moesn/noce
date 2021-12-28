@@ -29,7 +29,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   datas: any[] = []; // 表格数据
   searchFields: any = []; // 可搜索的字段
 
-  navf2t: string = ''; // 导航从无到有，nav from false to true
+  navState: string = ''; // 导航状态，从无到有f2t，从有到无t2f
   body: any = { // 传到服务端端查询参数
     range: {}, // 按时间范围过滤
     exact: {}, // 精确查询
@@ -74,7 +74,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 订阅导航点击事件
     this.navClickEvent = this.event.on('NAV_CLICK').subscribe(res => {
       // 重置tab切换
-      this.navf2t = '';
+      this.navState = '';
       // 记录导航项的数据，供自定义操作使用
       this.nav = res;
       // 关联的值
@@ -108,12 +108,12 @@ export class NcTableComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     // 查询参数
-    let body = {};
+    let body: any = {};
     // 记录分页、过滤、排序等表格查询参数
     objectExtend(this.body, params);
 
     // 防止切换tab时导航从无到有时重复执行查询
-    if (this.navf2t === 'f2t') {
+    if (this.navState === 'f2t') {
       return;
     }
 
@@ -147,6 +147,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 单页时删除分页参数
     if (this.options.view.singlePage) {
       objectExtend(body, {pageIndex: null, pageSize: null});
+    }
+
+    // 导航从有到无时删除导航关联字段
+    if (this.navState === 't2f') {
+      delete body[this.navOption.mappingKey];
     }
 
     this.http.query(this.options.view.api, body, this.options.view.pipe).subscribe(
@@ -276,7 +281,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
   switchTab(tab: any): void {
     // tab切换前无导航
     if (this.tab && !this.isCureentTab(this.navOption.tabIndex)) {
-      this.navf2t = 'f';
+      this.navState = 'f';
+    } else {
+      this.navState = 't';
     }
 
     // 切换导航
@@ -284,7 +291,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // tab切换后有导航
     if (this.isCureentTab(this.navOption.tabIndex)) {
-      this.navf2t += '2t';
+      this.navState += '2t';
+    } else {
+      this.navState += '2f';
     }
 
     // 是否显示导航
