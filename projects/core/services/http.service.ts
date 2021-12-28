@@ -32,6 +32,7 @@ export class NcHttpService {
   client = this.http;
 
   lastQuery = { //最近查询
+    url: '',
     time: 0,
     bodyY: {}
   };
@@ -68,14 +69,14 @@ export class NcHttpService {
     }
 
     const bodyY = this.buildBody(body);
-    console.log(new Date().getTime() - this.lastQuery.time)
+
     // 防止一秒内重复查询
-    if (_.isEqual(this.lastQuery.bodyY, bodyY) && (new Date().getTime() - this.lastQuery.time < 1000)) {
+    if (url === this.lastQuery.url && _.isEqual(this.lastQuery.bodyY, bodyY) && (new Date().getTime() - this.lastQuery.time < 1000)) {
       return of(false);
     }
 
     // 记录最近一次查询
-    this.lastQuery = {time: new Date().getTime(), bodyY};
+    this.lastQuery = {url, time: new Date().getTime(), bodyY};
 
     // 发送post请求
     return this.http.post(url, bodyY).pipe(

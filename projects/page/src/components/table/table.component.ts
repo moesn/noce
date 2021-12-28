@@ -112,18 +112,21 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 记录分页、过滤、排序等表格查询参数
     objectExtend(this.body, params);
 
-    // 防止切换tab时导航从无到有时重复执行查询
-    if (this.navState === 'f2t') {
+    // 防止切换tab时，导航从无到有时，导航select的重复查询
+    if (this.navState === 'f2t' && this.navOption.selected) {
+      this.loading = false;
       return;
     }
 
     // 没有分页参数页不查询
     if (!this.body.pageIndex || !this.body.pageSize) {
+      this.loading = false;
       return;
     }
 
     // 如果有导航，但没有关联导航，则阻止表格自动查询
     if (this.navOption && this.navOption.selected && !this.body.exact[this.navOption.mappingKey]) {
+      this.loading = false;
       return;
     }
 
@@ -308,6 +311,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     }
     // 合并标签配置到表格配置，合并到新的对象{}，防止选项污染
     this.options = objectExtend({}, this.optionsBak, tab);
+    this.key = this.options.key;
 
     // 切换回第一页，切换了分页会触发查询，不用执行query
     this.pageIndex = 1;
