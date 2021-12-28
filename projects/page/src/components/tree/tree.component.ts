@@ -19,7 +19,7 @@ export class NcTreeComponent implements OnInit {
   data: any = {}; // 当前操作的数据
   datas: any[] = []; // 树数据
   keys: any[] = []; // 选中的对象key
-  isInitData: boolean = false; // 是否是系统内置数据
+  _isInit: boolean = false; // 是否是系统内置数据
 
   constructor(private drawer: NzDrawerService,
               private http: NcHttpService,
@@ -65,7 +65,7 @@ export class NcTreeComponent implements OnInit {
 
   // 点击树节点
   click(node: any): void {
-    this.isInitData = this.data[node.key]?.toString().startsWith('-');
+    this._isInit = this.data[node.key]?.toString().startsWith('-');
 
     // 设置组，选中状态，触发查询
     this.keys = [node.key];
@@ -157,7 +157,7 @@ export class NcTreeComponent implements OnInit {
   // 删除节点
   delete(): void {
     // 内置数据不可删除
-    if (this.isInitData) {
+    if (this._isInit) {
       this.notify.warning('内置数据不可删除');
       return;
     }

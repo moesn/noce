@@ -150,8 +150,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
     }
 
     // 导航从有到无时删除导航关联字段
-    if (this.navState === 't2f') {
-      delete body[this.navOption.mappingKey];
+    if (this.navState === 't2f' && body.exact) {
+      delete body.exact[this.navOption.mappingKey];
     }
 
     this.http.query(this.options.view.api, body, this.options.view.pipe).subscribe(
@@ -160,6 +160,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
           // 有些接口没有数据返回的是null
           this.datas = res.data || [];
           this.total = res.total;
+
+          // 是否初始化数据
+          this.datas.forEach(data => data._isInit = data[this.key].toString().startsWith('-'));
 
           const parse = this.options.view.parseData;
           // 如果需要解析表格数据

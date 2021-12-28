@@ -141,7 +141,7 @@
   </nz-row>
   <!--  保存或取消-->
   <div class="ant-drawer-footer">
-    <span class="ant-left ant-disabled" style="line-height:32px" *ngIf="isInitData">内置数据不可修改</span>
+    <span class="ant-left ant-disabled" style="line-height:32px" *ngIf="_isInit">内置数据不可修改</span>
     <nz-button-group>
       <button nz-button (click)="close()">取消</button>
       <!--      无效、未编辑、保存中时禁止点击-->
