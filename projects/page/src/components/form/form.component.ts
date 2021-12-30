@@ -322,7 +322,7 @@ export class NcFormComponent implements OnInit {
       result += min === max ? `长度${max}` : `长度${min} ~ ${max}`;
     }
 
-    if (field.pattern) {
+    if (field.pattern && field.pattern.name !== '任意') {
       result += result ? '的' : '';
       result += `${field.pattern.name}`;
 

@@ -802,6 +802,7 @@ export const NM_PAGE_SCHEMA =
                     "oneOf": [
                       {
                         "enum": [
+                          "任意",
                           "字母",
                           "数字",
                           "汉字",
@@ -812,6 +813,7 @@ export const NM_PAGE_SCHEMA =
                           "URL",
                           "IP",
                           "IP段",
+                          "多IP段",
                           "IPV4",
                           "IPV6",
                           "MAC",
@@ -847,7 +849,8 @@ export const NM_PAGE_SCHEMA =
                           }
                         }
                       }
-                    ]
+                    ],
+                    "default": "任意"
                   },
                   "number": {
                     "title": "数字输入框专属配置",
@@ -1097,7 +1100,10 @@ export const NM_PAGE_SCHEMA =
                         "input": {
                           "default": {}
                         }
-                      }
+                      },
+                      "required": [
+                        "pattern"
+                      ]
                     }
                   },
                   {
@@ -1504,6 +1510,7 @@ export const NM_PAGE_SCHEMA =
       }
     }
   }
+
 
 
 

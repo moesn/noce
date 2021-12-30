@@ -63,6 +63,11 @@ export class NcHttpService {
 
   // 查询数据
   query(url: string, body: any, pipe?: string): Observable<any> {
+    // 假装查询，常用于前端筛选/过滤/排序等
+    if(url===null){
+      return of(true)
+    }
+
     // 用户自定义数据处理
     if (pipe) {
       _eval(pipe)(body);

@@ -124,8 +124,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // 如果有导航，但没有关联导航，则阻止表格自动查询
-    if (this.navOption && this.navOption.selected && !this.body.exact[this.navOption.mappingKey]) {
+    // 如果有导航选项 & 当前tab有导航 & 导航必选 & 但没有关联导航，则阻止表格自动查询
+    if (this.navOption && this.isCureentTab(this.navOption.tabIndex) &&
+      this.navOption.selected && !this.body.exact[this.navOption.mappingKey]) {
       this.loading = false;
       return;
     }
@@ -242,7 +243,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
         }
 
         // 有导航时刷新页面
-        if (this.navOption) {
+        if (this.navOption && this.isCureentTab(this.navOption.tabIndex)) {
           this.query({});
         } else {
           // 编辑前的数据有主键时是修改操作
