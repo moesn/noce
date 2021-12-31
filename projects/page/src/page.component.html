@@ -1,7 +1,7 @@
 <div [class]="className" style="height: 100%">
   <ng-container *ngIf="navs">
     <!--一个导航-->
-    <ng-container *ngIf="navShow&&navs.length==1">
+    <ng-container *ngIf="navShow&&navs.length===1">
       <div *ngFor="let nav of navs" [ngStyle]="{width:navs[0].width}" class="nc-page-nav">
         <!--  导航树-->
         <nc-tree *ngIf="nav.type==='tree'" [options]="nav"></nc-tree>

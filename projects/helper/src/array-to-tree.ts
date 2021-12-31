@@ -18,7 +18,7 @@ export const arrayToTree =
       const children = map[pid] = (map[pid] || []);
 
       // 初始化结果
-      if (!res && pid == rootValue) {
+      if (!res && pid === rootValue) {
         res = children;
       }
 

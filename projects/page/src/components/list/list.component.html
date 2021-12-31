@@ -24,8 +24,8 @@
   <nz-list nzSize="small" nzSplit="false" [nzLoading]="loading">
     <nz-list-item (click)="click(_data)" *ngFor="let _data of datas">
       <nz-list-item-meta-title>
-        <nz-badge *ngIf="_data[key]==data[key]" nzStatus="processing"></nz-badge>
-        <span [ngClass]="{'ant-info':_data[key]==data[key]}">{{ _data[options.nameKey] }}</span>
+        <nz-badge *ngIf="_data[key]===data[key]" nzStatus="processing"></nz-badge>
+        <span [ngClass]="{'ant-info':_data[key]===data[key]}">{{ _data[options.nameKey] }}</span>
       </nz-list-item-meta-title>
     </nz-list-item>
   </nz-list>

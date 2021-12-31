@@ -35,7 +35,7 @@
   ></nz-tree>
   <!--  显示模版-->
   <ng-template #treeTpl let-node>
-    <nz-badge *ngIf="keys[0]==node.key" nzStatus="processing"></nz-badge>
+    <nz-badge *ngIf="keys[0]===node.key" nzStatus="processing"></nz-badge>
     <span>{{node.title}}</span>
   </ng-template>
 </nz-card>

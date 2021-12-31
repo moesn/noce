@@ -6,7 +6,7 @@ export function urlBase64Decode(str: string): string {
       break;
     }
     case 2: {
-      output += '==';
+      output += '===';
       break;
     }
     case 3: {

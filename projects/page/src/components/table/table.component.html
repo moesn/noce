@@ -5,7 +5,7 @@
   <!--  多标签-->
   <nz-space *ngIf="tabOption" class="ant-left">
     <ng-container *ngFor="let _tab of tabOption">
-      <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab==tab?'primary':'default'" nz-button
+      <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab===tab?'primary':'default'" nz-button
       >{{_tab.title}}</button>
     </ng-container>
   </nz-space>
@@ -172,7 +172,7 @@
         <td *ngIf="column.type==='switch'">
           <nz-switch (ngModelChange)="switch($event,data,column)"
                      [name]="column.key"
-                     [ngModel]="data[column.key]==column.switch.on"
+                     [ngModel]="data[column.key]===column.switch.on"
                      [nzCheckedChildren]="column.switch.labelOn"
                      [nzUnCheckedChildren]="column.switch.labelOff"></nz-switch>
         </td>
