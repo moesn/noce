@@ -217,6 +217,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 打开编辑窗口
     this.drawerRef = this.drawer.create({
+      nzWrapClassName: ['nc', ...location.pathname.split('/'), 'table'].join('-'),
       // 配置了宽度使用宽度，没有配置则使用列数乘以最小宽度360
       nzWidth: formOne.width || formOne.cols * 360,
       nzContent: NcFormComponent,
@@ -402,7 +403,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
   }
 
   // 表格扩展按钮点击事件
-  actionClick(option: any): void {
+  actionClick(action: any): void {
+    const option = action.click;
     // 表格弹窗
     if (option.view) {
       // 弹窗简单分页，不能重载页面
@@ -410,6 +412,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       option.view.reload = false;
 
       this.modal.create({
+        nzWrapClassName: ['nc', ...location.pathname.split('/'), action.icon].join('-'),
         nzWidth: option.view.width,
         nzStyle: {top: '12px'},
         nzBodyStyle: {padding: '0 0 12px 0'},

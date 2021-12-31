@@ -165,6 +165,7 @@ export class NcFormComponent implements OnInit {
     objectExtend(modal, {view});
 
     const modalRef = this.modal.create({
+      nzWrapClassName: ['nc', ...location.pathname.split('/'), field.key].join('-'),
       nzWidth: modal.width,
       nzStyle: {top: '12px'},
       nzBodyStyle: {padding: '0 0 12px 0'},

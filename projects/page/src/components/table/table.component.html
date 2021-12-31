@@ -66,7 +66,7 @@
       <ng-container *ngIf="!action.confirm">
         <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
                 [disabled]="action.click.checkToClick&&!checkedData.size"
-                (click)="actionClick(action.click)">
+                (click)="actionClick(action)">
           <i nz-icon [nzType]="action.icon"></i>
         </button>
       </ng-container>
@@ -74,7 +74,7 @@
       <ng-container *ngIf="action.confirm">
         <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
                 [disabled]="action.click.checkToClick&&!checkedData.size"
-                nz-popconfirm [nzPopconfirmTitle]="action.confirm" (nzOnConfirm)="actionClick(action.click)">
+                nz-popconfirm [nzPopconfirmTitle]="action.confirm" (nzOnConfirm)="actionClick(action)">
           <i nz-icon [nzType]="action.icon"></i>
         </button>
       </ng-container>
@@ -179,7 +179,7 @@
         <!--        操作列-->
         <td *ngIf="column.type==='action'">
           <i [nzTooltipTitle]="column.action.tip" [nzType]="column.action.icon"
-             nz-icon nz-tooltip (click)="actionClick(column.action.click)"></i>
+             nz-icon nz-tooltip (click)="actionClick(column.action)"></i>
         </td>
       </ng-container>
     </ng-container>

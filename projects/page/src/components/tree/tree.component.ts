@@ -110,6 +110,7 @@ export class NcTreeComponent implements OnInit {
 
     // 打开编辑窗口
     this.drawerRef = this.drawer.create({
+      nzWrapClassName: ['nc', ...location.pathname.split('/'), 'tree'].join('-'),
       nzWidth: formOne.width || formOne.cols * 360,
       nzContent: NcFormComponent,
       nzContentParams: {
