@@ -78,7 +78,7 @@ export const NM_PAGE_SCHEMA =
                     "title": "超长数据省略显示",
                     "description": "超过最大显示长度时省略显示，鼠标移动上去会显示完整数据",
                     "type": "integer",
-                    "default": 10
+                    "default": 20
                   },
                   "pageSize": {
                     "title": "每页显示条数",
@@ -175,13 +175,13 @@ export const NM_PAGE_SCHEMA =
                             },
                             "on": {
                               "title": "开的值",
-                              "type": "integer",
-                              "default": 1
+                              "type": ["boolean","integer"],
+                              "default": true
                             },
                             "off": {
                               "title": "关的值",
-                              "type": "integer",
-                              "default": 0
+                              "type": ["boolean","integer"],
+                              "default": false
                             },
                             "labelOn": {
                               "title": "开的文字标签",
@@ -807,6 +807,7 @@ export const NM_PAGE_SCHEMA =
                           "数字",
                           "汉字",
                           "字符",
+                          "名称",
                           "身份证",
                           "手机号",
                           "邮箱",
@@ -1510,6 +1511,7 @@ export const NM_PAGE_SCHEMA =
       }
     }
   }
+
 
 
 

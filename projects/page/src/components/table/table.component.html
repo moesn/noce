@@ -161,6 +161,7 @@
       <ng-container *ngIf="isCureentTab(column.tabIndex)">
         <!--        普通列-->
         <td *ngIf="column.type==='text'" nz-tooltip [nzTooltipTitle]="data[column.key]"
+            [class]="formatColor(data[column.key],column.color)"
             [nzTooltipTrigger]="data[column.key]?.length>options.view.ellipsis?'hover':null">
           {{formatData(data[column.key], column)}}
         </td>

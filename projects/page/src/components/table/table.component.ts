@@ -296,6 +296,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 切换导航
     this.tab = tab;
+    this.body.fuzzy.keyword = '';
 
     // tab切换后有导航
     if (this.isCureentTab(this.navOption.tabIndex)) {
