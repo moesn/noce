@@ -808,6 +808,7 @@ export const NM_PAGE_SCHEMA =
                           "汉字",
                           "字符",
                           "名称",
+                          "字母数字",
                           "身份证",
                           "手机号",
                           "邮箱",
@@ -934,6 +935,11 @@ export const NM_PAGE_SCHEMA =
                         "type": "string",
                         "default": "pid",
                         "minLength": 1
+                      },
+                      "expandAll": {
+                        "title": "是否展开所有节点",
+                        "type": "boolean",
+                        "default": true
                       }
                     }
                   },

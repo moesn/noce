@@ -32,6 +32,7 @@ export class NcFormComponent implements OnInit {
 
   isnew: boolean = false; // 是否是新增数据
   saving: boolean = false; // 表单是否保存中
+  expandAll: boolean = false; // 是否展开树的所有节点
   _isInit: boolean = false; // 是否是系统内置数据
 
   constructor(private drawerRef: NzDrawerRef,
@@ -60,6 +61,10 @@ export class NcFormComponent implements OnInit {
         if (field.value !== undefined) {
           this.data[field.key] = field.value;
         }
+        // 密码类型的字段保存时需要加密
+        if (field.type === 'password') {
+          this.passwords.push(field.key);
+        }
       })
     }
 
@@ -69,34 +74,33 @@ export class NcFormComponent implements OnInit {
   // 渲染下拉选择框
   renderSelect(key?: string): void {
     // 从服务端获取表单下拉选择框的数据
-    this.options.forEach((formItem: any) => {
-      formItem.fields.forEach((field: any) => {
-        // 下拉选择框
-        if (field.type === 'select') {
-          const select = field.select
-          const body = {};
+    this.fields.forEach((field: any) => {
+      // 下拉选择框
+      if (field.type === 'select') {
+        const select = field.select
+        const body = {};
 
-          // 合并用户配置的参数
-          if (select.body) {
-            objectExtend(body, __eval.call(this, select.body))
-          }
+        // 合并用户配置的参数
+        if (select.body) {
+          objectExtend(body, __eval.call(this, select.body))
+        }
 
-          // 1、初始化时没有key，配置了api，且不需要触发加载；2、根据key延迟获取数据
-          if (((!key && !select.trigger) || select.trigger === key) && select.api) {
-            this.http.post(select.api, body, select.pipe).subscribe((res: any) => {
-              if (res) {
-                // 生成下拉选择项label和value
-                const options: any = [];
+        // 1、初始化时没有key，配置了api，且不需要触发加载；2、根据key延迟获取数据
+        if (((!key && !select.trigger) || select.trigger === key) && select.api) {
+          this.http.post(select.api, body, select.pipe).subscribe((res: any) => {
+            if (res) {
+              // 生成下拉选择项label和value
+              const options: any = [];
 
-                res.data.forEach((d: any) => options.push({
-                  label: d[select.nameKey],
-                  value: d[select.valueKey],
-                }));
-                // 更新下拉选择数据
-                select.options = options;
-              }
-            });
-          }
+              res.data.forEach((d: any) => options.push({
+                label: d[select.nameKey],
+                value: d[select.valueKey],
+              }));
+              // 更新下拉选择数据
+              select.options = options;
+            }
+          });
+        }
         }
 
         // 树型下拉选择框
@@ -120,16 +124,12 @@ export class NcFormComponent implements OnInit {
         // 树型选择
         if (field.type === 'tree') {
           const tree = field.tree
-          // 所有选项和已选项
+          // 所有选项
           const allBody = {};
-          const checkedBody = {};
 
           // 合并用户配置的参数
           if (tree.all.body) {
             objectExtend(allBody, __eval.call(this, tree.all.body))
-          }
-          if (tree.checked.body) {
-            objectExtend(checkedBody, __eval.call(this, tree.checked.body))
           }
 
           // 查询所有选项数据
@@ -137,23 +137,31 @@ export class NcFormComponent implements OnInit {
             if (res) {
               // 将列表转换成树型结构
               tree.nodes = arrayToTree(res.data, tree);
+              // 设置是否展开所有节点，没数据时设置不会生效
+              this.expandAll = tree.expandAll;
             }
           });
 
-          // 查询已选数据
-          this.http.post(tree.checked.api, checkedBody, tree.checked.pipe).subscribe((res: any) => {
-            if (res) {
-              // 将列表转换成树型结构
-              this.data[field.key] = res.data;
-            }
-          });
-        }
+          // 如果是修改，则查询已选数据
+          if (!this.isnew) {
+            // 已选项
+            let checkedBody: any = {};
+            // 根据修改项的ID查询
+            checkedBody[this.key] = this.data[this.key];
 
-        // 密码类型的字段保存时需要加密
-        if (field.type === 'password') {
-          this.passwords.push(field.key);
+            if (tree.checked.body) {
+              objectExtend(checkedBody, __eval.call(this, tree.checked.body))
+            }
+
+            // 查询已选数据
+            this.http.post(tree.checked.api, checkedBody, tree.checked.pipe).subscribe((res: any) => {
+              if (res) {
+                // 将列表转换成树型结构
+                this.data[field.key] = res.data;
+              }
+            });
+          }
         }
-      })
     })
   }
 

@@ -7,29 +7,34 @@ interface NcRegItem {
 export const NcRegExp: NcRegItem[] = [
   {
     name: '任意',
-    reg: '^[\\s\\S]+$'
+    reg: '^(?! )[\\s\\S]*(?! ).$'
   },
   {
     name: '字母',
-    reg: '^[a-zA-Z]+$'
+    reg: '^[a-zA-Z]*$'
   },
   {
     name: '数字',
-    reg: '^[0-9]+$'
+    reg: '^[0-9]*$'
   },
   {
     name: '汉字',
-    reg: '^[\u4E00-\u9FA5]+$'
+    reg: '^[\u4E00-\u9FA5]*$'
   },
   {
     name: '字符',
     tip: '请输入字符!@#$^&*-_>',
-    reg: '^[!@#$^&*-_]+$'
+    reg: '^[!@#$^&*-_]*$'
   },
   {
     name: '名称',
     tip: '汉字字母数字或 !@#$%^&*_>',
-    reg: '^[\u4E00-\u9FA5a-zA-Z0-9 !@#$^&*-_>]+$'
+    reg: '^(?! )[\u4E00-\u9FA5a-zA-Z0-9 !@#$^&*-_>]*$'
+  },
+  {
+    name: '字母数字',
+    tip: '字母或数字，字母开头',
+    reg: '^(?![0-9])[a-zA-Z0-9]*$'
   },
   {
     name: '身份证',
