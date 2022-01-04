@@ -144,8 +144,8 @@
     <span class="ant-left ant-disabled" style="line-height:32px" *ngIf="_isInit">内置数据不可修改</span>
     <nz-button-group>
       <button nz-button (click)="close()">取消</button>
-      <!--      无效、未编辑、保存中时禁止点击-->
-      <button [disabled]="form.invalid || saving || isOriginal()" nz-button nzType="primary" (click)="save()">保存</button>
+      <!--      内置、无效、未编辑、保存中时禁止点击-->
+      <button [disabled]="_isInit || form.invalid || saving || isOriginal()" nz-button nzType="primary" (click)="save()">保存</button>
     </nz-button-group>
   </div>
 </form>

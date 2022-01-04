@@ -175,12 +175,20 @@ export const NM_PAGE_SCHEMA =
                             },
                             "on": {
                               "title": "开的值",
-                              "type": ["boolean","integer"],
+                              "type": [
+                                "boolean",
+                                "integer",
+                                "string"
+                              ],
                               "default": true
                             },
                             "off": {
                               "title": "关的值",
-                              "type": ["boolean","integer"],
+                              "type": [
+                                "boolean",
+                                "integer",
+                                "string"
+                              ],
                               "default": false
                             },
                             "labelOn": {

@@ -65,7 +65,7 @@ export class NcTreeComponent implements OnInit {
 
   // 点击树节点
   click(node: any): void {
-    this._isInit = this.data[node.key]?.toString().startsWith('-');
+    this._isInit = node.key.toString().startsWith('-');
 
     // 设置组，选中状态，触发查询
     this.keys = [node.key];

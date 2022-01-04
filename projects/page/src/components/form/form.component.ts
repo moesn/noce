@@ -61,12 +61,15 @@ export class NcFormComponent implements OnInit {
         if (field.value !== undefined) {
           this.data[field.key] = field.value;
         }
-        // 密码类型的字段保存时需要加密
-        if (field.type === 'password') {
-          this.passwords.push(field.key);
-        }
       })
     }
+
+    // 密码类型的字段保存时需要加密
+    this.fields.forEach((field: any) => {
+      if (field.type === 'password') {
+        this.passwords.push(field.key);
+      }
+    })
 
     this.renderSelect();
   }
@@ -135,8 +138,16 @@ export class NcFormComponent implements OnInit {
           // 查询所有选项数据
           this.http.post(tree.all.api, allBody, tree.all.pipe).subscribe((res: any) => {
             if (res) {
+              // 默认不可点击，内置不可操作
+              res.data.forEach((d: any) => {
+                d.selectable = false;
+                d.disabled = this._isInit;
+              });
+
               // 将列表转换成树型结构
               tree.nodes = arrayToTree(res.data, tree);
+              // 第一级默认不是叶子
+              tree.nodes.forEach((d: any) => d.isLeaf = false);
               // 设置是否展开所有节点，没数据时设置不会生效
               this.expandAll = tree.expandAll;
             }

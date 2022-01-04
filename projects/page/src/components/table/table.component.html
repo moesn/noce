@@ -175,7 +175,13 @@
                      [name]="column.key"
                      [ngModel]="data[column.key]===column.switch.on"
                      [nzCheckedChildren]="column.switch.labelOn"
-                     [nzUnCheckedChildren]="column.switch.labelOff"></nz-switch>
+                     [nzUnCheckedChildren]="column.switch.labelOff"
+                     *ngIf="data[column.key]===column.switch.on||data[column.key]===column.switch.off"
+          ></nz-switch>
+          <!--          非开和关-->
+          <span *ngIf="data[column.key]!==column.switch.on&&data[column.key]!==column.switch.off">
+            {{formatData(data[column.key], column)}}
+          </span>
         </td>
         <!--        操作列-->
         <td *ngIf="column.type==='action'">

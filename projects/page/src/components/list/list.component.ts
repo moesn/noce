@@ -67,7 +67,7 @@ export class NcListComponent implements OnInit {
 
   // 点击
   click(data: any): void {
-    this._isInit = this.data[this.key]?.toString().startsWith('-');
+    this._isInit = data[this.key]?.toString().startsWith('-');
     // 更新选中状态
     this.data = data;
     // 发出点击事件
