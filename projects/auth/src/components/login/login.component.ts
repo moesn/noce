@@ -16,11 +16,13 @@ export class NcLoginComponent implements OnInit {
   user = {username: '', password: '', vercode: ''}; // 用户登录表单
   submitting = false; // 防止重复提交
   codeimg: any = ''; // 验证码图片
+  loginBg: string; // 登录背景图片
 
   constructor(private sanitizer: DomSanitizer,
               private authService: NcAuthService,
               private crypt: NcCryptService,
               private notify: NzNotificationService) {
+    this.loginBg = getAppOption('images.loginBg');
   }
 
   ngOnInit(): void {

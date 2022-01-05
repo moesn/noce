@@ -47,5 +47,5 @@ export const __eval = function (this: any, data: any): any {
   })
 
   // 处理[]，转换成数组
-  return strs.join('').replace(/\"\[/g, '[').replace(/\]\"/g, ']');
+  return JSON.parse(strs.join('').replace(/\"\[/g, '[').replace(/\]\"/g, ']'));
 };
