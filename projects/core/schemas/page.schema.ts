@@ -547,6 +547,11 @@ export const NM_PAGE_SCHEMA =
                     "type": "string",
                     "minLength": 1,
                     "default": "上传"
+                  },
+                  "accept": {
+                    "title": "支持的上传类型",
+                    "type": "array",
+                    "default": [".xlsx"]
                   }
                 }
               }

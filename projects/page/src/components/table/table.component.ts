@@ -8,6 +8,7 @@ import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NcFormComponent} from '..';
 import {differenceInCalendarDays, format} from 'date-fns';
 import {NzModalService} from 'ng-zorro-antd/modal';
+import {NzUploadFile} from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'nc-table',
@@ -29,7 +30,6 @@ export class NcTableComponent implements OnInit, OnDestroy {
   datas: any[] = []; // 表格数据
   searchFields: any = []; // 可搜索的字段
 
-  navState: string = ''; // 导航状态，从无到有f2t，从有到无t2f
   body: any = { // 传到服务端端查询参数
     range: {}, // 按时间范围过滤
     exact: {}, // 精确查询
@@ -38,6 +38,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   key: string = ''; // 数据主键
   height: string = ''; // 表格内容区域高度
+  navState: string = ''; // 导航状态，从无到有f2t，从有到无t2f
 
   pageIndex: number = 1; // 当前页数
   total: number = 0; // 表格数据总数
@@ -51,6 +52,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   timeRanges: any; // 时间范围
   disabledDate = (current: Date): boolean => differenceInCalendarDays(current, new Date()) > 0; // 只能选择当前日期之前的时间
+
+  uploading = false; // 文件是否上传中
+  fileList: NzUploadFile[] = []; // 文件上传列表
 
   constructor(private drawer: NzDrawerService,
               private modal: NzModalService,
@@ -72,7 +76,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     }
 
     // 订阅导航点击事件
-    this.navClickEvent = this.event.on('NAV_CLICK').subscribe(res => {
+    this.navClickEvent = this.event.on('NAV_CLICK').subscribe((res: any) => {
       // 重置tab切换
       this.navState = '';
       // 记录导航项的数据，供自定义操作使用
@@ -159,7 +163,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     }
 
     this.http.query(this.options.view.api, body, this.options.view.pipe).subscribe(
-      res => {
+      (res: any) => {
         if (res) {
           // 有些接口没有数据返回的是null
           this.datas = res.data || [];
@@ -433,7 +437,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
       this.loading = option.refresh;
       // 调用接口后需要刷新时重新查询数据
-      this.http.post(option.api, body, option.pipe).subscribe(res => {
+      this.http.post(option.api, body, option.pipe).subscribe((res: any) => {
           if (res && this.loading) {
             this.query();
           } else {
@@ -526,6 +530,30 @@ export class NcTableComponent implements OnInit, OnDestroy {
   // 获取已选数据的主键集合
   getCheckedKeys(): string[] {
     return _.zipWith(_.toArray(this.checkedData), (d: any) => d[this.key]);
+  }
+
+  // 手动上传
+  beforeUpload = (file: NzUploadFile): boolean => {
+    this.fileList = [file];
+    return false;
+  };
+
+  // 上传
+  upload(api: string): void {
+    const formData = new FormData();
+    this.fileList.forEach((file: any) => {
+      formData.append('file', file);
+    });
+
+    this.uploading = true;
+    this.http.post(api, formData).subscribe(
+      (res: any) => {
+        if (res) {
+          this.uploading = false;
+          this.fileList = [];
+        }
+      }, null, () => this.uploading = false
+    );
   }
 
   // 重新加载页面

@@ -12,9 +12,22 @@
   <nz-space>
     <!--    上传-->
     <ng-container *ngIf="options.upload?.api">
-      <button *nzSpaceItem [nzTooltipTitle]="options.upload.tip" nz-button nz-tooltip>
+      <button *nzSpaceItem [nzTooltipTitle]="options.upload.tip" nz-button nz-tooltip
+              [nzPopoverContent]="restorePop" [nzPopoverMouseLeaveDelay]="3600" nz-popover nzPopoverTrigger="click">
         <i nz-icon nzType="cloud-upload"></i>
       </button>
+      <ng-template #restorePop>
+        <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [nzAccept]="options.upload.accept">
+          <button nz-button>
+            <i nz-icon nzType="upload"></i>
+            选择文件
+          </button>
+        </nz-upload>
+        <button (click)="upload(options.upload.api)" [disabled]="fileList.length === 0"
+                [nzLoading]="uploading"  [nzType]="'primary'" nz-button  style="margin-top: 16px">
+          {{ uploading ? '上传中...' : '上传' }}
+        </button>
+      </ng-template>
     </ng-container>
     <!--    下载-->
     <ng-container *ngIf="options.download?.api">

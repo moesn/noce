@@ -22,10 +22,7 @@
             <i *ngIf="field.tip" class="tip-icon ant-info" nz-icon nz-tooltip
                nzTheme="outline" nzTooltipTitle="{{field.tip}}" nzType="question-circle"></i>
           </nz-form-label>
-          <nz-form-control [nzErrorTip]="formErrorTpl">
-            <ng-template #formErrorTpl let-control>
-              {{getErrorTip(control, field.pattern)}}
-            </ng-template>
+          <nz-form-control [nzErrorTip]="formErrorTpl" nzHasFeedback>
             <!--            普通输入框-->
             <input *ngIf="field.type==='input'"
                    [(ngModel)]="data[field.key]"
@@ -136,6 +133,10 @@
             </nz-tree>
           </nz-form-control>
         </nz-form-item>
+        <!--        错误提示-->
+        <ng-template #formErrorTpl let-control>
+          {{getErrorTip(control, field.pattern)}}
+        </ng-template>
       </nz-col>
     </ng-container>
   </nz-row>
