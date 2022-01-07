@@ -100,6 +100,9 @@ export class NcHttpService {
 
   // 编辑数据
   post(url: string, body: any, pipe?: string, encrypt?: string[]): Observable<any> {
+    // 复制数据，防止异常时表单数据变化
+    body = _.cloneDeep(body);
+
     // 用户自定义数据处理
     if (pipe) {
       _eval(pipe)(body);
