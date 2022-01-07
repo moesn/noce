@@ -551,6 +551,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
         if (res) {
           this.uploading = false;
           this.fileList = [];
+          // 上传完成后刷新
+          this.query();
         }
       }, null, () => this.uploading = false
     );

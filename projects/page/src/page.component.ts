@@ -27,19 +27,19 @@ export class NcPageComponent implements OnDestroy {
               private http: NcHttpService,
               private event: NcEventService) {
     // 监听路由跳转，跳转时加载新的配置
-    this.routerEvent = router.events.subscribe(event => {
+    this.routerEvent = router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         this.loadOption();
       }
     });
 
     // 监听重载页面事件
-    this.reloadEvent = this.event.on('RELOAD_PAGE').subscribe(next => {
+    this.reloadEvent = this.event.on('RELOAD_PAGE').subscribe((_: any) => {
       this.loadOption();
     });
 
     // 订阅标签点击事件
-    this.tabClickEvent = this.event.on('TAB_CLICK').subscribe(navShow => {
+    this.tabClickEvent = this.event.on('TAB_CLICK').subscribe((navShow: any) => {
       this.navShow = navShow;
     })
   }
