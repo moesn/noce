@@ -558,6 +558,7 @@ export const NM_PAGE_SCHEMA =
             ]
           },
           "download": {
+            "$id": "#download",
             "title": "数据下载",
             "type": "object",
 
@@ -582,6 +583,10 @@ export const NM_PAGE_SCHEMA =
                 }
               }
             ]
+          },
+          "template": {
+            "title": "模版下载",
+            "$ref": "#download"
           },
           "actions": {
             "title": "表格操作按钮扩展",
@@ -1530,6 +1535,7 @@ export const NM_PAGE_SCHEMA =
       }
     }
   }
+
 
 
 

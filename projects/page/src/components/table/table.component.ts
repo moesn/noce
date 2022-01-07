@@ -35,6 +35,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     exact: {}, // 精确查询
     fuzzy: {field: [], keyword: ''} // 模糊搜索, 搜索的字段和关键字
   };
+  bodyCache: any = {}; // 缓存参数，下载时使用
 
   key: string = ''; // 数据主键
   height: string = ''; // 表格内容区域高度
@@ -161,6 +162,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
     if (this.navState === 't2f' && body.exact) {
       delete body.exact[this.navOption.mappingKey];
     }
+
+    // 缓存参数，下载数据时使用
+    this.bodyCache = body;
 
     this.http.query(this.options.view.api, body, this.options.view.pipe).subscribe(
       (res: any) => {
@@ -556,6 +560,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
         }
       }, null, () => this.uploading = false
     );
+  }
+
+  // 下载
+  download(action: any, data: any): void {
+    this.http.download(action.api, data, action.blob, action.filename);
   }
 
   // 重新加载页面

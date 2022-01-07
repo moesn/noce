@@ -157,43 +157,35 @@ export class NcHttpService {
     }
   }
 
-  // 导出流
-  export(url: string, body: any, filename?: string): void {
-    if (url.includes('.') || url.includes('?')) {
-      // 直链下载
-      saveAs(url, filename || '未知文件');
-    } else {
-      // 删除分页参数
-      delete body.pageIndex;
-      delete body.pageSize;
-
-      // 请求下载流
-      this.http.post(url, this.buildBody(body), {responseType: 'blob'}).pipe(
-        map((data: any) => {
-          const blob = new Blob([data], {type: ''});
-          saveAs(blob, filename || data.filename);
-        })
-      ).subscribe();
-    }
-  }
-
   // 下载文件
-  download(url: string, body: any): void {
+  download(url: string, body?: any, blob?: boolean, filename?: string): void {
+    // 删除分页参数
+    delete body.pageIndex;
+    delete body.pageSize;
+
+    // 直链下载
     if (url.includes('.') || url.includes('?')) {
-      // 直链下载
       const filename = url.substr(url.lastIndexOf('/') + 1);
       saveAs(url, filename);
+      // 请求下载流
+    } else if (blob) {
+      this.http.post(url, this.buildBody(body), {responseType: 'blob'}).pipe(
+        map((data: any) => {
+          if (data) {
+            const blob = new Blob([data], {type: ''});
+            saveAs(blob, filename || data.filename);
+          } else {
+            this.notify.error('系统错误');
+          }
+        })
+      ).subscribe();
+      // 获取直链下载
     } else {
-      // 删除分页参数
-      delete body.pageIndex;
-      delete body.pageSize;
-
-      // 请求下载
       this.http.post(url, this.buildBody(body)).pipe(
         map((res: any) => {
           if (this.isValidResponse(res)) {
-            const filename = res.data.substr(res.data.lastIndexOf('/') + 1);
-            saveAs(res.data, filename);
+            const fname = res.data.substr(res.data.lastIndexOf('/') + 1);
+            saveAs(res.data, filename || fname);
           } else {
             this.notify.error(res.msg || '系统错误');
           }

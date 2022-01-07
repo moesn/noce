@@ -557,6 +557,7 @@
           ]
         },
         "download": {
+          "$id": "#download",
           "title": "数据下载",
           "type": "object",
           "additionalProperties": false,
@@ -577,10 +578,18 @@
                   "title": "是否是流下载",
                   "type": "boolean",
                   "default": false
+                },
+                "filename": {
+                  "title": "下载文件名称",
+                  "type": "string"
                 }
               }
             }
           ]
+        },
+        "template": {
+          "title": "模版下载",
+          "$ref": "#download"
         },
         "actions": {
           "title": "表格操作按钮扩展",

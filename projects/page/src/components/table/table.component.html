@@ -29,10 +29,18 @@
         </button>
       </ng-template>
     </ng-container>
-    <!--    下载-->
+    <!--    数据下载-->
     <ng-container *ngIf="options.download?.api">
-      <button *nzSpaceItem [nzTooltipTitle]="options.download.tip" nz-button nz-tooltip>
+      <button *nzSpaceItem [nzTooltipTitle]="options.download.tip" nz-button nz-tooltip
+              (click)="download(options.download,bodyCache)">
         <i nz-icon nzType="cloud-download"></i>
+      </button>
+    </ng-container>
+    <!--    模版下载-->
+    <ng-container *ngIf="options.template?.api">
+      <button *nzSpaceItem [nzTooltipTitle]="options.template.tip" nz-button nz-tooltip
+              (click)="download(options.template,{})">
+        <i nz-icon nzType="file-excel" class="ant-info"></i>
       </button>
     </ng-container>
     <!--    时间范围过滤-->
