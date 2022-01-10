@@ -432,7 +432,12 @@
                         "then": {
                           "required": [
                             "switch"
-                          ]
+                          ],
+                          "properties": {
+                            "width":{
+                              "default": "80px"
+                            }
+                          }
                         }
                       },
                       {

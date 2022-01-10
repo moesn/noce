@@ -433,7 +433,12 @@ export const NM_PAGE_SCHEMA =
                           "then": {
                             "required": [
                               "switch"
-                            ]
+                            ],
+                            "properties": {
+                              "width":{
+                                "default": "80px"
+                              }
+                            }
                           }
                         },
                         {

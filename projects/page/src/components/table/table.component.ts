@@ -107,11 +107,6 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   // 查询表格数据
   query(params?: any): void {
-    // 清空数据
-    this.data = {};
-    this.datas = [];
-    this.loading = true;
-
     // 查询参数
     let body: any = {};
     // 记录分页、过滤、排序等表格查询参数
@@ -165,6 +160,10 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 缓存参数，下载数据时使用
     this.bodyCache = body;
+
+    // 清空数据
+    this.data = {};
+    this.loading = true;
 
     this.http.query(this.options.view.api, body, this.options.view.pipe).subscribe(
       (res: any) => {
@@ -465,9 +464,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
   sort() {
     // 切换拖拽状态
     this.options.dragable = !this.options.dragable;
+    const body = {ids: _.map(this.datas, this.key)};
+
     // 排序结束时保存排序
     if (!this.options.dragable) {
-      this.http.post(this.options.dragSort.api, _.map(this.datas, this.key), this.options.dragSort.pipe).subscribe();
+      this.http.post(this.options.dragSort.api, body, this.options.dragSort.pipe).subscribe();
     }
   }
 
