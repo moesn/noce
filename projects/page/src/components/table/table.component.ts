@@ -427,6 +427,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
         nzContent: NcTableComponent,
         nzComponentParams: {options: option},
         nzClosable: false,
+        nzMaskClosable: true,
         nzFooter: null
       });
 

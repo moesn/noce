@@ -520,7 +520,7 @@ export const NM_PAGE_SCHEMA =
                     }
                   },
                   "name": {
-                    "default": "修改"
+                    "default": "删除"
                   }
                 }
               }
@@ -704,7 +704,9 @@ export const NM_PAGE_SCHEMA =
                     360,
                     560,
                     720,
-                    960
+                    960,
+                    "50%",
+                    "100%"
                   ]
                 }
               ]
@@ -1432,7 +1434,9 @@ export const NM_PAGE_SCHEMA =
                       360,
                       560,
                       720,
-                      960
+                      960,
+                      "50%",
+                      "100%"
                     ]
                   }
                 ],

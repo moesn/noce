@@ -62,7 +62,7 @@ export class NcPageComponent implements OnDestroy {
 
     // 配置了从后台获取页面可用服务接口
     if (getAppOption('apis')) {
-      this.http.queryApis().subscribe(apis => {
+      this.http.queryApis().subscribe((apis: any) => {
         if (apis) {
           // 合并服务接口和用户配置的接口
           this.apis = objectExtend(options.apis, apis);

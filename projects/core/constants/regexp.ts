@@ -28,8 +28,8 @@ export const NcRegExp: NcRegItem[] = [
   },
   {
     name: '名称',
-    tip: '汉字字母数字或 !@#$%^&*_>.',
-    reg: '^(?! )[\u4E00-\u9FA5a-zA-Z0-9 !@#$^&*-_>]*$'
+    tip: '汉字字母或数字',
+    reg: '^[\u4E00-\u9FA5a-zA-Z0-9]*$'
   },
   {
     name: '字母数字',

@@ -42,7 +42,7 @@
     <ng-container *ngIf="options.template?.api">
       <button *nzSpaceItem [nzTooltipTitle]="options.template.tip" nz-button nz-tooltip
               (click)="download(options.template,{})" nzType="default">
-        <i nz-icon nzType="file-excel" class="ant-info"></i>
+        <i nz-icon nzType="file-excel"></i>
       </button>
     </ng-container>
     <!--    时间范围过滤-->
@@ -114,7 +114,7 @@
     <!--    增加按钮-->
     <ng-container *ngIf="options.create?.api">
       <button (click)="edit({})" *nzSpaceItem nz-button nzType="default">
-        <i nz-icon nzType="plus"></i>
+        <i nz-icon nzType="plus" class="ant-blue"></i>
       </button>
     </ng-container>
   </nz-space>

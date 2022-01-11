@@ -48,7 +48,7 @@ export class NcAuthJWTInterceptor implements HttpInterceptor {
 
                   return event;
                 }), catchError((err) => {
-                  const errMsg = '请联系管理员，' + err.error?.msg || err.message || err.error || err.statusText || err.name || err.status;
+                  const errMsg = '请联系管理员，' + (err.error?.msg || err.statusText || err.error || err.message || err.name || err.status);
                   return this.responseError(errMsg);
                 })
               );
