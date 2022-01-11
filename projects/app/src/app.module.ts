@@ -28,7 +28,7 @@ const ngZorroConfig: NzConfig = {
   },
   table: {
     nzSize: 'small',
-    nzBordered: true,
+    nzBordered: false,
     nzShowQuickJumper: true,
     nzShowSizeChanger: true,
     nzSimple: false,

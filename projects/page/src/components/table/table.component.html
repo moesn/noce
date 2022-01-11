@@ -12,19 +12,19 @@
   <nz-space>
     <!--    上传-->
     <ng-container *ngIf="options.upload?.api">
-      <button *nzSpaceItem [nzTooltipTitle]="options.upload.tip" nz-button nz-tooltip
+      <button *nzSpaceItem [nzTooltipTitle]="options.upload.tip" nz-button nz-tooltip nzType="default"
               [nzPopoverContent]="restorePop" [nzPopoverMouseLeaveDelay]="3600" nz-popover nzPopoverTrigger="click">
         <i nz-icon nzType="cloud-upload"></i>
       </button>
       <ng-template #restorePop>
         <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [nzAccept]="options.upload.accept">
-          <button nz-button>
+          <button nz-button nzType="default">
             <i nz-icon nzType="upload"></i>
             选择文件
           </button>
         </nz-upload>
         <button (click)="upload(options.upload.api)" [disabled]="fileList.length === 0"
-                [nzLoading]="uploading"  [nzType]="'primary'" nz-button  style="margin-top: 16px">
+                [nzLoading]="uploading" nzType="default" nz-button  style="margin-top: 16px">
           {{ uploading ? '上传中...' : '上传' }}
         </button>
       </ng-template>
@@ -32,14 +32,14 @@
     <!--    数据下载-->
     <ng-container *ngIf="options.download?.api">
       <button *nzSpaceItem [nzTooltipTitle]="options.download.tip" nz-button nz-tooltip
-              (click)="download(options.download,bodyCache)">
+              (click)="download(options.download,bodyCache)" nzType="default">
         <i nz-icon nzType="cloud-download"></i>
       </button>
     </ng-container>
     <!--    模版下载-->
     <ng-container *ngIf="options.template?.api">
       <button *nzSpaceItem [nzTooltipTitle]="options.template.tip" nz-button nz-tooltip
-              (click)="download(options.template,{})">
+              (click)="download(options.template,{})" nzType="default">
         <i nz-icon nzType="file-excel" class="ant-info"></i>
       </button>
     </ng-container>
@@ -70,14 +70,14 @@
       </ng-template>
       <!--      搜索按钮-->
       <ng-template #suffixButton>
-        <button (click)="query()" nz-button nzSearch>
+        <button (click)="query()" nz-button nzSearch nzType="default">
           <i nz-icon nzType="search"></i>
         </button>
       </ng-template>
     </ng-container>
     <!--    刷新页面-->
     <ng-container *ngIf="options.view.reload">
-      <button (click)="reloadPage()" *nzSpaceItem nz-button nz-tooltip nzTooltipTitle="重新加载页面">
+      <button (click)="reloadPage()" *nzSpaceItem nz-button nz-tooltip nzTooltipTitle="重新加载页面" nzType="default">
         <i nz-icon nzType="redo"></i>
       </button>
     </ng-container>
@@ -87,14 +87,14 @@
       <ng-container *ngIf="!action.confirm">
         <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
                 [disabled]="action.click.checkToClick&&!checkedData.size"
-                (click)="actionClick(action)">
+                (click)="actionClick(action)" nzType="default">
           <i nz-icon [nzType]="action.icon"></i>
         </button>
       </ng-container>
       <!--      需要二次确认-->
       <ng-container *ngIf="action.confirm">
         <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
-                [disabled]="action.click.checkToClick&&!checkedData.size"
+                [disabled]="action.click.checkToClick&&!checkedData.size" nzType="default"
                 nz-popconfirm [nzPopconfirmTitle]="action.confirm" (nzOnConfirm)="actionClick(action)">
           <i nz-icon [nzType]="action.icon"></i>
         </button>
@@ -102,7 +102,7 @@
     </ng-container>
     <!--    拖放排序按钮-->
     <ng-container *ngIf="options.dragSort?.api">
-      <button (click)="sort()" *nzSpaceItem nz-button
+      <button (click)="sort()" *nzSpaceItem nz-button nzType="default"
               nz-tooltip [nzTooltipTitle]="!options.dragable?'点击拖曳排序':'保存排序结果'">
         <i nz-icon nzType="save" nzTheme="outline" *ngIf="options.dragable"></i>
         <i nz-icon nzType="sort-ascending" nzTheme="outline" *ngIf="!options.dragable"></i>
@@ -111,7 +111,7 @@
     </ng-container>
     <!--    增加按钮-->
     <ng-container *ngIf="options.create?.api">
-      <button (click)="edit({})" *nzSpaceItem nz-button>
+      <button (click)="edit({})" *nzSpaceItem nz-button nzType="default">
         <i nz-icon nzType="plus"></i>
       </button>
     </ng-container>
@@ -222,7 +222,7 @@
         </ng-container>
         <!--          删除-->
         <ng-container *ngIf="action===options.delete">
-          <i (click)="delete(data)" nz-icon nzType="delete" *ngIf="!data._isInit"></i>
+          <i (click)="delete(data)" nz-icon nzType="delete" *ngIf="!data._isInit" class="ant-red"></i>
           <i nz-icon nzType="delete" *ngIf="data._isInit"
              class="ant-disabled" nz-tooltip nzTooltipTitle="内置数据不可删除"></i>
         </ng-container>
