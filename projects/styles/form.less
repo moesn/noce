@@ -1,0 +1,42 @@
+.@{form-prefix-cls} {
+  &-item {
+    // 非必填项对齐*
+    label:not(.@{form-prefix-cls}-item-required)::before {
+      content: '\00A0\00A0\00A0';
+    }
+
+    .generate-text(10);
+    .generate-text(@n, @i: 1) when (@i <= @n) {
+      &.text-@{i} {
+        .ant-form-item-label {
+          float: left;
+          text-align: left;
+          width: (@i+2)*14px;
+        }
+
+        .ant-form-item-control-wrapper {
+          float: right;
+          width: calc(100% - (@i + 2) * 14px);
+        }
+      }
+      .generate-text(@n, (@i+1));
+    }
+  }
+
+  .generate-text(10);
+  .generate-text(@n, @i: 1) when (@i <= @n) {
+    &.text-@{i} {
+      .ant-form-item-label {
+        float: left;
+        text-align: left;
+        width: (@i+2)*14px;
+      }
+
+      .ant-form-item-control-wrapper {
+        float: right;
+        width: calc(100% - (@i + 2) * 14px);
+      }
+    }
+    .generate-text(@n, (@i+1));
+  }
+}
