@@ -1,0 +1,133 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  background: @layout-body-background;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: @scroll-color;
+}
+
+//region 输入框placeholder样式
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder,
+input:-moz-placeholder,
+textarea:-moz-placeholder,
+input::-moz-placeholder,
+textarea::-moz-placeholder,
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  color: @basic6;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+//endregion
+
+html ::ng-deep {
+  overflow: hidden !important;
+
+  :focus {
+    outline: none;
+  }
+
+  nz-row, nz-col, [nz-row], [nz-col], .ant-row {
+    height: 100% !important;
+  }
+}
+
+.@{ant-prefix}-disabled {
+  color: @disabled-color !important;
+  cursor: not-allowed !important;
+}
+
+.@{ant-prefix}-info, .@{ant-prefix}-blue {
+  color: @blue-base !important;
+}
+
+.@{ant-prefix}-success, .@{ant-prefix}-green {
+  color: @green-base !important;
+}
+
+.@{ant-prefix}-warning, .@{ant-prefix}-yellow {
+  color: @yellow-base !important;
+}
+
+.@{ant-prefix}-error, .@{ant-prefix}-red {
+  color: @red-base !important;
+}
+
+.@{ant-prefix}-bg-info, .@{ant-prefix}-bg-blue {
+  background-color: @blue-base !important;
+}
+
+.@{ant-prefix}-bg-success, .@{ant-prefix}-bg-green {
+  background-color: @green-base !important;
+}
+
+.@{ant-prefix}-bg-warning, .@{ant-prefix}-bg-yellow {
+  background-color: @yellow-base !important;
+}
+
+.@{ant-prefix}-bg-error, .@{ant-prefix}-bg-red {
+  background-color: @red-base !important;
+}
+
+.@{ant-prefix}-left {
+  float: left;
+}
+
+.@{ant-prefix}-right {
+  float: right;
+}
+
+// 背景颜色
+.@{ant-prefix}-body-color {
+  background-color: @layout-body-background;
+
+}
+
+// 组件背景颜色
+.@{ant-prefix}-component-color {
+  background-color: @component-background;
+}
+
+// 抽屉页脚样式
+.@{ant-prefix}-drawer-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid @layout-body-background;
+  background-color: @component-background;
+  padding: 10px 16px;
+  text-align: right;
+  left: 0;
+}
+
+// 长文本分行
+.@{ant-prefix}-wrap {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.@{ant-prefix}-active {
+  color: @blue-base !important;;
+
+  &:hover {
+    background-color: transparent !important;
+  }
+}
+
+.@{ant-prefix}-active-bg {
+  background-color: darken(@menu-item-active-bg, 20%) !important;
+}

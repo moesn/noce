@@ -5,8 +5,10 @@
   <!--  多标签-->
   <nz-space *ngIf="tabOption" class="ant-left">
     <ng-container *ngFor="let _tab of tabOption">
-      <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab===tab?'primary':'default'" nz-button
-      >{{_tab.title}}</button>
+      <ng-container *ngIf="_tab.view?.api">
+        <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab===tab?'primary':'default'" nz-button
+        >{{_tab.title}}</button>
+      </ng-container>
     </ng-container>
   </nz-space>
   <nz-space>
