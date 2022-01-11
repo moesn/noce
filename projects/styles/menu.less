@@ -1,0 +1,37 @@
+.@{menu-prefix-cls} {
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &-root {
+    height: calc(100vh - 124px);
+  }
+
+  &-submenu-title {
+    .@{iconfont-css-prefix} {
+      font-size: 16px;
+    }
+  }
+
+
+  &-inline {
+    .@{menu-prefix-cls}-submenu {
+      border-bottom: 1px solid @border-color-base;
+    }
+
+    &-collapsed {
+      > .@{menu-prefix-cls}-submenu > .@{menu-prefix-cls}-submenu-title {
+        padding: 0 calc(50% - 24px / 2) !important;
+
+        .@{iconfont-css-prefix} {
+          font-size: 24px !important;
+        }
+      }
+    }
+  }
+}
+
+.@{menu-prefix-cls}.@{menu-prefix-cls}-inline-collapsed {
+  > .@{menu-prefix-cls}-item {
+    padding: 0 calc(50% - 24px / 2) !important;
+  }
+}
