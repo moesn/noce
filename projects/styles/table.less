@@ -1,0 +1,37 @@
+.@{table-prefix-cls} {
+  &-title {
+    text-align: right;
+  }
+
+  &-thead > tr > th {
+    text-align: center;
+
+    .generate-icon(10);
+    .generate-icon(@n, @i: 1) when (@i <= @n) {
+      &.icon-@{i} {
+        width: (@i+0.67)*30px;
+      }
+      .generate-icon(@n, (@i+1));
+    }
+
+    .generate-text(10);
+    .generate-text(@n, @i: 1) when (@i <= @n) {
+      &.text-@{i} {
+        width: (@i+1.4)*14px;
+      }
+      .generate-text(@n, (@i+1));
+    }
+  }
+
+  &-tbody > tr > td {
+    text-align: center;
+
+    .anticon {
+      color: @blue-base;
+    }
+  }
+
+  &-tbody > tr:nth-child(odd) {
+    background: @table-row-odd-bg;
+  }
+}
