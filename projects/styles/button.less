@@ -1,0 +1,16 @@
+.@{btn-prefix-cls} {
+  &[ng-reflect-nz-type="default"]:hover {
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  &-group {
+    .@{btn-prefix-cls} {
+      margin-right: 16px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
