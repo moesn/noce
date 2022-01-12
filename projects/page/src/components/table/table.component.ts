@@ -133,7 +133,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 合并用户配置的参数
     if (this.options.view.body) {
-      objectExtend(this.body, __eval.call(this, this.options.view.body));
+      objectExtend(body, __eval.call(this, this.options.view.body));
     }
 
     // 过滤得到需要搜索的字段列表
@@ -389,7 +389,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
         try {
           switch (cformat) {
             case 'datetime':
-              res = format(data, 'yyyy-MM-dd HH:mm:ss');
+              data = data.replace('T', ' ').substr(0, 19);
+              res = format(new Date(data), 'yyyy-MM-dd HH:mm:ss');
               break;
             default:
           }
@@ -478,9 +479,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 处理时间后查询数据
     if (event && event.length === 2) {
       this.body.range[this.options.timeKey] = [
-        format(event[0], 'yyyy-MM-dd HH:mm'),
-        format(event[1], 'yyyy-MM-dd HH:mm')
+        format(event[0], 'yyyy-MM-dd HH:mm:ss'),
+        format(event[1], 'yyyy-MM-dd HH:mm:ss')
       ]
+    } else {
+      this.body.range[this.options.timeKey] = [];
     }
     this.query();
   }
@@ -566,7 +569,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   // 下载
   download(action: any, data: any): void {
-    this.http.download(action.api, data, action.blob, action.filename);
+    this.http.download(action.api, data, action.blob, action.filename, action.pipe);
   }
 
   // 重新加载页面

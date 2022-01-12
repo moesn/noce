@@ -68,11 +68,6 @@ export class NcHttpService {
       return of(true)
     }
 
-    // 用户自定义数据处理
-    if (pipe) {
-      _eval(pipe)(body);
-    }
-
     const bodyY = this.buildBody(body);
 
     // 防止一秒内重复查询
@@ -82,6 +77,11 @@ export class NcHttpService {
 
     // 记录最近一次查询
     this.lastQuery = {url, time: new Date().getTime(), bodyY};
+
+    // 用户自定义数据处理
+    if (pipe) {
+      _eval(pipe)(bodyY);
+    }
 
     // 发送post请求
     return this.http.post(url, bodyY).pipe(
@@ -106,11 +106,6 @@ export class NcHttpService {
       body = _.cloneDeep(body);
     }
 
-    // 用户自定义数据处理
-    if (pipe) {
-      _eval(pipe)(body);
-    }
-
     // 加密数据
     if (encrypt) {
       encrypt.forEach(key => {
@@ -118,6 +113,11 @@ export class NcHttpService {
           body[key] = this.crypt.encrypt(body[key]);
         }
       });
+    }
+
+    // 用户自定义数据处理
+    if (pipe) {
+      _eval(pipe)(body);
     }
 
     // 发送post请求
@@ -135,11 +135,6 @@ export class NcHttpService {
 
   // 删除数据，其他只需要传id的接口，可以使用delete，设置noc为true即可
   delete(url: string, body: any, pipe?: string, noc?: boolean): any {
-    // 用户自定义数据处理
-    if (pipe) {
-      _eval(pipe)(body);
-    }
-
     // 是否不需要删除确认
     const nocon = sessionStorage.getItem(url);
     if (nocon === 'true' || noc) {
@@ -152,6 +147,10 @@ export class NcHttpService {
         nzClosable: false,
         nzMaskClosable: true,
         nzOnOk: () => {
+          // 用户自定义数据处理
+          if (pipe) {
+            _eval(pipe)(body);
+          }
           this.post(url, body).subscribe((res: any) => modal.close(res));
           return false;
         }
@@ -161,10 +160,17 @@ export class NcHttpService {
   }
 
   // 下载文件
-  download(url: string, body?: any, blob?: boolean, filename?: string): void {
+  download(url: string, body?: any, blob?: boolean, filename?: string, pipe?: string): void {
     // 删除分页参数
     delete body.pageIndex;
     delete body.pageSize;
+
+    const bodyY = this.buildBody(body);
+
+    // 用户自定义数据处理
+    if (pipe) {
+      _eval(pipe)(bodyY);
+    }
 
     // 直链下载
     if (url.includes('.') || url.includes('?')) {
@@ -172,7 +178,7 @@ export class NcHttpService {
       saveAs(url, filename);
       // 请求下载流
     } else if (blob) {
-      this.http.post(url, this.buildBody(body), {responseType: 'blob'}).pipe(
+      this.http.post(url, bodyY, {responseType: 'blob'}).pipe(
         map((data: any) => {
           if (data) {
             const blob = new Blob([data], {type: ''});
@@ -184,7 +190,7 @@ export class NcHttpService {
       ).subscribe();
       // 获取直链下载
     } else {
-      this.http.post(url, this.buildBody(body)).pipe(
+      this.http.post(url, bodyY).pipe(
         map((res: any) => {
           if (this.isValidResponse(res)) {
             const fname = res.data.substr(res.data.lastIndexOf('/') + 1);

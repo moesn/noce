@@ -117,6 +117,11 @@ export const NM_PAGE_SCHEMA =
                     "type": "boolean",
                     "default": true
                   },
+                  "setSearch": {
+                    "title": "是否支持指定字段搜索",
+                    "type": "boolean",
+                    "default": true
+                  },
                   "parseData": {
                     "title": "解析数据",
                     "description": "表格渲染之前对数据进行处理",
@@ -148,6 +153,11 @@ export const NM_PAGE_SCHEMA =
                         },
                         "key": {
                           "title": "表格数据字段",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "tipKey": {
+                          "title": "表格提示字段",
                           "type": "string",
                           "minLength": 1
                         },
