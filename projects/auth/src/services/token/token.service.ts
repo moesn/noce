@@ -26,7 +26,7 @@ export class NcTokenService {
   }
 
   // 获取Token内容
-  getPayload(): object {
+  getPayload(): any {
     return decodeJwtPayload(this.getToken());
   }
 

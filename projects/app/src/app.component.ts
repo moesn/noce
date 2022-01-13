@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NzMenuModeType} from 'ng-zorro-antd/menu';
 import {getAppOption, NcEventService, NcStoreService} from 'noce/core';
-import {NcAuthService} from 'noce/auth';
+import {NcAuthService, NcTokenService} from 'noce/auth';
 
 export const themeChangeEvents: any = [];
 
@@ -26,19 +26,22 @@ export class NcAppComponent implements OnInit {
   menuWidth: number; // 左侧菜单宽度
   loginBg: string; // 登录背景图片
 
+  username = ''; // 登录用户名
   isAuthed = false; // 是否已认证，已认证才显示顶部Header
   keyword = ''; // 关键字搜索
 
   constructor(private http: HttpClient,
               private authService: NcAuthService,
               private store: NcStoreService,
-              private event: NcEventService) {
+              private event: NcEventService,
+              private token: NcTokenService) {
     this.logo = getAppOption('images.logo');
     this.title = getAppOption('title');
     this.collapsible = getAppOption('layout.collapsible');
     this.menuMode = getAppOption('layout.menuMode');
     this.menuWidth = getAppOption('layout.menuWidth');
     this.loginBg = getAppOption('images.loginBg');
+    this.username = token.getPayload().userId;
   }
 
   ngOnInit(): void {
