@@ -18,7 +18,9 @@ input[type="number"] {
   background: @scroll-color;
 }
 
-//region 输入框placeholder样式
+input, textarea {
+  font-weight: 500 !important;
+}
 
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder,
@@ -28,12 +30,9 @@ input::-moz-placeholder,
 textarea::-moz-placeholder,
 input:-ms-input-placeholder,
 textarea:-ms-input-placeholder {
-  color: @basic6;
+  color: @disabled-color;
   font-size: 14px;
-  font-weight: 400;
 }
-
-//endregion
 
 html ::ng-deep {
   overflow: hidden !important;
