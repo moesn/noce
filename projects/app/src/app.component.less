@@ -10,14 +10,18 @@
       position: relative;
       min-height: 100vh;
       text-align: center;
-      box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
 
       // 导航条放到左侧
       .ant-menu {
         direction: rtl;
+        height: calc(100vh - 60px);
 
         li {
           direction: ltr;
+
+          &:first-child {
+            margin-top: 16px;
+          }
         }
       }
     }
@@ -26,7 +30,6 @@
       position: relative;
       height: 60px;
       padding: 0;
-      box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
       display: inline;
 
       .logo {
@@ -76,6 +79,12 @@
 
           .anticon:hover {
             color: #1890ff;
+          }
+
+          &.profile {
+            padding-top: 0;
+            line-height: 60px;
+            margin-right: 16px;
           }
         }
       }

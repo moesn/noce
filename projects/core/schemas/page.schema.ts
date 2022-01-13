@@ -628,8 +628,15 @@ export const NM_PAGE_SCHEMA =
                 },
                 "confirm": {
                   "title": "操作确认提示信息",
-                  "type": "string",
-                  "minLength": 1
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "$ref": "#format"
+                    }
+                  ]
                 },
                 "click": {
                   "title": "点击后触发的行为",
@@ -641,6 +648,10 @@ export const NM_PAGE_SCHEMA =
                           "type": "object",
 
                           "properties": {
+                            "params": {
+                              "title": "是否提交表格查询参数",
+                              "type": "boolean"
+                            },
                             "refresh": {
                               "title": "操作成功后是否刷新数据",
                               "type": "boolean"

@@ -64,14 +64,16 @@ export class NcHttpService {
   // 查询数据
   query(url: string, body: any, pipe?: string): Observable<any> {
     // 假装查询，常用于前端筛选/过滤/排序等
-    if(url===null){
+    if (url === null) {
       return of(true)
     }
 
     const bodyY = this.buildBody(body);
 
     // 防止一秒内重复查询
-    if (url === this.lastQuery.url && _.isEqual(this.lastQuery.bodyY, bodyY) && (new Date().getTime() - this.lastQuery.time < 1000)) {
+    if (url === this.lastQuery.url && (new Date().getTime() - this.lastQuery.time < 1000)
+      && _.isEqual(JSON.stringify(this.lastQuery.bodyY), JSON.stringify(bodyY))
+    ) {
       return of(false);
     }
 

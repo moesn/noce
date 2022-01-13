@@ -1,16 +1,24 @@
 @import "../../node_modules/ng-zorro-antd/ng-zorro-antd.less";
 
 // color palettes
-//@blue-base: #0095FF;
-//@green-base: #00D68F;
-//@red-base: #ff3d71;
-//@yellow-base: #FFAA00;
+@red: #FF3B30;
+@orange: #FF9500;
+@yellow: #FFCC00;
+@green: #34C759;
+@mint: #00C7BE;
+@teal: #30B0C7;
+@cyan: #32ADE6;
+@blue: #007AFF;
+@indigo: #5856D6;
+@purple: #AF52DE;
+@pink: #FF2D55;
+@brown: #A2845E;
 
-@blue-base: #0095FF;
-@green-base: #00D68F;
-@red-base: #ff3d71;
-@yellow-base: #FFAA00;
-@gold-base: #FFAA00;
+@blue-base: @blue;
+@green-base: @green;
+@red-base: @red;
+@yellow-base: @yellow;
+@gold-base: @orange;
 
 @basic1: #FFFFFF;
 @basic2: #F7F9FC;
@@ -49,7 +57,8 @@
 @disabled-color: @transparent6;
 @disabled-bg: @transparent2;
 
-@text-color: @basic8;
+//@text-color: @basic8;
+@text-color: @basic12;
 @heading-color: @basic9;
 
 @btn-font-weight: 700;
@@ -58,7 +67,7 @@
 
 @checkbox-check-color: @basic5;
 
-@layout-body-background: @basic3;
+@layout-body-background: rgba(237, 241, 247, .8);
 @layout-header-color: @blue-base;
 @layout-header-background: @basic1;
 @layout-footer-background: @basic1;
@@ -74,3 +83,5 @@
 @table-row-odd-bg: @basic2;
 @table-row-hover-bg: @basic3;
 @table-header-cell-split-color: @basic3;
+
+@drawer-bg: transparent;

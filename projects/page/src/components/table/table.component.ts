@@ -31,11 +31,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
   searchFields: any = []; // 可搜索的字段
 
   body: any = { // 传到服务端端查询参数
-    range: {}, // 按时间范围过滤
+    range: {time: []}, // 按时间范围过滤
     exact: {}, // 精确查询
     fuzzy: {field: [], keyword: ''} // 模糊搜索, 搜索的字段和关键字
   };
-  bodyCache: any = {}; // 缓存参数，下载时使用
+  params: any = {}; // 缓存参数，下载时使用
 
   key: string = ''; // 数据主键
   height: string = ''; // 表格内容区域高度
@@ -78,12 +78,15 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 订阅导航点击事件
     this.navClickEvent = this.event.on('NAV_CLICK').subscribe((res: any) => {
+      // 清除已选数据
+      this.checkedData.clear();
       // 重置tab切换
       this.navState = '';
       // 记录导航项的数据，供自定义操作使用
       this.nav = res;
       // 关联的值
       const mappingValue = res[this.navOption.key];
+
       // 点击导航时设置关联参数，返回全部时删除关联参数
       if (mappingValue) {
         this.body.exact[this.navOption.mappingKey] = mappingValue;
@@ -158,8 +161,14 @@ export class NcTableComponent implements OnInit, OnDestroy {
       delete body.exact[this.navOption.mappingKey];
     }
 
+    // 不同tab的timeKey可能不同，替换timeKey
+    if (this.options.timeKey && body.range.time) {
+      body.range[this.options.timeKey] = body.range.time;
+      delete body.range.time;
+    }
+
     // 缓存参数，下载数据时使用
-    this.bodyCache = body;
+    this.params = body;
 
     // 清空数据
     this.data = {};
@@ -294,6 +303,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   // 多标签时切换标签事件
   switchTab(tab: any): void {
+    // 清除已选数据
+    this.checkedData.clear();
+
     // tab切换前无导航
     if (this.tab && !this.isCureentTab(this.navOption.tabIndex)) {
       this.navState = 'f';
@@ -374,6 +386,15 @@ export class NcTableComponent implements OnInit, OnDestroy {
     return 'ant-' + color
   }
 
+  // 格式化确认提示内容
+  formatConfirm(confirm: string): any {
+    if (confirm.startsWith('d=>')) {
+      confirm = _eval(confirm)({total: this.total});
+    }
+
+    return confirm;
+  }
+
   // 格式化数据显示
   formatData(data: any, column: any): any {
     let res = '';
@@ -435,6 +456,12 @@ export class NcTableComponent implements OnInit, OnDestroy {
     } else if (option.api) { // 仅调用接口
       // 转换用户参数
       const body = option.body ? __eval.call(this, option.body) : {};
+
+      // 需要提交查询参数
+      if (option.params) {
+        objectExtend(body, this.params);
+      }
+
       // 选择数据后点击时，需要提交数据主键集合
       if (option.checkToClick) {
         objectExtend(body, {ids: this.getCheckedKeys()});
@@ -478,12 +505,12 @@ export class NcTableComponent implements OnInit, OnDestroy {
   timeChange(event: any): void {
     // 处理时间后查询数据
     if (event && event.length === 2) {
-      this.body.range[this.options.timeKey] = [
+      this.body.range.time = [
         format(event[0], 'yyyy-MM-dd HH:mm:ss'),
         format(event[1], 'yyyy-MM-dd HH:mm:ss')
       ]
     } else {
-      this.body.range[this.options.timeKey] = [];
+      this.body.range.time = [];
     }
     this.query();
   }

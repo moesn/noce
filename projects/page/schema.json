@@ -7,6 +7,7 @@
     "$*$：动态参数时使用",
     "this：设置动态参数时的关键字",
     "this.data：当前操作的数据",
+    "this.params：当前表格查询参数",
     "this.nav：导航+表格时，当前操作的导航数据",
     "this.tab：多标签表格时，当前标签数据",
     "例：$this.data.id$",
@@ -630,8 +631,15 @@
               },
               "confirm": {
                 "title": "操作确认提示信息",
-                "type": "string",
-                "minLength": 1
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "$ref": "#format"
+                  }
+                ]
               },
               "click": {
                 "title": "点击后触发的行为",
@@ -643,6 +651,10 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "params": {
+                            "title": "是否提交表格查询参数",
+                            "type": "boolean"
+                          },
                           "refresh": {
                             "title": "操作成功后是否刷新数据",
                             "type": "boolean"

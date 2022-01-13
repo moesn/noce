@@ -16,6 +16,7 @@ export const addThemeChangeListener = (ctx: any, func: string) => {
   styleUrls: ['app.component.less']
 })
 export class NcAppComponent implements OnInit {
+  collapsible = false // 左侧菜单是否可折叠
   isCollapsed = false; // 是否收缩左侧菜单
   navs: any = []; // 顶部导航列表
   menu: any = []; // 左侧菜单列表
@@ -23,6 +24,7 @@ export class NcAppComponent implements OnInit {
   title: string; // 系统标题
   menuMode: NzMenuModeType; // 左侧菜单宽度
   menuWidth: number; // 左侧菜单宽度
+  loginBg: string; // 登录背景图片
 
   isAuthed = false; // 是否已认证，已认证才显示顶部Header
   keyword = ''; // 关键字搜索
@@ -33,8 +35,10 @@ export class NcAppComponent implements OnInit {
               private event: NcEventService) {
     this.logo = getAppOption('images.logo');
     this.title = getAppOption('title');
+    this.collapsible = getAppOption('layout.collapsible');
     this.menuMode = getAppOption('layout.menuMode');
     this.menuWidth = getAppOption('layout.menuWidth');
+    this.loginBg = getAppOption('images.loginBg');
   }
 
   ngOnInit(): void {

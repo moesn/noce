@@ -101,6 +101,11 @@
           "type": "number",
           "default": 200
         },
+        "collapsible": {
+          "title": "左侧导航菜单是否可折叠",
+          "type": "boolean",
+          "default": false
+        },
         "menuMode": {
           "title": "左侧导航菜单宽度",
           "enum": [

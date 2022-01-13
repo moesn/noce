@@ -1,4 +1,4 @@
-<nz-layout>
+<nz-layout class="nc-layout" [ngStyle]="{'background-image':'url('+loginBg+')'}">
   <nz-header *ngIf="isAuthed">
     <div class="logo">
       <a href="/">
@@ -13,8 +13,7 @@
       </li>
     </ul>
     <div class="icon">
-      <!--      todo-->
-      <a [nzDropdownMenu]="menu" class="header-icon" nz-dropdown style="padding-top: 0;line-height: 60px">
+      <a [nzDropdownMenu]="menu" class="header-icon profile" nz-dropdown>
         Admin
       </a>
       <nz-dropdown-menu #menu="nzDropdownMenu">
@@ -31,7 +30,7 @@
       [(nzCollapsed)]="isCollapsed"
       [nzTrigger]=""
       [nzWidth]="menuWidth"
-      nzBreakpoint="md" nzCollapsible>
+      nzBreakpoint="md" [nzCollapsible]="collapsible">
       <ul [nzInlineCollapsed]="isCollapsed" [nzMode]="menuMode" nz-menu>
         <ng-container *ngFor="let _menu of menu">
           <li *ngIf="_menu.children" [nzIcon]="_menu.icon" [nzOpen]="menuOpen(_menu)" [nzTitle]="_menu.title" nz-submenu>
