@@ -1,236 +1,238 @@
-<!--表头工具栏-->
-<ng-template #titleTpl>
-  <!--  标题-->
-  <h3 *ngIf="!tabOption" class="nc-page-title">{{options.title}}</h3>
-  <!--  多标签-->
-  <nz-space *ngIf="tabOption" class="ant-left">
-    <ng-container *ngFor="let _tab of tabOption">
-      <ng-container *ngIf="_tab.view?.api">
-        <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab===tab?'primary':'default'" nz-button
-        >{{_tab.title}}</button>
+<nz-card>
+  <!--表头工具栏-->
+  <ng-template #titleTpl>
+    <!--  标题-->
+    <h3 *ngIf="!tabOption" class="nc-page-title">{{options.title}}</h3>
+    <!--  多标签-->
+    <nz-space *ngIf="tabOption" class="ant-left">
+      <ng-container *ngFor="let _tab of tabOption">
+        <ng-container *ngIf="_tab.view?.api">
+          <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab===tab?'primary':'default'" nz-button
+          >{{_tab.title}}</button>
+        </ng-container>
       </ng-container>
-    </ng-container>
-  </nz-space>
-  <nz-space>
-    <!--    上传-->
-    <ng-container *ngIf="options.upload?.api">
-      <button *nzSpaceItem [nzTooltipTitle]="options.upload.tip" nz-button nz-tooltip nzType="default"
-              [nzPopoverContent]="restorePop" [nzPopoverMouseLeaveDelay]="3600" nz-popover nzPopoverTrigger="click">
-        <i nz-icon nzType="cloud-upload"></i>
-      </button>
-      <ng-template #restorePop>
-        <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [nzAccept]="options.upload.accept">
-          <button nz-button nzType="default">
-            <i nz-icon nzType="upload"></i>
-            选择文件
+    </nz-space>
+    <nz-space>
+      <!--    上传-->
+      <ng-container *ngIf="options.upload?.api">
+        <button *nzSpaceItem [nzTooltipTitle]="options.upload.tip" nz-button nz-tooltip nzType="default"
+                [nzPopoverContent]="restorePop" [nzPopoverMouseLeaveDelay]="3600" nz-popover nzPopoverTrigger="click">
+          <i nz-icon nzType="cloud-upload"></i>
+        </button>
+        <ng-template #restorePop>
+          <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [nzAccept]="options.upload.accept">
+            <button nz-button nzType="default">
+              <i nz-icon nzType="upload"></i>
+              选择文件
+            </button>
+          </nz-upload>
+          <button (click)="upload(options.upload.api)" [disabled]="fileList.length === 0"
+                  [nzLoading]="uploading" nzType="default" nz-button  style="margin-top: 16px">
+            {{ uploading ? '上传中...' : '上传' }}
           </button>
-        </nz-upload>
-        <button (click)="upload(options.upload.api)" [disabled]="fileList.length === 0"
-                [nzLoading]="uploading" nzType="default" nz-button  style="margin-top: 16px">
-          {{ uploading ? '上传中...' : '上传' }}
-        </button>
-      </ng-template>
-    </ng-container>
-    <!--    数据下载-->
-    <ng-container *ngIf="options.download?.api">
-      <button *nzSpaceItem [nzTooltipTitle]="options.download.tip" nz-button nz-tooltip
-              (click)="download(options.download,params)" nzType="default">
-        <i nz-icon nzType="cloud-download"></i>
-      </button>
-    </ng-container>
-    <!--    模版下载-->
-    <ng-container *ngIf="options.template?.api">
-      <button *nzSpaceItem [nzTooltipTitle]="options.template.tip" nz-button nz-tooltip
-              (click)="download(options.template,{})" nzType="default">
-        <i nz-icon nzType="file-excel"></i>
-      </button>
-    </ng-container>
-    <!--    时间范围过滤-->
-    <ng-container *ngIf="options.timeKey">
-      <nz-range-picker *nzSpaceItem nzShowTime ngModel
-                       [nzDisabledDate]="disabledDate" nzFormat="yyyy-MM-dd HH:mm"
-                       [nzRanges]="timeRanges" (ngModelChange)="timeChange($event)"
-      ></nz-range-picker>
-    </ng-container>
-    <!--    模糊搜索-->
-    <ng-container *ngIf="searchFields.length">
-      <nz-input-group *nzSpaceItem [nzAddOnBefore]="options.view.setSearch?prefixMenu:''" [nzAddOnAfter]="suffixButton" nzSearch>
-        <input type="text" [(ngModel)]="body.fuzzy.keyword" nz-input placeholder="全局模糊搜索"/>
-      </nz-input-group>
-      <!--      搜索字段-->
-      <ng-template #prefixMenu>
-        <a nz-dropdown [nzDropdownMenu]="menu" [nzClickHide]="false" nzPlacement="bottomCenter"
-           nz-tooltip nzTooltipTitle="设置搜索字段">
-          <i nz-icon nzType="setting"></i>
-        </a>
-        <nz-dropdown-menu #menu="nzDropdownMenu">
-          <ul nz-menu>
-            <li nz-menu-item *ngFor="let field of searchFields" [ngClass]="{'ant-info':field.search}"
-                (click)="field.search=!field.search">{{field.label}} </li>
-          </ul>
-        </nz-dropdown-menu>
-      </ng-template>
-      <!--      搜索按钮-->
-      <ng-template #suffixButton>
-        <button (click)="query()" nz-button nzSearch nzType="default">
-          <i nz-icon nzType="search"></i>
-        </button>
-      </ng-template>
-    </ng-container>
-    <!--    刷新页面-->
-    <ng-container *ngIf="options.view.reload">
-      <button (click)="reloadPage()" *nzSpaceItem nz-button nz-tooltip nzTooltipTitle="重新加载页面" nzType="default">
-        <i nz-icon nzType="redo"></i>
-      </button>
-    </ng-container>
-    <!--    操作按钮扩展-->
-    <ng-container *ngFor="let action of options.actions">
-      <!--      不需要二次确认-->
-      <ng-container *ngIf="!action.confirm">
-        <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
-                [disabled]="action.click.checkToClick&&!checkedData.size"
-                (click)="actionClick(action)" nzType="default">
-          <i nz-icon [nzType]="action.icon"></i>
+        </ng-template>
+      </ng-container>
+      <!--    数据下载-->
+      <ng-container *ngIf="options.download?.api">
+        <button *nzSpaceItem [nzTooltipTitle]="options.download.tip" nz-button nz-tooltip
+                (click)="download(options.download,params)" nzType="default">
+          <i nz-icon nzType="cloud-download"></i>
         </button>
       </ng-container>
-      <!--      需要二次确认-->
-      <ng-container *ngIf="action.confirm">
-        <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
-                [disabled]="action.click.checkToClick&&!checkedData.size" nzType="default"
-                nz-popconfirm [nzPopconfirmTitle]="formatConfirm(action.confirm)" (nzOnConfirm)="actionClick(action)">
-          <i nz-icon [nzType]="action.icon"></i>
+      <!--    模版下载-->
+      <ng-container *ngIf="options.template?.api">
+        <button *nzSpaceItem [nzTooltipTitle]="options.template.tip" nz-button nz-tooltip
+                (click)="download(options.template,{})" nzType="default">
+          <i nz-icon nzType="file-excel"></i>
         </button>
       </ng-container>
-    </ng-container>
-    <!--    拖放排序按钮-->
-    <ng-container *ngIf="options.dragSort?.api">
-      <button (click)="sort()" *nzSpaceItem nz-button nzType="default"
-              nz-tooltip [nzTooltipTitle]="!options.dragable?'点击拖曳排序':'保存排序结果'">
-        <i nz-icon nzType="save" nzTheme="outline" *ngIf="options.dragable"></i>
-        <i nz-icon nzType="sort-ascending" nzTheme="outline" *ngIf="!options.dragable"></i>
+      <!--    时间范围过滤-->
+      <ng-container *ngIf="options.timeKey">
+        <nz-range-picker *nzSpaceItem nzShowTime ngModel
+                         [nzDisabledDate]="disabledDate" nzFormat="yyyy-MM-dd HH:mm"
+                         [nzRanges]="timeRanges" (ngModelChange)="timeChange($event)"
+        ></nz-range-picker>
+      </ng-container>
+      <!--    模糊搜索-->
+      <ng-container *ngIf="searchFields.length">
+        <nz-input-group *nzSpaceItem [nzAddOnBefore]="options.view.setSearch?prefixMenu:''" [nzAddOnAfter]="suffixButton" nzSearch>
+          <input type="text" [(ngModel)]="body.fuzzy.keyword" nz-input placeholder="全局模糊搜索"/>
+        </nz-input-group>
+        <!--      搜索字段-->
+        <ng-template #prefixMenu>
+          <a nz-dropdown [nzDropdownMenu]="menu" [nzClickHide]="false" nzPlacement="bottomCenter"
+             nz-tooltip nzTooltipTitle="设置搜索字段">
+            <i nz-icon nzType="setting"></i>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item *ngFor="let field of searchFields" [ngClass]="{'ant-info':field.search}"
+                  (click)="field.search=!field.search">{{field.label}} </li>
+            </ul>
+          </nz-dropdown-menu>
+        </ng-template>
+        <!--      搜索按钮-->
+        <ng-template #suffixButton>
+          <button (click)="query()" nz-button nzSearch nzType="default">
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </ng-container>
+      <!--    刷新页面-->
+      <ng-container *ngIf="options.view.reload">
+        <button (click)="reloadPage()" *nzSpaceItem nz-button nz-tooltip nzTooltipTitle="重新加载页面" nzType="default">
+          <i nz-icon nzType="redo"></i>
+        </button>
+      </ng-container>
+      <!--    操作按钮扩展-->
+      <ng-container *ngFor="let action of options.actions">
+        <!--      不需要二次确认-->
+        <ng-container *ngIf="!action.confirm">
+          <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
+                  [disabled]="action.click.checkToClick&&!checkedData.size"
+                  (click)="actionClick(action)" nzType="default">
+            <i nz-icon [nzType]="action.icon"></i>
+          </button>
+        </ng-container>
+        <!--      需要二次确认-->
+        <ng-container *ngIf="action.confirm">
+          <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
+                  [disabled]="action.click.checkToClick&&!checkedData.size" nzType="default"
+                  nz-popconfirm [nzPopconfirmTitle]="formatConfirm(action.confirm)" (nzOnConfirm)="actionClick(action)">
+            <i nz-icon [nzType]="action.icon"></i>
+          </button>
+        </ng-container>
+      </ng-container>
+      <!--    拖放排序按钮-->
+      <ng-container *ngIf="options.dragSort?.api">
+        <button (click)="sort()" *nzSpaceItem nz-button nzType="default"
+                nz-tooltip [nzTooltipTitle]="!options.dragable?'点击拖曳排序':'保存排序结果'">
+          <i nz-icon nzType="save" nzTheme="outline" *ngIf="options.dragable"></i>
+          <i nz-icon nzType="sort-ascending" nzTheme="outline" *ngIf="!options.dragable"></i>
 
-      </button>
-    </ng-container>
-    <!--    增加按钮-->
-    <ng-container *ngIf="options.create?.api">
-      <button (click)="edit({})" *nzSpaceItem nz-button nzType="default">
-        <i nz-icon nzType="plus" class="ant-blue"></i>
-      </button>
-    </ng-container>
-  </nz-space>
-</ng-template>
-<!--总条数-->
-<ng-template #totalTpl let-range="range" let-total>
-  总{{ total }}条&emsp;当前{{ range[0] }}-{{ range[1] }}
-</ng-template>
-<!--  表格数据-->
-<nz-table (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
-          (nzQueryParams)="query($event)"
-          [(nzPageIndex)]="pageIndex"
-          [nzData]="datas"
-          [nzFrontPagination]="false"
-          [nzHideOnSinglePage]="options.view.singlePage"
-          [nzPageSizeOptions]="[10,20,50,100,500]"
-          [nzPageSize]="options.view.singlePage?10000:options.view.pageSize"
-          [nzScroll]="{y:height}"
-          [nzShowTotal]="totalTpl"
-          [nzSimple]="options.view.simple"
-          [nzTitle]="titleTpl"
-          [nzTotal]="total"
-          [nzLoading]="loading"
->
-  <thead>
-  <tr>
-    <!--    选择框-->
-    <th (nzCheckedChange)="onAllChecked($event)" nzWidth="40px"
-        *ngIf="options.view.checkable"
-        [(nzChecked)]="allChecked"
-        [nzIndeterminate]="indeterminate"
-        [nzShowCheckbox]="options.view.multiple"
-    ></th>
-    <!--    序号-->
-    <th *ngIf="options.view.showIndex" nzWidth="50px">序号</th>
-    <!--      显示字段表头-->
-    <ng-container *ngFor="let column of options.view.columns">
-      <!--      多标签显示、过滤、排序-->
-      <th *ngIf="isCureentTab(column.tabIndex)"
-          [nzWidth]="column.width"
-          [nzColumnKey]="column.key"
-          [nzFilterFn]="true"
-          [nzFilters]="column.filters"
-          [nzShowFilter]="column.filters"
-          [nzShowSort]="column.sort"
-          [nzSortFn]="true"
-      >
-        {{column.label}}</th>
-    </ng-container>
-    <!--      操作-->
-    <ng-container *ngFor="let action of [options.update,options.delete]">
-      <th *ngIf="action" nzWidth="50px">{{action.name}}</th>
-    </ng-container>
-  </tr>
-  </thead>
-  <tbody cdkDropList (cdkDropListDropped)="drop($event)">
-  <tr *ngFor="let data of datas;index as i" [cdkDragDisabled]="!options.dragable" cdkDrag>
-    <!--    序号-->
-    <td *ngIf="options.view.showIndex">{{i + 1}}</td>
-    <!--      选择框-->
-    <td *ngIf="options.view.checkable" [nzChecked]="isChecked(data)"
-        (nzCheckedChange)="onItemChecked(data, $event)">
-    </td>
-    <!--      显示字段数据-->
-    <ng-container *ngFor="let column of  options.view.columns">
-      <!--      多标签显示-->
-      <ng-container *ngIf="isCureentTab(column.tabIndex)">
-        <!--        普通列-->
-        <td *ngIf="column.type==='text'" nz-tooltip [ngClass]="{'ant-blue':column.tipKey}"
-            [nzTooltipTitle]="data[column.tipKey]||data[column.key]"
-            [class]="formatColor(data[column.key],column.color)"
-            [nzTooltipTrigger]="(column.tipKey||data[column.key]?.length>options.view.ellipsis)?'hover':null">
-          {{formatData(data[column.key], column)}}
-        </td>
-        <!--        图标-->
-        <td *ngIf="column.type==='icon'">
-          <i nz-icon [nzType]="column.icon" [class]="formatColor(data[column.key],column.color)"></i>
-        </td>
-        <!--      开关切换-->
-        <td *ngIf="column.type==='switch'">
-          <nz-switch (ngModelChange)="switch($event,data,column)"
-                     [name]="column.key"
-                     [ngModel]="data[column.key]===column.switch.on"
-                     [nzCheckedChildren]="column.switch.labelOn"
-                     [nzUnCheckedChildren]="column.switch.labelOff"
-                     *ngIf="data[column.key]===column.switch.on||data[column.key]===column.switch.off"
-          ></nz-switch>
-          <!--          非开和关-->
-          <span *ngIf="data[column.key]!==column.switch.on&&data[column.key]!==column.switch.off">
+        </button>
+      </ng-container>
+      <!--    增加按钮-->
+      <ng-container *ngIf="options.create?.api">
+        <button (click)="edit({})" *nzSpaceItem nz-button nzType="default">
+          <i nz-icon nzType="plus" class="ant-blue"></i>
+        </button>
+      </ng-container>
+    </nz-space>
+  </ng-template>
+  <!--总条数-->
+  <ng-template #totalTpl let-range="range" let-total>
+    总{{ total }}条&emsp;当前{{ range[0] }}-{{ range[1] }}
+  </ng-template>
+  <!--  表格数据-->
+  <nz-table (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+            (nzQueryParams)="query($event)"
+            [(nzPageIndex)]="pageIndex"
+            [nzData]="datas"
+            [nzFrontPagination]="false"
+            [nzHideOnSinglePage]="options.view.singlePage"
+            [nzPageSizeOptions]="[10,20,50,100,500]"
+            [nzPageSize]="options.view.singlePage?10000:options.view.pageSize"
+            [nzScroll]="{y:height}"
+            [nzShowTotal]="totalTpl"
+            [nzSimple]="options.view.simple"
+            [nzTitle]="titleTpl"
+            [nzTotal]="total"
+            [nzLoading]="loading"
+  >
+    <thead>
+    <tr>
+      <!--    选择框-->
+      <th (nzCheckedChange)="onAllChecked($event)" nzWidth="40px"
+          *ngIf="options.view.checkable"
+          [(nzChecked)]="allChecked"
+          [nzIndeterminate]="indeterminate"
+          [nzShowCheckbox]="options.view.multiple"
+      ></th>
+      <!--    序号-->
+      <th *ngIf="options.view.showIndex" nzWidth="50px">序号</th>
+      <!--      显示字段表头-->
+      <ng-container *ngFor="let column of options.view.columns">
+        <!--      多标签显示、过滤、排序-->
+        <th *ngIf="isCureentTab(column.tabIndex)"
+            [nzWidth]="column.width"
+            [nzColumnKey]="column.key"
+            [nzFilterFn]="true"
+            [nzFilters]="column.filters"
+            [nzShowFilter]="column.filters"
+            [nzShowSort]="column.sort"
+            [nzSortFn]="true"
+        >
+          {{column.label}}</th>
+      </ng-container>
+      <!--      操作-->
+      <ng-container *ngFor="let action of [options.update,options.delete]">
+        <th *ngIf="action" nzWidth="50px">{{action.name}}</th>
+      </ng-container>
+    </tr>
+    </thead>
+    <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+    <tr *ngFor="let data of datas;index as i" [cdkDragDisabled]="!options.dragable" cdkDrag>
+      <!--    序号-->
+      <td *ngIf="options.view.showIndex">{{i + 1}}</td>
+      <!--      选择框-->
+      <td *ngIf="options.view.checkable" [nzChecked]="isChecked(data)"
+          (nzCheckedChange)="onItemChecked(data, $event)">
+      </td>
+      <!--      显示字段数据-->
+      <ng-container *ngFor="let column of  options.view.columns">
+        <!--      多标签显示-->
+        <ng-container *ngIf="isCureentTab(column.tabIndex)">
+          <!--        普通列-->
+          <td *ngIf="column.type==='text'" nz-tooltip [ngClass]="{'ant-blue':column.tipKey}"
+              [nzTooltipTitle]="data[column.tipKey]||data[column.key]"
+              [class]="formatColor(data[column.key],column.color)"
+              [nzTooltipTrigger]="(column.tipKey||data[column.key]?.length>options.view.ellipsis)?'hover':null">
+            {{formatData(data[column.key], column)}}
+          </td>
+          <!--        图标-->
+          <td *ngIf="column.type==='icon'">
+            <i nz-icon [nzType]="column.icon" [class]="formatColor(data[column.key],column.color)"></i>
+          </td>
+          <!--      开关切换-->
+          <td *ngIf="column.type==='switch'">
+            <nz-switch (ngModelChange)="switch($event,data,column)"
+                       [name]="column.key"
+                       [ngModel]="data[column.key]===column.switch.on"
+                       [nzCheckedChildren]="column.switch.labelOn"
+                       [nzUnCheckedChildren]="column.switch.labelOff"
+                       *ngIf="data[column.key]===column.switch.on||data[column.key]===column.switch.off"
+            ></nz-switch>
+            <!--          非开和关-->
+            <span *ngIf="data[column.key]!==column.switch.on&&data[column.key]!==column.switch.off">
             {{formatData(data[column.key], column)}}
           </span>
-        </td>
-        <!--        操作列-->
-        <td *ngIf="column.type==='action'">
-          <i [nzTooltipTitle]="column.action.tip" [nzType]="column.action.icon"
-             nz-icon nz-tooltip (click)="actionClick(column.action)"></i>
+          </td>
+          <!--        操作列-->
+          <td *ngIf="column.type==='action'">
+            <i [nzTooltipTitle]="column.action.tip" [nzType]="column.action.icon"
+               nz-icon nz-tooltip (click)="actionClick(column.action)"></i>
+          </td>
+        </ng-container>
+      </ng-container>
+      <!--      操作按钮-->
+      <ng-container *ngFor="let action of [options.update,options.delete]">
+        <td *ngIf="action?.api">
+          <!--          修改-->
+          <ng-container *ngIf="action===options.update">
+            <i (click)="edit(data)" nz-icon nzType="edit" *ngIf="!data._isInit"></i>
+            <i nz-icon nzType="edit" *ngIf="data._isInit"
+               class="ant-disabled" nz-tooltip nzTooltipTitle="内置数据不可修改"></i>
+          </ng-container>
+          <!--          删除-->
+          <ng-container *ngIf="action===options.delete">
+            <i (click)="delete(data)" nz-icon nzType="delete" *ngIf="!data._isInit" class="ant-red"></i>
+            <i nz-icon nzType="delete" *ngIf="data._isInit"
+               class="ant-disabled" nz-tooltip nzTooltipTitle="内置数据不可删除"></i>
+          </ng-container>
         </td>
       </ng-container>
-    </ng-container>
-    <!--      操作按钮-->
-    <ng-container *ngFor="let action of [options.update,options.delete]">
-      <td *ngIf="action?.api">
-        <!--          修改-->
-        <ng-container *ngIf="action===options.update">
-          <i (click)="edit(data)" nz-icon nzType="edit" *ngIf="!data._isInit"></i>
-          <i nz-icon nzType="edit" *ngIf="data._isInit"
-             class="ant-disabled" nz-tooltip nzTooltipTitle="内置数据不可修改"></i>
-        </ng-container>
-        <!--          删除-->
-        <ng-container *ngIf="action===options.delete">
-          <i (click)="delete(data)" nz-icon nzType="delete" *ngIf="!data._isInit" class="ant-red"></i>
-          <i nz-icon nzType="delete" *ngIf="data._isInit"
-             class="ant-disabled" nz-tooltip nzTooltipTitle="内置数据不可删除"></i>
-        </ng-container>
-      </td>
-    </ng-container>
-  </tr>
-  </tbody>
-</nz-table>
+    </tr>
+    </tbody>
+  </nz-table>
+</nz-card>

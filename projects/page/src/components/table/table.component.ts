@@ -62,7 +62,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
               private http: NcHttpService,
               private event: NcEventService) {
     const content: any = document.getElementsByTagName('nz-content')[0];
-    this.height = content.offsetHeight - 150 + 'px';
+    this.height = content.offsetHeight - 175 + 'px';
   }
 
   ngOnInit(): void {
