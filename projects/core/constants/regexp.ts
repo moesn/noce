@@ -32,6 +32,11 @@ export const NcRegExp: NcRegItem[] = [
     reg: '^[\u4E00-\u9FA5a-zA-Z0-9]*$'
   },
   {
+    name: '密码',
+    tip: '包含大小写字母及数字，长度8～16',
+    reg: '^[\u4E00-\u9FA5a-zA-Z0-9]*$'
+  },
+  {
     name: '字母数字',
     tip: '字母或数字，字母开头',
     reg: '^(?![0-9])[a-zA-Z0-9]*$'
