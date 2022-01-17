@@ -29,13 +29,13 @@ export class NcPageComponent implements OnDestroy {
     // 监听路由跳转，跳转时加载新的配置
     this.routerEvent = router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
-        this.loadOption();
+        this.loadOption(true);
       }
     });
 
     // 监听重载页面事件
     this.reloadEvent = this.event.on('RELOAD_PAGE').subscribe((_: any) => {
-      this.loadOption();
+      this.loadOption(false);
     });
 
     // 订阅标签点击事件
@@ -52,11 +52,11 @@ export class NcPageComponent implements OnDestroy {
   }
 
   // 加载页面配置选项
-  loadOption(): void {
+  loadOption(force: boolean): void {
     // /page/xx/yy -> /schemas/xx/yy.schema.json
     const schemaPath = location.pathname.replace(getAppOption('base'), 'schemas') + '.schema.json';
     // 由于异步渲染的原因，路由跳转时，需要先清除页面
-    this.assignOption({});
+    this.assignOption({}, false);
 
     const options = schemaToOption(schemaPath);
 
@@ -70,7 +70,7 @@ export class NcPageComponent implements OnDestroy {
           this.convertApi(options);
           this.convertPattern(options);
           // 转换完成后赋值,减少重绘
-          this.assignOption(options);
+          this.assignOption(options, force);
         }
       })
     } else {
@@ -82,7 +82,7 @@ export class NcPageComponent implements OnDestroy {
           this.convertApi(options);
           this.convertPattern(options);
           // 转换完成后才能赋值,减少重绘
-          this.assignOption(options);
+          this.assignOption(options, force);
         });
       } else {
         // 提示配置apis
@@ -92,8 +92,13 @@ export class NcPageComponent implements OnDestroy {
   }
 
   // 分配选项
-  assignOption(options: any): void {
-    this.table = options.table;
+  assignOption(options: any, force: boolean): void {
+    // 强制刷新整个页面时，延迟渲染table，避免出现横向滚动条
+    if (force) {
+      setTimeout(() => this.table = options.table);
+    } else {
+      this.table = options.table;
+    }
     this.navs = options.navs;
     this.tabs = options.tabs;
   }

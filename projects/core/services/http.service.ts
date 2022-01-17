@@ -32,6 +32,7 @@ export class NcHttpService {
   client = this.http;
 
   lastQuery = { //最近查询
+    page: '',
     url: '',
     time: 0,
     bodyY: {}
@@ -70,15 +71,15 @@ export class NcHttpService {
 
     const bodyY = this.buildBody(body);
 
-    // 防止一秒内重复查询
-    if (url === this.lastQuery.url && (new Date().getTime() - this.lastQuery.time < 1000)
+    // 防止相同页面一秒内重复查询
+    if (location.pathname === this.lastQuery.page && url === this.lastQuery.url && (new Date().getTime() - this.lastQuery.time < 1000)
       && _.isEqual(JSON.stringify(this.lastQuery.bodyY), JSON.stringify(bodyY))
     ) {
       return of(false);
     }
 
     // 记录最近一次查询
-    this.lastQuery = {url, time: new Date().getTime(), bodyY};
+    this.lastQuery = {url, time: new Date().getTime(), bodyY, page: location.pathname};
 
     // 用户自定义数据处理
     if (pipe) {
@@ -135,11 +136,26 @@ export class NcHttpService {
     );
   }
 
-  // 删除数据，其他只需要传id的接口，可以使用delete，设置noc为true即可
-  delete(url: string, body: any, pipe?: string, noc?: boolean): any {
+  // 更新状态等
+  update(url: string, body: any, pipe?: string): any {
+    // 用户自定义数据处理
+    if (pipe) {
+      _eval(pipe)(body);
+    }
+    return this.post(url, body);
+  }
+
+  // 删除数据
+  delete(url: string, body: any, pipe?: string): any {
     // 是否不需要删除确认
     const nocon = sessionStorage.getItem(url);
-    if (nocon === 'true' || noc) {
+
+    // 用户自定义数据处理
+    if (pipe) {
+      _eval(pipe)(body);
+    }
+
+    if (nocon === 'true') {
       return this.post(url, body);
     } else {
       const modal = this.modalService.confirm({
@@ -149,10 +165,6 @@ export class NcHttpService {
         nzClosable: false,
         nzMaskClosable: true,
         nzOnOk: () => {
-          // 用户自定义数据处理
-          if (pipe) {
-            _eval(pipe)(body);
-          }
           this.post(url, body).subscribe((res: any) => modal.close(res));
           return false;
         }

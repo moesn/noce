@@ -71,7 +71,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 初始选中第一个标签
     if (this.tabOption) {
       this.switchTab(this.tabOption[0]);
-    } else {
+    } else if (this.options.view) {
       // 过滤得到可以搜索的字段列表，设置了search并且是当前标签的
       this.searchFields = this.options.view.columns.filter((d: any) => d.search && this.isCureentTab(d.tabIndex));
     }
@@ -105,7 +105,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // 取消订阅导航点击事件
-    this.navClickEvent.unsubscribe();
+    if (this.navClickEvent) {
+      this.navClickEvent.unsubscribe();
+    }
   }
 
   // 查询表格数据
@@ -373,7 +375,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
       body = __eval.call(this, body)
     }
 
-    this.http.delete(action.api, body,action.pipe, true).subscribe();
+    this.http.update(action.api, body, action.pipe).subscribe((res: any) => {
+      if (res) {
+        this.data[column.key] = state;
+      }
+    });
   }
 
   // 格式化显示颜色
