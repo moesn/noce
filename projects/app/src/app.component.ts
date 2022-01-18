@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NzMenuModeType} from 'ng-zorro-antd/menu';
-import {getAppOption, NcEventService, NcStoreService} from 'noce/core';
+import {getAppOption, getAuthOption, NcEventService, NcHttpService, NcRegExp, NcStoreService} from 'noce/core';
 import {NcAuthService, NcTokenService} from 'noce/auth';
 
 export const themeChangeEvents: any = [];
@@ -30,10 +30,18 @@ export class NcAppComponent implements OnInit {
   isAuthed = false; // 是否已认证，已认证才显示顶部Header
   keyword = ''; // 关键字搜索
 
+  passwd: any = {}; // 修改密码选项
+  pwding = false; // 是否修改密码中
+  saving = false; // 表单是否保存中
+  pwdData = {oldPwd: '', newPwd: ''}; // 修改密码表单数据
+  pwdEye: any = {}; // 存储是否显示密码的状态
+  pwdReg: any = NcRegExp.find(reg => reg.name === '密码')!; // 密码正则校验
+
   constructor(private http: HttpClient,
               private authService: NcAuthService,
               private store: NcStoreService,
               private event: NcEventService,
+              private ncHttp: NcHttpService,
               private token: NcTokenService) {
     this.logo = getAppOption('images.logo');
     this.title = getAppOption('title');
@@ -41,6 +49,7 @@ export class NcAppComponent implements OnInit {
     this.menuMode = getAppOption('layout.menuMode');
     this.menuWidth = getAppOption('layout.menuWidth');
     this.loginBg = getAppOption('images.loginBg');
+    this.passwd = getAuthOption('passwd');
     this.username = token.getPayload().userId;
   }
 
@@ -109,6 +118,23 @@ export class NcAppComponent implements OnInit {
   // 触发搜索事件
   search(): void {
     this.event.emit('SEARCH', this.keyword);
+  }
+
+  // 修改密码
+  updatePwd(): void {
+    this.saving = true;
+    const url = getAuthOption('baseUrl') + this.passwd.url;
+    const body: any = {};
+
+    body[this.passwd.body.oldKey] = this.pwdData.oldPwd;
+    body[this.passwd.body.newKey] = this.pwdData.newPwd;
+    body[this.passwd.body.idKey] = this.username;
+
+    this.ncHttp.post(url, body, '', [this.passwd.body.oldKey, this.passwd.body.newKey]).subscribe({
+      next: (res: any) => null,
+      error: () => this.saving = false,
+      complete: () => this.saving = false
+    });
   }
 
   // 触发退出事件

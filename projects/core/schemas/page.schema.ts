@@ -156,8 +156,13 @@ export const NM_PAGE_SCHEMA =
                           "type": "string",
                           "minLength": 1
                         },
+                        "tip": {
+                          "title": "表头说明",
+                          "type": "string",
+                          "minLength": 1
+                        },
                         "tipKey": {
-                          "title": "表格提示字段",
+                          "title": "列表项提示字段",
                           "type": "string",
                           "minLength": 1
                         },

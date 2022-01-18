@@ -11,7 +11,7 @@
             {{formItem.title}}
             <!--          表单分组帮助说明-->
             <i *ngIf="formItem.tip" class="tip-icon ant-info" nz-icon nz-tooltip
-               nzTheme="outline" nzTooltipTitle="{{formItem.tip}}" nzType="question-circle"></i>
+               [nzTooltipTitle]="formItem.tip" nzType="question-circle"></i>
           </ng-template>
         </nz-col>
         <!--      表单项-->

@@ -15,6 +15,10 @@ import {registerLocaleData} from '@angular/common';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NZ_CONFIG, NzConfig} from 'ng-zorro-antd/core/config';
 import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
+import {NzButtonModule} from 'ng-zorro-antd/button';
+import {FormsModule} from '@angular/forms';
+import {NzInputModule} from 'ng-zorro-antd/input';
+import {NzFormModule} from 'ng-zorro-antd/form';
 
 registerLocaleData(zh);
 
@@ -51,7 +55,7 @@ const NG_MODULES = [
   BrowserModule,
   BrowserAnimationsModule,
   HttpClientModule,
-  NzModalModule,
+  FormsModule,
 ];
 
 const NZ_MODULES = [
@@ -59,6 +63,10 @@ const NZ_MODULES = [
   NzMenuModule,
   NzIconModule,
   NzDropDownModule,
+  NzButtonModule,
+  NzInputModule,
+  NzModalModule,
+  NzFormModule,
 ];
 
 @NgModule({

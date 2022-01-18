@@ -439,8 +439,12 @@ export class NcTableComponent implements OnInit, OnDestroy {
   }
 
   // 表格扩展按钮点击事件
-  actionClick(action: any): void {
+  actionClick(action: any, data?: any): void {
     const option = action.click;
+    // 表格列操作时，记录当前操作数据
+    if (data) {
+      this.data = data;
+    }
     // 表格弹窗
     if (option.view) {
       // 弹窗简单分页，不能重载页面
@@ -473,14 +477,18 @@ export class NcTableComponent implements OnInit, OnDestroy {
         objectExtend(body, {ids: this.getCheckedKeys()});
       }
 
-      this.loading = option.refresh;
+      this.loading = option.refresh || !!data;
       // 调用接口后需要刷新时重新查询数据
       this.http.post(option.api, body, option.pipe).subscribe((res: any) => {
-          if (res && this.loading) {
+          if (res && option.refresh) {
             this.query();
           } else {
             // 接口异常时停止加载状态
             this.loading = false
+            // 表格列操作时，合并操作后的数据
+            if (data) {
+              objectExtend(this.data, res.data);
+            }
           }
         }, // 接口错误时停止加载状态
         () => this.loading = false
