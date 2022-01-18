@@ -53,7 +53,7 @@
   </nz-layout>
 </nz-layout>
 <!--修改密码窗口-->
-<nz-modal (nzOnCancel)="pwding=false" [nzClosable]="false" [nzFooter]="null" [nzVisible]="pwding"
+<nz-modal (nzOnCancel)="pwding=false" [nzClosable]="false" [nzKeyboard]="false" [nzFooter]="null" [nzVisible]="pwding"
           nzTitle="修改密码" nzWidth="360px" [nzBodyStyle]="{'padding-bottom':'56px'}">
   <ng-container *nzModalContent>
     <form #form="ngForm" class="text-3" nz-form>
@@ -95,8 +95,9 @@
       </ng-template>
       <!--  保存或取消-->
       <div class="ant-drawer-footer">
+        <span class="ant-left ant-red" style="line-height:32px" *ngIf="isRawPwd">请修改默认密码</span>
         <nz-button-group>
-          <button nz-button (click)="pwding=false">取消</button>
+          <button nz-button (click)="pwding=false" *ngIf="!isRawPwd">取消</button>
           <!--  无效、保存中时禁止点击-->
           <button [disabled]="form.invalid || saving" nz-button nzType="primary" (click)="updatePwd()">
             保存

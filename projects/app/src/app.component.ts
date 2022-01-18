@@ -36,6 +36,7 @@ export class NcAppComponent implements OnInit {
   pwdData = {oldPwd: '', newPwd: ''}; // 修改密码表单数据
   pwdEye: any = {}; // 存储是否显示密码的状态
   pwdReg: any = NcRegExp.find(reg => reg.name === '密码')!; // 密码正则校验
+  isRawPwd = false; // 是否时原始密码
 
   constructor(private http: HttpClient,
               private authService: NcAuthService,
@@ -50,7 +51,11 @@ export class NcAppComponent implements OnInit {
     this.menuWidth = getAppOption('layout.menuWidth');
     this.loginBg = getAppOption('images.loginBg');
     this.passwd = getAuthOption('passwd');
-    this.username = token.getPayload().userId;
+
+    const paylod = token.getPayload()
+    this.username = paylod.userId;
+    // 初始默认密码强制修改
+    this.pwding = this.isRawPwd = paylod.isRawPwd;
   }
 
   ngOnInit(): void {
@@ -131,7 +136,12 @@ export class NcAppComponent implements OnInit {
     body[this.passwd.body.idKey] = this.username;
 
     this.ncHttp.post(url, body, '', [this.passwd.body.oldKey, this.passwd.body.newKey]).subscribe({
-      next: (res: any) => null,
+      next: (res: any) => {
+        // 密码修改成功后需退出重新登录
+        if (res) {
+          this.logout();
+        }
+      },
       error: () => this.saving = false,
       complete: () => this.saving = false
     });

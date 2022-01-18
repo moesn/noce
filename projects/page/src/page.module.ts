@@ -31,6 +31,7 @@ import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
 import {NzSpinModule} from 'ng-zorro-antd/spin';
 import {NzUploadModule} from 'ng-zorro-antd/upload';
 import {NzPopoverModule} from 'ng-zorro-antd/popover';
+import {NzCheckboxModule} from 'ng-zorro-antd/checkbox';
 
 const NG_MODULES = [
   FormsModule,
@@ -63,6 +64,7 @@ const NZ_MODULES = [
   NzCarouselModule,
   NzUploadModule,
   NzPopoverModule,
+  NzCheckboxModule,
   NzSpinModule,
 ];
 

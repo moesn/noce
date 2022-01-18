@@ -66,8 +66,9 @@
           </a>
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu>
-              <li nz-menu-item *ngFor="let field of searchFields" [ngClass]="{'ant-info':field.search}"
-                  (click)="field.search=!field.search">{{field.label}} </li>
+              <li nz-menu-item *ngFor="let field of searchFields">
+                <label nz-checkbox [(ngModel)]="field.search">{{field.label}}</label>
+              </li>
             </ul>
           </nz-dropdown-menu>
         </ng-template>
