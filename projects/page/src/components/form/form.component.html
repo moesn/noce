@@ -27,6 +27,7 @@
               <!--            普通输入框-->
               <input *ngIf="field.type==='input'"
                      [(ngModel)]="data[field.key]"
+                     (ngModelChange)="modelChange(field)"
                      [disabled]="isTrue(field.readonly)"
                      [maxlength]="field.input.maxLength"
                      [minlength]="field.input.minLength"

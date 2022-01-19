@@ -8,6 +8,7 @@ export const NM_PAGE_SCHEMA =
       "$*$：动态参数时使用",
       "this：设置动态参数时的关键字",
       "this.data：当前操作的数据",
+      "this.params：当前表格查询参数",
       "this.nav：导航+表格时，当前操作的导航数据",
       "this.tab：多标签表格时，当前标签数据",
       "例：$this.data.id$",
@@ -53,6 +54,26 @@ export const NM_PAGE_SCHEMA =
             "type": "string",
             "minLength": 1
           },
+          "style": {
+            "title": "表格样式配置",
+            "type": "object",
+
+            "properties": {
+              "titleColor": {
+                "$id": "#color",
+                "title": "表格标题颜色",
+                "enum": [
+                  "default",
+                  "green",
+                  "blue",
+                  "yellow",
+                  "orange",
+                  "red",
+                  "disabled"
+                ]
+              }
+            }
+          },
           "key": {
             "title": "数据主键",
             "type": "string",
@@ -60,7 +81,6 @@ export const NM_PAGE_SCHEMA =
             "minLength": 1
           },
           "view": {
-            "$id": "#view",
             "title": "表格视图配置",
             "type": "object",
             "required": [
@@ -381,15 +401,7 @@ export const NM_PAGE_SCHEMA =
                           "title": "显示颜色",
                           "oneOf": [
                             {
-                              "enum": [
-                                "default",
-                                "green",
-                                "blue",
-                                "yellow",
-                                "orange",
-                                "red",
-                                "disabled"
-                              ]
+                              "$ref": "#color"
                             },
                             {
                               "$ref": "#format"
@@ -599,6 +611,10 @@ export const NM_PAGE_SCHEMA =
                     "title": "是否是流下载",
                     "type": "boolean",
                     "default": false
+                  },
+                  "filename": {
+                    "title": "下载文件名称",
+                    "type": "string"
                   }
                 }
               }
@@ -845,6 +861,10 @@ export const NM_PAGE_SCHEMA =
                         "title": "最大输入文字数量",
                         "type": "integer",
                         "default": 32
+                      },
+                      "change": {
+                        "title": "输入变化事件",
+                        "$ref": "#parse"
                       }
                     }
                   },

@@ -227,6 +227,19 @@ export class NcFormComponent implements OnInit {
     });
   }
 
+  // 输入数据发生变化
+  modelChange(field: any): void {
+    const input = field.input;
+    // 处理输入变化事件
+    if (input.change) {
+      // 需异步执行，等待值改变
+      setTimeout(() => _eval(input.change)(this.data));
+    }
+
+    // 触发关联查询
+    this.renderSelect(field.key);
+  }
+
   // 下拉选择框切换事件
   optionChange(field: any): void {
     const select = field.select;

@@ -53,6 +53,26 @@
           "type": "string",
           "minLength": 1
         },
+        "style": {
+          "title": "表格样式配置",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "titleColor": {
+              "$id": "#color",
+              "title": "表格标题颜色",
+              "enum": [
+                "default",
+                "green",
+                "blue",
+                "yellow",
+                "orange",
+                "red",
+                "disabled"
+              ]
+            }
+          }
+        },
         "key": {
           "title": "数据主键",
           "type": "string",
@@ -380,15 +400,7 @@
                         "title": "显示颜色",
                         "oneOf": [
                           {
-                            "enum": [
-                              "default",
-                              "green",
-                              "blue",
-                              "yellow",
-                              "orange",
-                              "red",
-                              "disabled"
-                            ]
+                            "$ref": "#color"
                           },
                           {
                             "$ref": "#format"
@@ -848,6 +860,10 @@
                       "title": "最大输入文字数量",
                       "type": "integer",
                       "default": 32
+                    },
+                    "change": {
+                      "title": "输入变化事件",
+                      "$ref": "#parse"
                     }
                   }
                 },

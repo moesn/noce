@@ -7,101 +7,104 @@
     <nz-space *ngIf="tabOption" class="ant-left">
       <ng-container *ngFor="let _tab of tabOption">
         <ng-container *ngIf="_tab.view?.api">
-          <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab===tab?'primary':'default'" nz-button
-          >{{_tab.title}}</button>
+          <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab===tab?'primary':'default'" nz-button>
+            <span class="{{'ant-'+_tab.style?.titleColor}}">{{_tab.title}}</span>
+          </button>
         </ng-container>
       </ng-container>
     </nz-space>
     <nz-space>
-      <!--    上传-->
-      <ng-container *ngIf="options.upload?.api">
-        <button *nzSpaceItem [nzTooltipTitle]="options.upload.tip" nz-button nz-tooltip nzType="default"
-                [nzPopoverContent]="restorePop" [nzPopoverMouseLeaveDelay]="3600" nz-popover nzPopoverTrigger="click">
-          <i nz-icon nzType="cloud-upload"></i>
-        </button>
-        <ng-template #restorePop>
-          <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [nzAccept]="options.upload.accept">
-            <button nz-button nzType="default">
-              <i nz-icon nzType="upload"></i>
-              选择文件
+      <ng-container *ngIf="!options.dragable">
+        <!--    上传-->
+        <ng-container *ngIf="options.upload?.api">
+          <button *nzSpaceItem [nzTooltipTitle]="options.upload.tip" nz-button nz-tooltip nzType="default"
+                  [nzPopoverContent]="restorePop" [nzPopoverMouseLeaveDelay]="3600" nz-popover nzPopoverTrigger="click">
+            <i nz-icon nzType="cloud-upload"></i>
+          </button>
+          <ng-template #restorePop>
+            <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [nzAccept]="options.upload.accept">
+              <button nz-button nzType="default">
+                <i nz-icon nzType="upload"></i>
+                选择文件
+              </button>
+            </nz-upload>
+            <button (click)="upload(options.upload.api)" [disabled]="fileList.length === 0"
+                    [nzLoading]="uploading" nzType="default" nz-button style="margin-top: 16px">
+              {{ uploading ? '上传中...' : '上传' }}
             </button>
-          </nz-upload>
-          <button (click)="upload(options.upload.api)" [disabled]="fileList.length === 0"
-                  [nzLoading]="uploading" nzType="default" nz-button  style="margin-top: 16px">
-            {{ uploading ? '上传中...' : '上传' }}
-          </button>
-        </ng-template>
-      </ng-container>
-      <!--    数据下载-->
-      <ng-container *ngIf="options.download?.api">
-        <button *nzSpaceItem [nzTooltipTitle]="options.download.tip" nz-button nz-tooltip
-                (click)="download(options.download,params)" nzType="default">
-          <i nz-icon nzType="cloud-download"></i>
-        </button>
-      </ng-container>
-      <!--    模版下载-->
-      <ng-container *ngIf="options.template?.api">
-        <button *nzSpaceItem [nzTooltipTitle]="options.template.tip" nz-button nz-tooltip
-                (click)="download(options.template,{})" nzType="default">
-          <i nz-icon nzType="file-excel"></i>
-        </button>
-      </ng-container>
-      <!--    时间范围过滤-->
-      <ng-container *ngIf="options.timeKey">
-        <nz-range-picker *nzSpaceItem nzShowTime ngModel
-                         [nzDisabledDate]="disabledDate" nzFormat="yyyy-MM-dd HH:mm"
-                         [nzRanges]="timeRanges" (ngModelChange)="timeChange($event)"
-        ></nz-range-picker>
-      </ng-container>
-      <!--    模糊搜索-->
-      <ng-container *ngIf="searchFields.length">
-        <nz-input-group *nzSpaceItem [nzAddOnBefore]="options.view.setSearch?prefixMenu:''" [nzAddOnAfter]="suffixButton" nzSearch>
-          <input type="text" [(ngModel)]="body.fuzzy.keyword" nz-input placeholder="模糊搜索"/>
-        </nz-input-group>
-        <!--      搜索字段-->
-        <ng-template #prefixMenu>
-          <a nz-dropdown [nzDropdownMenu]="menu" [nzClickHide]="false" nzPlacement="bottomCenter"
-             nz-tooltip nzTooltipTitle="设置搜索字段">
-            <i nz-icon nzType="setting"></i>
-          </a>
-          <nz-dropdown-menu #menu="nzDropdownMenu">
-            <ul nz-menu>
-              <li nz-menu-item *ngFor="let field of searchFields">
-                <label nz-checkbox [(ngModel)]="field.search">{{field.label}}</label>
-              </li>
-            </ul>
-          </nz-dropdown-menu>
-        </ng-template>
-        <!--      搜索按钮-->
-        <ng-template #suffixButton>
-          <button (click)="query()" nz-button nzSearch nzType="default">
-            <i nz-icon nzType="search"></i>
-          </button>
-        </ng-template>
-      </ng-container>
-      <!--    刷新页面-->
-      <ng-container *ngIf="options.view.reload">
-        <button (click)="reloadPage()" *nzSpaceItem nz-button nz-tooltip nzTooltipTitle="重新加载页面" nzType="default">
-          <i nz-icon nzType="redo"></i>
-        </button>
-      </ng-container>
-      <!--    操作按钮扩展-->
-      <ng-container *ngFor="let action of options.actions">
-        <!--      不需要二次确认-->
-        <ng-container *ngIf="!action.confirm">
-          <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
-                  [disabled]="action.click.checkToClick&&!checkedData.size"
-                  (click)="actionClick(action)" nzType="default">
-            <i nz-icon [nzType]="action.icon"></i>
+          </ng-template>
+        </ng-container>
+        <!--    数据下载-->
+        <ng-container *ngIf="options.download?.api">
+          <button *nzSpaceItem [nzTooltipTitle]="options.download.tip" nz-button nz-tooltip
+                  (click)="download(options.download,params)" nzType="default">
+            <i nz-icon nzType="cloud-download"></i>
           </button>
         </ng-container>
-        <!--      需要二次确认-->
-        <ng-container *ngIf="action.confirm">
-          <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
-                  [disabled]="action.click.checkToClick&&!checkedData.size" nzType="default"
-                  nz-popconfirm [nzPopconfirmTitle]="formatConfirm(action.confirm)" (nzOnConfirm)="actionClick(action)">
-            <i nz-icon [nzType]="action.icon"></i>
+        <!--    模版下载-->
+        <ng-container *ngIf="options.template?.api">
+          <button *nzSpaceItem [nzTooltipTitle]="options.template.tip" nz-button nz-tooltip
+                  (click)="download(options.template,{})" nzType="default">
+            <i nz-icon nzType="file-excel"></i>
           </button>
+        </ng-container>
+        <!--    时间范围过滤-->
+        <ng-container *ngIf="options.timeKey">
+          <nz-range-picker *nzSpaceItem nzShowTime ngModel
+                           [nzDisabledDate]="disabledDate" nzFormat="yyyy-MM-dd HH:mm"
+                           [nzRanges]="timeRanges" (ngModelChange)="timeChange($event)"
+          ></nz-range-picker>
+        </ng-container>
+        <!--    模糊搜索-->
+        <ng-container *ngIf="searchFields.length">
+          <nz-input-group *nzSpaceItem [nzAddOnBefore]="options.view.setSearch?prefixMenu:''" [nzAddOnAfter]="suffixButton" nzSearch>
+            <input type="text" [(ngModel)]="body.fuzzy.keyword" nz-input placeholder="模糊搜索"/>
+          </nz-input-group>
+          <!--      搜索字段-->
+          <ng-template #prefixMenu>
+            <a nz-dropdown [nzDropdownMenu]="menu" [nzClickHide]="false" nzPlacement="bottomCenter"
+               nz-tooltip nzTooltipTitle="设置搜索字段">
+              <i nz-icon nzType="setting"></i>
+            </a>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                <li nz-menu-item *ngFor="let field of searchFields">
+                  <label nz-checkbox [(ngModel)]="field.search">{{field.label}}</label>
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </ng-template>
+          <!--      搜索按钮-->
+          <ng-template #suffixButton>
+            <button (click)="query()" nz-button nzSearch nzType="default">
+              <i nz-icon nzType="search"></i>
+            </button>
+          </ng-template>
+        </ng-container>
+        <!--    刷新页面-->
+        <ng-container *ngIf="options.view.reload">
+          <button (click)="reloadPage()" *nzSpaceItem nz-button nz-tooltip nzTooltipTitle="重新加载页面" nzType="default">
+            <i nz-icon nzType="redo"></i>
+          </button>
+        </ng-container>
+        <!--    操作按钮扩展-->
+        <ng-container *ngFor="let action of options.actions">
+          <!--      不需要二次确认-->
+          <ng-container *ngIf="!action.confirm">
+            <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
+                    [disabled]="action.click.checkToClick&&!checkedData.size"
+                    (click)="actionClick(action)" nzType="default">
+              <i nz-icon [nzType]="action.icon"></i>
+            </button>
+          </ng-container>
+          <!--      需要二次确认-->
+          <ng-container *ngIf="action.confirm">
+            <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
+                    [disabled]="action.click.checkToClick&&!checkedData.size" nzType="default"
+                    nz-popconfirm [nzPopconfirmTitle]="formatConfirm(action.confirm)" (nzOnConfirm)="actionClick(action)">
+              <i nz-icon [nzType]="action.icon"></i>
+            </button>
+          </ng-container>
         </ng-container>
       </ng-container>
       <!--    拖放排序按钮-->
@@ -110,11 +113,10 @@
                 nz-tooltip [nzTooltipTitle]="!options.dragable?'点击拖曳排序':'保存排序结果'">
           <i nz-icon nzType="save" nzTheme="outline" *ngIf="options.dragable"></i>
           <i nz-icon nzType="sort-ascending" nzTheme="outline" *ngIf="!options.dragable"></i>
-
         </button>
       </ng-container>
       <!--    增加按钮-->
-      <ng-container *ngIf="options.create?.api">
+      <ng-container *ngIf="options.create?.api&&!options.dragable">
         <button (click)="edit({})" *nzSpaceItem nz-button nzType="default">
           <i nz-icon nzType="plus" class="ant-blue"></i>
         </button>
