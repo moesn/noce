@@ -34,7 +34,7 @@ export class NcListComponent implements OnInit {
   // 查询列表
   query(): void {
     this.loading = true;
-    this.http.query(this.options.api, {}, this.options.pipe).subscribe(
+    this.http.query(this.options.api, {}, this.options.parseReq, this.options.parseRes).subscribe(
       (res: any) => {
         if (res) {
           // 有数据时
@@ -132,7 +132,7 @@ export class NcListComponent implements OnInit {
       objectExtend(body, __eval.call(this, action.body))
     }
 
-    this.http.delete(action.api, body,action.pipe).subscribe((res: any) => {
+    this.http.delete(action.api, body,action.parseReq).subscribe((res: any) => {
       if (res) {
         this.datas = _.reject(this.datas, (d: any) => this.data[this.key] === d[this.key]);
         // 删除时默认选择第一个

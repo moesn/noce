@@ -88,7 +88,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       const mappingValue = res[this.navOption.key];
 
       // 点击导航时设置关联参数，返回全部时删除关联参数
-      if (mappingValue) {
+      if (mappingValue !== undefined) {
         this.body.exact[this.navOption.mappingKey] = mappingValue;
       } else {
         delete this.body.exact[this.navOption.mappingKey];
@@ -131,7 +131,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 如果有导航选项 & 当前tab有导航 & 导航必选 & 但没有关联导航，则阻止表格自动查询
     if (this.navOption && this.isCureentTab(this.navOption.tabIndex) &&
-      this.navOption.selected && !this.body.exact[this.navOption.mappingKey]) {
+      this.navOption.selected && this.body.exact[this.navOption.mappingKey] === undefined) {
       this.loading = false;
       return;
     }
@@ -176,7 +176,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     this.data = {};
     this.loading = true;
 
-    this.http.query(this.options.view.api, body, this.options.view.pipe).subscribe(
+    this.http.query(this.options.view.api, body, this.options.view.parseReq, this.options.view.parseRes).subscribe(
       (res: any) => {
         if (res) {
           // 有些接口没有数据返回的是null
@@ -293,7 +293,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       body = __eval.call(this, body)
     }
 
-    this.http.delete(action.api, body,action.pipe).subscribe((res: any) => {
+    this.http.delete(action.api, body, action.parseReq).subscribe((res: any) => {
       if (res) {
         // 表格数据删除一条
         this.datas = reject(this.datas, (d: any) => d[this.options.key] === data[this.options.key]);
@@ -375,7 +375,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       body = __eval.call(this, body)
     }
 
-    this.http.update(action.api, body, action.pipe).subscribe((res: any) => {
+    this.http.update(action.api, body, action.parseReq).subscribe((res: any) => {
       if (res) {
         this.data[column.key] = state;
       }
@@ -455,7 +455,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
         nzWrapClassName: ['nc', ...location.pathname.split('/'), action.icon].join('-'),
         nzWidth: option.view.width,
         nzStyle: {top: '12px'},
-        nzBodyStyle: {padding: '0 0 12px 0'},
+        nzBodyStyle: {padding: '0'},
         nzContent: NcTableComponent,
         nzComponentParams: {options: option},
         nzClosable: false,
@@ -479,7 +479,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
       this.loading = option.refresh || !!data;
       // 调用接口后需要刷新时重新查询数据
-      this.http.post(option.api, body, option.pipe).subscribe((res: any) => {
+      this.http.post(option.api, body, option.parseReq).subscribe((res: any) => {
           if (res && option.refresh) {
             this.query();
           } else {
@@ -511,7 +511,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 排序结束时保存排序
     if (!this.options.dragable) {
-      this.http.post(this.options.dragSort.api, body, this.options.dragSort.pipe).subscribe();
+      this.http.post(this.options.dragSort.api, body, this.options.dragSort.parseReq).subscribe();
     }
   }
 
@@ -604,13 +604,13 @@ export class NcTableComponent implements OnInit, OnDestroy {
           // 上传完成后刷新
           this.query();
         }
-      }, null, () => this.uploading = false
+      }, () => this.uploading = false, () => this.uploading = false
     );
   }
 
   // 下载
   download(action: any, data: any): void {
-    this.http.download(action.api, data, action.blob, action.filename, action.pipe);
+    this.http.download(action.api, data, action.blob, action.filename, action.parseReq);
   }
 
   // 重新加载页面

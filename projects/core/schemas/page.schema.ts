@@ -1587,9 +1587,14 @@ export const NM_PAGE_SCHEMA =
             "title": "接口参数",
             "$ref": "#body"
           },
-          "pipe": {
-            "title": "处理数据",
+          "parseReq": {
+            "title": "处理请求数据",
             "description": "调用服务接口之前处理数据",
+            "$ref": "#parse"
+          },
+          "parseRes": {
+            "title": "处理响应数据",
+            "description": "调用服务接口之后处理数据",
             "$ref": "#parse"
           }
         }

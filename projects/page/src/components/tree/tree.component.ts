@@ -33,7 +33,7 @@ export class NcTreeComponent implements OnInit {
 
   // 查询树数据
   query(): void {
-    this.http.post(this.options.api, {}, this.options.pipe).subscribe((res: any) => {
+    this.http.post(this.options.api, {}, this.options.parseReq).subscribe((res: any) => {
       if (res) {
         // 有组时，默认选中第一个组并查询表格数据
         if (_.isArray(res.data) && res.data.length) {
@@ -175,7 +175,7 @@ export class NcTreeComponent implements OnInit {
       objectExtend(body, __eval.call(this, action.body))
     }
 
-    this.http.delete(action.api, body,action.pipe).subscribe((res: any) => {
+    this.http.delete(action.api, body,action.parseReq).subscribe((res: any) => {
       if (res) {
         const parentNode = node.parentNode;
         if (parentNode) {

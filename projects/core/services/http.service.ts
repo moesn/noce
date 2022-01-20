@@ -63,7 +63,7 @@ export class NcHttpService {
   }
 
   // 查询数据
-  query(url: string, body: any, pipe?: string): Observable<any> {
+  query(url: string, body: any, parseReq?: string, parseRes?: string): Observable<any> {
     // 假装查询，常用于前端筛选/过滤/排序等
     if (url === null) {
       return of(true)
@@ -82,8 +82,8 @@ export class NcHttpService {
     this.lastQuery = {url, time: new Date().getTime(), bodyY, page: location.pathname};
 
     // 用户自定义数据处理
-    if (pipe) {
-      _eval(pipe)(bodyY);
+    if (parseReq) {
+      _eval(parseReq)(bodyY);
     }
 
     // 发送post请求
@@ -92,6 +92,12 @@ export class NcHttpService {
         // 返回数据状态码code是1
         if (this.isValidResponse(res)) {
           res.total = res.total || res.count;
+
+          // 用户自定义数据处理
+          if (parseRes) {
+            _eval(parseRes)(res.data);
+          }
+
           return res;
         } else {
           this.notify.error(res.msg || '系统错误');
@@ -102,7 +108,7 @@ export class NcHttpService {
   }
 
   // 编辑数据
-  post(url: string, body: any, pipe?: string, encrypt?: string[]): Observable<any> {
+  post(url: string, body: any, parseReq?: string, encrypt?: string[]): Observable<any> {
     // 不能复制FormData，例如上传数据
     if (!(body instanceof FormData)) {
       // 复制数据，防止异常时表单数据变化
@@ -119,8 +125,8 @@ export class NcHttpService {
     }
 
     // 用户自定义数据处理
-    if (pipe) {
-      _eval(pipe)(body);
+    if (parseReq) {
+      _eval(parseReq)(body);
     }
 
     // 发送post请求
@@ -137,22 +143,22 @@ export class NcHttpService {
   }
 
   // 更新状态等
-  update(url: string, body: any, pipe?: string): any {
+  update(url: string, body: any, parseReq?: string): any {
     // 用户自定义数据处理
-    if (pipe) {
-      _eval(pipe)(body);
+    if (parseReq) {
+      _eval(parseReq)(body);
     }
     return this.post(url, body);
   }
 
   // 删除数据
-  delete(url: string, body: any, pipe?: string): any {
+  delete(url: string, body: any, parseReq?: string): any {
     // 是否不需要删除确认
     const nocon = sessionStorage.getItem(url);
 
     // 用户自定义数据处理
-    if (pipe) {
-      _eval(pipe)(body);
+    if (parseReq) {
+      _eval(parseReq)(body);
     }
 
     if (nocon === 'true') {
@@ -174,7 +180,7 @@ export class NcHttpService {
   }
 
   // 下载文件
-  download(url: string, body?: any, blob?: boolean, filename?: string, pipe?: string): void {
+  download(url: string, body?: any, blob?: boolean, filename?: string, parseReq?: string): void {
     // 删除分页参数
     delete body.pageIndex;
     delete body.pageSize;
@@ -182,8 +188,8 @@ export class NcHttpService {
     const bodyY = this.buildBody(body);
 
     // 用户自定义数据处理
-    if (pipe) {
-      _eval(pipe)(bodyY);
+    if (parseReq) {
+      _eval(parseReq)(bodyY);
     }
 
     // 直链下载
