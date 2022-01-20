@@ -59,6 +59,11 @@ export const NM_PAGE_SCHEMA =
             "type": "object",
 
             "properties": {
+              "titleId": {
+                "title": "表格标题ID",
+                "type": "string",
+                "minLength": 1
+              },
               "titleColor": {
                 "$id": "#color",
                 "title": "表格标题颜色",

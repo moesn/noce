@@ -58,6 +58,11 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "titleId": {
+              "title": "表格标题ID",
+              "type": "string",
+              "minLength": 1
+            },
             "titleColor": {
               "$id": "#color",
               "title": "表格标题颜色",

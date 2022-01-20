@@ -78,12 +78,13 @@ const COMPONENTS = [
 
 @NgModule({
   declarations: COMPONENTS,
-  imports: [
-    ...NG_MODULES,
-    ...NZ_MODULES,
-    NcPageRoutingModule,
-    CommonModule
-  ],
+    imports: [
+        ...NG_MODULES,
+        ...NZ_MODULES,
+        NcPageRoutingModule,
+        CommonModule,
+        CommonModule
+    ],
 })
 export class NcPageModule {
 }

@@ -7,7 +7,7 @@
     <nz-space *ngIf="tabOption" class="ant-left">
       <ng-container *ngFor="let _tab of tabOption">
         <ng-container *ngIf="_tab.view?.api">
-          <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab===tab?'primary':'default'" nz-button>
+          <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab===tab?'primary':'default'" nz-button [id]="_tab.style?.titleId">
             <span class="{{'ant-'+_tab.style?.titleColor}}">{{_tab.title}}</span>
           </button>
         </ng-container>
