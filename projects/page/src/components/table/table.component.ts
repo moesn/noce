@@ -184,7 +184,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
           this.total = res.total;
 
           // 是否初始化数据
-          this.datas.forEach(data => data._isInit = data[this.key].toString().startsWith('-'));
+          this.datas.forEach(data => data._isInit = data[this.key].toString().startsWith('-') || data.isInit);
 
           const parse = this.options.view.parseData;
           // 如果需要解析表格数据
@@ -248,8 +248,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
         nav: this.nav
       },
       nzClosable: false,
-      nzKeyboard: false,
-      nzMaskClosable: false,
+      nzKeyboard: true,
+      nzMaskClosable: true,
     });
 
     this.drawerRef.afterClose.subscribe((res: any) => {

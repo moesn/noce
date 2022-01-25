@@ -44,10 +44,10 @@ const ngZorroConfig: NzConfig = {
     nzHoverable: true,
   },
   drawer: {
-    nzMaskClosable: false,
+    nzMaskClosable: true,
   },
   modal: {
-    nzMaskClosable: false,
+    nzMaskClosable: true,
   }
 };
 

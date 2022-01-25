@@ -120,8 +120,8 @@ export class NcTreeComponent implements OnInit {
         data: this.data
       },
       nzClosable: false,
-      nzKeyboard: false,
-      nzMaskClosable: false,
+      nzKeyboard: true,
+      nzMaskClosable: true,
     });
 
     this.drawerRef.afterClose.subscribe((res: any) => {

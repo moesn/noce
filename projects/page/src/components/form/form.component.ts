@@ -42,7 +42,7 @@ export class NcFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.cols = this.options[0].cols;
-    this._isInit = this.data[this.key]?.toString().startsWith('-');
+    this._isInit = this.data[this.key]?.toString().startsWith('-')||this.data.isInit;
 
     // 合并所有表单项
     this.fields = _.flatten(_.zipWith(this.options, (o: any) => o.fields));

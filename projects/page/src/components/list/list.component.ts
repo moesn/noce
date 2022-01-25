@@ -94,8 +94,8 @@ export class NcListComponent implements OnInit {
         data: data
       },
       nzClosable: false,
-      nzKeyboard: false,
-      nzMaskClosable: false,
+      nzKeyboard: true,
+      nzMaskClosable: true,
     });
 
     this.drawerRef.afterClose.subscribe((res: any) => {

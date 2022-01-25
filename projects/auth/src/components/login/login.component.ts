@@ -60,6 +60,8 @@ export class NcLoginComponent implements OnInit {
         if (result.getResponse().code !== getAppOption('okCode')) {
           this.notify.blank(result.getMessage(), '', {nzClass: 'ant-bg-warning'});
         } else {
+          // 存储其它信息
+          sessionStorage.setItem('isRawPwd', result.getResponse().data.isRawPwd);
           // 跳转到首页, 服务端返回重定向就用服务端的，没有就用配置的首页
           location.href = getAppOption('base') + '/' + (result.getRedirect() || getAppOption('home'));
         }

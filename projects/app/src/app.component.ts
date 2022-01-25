@@ -55,7 +55,7 @@ export class NcAppComponent implements OnInit {
     const paylod = token.getPayload()
     this.username = paylod.userId;
     // 初始默认密码强制修改
-    this.pwding = this.isRawPwd = paylod.isRawPwd;
+    this.pwding = this.isRawPwd = sessionStorage.getItem('isRawPwd') === 'true';
   }
 
   ngOnInit(): void {
