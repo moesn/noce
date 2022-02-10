@@ -53,6 +53,9 @@ export class NcPageComponent implements OnDestroy {
 
   // 加载页面配置选项
   loadOption(force: boolean): void {
+    // 新页面重置是否显示导航
+    this.navShow = true;
+
     // /page/xx/yy -> /schemas/xx/yy.schema.json
     const schemaPath = location.pathname.replace(getAppOption('base'), 'schemas') + '.schema.json';
     // 由于异步渲染的原因，路由跳转时，需要先清除页面
