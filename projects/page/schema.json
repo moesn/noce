@@ -46,6 +46,9 @@
       "$id": "#table",
       "title": "表格配置",
       "type": "object",
+      "required": [
+        "view"
+      ],
       "additionalProperties": false,
       "properties": {
         "title": {
@@ -695,9 +698,26 @@
                     ]
                   },
                   {
-                    "title": "点击后弹出表格",
-                    "$ref": "#table",
-                    "required": ["view"]
+                    "title": "弹出新页面",
+                    "type": "object",
+                    "required": [
+                      "table"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "table": {
+                        "title": "右侧表格",
+                        "$ref": "#table"
+                      },
+                      "tabs": {
+                        "title": "表格标签",
+                        "$ref": "#tabs"
+                      },
+                      "navs": {
+                        "title": "表格导航",
+                        "$ref": "#navs"
+                      }
+                    }
                   }
                 ]
               }

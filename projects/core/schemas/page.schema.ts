@@ -47,7 +47,9 @@ export const NM_PAGE_SCHEMA =
         "$id": "#table",
         "title": "表格配置",
         "type": "object",
-
+        "required": [
+          "view"
+        ],
         "properties": {
           "title": {
             "title": "表格标题",
@@ -696,9 +698,25 @@ export const NM_PAGE_SCHEMA =
                       ]
                     },
                     {
-                      "title": "点击后弹出表格",
-                      "$ref": "#table",
-                      "required": ["view"]
+                      "title": "弹出新页面",
+                      "type": "object",
+                      "required": [
+                        "table"
+                      ],
+                      "properties": {
+                        "table": {
+                          "title": "右侧表格",
+                          "$ref": "#table"
+                        },
+                        "tabs": {
+                          "title": "表格标签",
+                          "$ref": "#tabs"
+                        },
+                        "navs": {
+                          "title": "表格导航",
+                          "$ref": "#navs"
+                        }
+                      }
                     }
                   ]
                 }

@@ -1,5 +1,6 @@
 import {Component, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+// @ts-ignore
 import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import * as _ from 'lodash-es';
@@ -108,7 +109,7 @@ export class NcHttpService {
   }
 
   // 编辑数据
-  post(url: string, body: any, parseReq?: string, encrypt?: string[]): Observable<any> {
+  post(url: string, body: any, parseReq?: string, parseRes?: string, encrypt?: string[]): Observable<any> {
     // 不能复制FormData，例如上传数据
     if (!(body instanceof FormData)) {
       // 复制数据，防止异常时表单数据变化
@@ -130,9 +131,14 @@ export class NcHttpService {
     }
 
     // 发送post请求
-    return this.http.post(url, body).pipe(
+    return this.http.post(url, this.buildBody(body)).pipe(
       map((res: any) => {
         if (this.isValidResponse(res)) {
+          // 用户自定义数据处理
+          if (parseRes) {
+            _eval(parseRes)(res.data);
+          }
+
           return res;
         } else {
           this.notify.error(res.msg || '系统错误');
@@ -140,15 +146,6 @@ export class NcHttpService {
         }
       })
     );
-  }
-
-  // 更新状态等
-  update(url: string, body: any, parseReq?: string): any {
-    // 用户自定义数据处理
-    if (parseReq) {
-      _eval(parseReq)(body);
-    }
-    return this.post(url, body);
   }
 
   // 删除数据

@@ -9,6 +9,7 @@ import {NcFormComponent} from '..';
 import {differenceInCalendarDays, format} from 'date-fns';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzUploadFile} from 'ng-zorro-antd/upload';
+import {NcPageComponent} from '../../page.component';
 
 @Component({
   selector: 'nc-table',
@@ -85,13 +86,13 @@ export class NcTableComponent implements OnInit, OnDestroy {
       // 记录导航项的数据，供自定义操作使用
       this.nav = res;
       // 关联的值
-      const mappingValue = res[this.navOption.key];
+      const mappingValue = res[this.navOption?.key];
 
       // 点击导航时设置关联参数，返回全部时删除关联参数
       if (mappingValue !== undefined) {
-        this.body.exact[this.navOption.mappingKey] = mappingValue;
+        this.body.exact[this.navOption?.mappingKey] = mappingValue;
       } else {
-        delete this.body.exact[this.navOption.mappingKey];
+        delete this.body.exact[this.navOption?.mappingKey];
       }
 
       // 切换回第一页，切换了分页会触发查询，不用执行query
@@ -118,7 +119,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     objectExtend(this.body, params);
 
     // 防止切换tab时，导航从无到有时，导航select的重复查询
-    if (this.navState === 'f2t' && this.navOption.selected) {
+    if (this.navState === 'f2t' && this.navOption?.selected) {
       this.loading = false;
       return;
     }
@@ -130,8 +131,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
     }
 
     // 如果有导航选项 & 当前tab有导航 & 导航必选 & 但没有关联导航，则阻止表格自动查询
-    if (this.navOption && this.isCureentTab(this.navOption.tabIndex) &&
-      this.navOption.selected && this.body.exact[this.navOption.mappingKey] === undefined) {
+    if (this.navOption && this.isCureentTab(this.navOption?.tabIndex) &&
+      this.navOption?.selected && this.body.exact[this.navOption?.mappingKey] === undefined) {
       this.loading = false;
       return;
     }
@@ -160,7 +161,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 导航从有到无时删除导航关联字段
     if (this.navState === 't2f' && body.exact) {
-      delete body.exact[this.navOption.mappingKey];
+      delete body.exact[this.navOption?.mappingKey];
     }
 
     // 不同tab的timeKey可能不同，替换timeKey
@@ -262,7 +263,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
         }
 
         // 有导航时刷新页面
-        if (this.navOption && this.isCureentTab(this.navOption.tabIndex)) {
+        if (this.navOption && this.isCureentTab(this.navOption?.tabIndex)) {
           this.query({});
         } else {
           // 编辑前的数据有主键时是修改操作
@@ -309,7 +310,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     this.checkedData.clear();
 
     // tab切换前无导航
-    if (this.tab && !this.isCureentTab(this.navOption.tabIndex)) {
+    if (this.tab && !this.isCureentTab(this.navOption?.tabIndex)) {
       this.navState = 'f';
     } else {
       this.navState = 't';
@@ -320,14 +321,14 @@ export class NcTableComponent implements OnInit, OnDestroy {
     this.body.fuzzy.keyword = '';
 
     // tab切换后有导航
-    if (this.isCureentTab(this.navOption.tabIndex)) {
+    if (this.isCureentTab(this.navOption?.tabIndex)) {
       this.navState += '2t';
     } else {
       this.navState += '2f';
     }
 
     // 是否显示导航
-    this.event.emit('TAB_CLICK', this.isCureentTab(this.navOption.tabIndex));
+    this.event.emit('TAB_CLICK', this.isCureentTab(this.navOption?.tabIndex));
 
     // 备份公共table选项
     if (!this.optionsBak) {
@@ -375,7 +376,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       body = __eval.call(this, body)
     }
 
-    this.http.update(action.api, body, action.parseReq).subscribe((res: any) => {
+    this.http.post(action.api, body, action.parseReq, action.parseRes).subscribe((res: any) => {
       if (res) {
         this.data[column.key] = state;
       }
@@ -446,18 +447,33 @@ export class NcTableComponent implements OnInit, OnDestroy {
       this.data = data;
     }
     // 表格弹窗
-    if (option.view) {
+    if (option.table) {
+      const view = option.table.view;
       // 弹窗简单分页，不能重载页面
-      option.view.simple = true;
-      option.view.reload = false;
+      view.simple = true;
+      view.reload = false;
+
+      // 合并用户配置的参数
+      if (view.body) {
+        view.body = __eval.call(this, view.body);
+      }
+
+      // 合并tab页的参数
+      if (option.tabs) {
+        option.tabs.forEach((tab: any) => {
+          if (tab.view?.body) {
+            tab.view.body = __eval.call(this, tab.view.body);
+          }
+        });
+      }
 
       this.modal.create({
         nzWrapClassName: ['nc', ...location.pathname.split('/'), action.icon].join('-'),
-        nzWidth: option.view.width,
+        nzWidth: view.width,
         nzStyle: {top: '12px'},
         nzBodyStyle: {padding: '0'},
-        nzContent: NcTableComponent,
-        nzComponentParams: {options: option},
+        nzContent: NcPageComponent,
+        nzComponentParams: {table: option.table, tabs: option.tabs, navs: option.navs},
         nzClosable: false,
         nzMaskClosable: true,
         nzFooter: null
@@ -479,7 +495,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
       this.loading = option.refresh || !!data;
       // 调用接口后需要刷新时重新查询数据
-      this.http.post(option.api, body, option.parseReq).subscribe((res: any) => {
+      this.http.post(option.api, body, option.parseReq, option.parseRes).subscribe((res: any) => {
           if (res && option.refresh) {
             this.query();
           } else {
@@ -511,7 +527,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 排序结束时保存排序
     if (!this.options.dragable) {
-      this.http.post(this.options.dragSort.api, body, this.options.dragSort.parseReq).subscribe();
+      this.http.post(this.options.dragSort.api, body, this.options.dragSort.parseReq, this.options.dragSort.parseRes).subscribe();
     }
   }
 
