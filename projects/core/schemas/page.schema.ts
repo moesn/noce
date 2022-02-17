@@ -1614,6 +1614,11 @@ export const NM_PAGE_SCHEMA =
             "title": "处理响应数据",
             "description": "调用服务接口之后处理数据",
             "$ref": "#parse"
+          },
+          "successMsg": {
+            "title": "成功提示信息",
+            "type": "string",
+            "minLength": 1
           }
         }
       }

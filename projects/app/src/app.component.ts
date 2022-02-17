@@ -135,7 +135,7 @@ export class NcAppComponent implements OnInit {
     body[this.passwd.body.newKey] = this.pwdData.newPwd;
     body[this.passwd.body.idKey] = this.username;
 
-    this.ncHttp.post(url, body, '','', [this.passwd.body.oldKey, this.passwd.body.newKey]).subscribe({
+    this.ncHttp.post(url, body, '', '', '', [this.passwd.body.oldKey, this.passwd.body.newKey]).subscribe({
       next: (res: any) => {
         // 密码修改成功后需退出重新登录
         if (res) {

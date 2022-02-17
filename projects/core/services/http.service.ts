@@ -109,7 +109,7 @@ export class NcHttpService {
   }
 
   // 编辑数据
-  post(url: string, body: any, parseReq?: string, parseRes?: string, encrypt?: string[]): Observable<any> {
+  post(url: string, body: any, parseReq?: string, parseRes?: string, successMsg?: string, encrypt?: string[]): Observable<any> {
     // 不能复制FormData，例如上传数据
     if (!(body instanceof FormData)) {
       // 复制数据，防止异常时表单数据变化
@@ -139,6 +139,9 @@ export class NcHttpService {
             _eval(parseRes)(res.data);
           }
 
+          if (successMsg) {
+            this.notify.success(successMsg);
+          }
           return res;
         } else {
           this.notify.error(res.msg || '系统错误');

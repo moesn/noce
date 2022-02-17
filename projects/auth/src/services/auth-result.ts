@@ -14,6 +14,8 @@ export class NcAuthResult {
       this.retoken = getValueFromObject(response, getAuthOption('success.refreshTokenKey'));
       this.redirect = getValueFromObject(response, getAuthOption('success.redirectKey'));
       this.message = getValueFromObject(response, 'msg');
+    } else {
+      this.message = '请联系管理员，' + (response.error?.msg || response.statusText || response.error || response.message || response.name || response.status)
     }
   }
 

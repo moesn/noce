@@ -79,8 +79,10 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 订阅导航点击事件
     this.navClickEvent = this.event.on('NAV_CLICK').subscribe((res: any) => {
-      // 清除已选数据
+      // 清除数据
+      this.datas = [];
       this.checkedData.clear();
+
       // 重置tab切换
       this.navState = '';
       // 记录导航项的数据，供自定义操作使用
@@ -306,7 +308,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   // 多标签时切换标签事件
   switchTab(tab: any): void {
-    // 清除已选数据
+    // 清除数据
+    this.datas = [];
     this.checkedData.clear();
 
     // tab切换前无导航
@@ -376,7 +379,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       body = __eval.call(this, body)
     }
 
-    this.http.post(action.api, body, action.parseReq, action.parseRes).subscribe((res: any) => {
+    this.http.post(action.api, body, action.parseReq, action.parseRes,action.successMsg).subscribe((res: any) => {
       if (res) {
         this.data[column.key] = state;
       }
@@ -441,7 +444,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   // 表格扩展按钮点击事件
   actionClick(action: any, data?: any): void {
-    const option = action.click;
+    // 克隆选项，防止动态参数只能赋值一次
+    const option = _.cloneDeep(action.click);
     // 表格列操作时，记录当前操作数据
     if (data) {
       this.data = data;
@@ -449,8 +453,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 表格弹窗
     if (option.table) {
       const view = option.table.view;
-      // 弹窗简单分页，不能重载页面
-      view.simple = true;
+      // 不能重载页面
       view.reload = false;
 
       // 合并用户配置的参数
@@ -495,7 +498,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
       this.loading = option.refresh || !!data;
       // 调用接口后需要刷新时重新查询数据
-      this.http.post(option.api, body, option.parseReq, option.parseRes).subscribe((res: any) => {
+      this.http.post(option.api, body, option.parseReq, option.parseRes,option.successMsg).subscribe((res: any) => {
           if (res && option.refresh) {
             this.query();
           } else {
@@ -527,7 +530,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 排序结束时保存排序
     if (!this.options.dragable) {
-      this.http.post(this.options.dragSort.api, body, this.options.dragSort.parseReq, this.options.dragSort.parseRes).subscribe();
+      this.http.post(this.options.dragSort.api, body, this.options.dragSort.parseReq, this.options.dragSort.parseRes,this.options.dragSort.successMsg).subscribe();
     }
   }
 
