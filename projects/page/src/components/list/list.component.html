@@ -16,7 +16,7 @@
       <i (click)="delete()" *nzSpaceItem nz-icon nzType="delete" class="ant-red"></i>
     </ng-container>
   </nz-space>
-  <i (click)="rollback()" nz-icon nzType="rollback" class="ant-right" *ngIf="!options.selected&&data[key]"
+  <i (click)="rollback()" nz-icon nzType="rollback" class="ant-right" *ngIf="!options.selected&&data[key]!==undefined"
      nz-tooltip nzTooltipTitle="返回全部"></i>
 </ng-template>
 <nz-card [nzTitle]="listTitle">

@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+//@ts-ignore
 import {Observable, of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {NcAuthResult} from './auth-result';
@@ -23,7 +24,7 @@ export class NcAuthService {
       // 访问token失效了
       if (!isValidJwtToken(token)) {
         // 刷新Token，刷新成功返回token是否有效，刷新失败返回false
-        return this.refreshToken().pipe(switchMap(res => {
+        return this.refreshToken().pipe(switchMap((res: any) => {
             if (res.isSuccess()) {
               return of(isValidJwtToken(res.getToken()));
             } else {

@@ -34,7 +34,7 @@ export class NcLoginComponent implements OnInit {
 
   // 获取验证码
   getVercode(): void {
-    this.authService.getVercode().subscribe((codeimg) => {
+    this.authService.getVercode().subscribe((codeimg: any) => {
       // 信任验证码
       this.codeimg = this.sanitizer.bypassSecurityTrustUrl(codeimg);
     });

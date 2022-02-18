@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+//@ts-ignore
 import {Observable, of} from 'rxjs';
 import {NcAuthService} from '../auth.service';
 import {catchError, map, switchMap} from 'rxjs/operators';
