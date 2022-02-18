@@ -79,10 +79,6 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 订阅导航点击事件
     this.navClickEvent = this.event.on('NAV_CLICK').subscribe((res: any) => {
-      // 清除数据
-      this.datas = [];
-      this.checkedData.clear();
-
       // 重置tab切换
       this.navState = '';
       // 记录导航项的数据，供自定义操作使用
@@ -115,6 +111,10 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   // 查询表格数据
   query(params?: any): void {
+    // 清除数据
+    this.datas = [];
+    this.checkedData.clear();
+
     // 查询参数
     let body: any = {};
     // 记录分页、过滤、排序等表格查询参数
@@ -308,10 +308,6 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   // 多标签时切换标签事件
   switchTab(tab: any): void {
-    // 清除数据
-    this.datas = [];
-    this.checkedData.clear();
-
     // tab切换前无导航
     if (this.tab && !this.isCureentTab(this.navOption?.tabIndex)) {
       this.navState = 'f';
@@ -379,7 +375,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
       body = __eval.call(this, body)
     }
 
-    this.http.post(action.api, body, action.parseReq, action.parseRes,action.successMsg).subscribe((res: any) => {
+    this.http.post(action.api, body,
+      {parseReq: action.parseReq, parseRes:action.parseRes,successMsg:action.successMsg}
+    ).subscribe((res: any) => {
       if (res) {
         this.data[column.key] = state;
       }
@@ -498,7 +496,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
       this.loading = option.refresh || !!data;
       // 调用接口后需要刷新时重新查询数据
-      this.http.post(option.api, body, option.parseReq, option.parseRes,option.successMsg).subscribe((res: any) => {
+      this.http.post(option.api, body,
+        {parseReq:option.parseReq, parseRes:option.parseRes,successMsg:option.successMsg}
+        ).subscribe((res: any) => {
           if (res && option.refresh) {
             this.query();
           } else {
@@ -530,7 +530,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 排序结束时保存排序
     if (!this.options.dragable) {
-      this.http.post(this.options.dragSort.api, body, this.options.dragSort.parseReq, this.options.dragSort.parseRes,this.options.dragSort.successMsg).subscribe();
+      this.http.post(this.options.dragSort.api, body,
+        {parseReq:this.options.dragSort.parseReq, parseRes:this.options.dragSort.parseRes,successMsg:this.options.dragSort.successMsg}).subscribe();
     }
   }
 

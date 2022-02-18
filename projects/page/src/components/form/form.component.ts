@@ -90,7 +90,9 @@ export class NcFormComponent implements OnInit {
 
         // 1、初始化时没有key，配置了api，且不需要触发加载；2、根据key延迟获取数据
         if (((!key && !select.trigger) || select.trigger === key) && select.api) {
-          this.http.post(select.api, body, select.parseReq, select.parseRes, select.successMsg).subscribe((res: any) => {
+          this.http.post(select.api, body,
+            {parseReq: select.parseReq, parseRes: select.parseRes, successMsg: select.successMsg}
+          ).subscribe((res: any) => {
             if (res) {
               // 生成下拉选择项label和value
               const options: any = [];
@@ -116,7 +118,9 @@ export class NcFormComponent implements OnInit {
             objectExtend(body, __eval.call(this, tree.body))
           }
 
-          this.http.post(tree.api, body, tree.parseReq, tree.parseRes, tree.successMsg).subscribe((res: any) => {
+          this.http.post(tree.api, body,
+            {parseReq: tree.parseReq, parseRes: tree.parseRes, successMsg: tree.successMsg}
+          ).subscribe((res: any) => {
             if (res) {
               // 将列表转换成树型结构，更新下拉选择数据
               tree.nodes = arrayToTree(res.data, tree);
@@ -136,7 +140,9 @@ export class NcFormComponent implements OnInit {
           }
 
           // 查询所有选项数据
-          this.http.post(tree.all.api, allBody, tree.all.parseReq, tree.all.parseRes, tree.all.successMsg).subscribe((res: any) => {
+          this.http.post(tree.all.api, allBody,
+            {parseReq: tree.all.parseReq, parseRes: tree.all.parseRes, successMsg: tree.all.successMsg}
+          ).subscribe((res: any) => {
             if (res) {
               // 默认不可点击，内置不可操作
               res.data.forEach((d: any) => {
@@ -165,7 +171,9 @@ export class NcFormComponent implements OnInit {
             }
 
             // 查询已选数据
-            this.http.post(tree.checked.api, checkedBody, tree.checked.parseReq, tree.checked.parseRes, tree.checked.successMsg).subscribe((res: any) => {
+            this.http.post(tree.checked.api, checkedBody,
+              {parseReq: tree.checked.parseReq, parseRes: tree.checked.parseRes, successMsg: tree.checked.successMsg}
+            ).subscribe((res: any) => {
               if (res) {
                 // 将列表转换成树型结构
                 this.data[field.key] = res.data;
@@ -272,7 +280,9 @@ export class NcFormComponent implements OnInit {
       _eval(beforeSave)(body);
     }
 
-    this.http.post(this.action.api, body, this.action.parseReq, this.action.parseRes, this.action.successMsg, this.passwords).subscribe({
+    this.http.post(this.action.api, body,
+      {parseReq: this.action.parseReq, parseRes: this.action.parseRes, successMsg: this.action.successMsg}
+      , this.passwords).subscribe({
       next: (res: any) => {
         if (res) {
           // 保存成功，关闭弹窗

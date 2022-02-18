@@ -109,7 +109,9 @@ export class NcHttpService {
   }
 
   // 编辑数据
-  post(url: string, body: any, parseReq?: string, parseRes?: string, successMsg?: string, encrypt?: string[]): Observable<any> {
+  post(url: string, body: any, options?: { parseReq?: string, parseRes: string, successMsg: string }, encrypt?: string[]): Observable<any> {
+    const {parseReq, parseRes, successMsg} = options || {};
+
     // 不能复制FormData，例如上传数据
     if (!(body instanceof FormData)) {
       // 复制数据，防止异常时表单数据变化
