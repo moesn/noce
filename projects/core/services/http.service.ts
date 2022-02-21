@@ -65,6 +65,8 @@ export class NcHttpService {
 
   // 查询数据
   query(url: string, body: any, parseReq?: string, parseRes?: string): Observable<any> {
+    url = this.redirectUrl(url);
+
     // 假装查询，常用于前端筛选/过滤/排序等
     if (url === null) {
       return of(true)
@@ -110,6 +112,8 @@ export class NcHttpService {
 
   // 编辑数据
   post(url: string, body: any, options?: { parseReq?: string, parseRes: string, successMsg: string }, encrypt?: string[]): Observable<any> {
+    url = this.redirectUrl(url);
+
     const {parseReq, parseRes, successMsg} = options || {};
 
     // 不能复制FormData，例如上传数据
@@ -155,6 +159,8 @@ export class NcHttpService {
 
   // 删除数据
   delete(url: string, body: any, parseReq?: string): any {
+    url = this.redirectUrl(url);
+
     // 是否不需要删除确认
     const nocon = sessionStorage.getItem(url);
 
@@ -183,6 +189,8 @@ export class NcHttpService {
 
   // 下载文件
   download(url: string, body?: any, blob?: boolean, filename?: string, parseReq?: string): void {
+    url = this.redirectUrl(url);
+
     // 删除分页参数
     delete body.pageIndex;
     delete body.pageSize;
@@ -289,6 +297,22 @@ export class NcHttpService {
   isValidResponse(res: any): boolean {
     // 返回数据是{}对象，并且状态码正确
     return isPlainObject(res) && (res.code === getAppOption('okCode'));
+  }
+
+  // 测试
+  redirectUrl(url: string): string {
+    // todo delete
+    if (!location.origin.includes('10.3.0.33') && url.includes('api')) {
+      if (location.origin.includes('8888')) {
+        // zj
+        return 'http://172.16.2.135:8888' + url;
+      } else if (location.origin.includes('9999')) {
+        // ld
+        return 'http://10.3.2.1:9999' + url;
+      }
+    }
+
+    return url
   }
 }
 

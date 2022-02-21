@@ -431,7 +431,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       // 超长数据省略显示
       const maxChar = this.options.view.ellipsis
       if (data && data.toString().length > maxChar) {
-        res = data.toString().substring(0, maxChar) + '...';
+        res = data.toString().substring(0, maxChar);
       } else {
         res = data;
       }

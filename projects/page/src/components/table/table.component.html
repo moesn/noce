@@ -193,6 +193,7 @@
               [class]="formatColor(data[column.key],column.color)"
               [nzTooltipTrigger]="(column.tipKey||data[column.key]?.length>options.view.ellipsis)?'hover':null">
             {{formatData(data[column.key], column)}}
+            <span class="ant-blue" *ngIf="column.tipKey||data[column.key]?.length>options.view.ellipsis">...</span>
           </td>
           <!--        图标-->
           <td *ngIf="column.type==='icon'">
