@@ -105,6 +105,20 @@ export const NM_AUTH_SCHEMA =
           }
         },
         "default": {}
+      },
+      "payload": {
+        "title": "认证成功后返回token内容",
+        "type": "object",
+
+        "properties": {
+          "usernameKey": {
+            "title": "用于显示的用户名的key",
+            "type": "string",
+            "minLength": 1,
+            "default": "username"
+          }
+        },
+        "default": {}
       }
     },
     "required": [

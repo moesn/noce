@@ -16,17 +16,17 @@
         <!--    上传-->
         <ng-container *ngIf="options.upload?.api">
           <button *nzSpaceItem [nzTooltipTitle]="options.upload.tip" nz-button nz-tooltip nzType="default"
-                  [nzPopoverContent]="restorePop" [nzPopoverMouseLeaveDelay]="3600" nz-popover nzPopoverTrigger="click">
+                  [nzPopoverContent]="uploadPop" [nzPopoverMouseLeaveDelay]="3600" nz-popover nzPopoverTrigger="click">
             <i nz-icon nzType="cloud-upload"></i>
           </button>
-          <ng-template #restorePop>
+          <ng-template #uploadPop>
             <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [nzAccept]="options.upload.accept">
               <button nz-button nzType="default">
                 <i nz-icon nzType="upload"></i>
                 选择文件
               </button>
             </nz-upload>
-            <button (click)="upload(options.upload.api)" [disabled]="fileList.length === 0"
+            <button (click)="upload(options.upload)" [disabled]="fileList.length === 0"
                     [nzLoading]="uploading" nzType="default" nz-button style="margin-top: 16px">
               {{ uploading ? '上传中...' : '上传' }}
             </button>
@@ -191,9 +191,9 @@
           <td *ngIf="column.type==='text'" nz-tooltip [ngClass]="{'ant-blue':column.tipKey}"
               [nzTooltipTitle]="data[column.tipKey]||data[column.key]"
               [class]="formatColor(data[column.key],column.color)"
-              [nzTooltipTrigger]="(column.tipKey||data[column.key]?.length>options.view.ellipsis)?'hover':null">
+              [nzTooltipTrigger]="(column.tipKey||data[column.key]?.length>column.ellipsis)?'hover':null">
             {{formatData(data[column.key], column)}}
-            <span class="ant-blue" *ngIf="column.tipKey||data[column.key]?.length>options.view.ellipsis">...</span>
+            <span class="ant-blue" *ngIf="column.tipKey||data[column.key]?.length>column.ellipsis">...</span>
           </td>
           <!--        图标-->
           <td *ngIf="column.type==='icon'">
@@ -206,6 +206,7 @@
                        [ngModel]="data[column.key]===column.switch.on"
                        [nzCheckedChildren]="column.switch.labelOn"
                        [nzUnCheckedChildren]="column.switch.labelOff"
+                       [disabled]="isTrue(column.switch.readonly,data)"
                        *ngIf="data[column.key]===column.switch.on||data[column.key]===column.switch.off"
             ></nz-switch>
             <!--          非开和关-->

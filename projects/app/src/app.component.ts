@@ -52,8 +52,8 @@ export class NcAppComponent implements OnInit {
     this.loginBg = getAppOption('images.loginBg');
     this.passwd = getAuthOption('passwd');
 
-    const paylod = token.getPayload()
-    this.username = paylod.userId;
+    const payload = token.getPayload()
+    this.username = payload[getAuthOption('payload.usernameKey')];
     // 初始默认密码强制修改
     this.pwding = this.isRawPwd = sessionStorage.getItem('isRawPwd') === 'true';
   }

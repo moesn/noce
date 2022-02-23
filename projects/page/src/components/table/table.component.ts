@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {NcEventService, NcHttpService} from 'noce/core';
+import {getAuthOption, NcEventService, NcHttpService} from 'noce/core';
 import {__eval, _eval, objectExtend} from 'noce/helper';
 import * as _ from 'lodash-es';
 import {reject} from 'lodash-es';
@@ -10,6 +10,7 @@ import {differenceInCalendarDays, format} from 'date-fns';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzUploadFile} from 'ng-zorro-antd/upload';
 import {NcPageComponent} from '../../page.component';
+import {NcTokenService} from 'noce/auth';
 
 @Component({
   selector: 'nc-table',
@@ -61,7 +62,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
   constructor(private drawer: NzDrawerService,
               private modal: NzModalService,
               private http: NcHttpService,
-              private event: NcEventService) {
+              private event: NcEventService,
+              private token: NcTokenService) {
     const content: any = document.getElementsByTagName('nz-content')[0];
     this.height = content.offsetHeight - 175 + 'px';
   }
@@ -376,12 +378,22 @@ export class NcTableComponent implements OnInit, OnDestroy {
     }
 
     this.http.post(action.api, body,
-      {parseReq: action.parseReq, parseRes:action.parseRes,successMsg:action.successMsg}
+      {parseReq: action.parseReq, parseRes: action.parseRes, successMsg: action.successMsg}
     ).subscribe((res: any) => {
       if (res) {
-        this.data[column.key] = state;
+        this.data[column.key] = state ? column.switch.on : column.switch.off;
       }
     });
+  }
+
+  // switch是否只读
+  isTrue(value: boolean | string, data: any): boolean {
+    if (_.isString(value)) {
+      const payload = this.token.getPayload()
+      return _eval(value)({...data, username: payload[getAuthOption('payload.usernameKey')]});
+    } else {
+      return value;
+    }
   }
 
   // 格式化显示颜色
@@ -429,7 +441,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       }
     } else {
       // 超长数据省略显示
-      const maxChar = this.options.view.ellipsis
+      const maxChar = column.ellipsis
       if (data && data.toString().length > maxChar) {
         res = data.toString().substring(0, maxChar);
       } else {
@@ -609,14 +621,21 @@ export class NcTableComponent implements OnInit, OnDestroy {
   };
 
   // 上传
-  upload(api: string): void {
+  upload(option: any): void {
     const formData = new FormData();
     this.fileList.forEach((file: any) => {
       formData.append('file', file);
     });
 
+    // 合并用户配置的参数
+    if (option.body) {
+      _.forEach(__eval.call(this, option.body), (val: any, key: string) => {
+        formData.append(key, val);
+      })
+    }
+
     this.uploading = true;
-    this.http.post(api, formData).subscribe(
+    this.http.post(option.api, formData).subscribe(
       (res: any) => {
         if (res) {
           this.uploading = false;

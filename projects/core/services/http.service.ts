@@ -116,10 +116,8 @@ export class NcHttpService {
 
     const {parseReq, parseRes, successMsg} = options || {};
 
-    // 不能复制FormData，例如上传数据
     if (!(body instanceof FormData)) {
-      // 复制数据，防止异常时表单数据变化
-      body = _.cloneDeep(body);
+      body = this.buildBody(body);
     }
 
     // 加密数据
@@ -137,7 +135,7 @@ export class NcHttpService {
     }
 
     // 发送post请求
-    return this.http.post(url, this.buildBody(body)).pipe(
+    return this.http.post(url, body).pipe(
       map((res: any) => {
         if (this.isValidResponse(res)) {
           // 用户自定义数据处理
@@ -302,7 +300,7 @@ export class NcHttpService {
   // 测试
   redirectUrl(url: string): string {
     // todo delete
-    if (!location.origin.includes('10.3.0.33') && url.includes('api')) {
+    if (!location.origin.includes('10.3.0.33') && url?.includes('api')) {
       if (location.origin.includes('8888')) {
         // zj
         return 'http://172.16.2.135:8888' + url;

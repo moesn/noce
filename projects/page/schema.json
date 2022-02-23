@@ -101,12 +101,6 @@
             },
             {
               "properties": {
-                "ellipsis": {
-                  "title": "超长数据省略显示",
-                  "description": "超过最大显示长度时省略显示，鼠标移动上去会显示完整数据",
-                  "type": "integer",
-                  "default": 20
-                },
                 "pageSize": {
                   "title": "每页显示条数",
                   "type": "integer",
@@ -198,6 +192,12 @@
                         "type": "string",
                         "pattern": "^0|[0-9]+(px|%)$"
                       },
+                      "ellipsis": {
+                        "title": "超长数据省略显示",
+                        "description": "超过最大显示长度时省略显示，鼠标移动上去会显示完整数据",
+                        "type": "integer",
+                        "default": 20
+                      },
                       "switch": {
                         "title": "开关切换",
                         "type": "object",
@@ -242,6 +242,10 @@
                             "title": "关的文字标签",
                             "type": "string",
                             "default": "禁用"
+                          },
+                          "readonly": {
+                            "title": "是否不可以操作",
+                            "$ref": "#parseBool"
                           }
                         }
                       },
