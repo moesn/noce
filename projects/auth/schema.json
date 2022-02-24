@@ -159,7 +159,10 @@
             }
           }
         }
-      }
+      },
+      "required": [
+        "body"
+      ]
     },
     "passwd": {
       "$id": "#passwd",
@@ -196,7 +199,11 @@
             }
           }
         }
-      }
+      },
+      "required": [
+        "url",
+        "body"
+      ]
     },
     "refresh": {
       "$id": "#refresh",
@@ -223,7 +230,10 @@
             }
           }
         }
-      }
+      },
+      "required": [
+        "body"
+      ]
     },
     "api": {
       "$id": "#api",

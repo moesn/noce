@@ -52,8 +52,8 @@ export class NcAuthService {
   // 刷新Token
   refreshToken(): Observable<NcAuthResult> {
     const body: any = {};
-    body[getAuthOption('refresh.body.token')] = this.tokenService.getToken();
-    body[getAuthOption('refresh.body.retoken')] = this.tokenService.getRetoken();
+    body[getAuthOption('refresh.body.accessTokenKey')] = this.tokenService.getToken();
+    body[getAuthOption('refresh.body.refreshTokenKey')] = this.tokenService.getRetoken();
 
     return this.authAction('refresh', body).pipe(
       switchMap((result: NcAuthResult) => {

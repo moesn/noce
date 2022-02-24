@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {CanActivateChild} from '@angular/router';
 import {NcAuthService} from '.';
+//@ts-ignore
 import {Observable, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 

@@ -160,7 +160,10 @@ export const NM_AUTH_SCHEMA =
               }
             }
           }
-        }
+        },
+        "required": [
+          "body"
+        ]
       },
       "passwd": {
         "$id": "#passwd",
@@ -197,7 +200,11 @@ export const NM_AUTH_SCHEMA =
               }
             }
           }
-        }
+        },
+        "required": [
+          "url",
+          "body"
+        ]
       },
       "refresh": {
         "$id": "#refresh",
@@ -224,7 +231,10 @@ export const NM_AUTH_SCHEMA =
               }
             }
           }
-        }
+        },
+        "required": [
+          "body"
+        ]
       },
       "api": {
         "$id": "#api",
