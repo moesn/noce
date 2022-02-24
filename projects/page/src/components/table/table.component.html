@@ -210,7 +210,8 @@
                        *ngIf="data[column.key]===column.switch.on||data[column.key]===column.switch.off"
             ></nz-switch>
             <!--          非开和关-->
-            <span *ngIf="data[column.key]!==column.switch.on&&data[column.key]!==column.switch.off">
+            <span *ngIf="data[column.key]!==column.switch.on&&data[column.key]!==column.switch.off"
+                  [class]="formatColor(data[column.key],column.color)">
             {{formatData(data[column.key], column)}}
           </span>
           </td>
