@@ -9,7 +9,6 @@ import {NcFormComponent} from '..';
 import {differenceInCalendarDays, format} from 'date-fns';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzUploadFile} from 'ng-zorro-antd/upload';
-import {NcPageComponent} from '../../page.component';
 import {NcTokenService} from 'noce/auth';
 
 @Component({
@@ -483,8 +482,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
         nzWidth: view.width,
         nzStyle: {top: '12px'},
         nzBodyStyle: {padding: '0'},
-        nzContent: NcPageComponent,
-        nzComponentParams: {table: option.table, tabs: option.tabs, navs: option.navs},
+        nzContent: NcTableComponent,
+        nzComponentParams: {options: option.table, tabOption: option.tabs},
         nzClosable: false,
         nzMaskClosable: true,
         nzFooter: null
