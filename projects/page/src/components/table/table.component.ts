@@ -484,6 +484,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
         nzBodyStyle: {padding: '0'},
         nzContent: NcTableComponent,
         nzComponentParams: {options: option.table, tabOption: option.tabs},
+        // nzContent: NcPageComponent,
+        // nzComponentParams: {table: option.table, tabs: option.tabs, navs: option.navs},
         nzClosable: false,
         nzMaskClosable: true,
         nzFooter: null
