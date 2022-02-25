@@ -113,10 +113,6 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   // 查询表格数据
   query(params?: any): void {
-    // 清除数据
-    this.datas = [];
-    this.checkedData.clear();
-
     // 查询参数
     let body: any = {};
     // 记录分页、过滤、排序等表格查询参数
@@ -184,6 +180,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
     this.http.query(this.options.view.api, body, this.options.view.parseReq, this.options.view.parseRes).subscribe(
       (res: any) => {
         if (res) {
+          // 清除数据
+          this.checkedData.clear();
           // 有些接口没有数据返回的是null
           this.datas = res.data || [];
           this.total = res.total;
