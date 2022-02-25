@@ -98,7 +98,7 @@ export class NcFormComponent implements OnInit {
               const options: any = [];
 
               res.data.forEach((d: any) => options.push({
-                label: d[select.nameKey],
+                label: select.nameKey.startsWith('d=>') ? _eval(select.nameKey)(d) : d[select.nameKey],
                 value: d[select.valueKey],
               }));
               // 更新下拉选择数据

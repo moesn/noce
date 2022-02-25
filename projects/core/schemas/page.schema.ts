@@ -1096,8 +1096,15 @@ export const NM_PAGE_SCHEMA =
                       },
                       "nameKey": {
                         "title": "用于展示的字段",
-                        "type": "string",
-                        "minLength": 1
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          {
+                            "$ref": "#format"
+                          }
+                        ]
                       },
                       "valueKey": {
                         "title": "用于关联的字段",
