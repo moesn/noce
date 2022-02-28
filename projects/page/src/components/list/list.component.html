@@ -16,7 +16,7 @@
       <i (click)="delete()" *nzSpaceItem nz-icon nzType="delete" class="ant-red"></i>
     </ng-container>
   </nz-space>
-  <i (click)="rollback()" nz-icon nzType="rollback" class="ant-right" *ngIf="!options.selected&&data[key]!==undefined"
+  <i (click)="rollback()" nz-icon nzType="rollback" class="ant-right" *ngIf="!options.mustSelect&&data[key]!==undefined"
      nz-tooltip nzTooltipTitle="返回全部"></i>
 </ng-template>
 <nz-card [nzTitle]="listTitle">
@@ -25,7 +25,7 @@
     <nz-list-item (click)="click(_data)" *ngFor="let _data of datas">
       <nz-list-item-meta-title>
         <nz-badge *ngIf="_data[key]===data[key]" nzStatus="processing"></nz-badge>
-        <span [ngClass]="{'ant-info':_data[key]===data[key]}">{{ _data[options.nameKey] }}</span>
+        <span [ngClass]="{'ant-info':_data[key]===data[key]}" class="ant-wrap">{{ _data[options.nameKey] }}</span>
       </nz-list-item-meta-title>
     </nz-list-item>
   </nz-list>

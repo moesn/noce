@@ -1422,6 +1422,11 @@ export const NM_PAGE_SCHEMA =
                   "minLength": 1
                 },
                 "selected": {
+                  "title": "是否默认选中列表项",
+                  "type": "boolean",
+                  "default": false
+                },
+                "mustSelect": {
                   "title": "是否必须选中列表项",
                   "type": "boolean",
                   "default": false
