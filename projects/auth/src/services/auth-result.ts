@@ -15,7 +15,7 @@ export class NcAuthResult {
       this.redirect = getValueFromObject(response, getAuthOption('success.redirectKey'));
       this.message = getValueFromObject(response, 'msg');
     } else {
-      this.message = '请联系管理员，' + (response.error?.msg || response.statusText || response.error || response.message || response.name || response.status)
+      this.message = typeof response === 'string' ? response : '请联系管理员，' + (response.error?.msg || response.statusText || response.error || response.message || response.name || response.status)
     }
   }
 

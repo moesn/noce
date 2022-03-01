@@ -116,7 +116,14 @@ export class NcAuthService {
   // 存储认证信息
   private storeAuthResult(result: NcAuthResult): Observable<NcAuthResult> {
     if (result.isSuccess()) {
-      this.tokenService.set(result.getToken(), result.getRetoken());
+      // 服务时间差处理
+      const isValidToken = isValidJwtToken(result.getToken());
+      // 有token但token无效
+      if (result.getToken().length !== 0 && !isValidToken) {
+        return of(new NcAuthResult(false, '客户端和服务端时间相差过大，调整后登录'));
+      } else {
+        this.tokenService.set(result.getToken(), result.getRetoken());
+      }
     }
     return of(result);
   }
