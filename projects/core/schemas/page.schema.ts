@@ -817,6 +817,7 @@ export const NM_PAGE_SCHEMA =
                   "type": {
                     "title": "表单项类型",
                     "enum": [
+                      "text",
                       "input",
                       "textarea",
                       "number",

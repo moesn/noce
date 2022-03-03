@@ -24,6 +24,8 @@
                  nzTheme="outline" nzTooltipTitle="{{field.tip}}" nzType="question-circle"></i>
             </nz-form-label>
             <nz-form-control [nzErrorTip]="formErrorTpl" nzHasFeedback>
+              <!--            普通文本-->
+              <span *ngIf="field.type==='text'">{{data[field.key]}}</span>
               <!--            普通输入框-->
               <input *ngIf="field.type==='input'"
                      [(ngModel)]="data[field.key]"

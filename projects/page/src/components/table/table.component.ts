@@ -80,6 +80,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 订阅导航点击事件
     this.navClickEvent = this.event.on('NAV_CLICK').subscribe((res: any) => {
+      // 先清除数据
+      this.datas = [];
       // 重置tab切换
       this.navState = '';
       // 记录导航项的数据，供自定义操作使用
@@ -307,6 +309,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   // 多标签时切换标签事件
   switchTab(tab: any): void {
+    // 先清除数据
+    this.datas = [];
     // tab切换前无导航
     if (this.tab && !this.isCureentTab(this.navOption?.tabIndex)) {
       this.navState = 'f';
