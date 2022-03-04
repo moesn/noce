@@ -74,15 +74,15 @@ export class NcHttpService {
 
     const bodyY = this.buildBody(body);
 
-    // 防止相同页面一秒内重复查询
+    // 防止相同页面0.5秒内重复查询
     if (location.pathname === this.lastQuery.page && url === this.lastQuery.url && (new Date().getTime() - this.lastQuery.time < 1000)
-      && _.isEqual(JSON.stringify(this.lastQuery.bodyY), JSON.stringify(bodyY))
+      && _.isEqual(this.lastQuery.bodyY, JSON.stringify(bodyY))
     ) {
       return of(false);
     }
 
     // 记录最近一次查询
-    this.lastQuery = {url, time: new Date().getTime(), bodyY, page: location.pathname};
+    this.lastQuery = {url, time: new Date().getTime(), bodyY: JSON.stringify(bodyY), page: location.pathname};
 
     // 用户自定义数据处理
     if (parseReq) {
