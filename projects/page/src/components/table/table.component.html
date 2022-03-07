@@ -132,7 +132,7 @@
             [nzData]="datas"
             [nzFrontPagination]="false"
             [nzHideOnSinglePage]="options.view.singlePage"
-            [nzPageSizeOptions]="[10,20]"
+            [nzPageSizeOptions]="[10,20,50,100]"
             [nzPageSize]="options.view.singlePage?10000:options.view.pageSize"
             [nzScroll]="{y:height}"
             [nzShowTotal]="totalTpl"
@@ -176,7 +176,7 @@
     </tr>
     </thead>
     <tbody cdkDropList (cdkDropListDropped)="drop($event)">
-    <tr *ngFor="let data of datas;index as i" [cdkDragDisabled]="!options.dragable" cdkDrag>
+    <tr *ngFor="let data of datas;index as i;trackBy: trackByIndex" [cdkDragDisabled]="!options.dragable" cdkDrag>
       <!--    序号-->
       <td *ngIf="options.view.showIndex">{{i + 1}}</td>
       <!--      选择框-->
@@ -184,7 +184,7 @@
           (nzCheckedChange)="onItemChecked(data, $event)">
       </td>
       <!--      显示字段数据-->
-      <ng-container *ngFor="let column of  options.view.columns">
+      <ng-container *ngFor="let column of  options.view.columns;trackBy: trackByIndex">
         <!--      多标签显示-->
         <ng-container *ngIf="isCureentTab(column.tabIndex)">
           <!--        普通列-->

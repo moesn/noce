@@ -651,6 +651,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
     this.http.download(action.api, data, action.blob, action.filename, action.parseReq);
   }
 
+  // ngFor性能优化
+  trackByIndex(index: number, data: any): any {
+    return index;
+  };
+
   // 重新加载页面
   reloadPage(): void {
     this.event.emit('RELOAD_PAGE');
