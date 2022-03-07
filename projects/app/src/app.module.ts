@@ -22,7 +22,7 @@ import {NzFormModule} from 'ng-zorro-antd/form';
 
 registerLocaleData(zh);
 
-const ngZorroConfig: NzConfig = {
+export const ncNzConfig: NzConfig = {
   message: {
     nzTop: 60
   },
@@ -79,7 +79,7 @@ const NZ_MODULES = [
     NcAppRoutingModule
   ],
   providers: [
-    {provide: NZ_CONFIG, useValue: ngZorroConfig},
+    {provide: NZ_CONFIG, useValue: ncNzConfig},
     {provide: NZ_I18N, useValue: zh_CN},
     {provide: HTTP_INTERCEPTORS, useClass: NcAuthJWTInterceptor, multi: true},
   ]
