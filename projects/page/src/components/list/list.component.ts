@@ -70,8 +70,8 @@ export class NcListComponent implements OnInit {
     this._isInit = data[this.key]?.toString().startsWith('-');
     // 更新选中状态
     this.data = data;
-    // 发出点击事件
-    this.event.emit('NAV_CLICK', data);
+    // 发出点击事件，强制刷新时table延迟渲染，事件也需要延迟发出
+    setTimeout(() => this.event.emit('NAV_CLICK', data), 100);
   }
 
   // 编辑

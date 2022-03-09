@@ -362,7 +362,7 @@ export class NcFormComponent implements OnInit {
     if (['input', 'textarea'].includes(field.type)) {
       const min = field.input.minLength;
       const max = field.input.maxLength;
-      result += min === max ? `长度${max}` : `长度${min} ~ ${max}`;
+      result += min === max ? `长度${max}` : `长度${field.required ? min : 0} ~ ${max}`;
     }
 
     if (field.pattern && field.pattern.name !== '任意') {

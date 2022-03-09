@@ -98,7 +98,7 @@ export class NcPageComponent implements OnDestroy {
   assignOption(options: any, force: boolean): void {
     // 强制刷新整个页面时，延迟渲染table，避免出现横向滚动条
     if (force) {
-      setTimeout(() => this.table = options.table);
+      setTimeout(() => this.table = options.table, 100);
     } else {
       this.table = options.table;
     }

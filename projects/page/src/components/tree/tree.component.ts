@@ -69,8 +69,8 @@ export class NcTreeComponent implements OnInit {
 
     // 设置组，选中状态，触发查询
     this.keys = [node.key];
-    // 发出点击事件
-    this.event.emit('NAV_CLICK', node);
+    // 发出点击事件，强制刷新时table延迟渲染，事件也需要延迟发出
+    setTimeout(() => this.event.emit('NAV_CLICK', node), 100);
   }
 
   // 获取当前树节点

@@ -39,6 +39,10 @@
                      [required]="isTrue(field.required)"
                      autocomplete="off"
                      nz-input
+                     nz-tooltip
+                     [nzTooltipTrigger]="null"
+                     [nzTooltipTitle]="'最大长度为'+field.input.maxLength"
+                     [nzTooltipVisible]="data[field.key]?.length == field.input.maxLength"
               />
               <!--            文本输入框-->
               <textarea *ngIf="field.type==='textarea'"
@@ -52,6 +56,10 @@
                         [required]="isTrue(field.required)"
                         autocomplete="off"
                         nz-input
+                        nz-tooltip
+                        [nzTooltipTrigger]="null"
+                        [nzTooltipTitle]="'最大长度为'+field.input.maxLength"
+                        [nzTooltipVisible]="data[field.key]?.length == field.input.maxLength"
               ></textarea>
               <!--            密码输入框-->
               <nz-input-group *ngIf="field.type==='password'" [nzSuffix]="suffixPwd">
@@ -66,6 +74,10 @@
                        [required]="isTrue(field.required)&&!dataBak[key]"
                        [type]="pwdEye[field.key] ? 'text' : 'password'"
                        nz-input
+                       nz-tooltip
+                       [nzTooltipTrigger]="null"
+                       [nzTooltipTitle]="'最大长度为'+field.input.maxLength"
+                       [nzTooltipVisible]="data[field.key]?.length == field.input.maxLength"
                 />
                 <ng-template #suffixPwd>
                   <i (click)="pwdEye[field.key] = !pwdEye[field.key]" [nzType]="pwdEye[field.key] ? 'eye-invisible' : 'eye'" nz-icon></i>

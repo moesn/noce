@@ -132,7 +132,7 @@
             [nzData]="datas"
             [nzFrontPagination]="false"
             [nzHideOnSinglePage]="options.view.singlePage"
-            [nzPageSizeOptions]="[10,20,50,100]"
+            [nzPageSizeOptions]="[10,20,50]"
             [nzPageSize]="options.view.singlePage?10000:options.view.pageSize"
             [nzScroll]="{y:height}"
             [nzShowTotal]="totalTpl"
@@ -224,7 +224,7 @@
         </ng-container>
       </ng-container>
       <!--      操作按钮-->
-      <ng-container *ngFor="let action of [options.update,options.delete]">
+      <ng-container *ngFor="let action of [options.update,options.delete];trackBy: trackByIndex">
         <td *ngIf="action?.api">
           <!--          修改-->
           <ng-container *ngIf="action===options.update">
