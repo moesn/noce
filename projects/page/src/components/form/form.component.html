@@ -80,7 +80,8 @@
                        [nzTooltipVisible]="data[field.key]?.length == field.input.maxLength"
                 />
                 <ng-template #suffixPwd>
-                  <i (click)="pwdEye[field.key] = !pwdEye[field.key]" [nzType]="pwdEye[field.key] ? 'eye-invisible' : 'eye'" nz-icon></i>
+                  <i (click)="pwdEye[field.key] = !pwdEye[field.key]"
+                     [nzType]="pwdEye[field.key] ? 'eye-invisible' : 'eye'" nz-icon></i>
                 </ng-template>
               </nz-input-group>
               <!--            数字输入框-->
@@ -103,9 +104,9 @@
                          [nzUnCheckedChildren]="field.switch.labelOff"
               ></nz-switch>
               <!--            下拉选择框-->
-              <nz-select (ngModelChange)="optionChange(field)"
+              <nz-select [(ngModel)]="data[field.key]"
+                         (ngModelChange)="optionChange(field)"
                          *ngIf="field.type==='select'"
-                         [(ngModel)]="data[field.key]"
                          [disabled]="isTrue(field.readonly)"
                          [name]="field.key"
                          [nzAllowClear]="!isTrue(field.required)||field.select.multiple"
@@ -116,9 +117,9 @@
                          nzShowSearch
               ></nz-select>
               <!--            树型下拉选择框-->
-              <nz-tree-select (ngModelChange)="optionChange(field.treeselect)"
+              <nz-tree-select [(ngModel)]="data[field.key]"
+                              (ngModelChange)="optionChange(field.treeselect)"
                               *ngIf="field.type==='treeselect'"
-                              [(ngModel)]="data[field.key]"
                               [disabled]="isTrue(field.readonly)"
                               [name]="field.key"
                               [nzAllowClear]="!isTrue(field.required)||field.treeselect.multiple"
@@ -163,7 +164,8 @@
     <nz-button-group>
       <button nz-button (click)="close()">取消</button>
       <!--      内置、无效、未编辑、保存中时禁止点击-->
-      <button [disabled]="_isInit || form.invalid || saving || isOriginal()" nz-button nzType="primary" (click)="save()">
+      <button [disabled]="_isInit || form.invalid || saving || isOriginal()" nz-button nzType="primary"
+              (click)="save()">
         保存
       </button>
     </nz-button-group>

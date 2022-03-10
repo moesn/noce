@@ -6,9 +6,10 @@
     <!--  多标签-->
     <nz-space *ngIf="tabOption" class="ant-left">
       <ng-container *ngFor="let _tab of tabOption">
-          <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab===tab?'primary':'default'" nz-button [id]="_tab.style?.titleId">
-            <span class="{{'ant-'+_tab.style?.titleColor}}">{{_tab.title}}</span>
-          </button>
+        <button (click)="switchTab(_tab)" *nzSpaceItem [nzType]="_tab===tab?'primary':'default'" nz-button
+                [id]="_tab.style?.titleId">
+          <span class="{{'ant-'+_tab.style?.titleColor}}">{{_tab.title}}</span>
+        </button>
       </ng-container>
     </nz-space>
     <nz-space>
@@ -55,7 +56,8 @@
         </ng-container>
         <!--    模糊搜索-->
         <ng-container *ngIf="searchFields.length">
-          <nz-input-group *nzSpaceItem [nzAddOnBefore]="options.view.setSearch?prefixMenu:''" [nzAddOnAfter]="suffixButton" nzSearch>
+          <nz-input-group *nzSpaceItem [nzAddOnBefore]="options.view.setSearch?prefixMenu:''"
+                          [nzAddOnAfter]="suffixButton" nzSearch>
             <input type="text" [(ngModel)]="body.fuzzy.keyword" nz-input placeholder="模糊搜索"/>
           </nz-input-group>
           <!--      搜索字段-->
@@ -99,7 +101,8 @@
           <ng-container *ngIf="action.confirm">
             <button *nzSpaceItem nz-button nz-tooltip [nzTooltipTitle]="action.tip"
                     [disabled]="action.click.checkToClick&&!checkedData.size" nzType="default"
-                    nz-popconfirm [nzPopconfirmTitle]="formatConfirm(action.confirm)" (nzOnConfirm)="actionClick(action)">
+                    nz-popconfirm [nzPopconfirmTitle]="formatConfirm(action.confirm)"
+                    (nzOnConfirm)="actionClick(action)">
               <i nz-icon [nzType]="action.icon"></i>
             </button>
           </ng-container>
@@ -201,9 +204,9 @@
           </td>
           <!--      开关切换-->
           <td *ngIf="column.type==='switch'">
-            <nz-switch (ngModelChange)="switch($event,data,column)"
+            <nz-switch [ngModel]="data[column.key]===column.switch.on"
+                       (ngModelChange)="switch($event,data,column)"
                        [name]="column.key"
-                       [ngModel]="data[column.key]===column.switch.on"
                        [nzCheckedChildren]="column.switch.labelOn"
                        [nzUnCheckedChildren]="column.switch.labelOff"
                        [disabled]="isTrue(column.switch.readonly,data)"
