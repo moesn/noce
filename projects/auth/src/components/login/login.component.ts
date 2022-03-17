@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {NcAuthService} from '../../services/auth.service';
-import {NcAuthResult} from '../../services/auth-result';
+import {NcTokenService, NcAuthResult, NcAuthService} from '../../services';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {DomSanitizer} from '@angular/platform-browser';
 import {getAppOption, getAuthOption, NcCryptService} from 'noce/core';
@@ -21,6 +20,7 @@ export class NcLoginComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer,
               private authService: NcAuthService,
               private crypt: NcCryptService,
+              private token: NcTokenService,
               private notify: NzNotificationService) {
     this.loginBg = getAppOption('images.loginBg');
   }
@@ -64,6 +64,12 @@ export class NcLoginComponent implements OnInit {
           sessionStorage.setItem('isRawPwd', result.getResponse().data.isRawPwd);
           // 跳转到首页, 服务端返回重定向就用服务端的，没有就用配置的首页
           location.href = getAppOption('base') + '/' + (result.getRedirect() || getAppOption('home'));
+
+          const payload = this.token.getPayload();
+          // JWT时间精确到秒，nbf生效时间提前了2分钟
+          let timeDiff = payload?.nbf ? new Date(0).setUTCSeconds(payload.nbf + 2 * 60) - new Date().getTime() : 0;
+          timeDiff = timeDiff < 0 ? 0 : timeDiff;
+          localStorage.setItem('td', timeDiff + '');
         }
         // 登录错误告警
       } else {

@@ -54,7 +54,7 @@
 </nz-layout>
 <!--修改密码窗口-->
 <nz-modal (nzOnCancel)="pwding=false" [nzClosable]="false" [nzKeyboard]="false" [nzFooter]="null" [nzVisible]="pwding"
-          nzTitle="修改密码" nzWidth="360px" [nzBodyStyle]="{'padding-bottom':'56px'}">
+          nzTitle="修改密码" nzWidth="360px" [nzBodyStyle]="{'padding-bottom':'56px'}" nzMaskClosable="false">
   <ng-container *nzModalContent>
     <form #form="ngForm" class="text-3" nz-form>
       <nz-form-item>

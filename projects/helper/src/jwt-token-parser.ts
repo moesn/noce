@@ -37,6 +37,7 @@ export function isValidJwtToken(token: string): boolean {
     return false;
   }
 
+  // token过期时间
   const date = new Date(0);
   const payload = decodeJwtPayload(token);
 
@@ -45,6 +46,10 @@ export function isValidJwtToken(token: string): boolean {
     date.setUTCSeconds(payload.hasOwnProperty('exp') ? payload.exp : Number.MAX_SAFE_INTEGER);
   }
 
+  // 处理服务器和客户端时间差问题
+  const now = new Date();
+  now.setUTCMilliseconds(parseInt(localStorage.getItem('td') || '0'));
+
   // 当前时间小于过期时间，则token有效
-  return new Date() < date;
+  return now < date;
 }
