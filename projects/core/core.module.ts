@@ -12,8 +12,8 @@ import {NcCryptBase64Service, NcCryptRSAService, NcCryptService} from './service
 import {getAppOption, schemaToOption} from './schemas/schema-to-option';
 import {NcEventService, NcStoreService} from './services';
 
-schemaToOption('/schemas/app.schema.json');
-schemaToOption('/schemas/auth.schema.json');
+schemaToOption('/schemas/app.json');
+schemaToOption('/schemas/auth.json');
 
 const NG_MODULES = [
   CommonModule,

@@ -652,7 +652,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   }
 
   // ngFor性能优化
-  trackByIndex(index: number, data: any): any {
+  trackByIndex(index: number): any {
     return index;
   };
 

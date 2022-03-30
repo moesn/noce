@@ -66,7 +66,7 @@ export class NcLoginComponent implements OnInit {
           location.href = getAppOption('base') + '/' + (result.getRedirect() || getAppOption('home'));
 
           const payload = this.token.getPayload();
-          // JWT时间精确到秒，nbf生效时间提前了2分钟
+          // JWT时间精确到秒，todo nbf生效时间提前了2分钟
           let timeDiff = payload?.nbf ? new Date(0).setUTCSeconds(payload.nbf + 2 * 60) - new Date().getTime() : 0;
           timeDiff = timeDiff < 0 ? 0 : timeDiff;
           localStorage.setItem('td', timeDiff + '');
