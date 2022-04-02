@@ -67,7 +67,7 @@ export class NcListComponent implements OnInit {
 
   // 点击
   click(data: any): void {
-    this._isInit = data[this.key]?.toString().startsWith('-');
+    this._isInit = data[this.key]?.toString().startsWith('-') || data.isInit;
     // 更新选中状态
     this.data = data;
     // 发出点击事件，强制刷新时table延迟渲染，事件也需要延迟发出
@@ -120,8 +120,7 @@ export class NcListComponent implements OnInit {
   delete(): void {
     // 内置数据不可删除
     if (this._isInit) {
-      this.notify.warning('内置数据不可删除');
-      return;
+      return this.notify.warning('内置数据不可删除');
     }
 
     const body = {};

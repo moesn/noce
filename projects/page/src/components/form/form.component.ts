@@ -382,7 +382,7 @@ export class NcFormComponent implements OnInit {
   // 获取错误提示信息
   getErrorTip(control: any, pattern: any): string {
     if (control.hasError('required')) {
-      return '不能为空！';
+      return '必填项不能为空！';
     } else if (control.hasError('pattern')) {
       return pattern.tip || `请输入${pattern.name}!`;
     } else if (control.hasError('minlength')) {

@@ -299,18 +299,8 @@ export class NcHttpService {
 
   // 测试
   redirectUrl(url: string): string {
-    // todo delete
-    if (!location.origin.includes('10.3.0.33') && url?.includes('api')) {
-      if (location.origin.includes('8888')) {
-        // zj
-        return 'http://172.16.2.135:8888' + url;
-      } else if (location.origin.includes('9999')) {
-        // ld
-        return 'http://10.3.2.1:9999' + url;
-      }
-    }
-
-    return url
+    const server = localStorage.getItem('nc.debug.server') || '';
+    return server + url;
   }
 }
 
