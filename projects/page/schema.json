@@ -1687,6 +1687,14 @@
           "title": "接口地址",
           "$ref": "#api"
         },
+        "method": {
+          "title": "接口调用方式",
+          "enum": [
+            "post",
+            "download"
+          ],
+          "default": "post"
+        },
         "icon": {
           "title": "修改按钮图标",
           "default": "edit"

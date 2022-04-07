@@ -504,39 +504,44 @@ export class NcTableComponent implements OnInit, OnDestroy {
         nzMaskClosable: true,
         nzFooter: null
       });
+      // 仅调用接口
+    } else if (option.api) {
+      if (option.method === 'download') {
+        // 下载
+        this.http.download(option.api);
+      }else{
+        // 转换用户参数
+        const body = option.body ? __eval.call(this, option.body) : {};
 
-    } else if (option.api) { // 仅调用接口
-      // 转换用户参数
-      const body = option.body ? __eval.call(this, option.body) : {};
+        // 需要提交查询参数
+        if (option.params) {
+          objectExtend(body, this.params);
+        }
 
-      // 需要提交查询参数
-      if (option.params) {
-        objectExtend(body, this.params);
-      }
+        // 选择数据后点击时，需要提交数据主键集合
+        if (option.checkToClick) {
+          objectExtend(body, {ids: this.getCheckedKeys()});
+        }
 
-      // 选择数据后点击时，需要提交数据主键集合
-      if (option.checkToClick) {
-        objectExtend(body, {ids: this.getCheckedKeys()});
-      }
-
-      this.loading = option.refresh || !!data;
-      // 调用接口后需要刷新时重新查询数据
-      this.http.post(option.api, body,
-        {parseReq: option.parseReq, parseRes: option.parseRes, successMsg: option.successMsg}
-      ).subscribe((res: any) => {
-          if (res && option.refresh) {
-            this.query();
-          } else {
-            // 接口异常时停止加载状态
-            this.loading = false
-            // 表格列操作时，合并操作后的数据
-            if (data) {
-              objectExtend(this.data, res.data);
+        this.loading = option.refresh || !!data;
+        // 调用接口后需要刷新时重新查询数据
+        this.http.post(option.api, body,
+          {parseReq: option.parseReq, parseRes: option.parseRes, successMsg: option.successMsg}
+        ).subscribe((res: any) => {
+            if (res && option.refresh) {
+              this.query();
+            } else {
+              // 接口异常时停止加载状态
+              this.loading = false
+              // 表格列操作时，合并操作后的数据
+              if (data) {
+                objectExtend(this.data, res.data);
+              }
             }
-          }
-        }, // 接口错误时停止加载状态
-        () => this.loading = false
-      );
+          }, // 接口错误时停止加载状态
+          () => this.loading = false
+        );
+      }
     }
   }
 

@@ -188,16 +188,19 @@ export class NcHttpService {
   // 下载文件
   download(url: string, body?: any, blob?: boolean, filename?: string, parseReq?: string): void {
     url = this.redirectUrl(url);
+    let bodyY = {};
+    
+    if (body) {
+      // 删除分页参数
+      delete body.pageIndex;
+      delete body.pageSize;
 
-    // 删除分页参数
-    delete body.pageIndex;
-    delete body.pageSize;
+      bodyY = this.buildBody(body);
 
-    const bodyY = this.buildBody(body);
-
-    // 用户自定义数据处理
-    if (parseReq) {
-      _eval(parseReq)(bodyY);
+      // 用户自定义数据处理
+      if (parseReq) {
+        _eval(parseReq)(bodyY);
+      }
     }
 
     // 直链下载

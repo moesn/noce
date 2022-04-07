@@ -167,7 +167,7 @@
             [nzShowSort]="column.sort"
             [nzSortFn]="true"
         >
-          <span [class]="formatColor(data[column.key],column.color)">{{column.label}}</span>
+          {{column.label}}
           <i *ngIf="column.tip" class="ant-info" nz-icon nz-tooltip
              [nzTooltipTitle]="column.tip" nzType="question-circle"></i>
         </th>
