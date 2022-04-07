@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {getAuthOption, NcEventService, NcHttpService} from 'noce/core';
+import {getAuthOption, NcEventService, NcHttpService, NcModalComponents} from 'noce/core';
 import {__eval, _eval, objectExtend} from 'noce/helper';
 import * as _ from 'lodash-es';
 import {reject} from 'lodash-es';
@@ -457,8 +457,22 @@ export class NcTableComponent implements OnInit, OnDestroy {
     if (data) {
       this.data = data;
     }
+
+    // 自定义页面
+    if (option.component) {
+      this.modal.create({
+        nzWrapClassName: ['nc', ...location.pathname.split('/'), action.icon].join('-'),
+        nzWidth: option.width || 720,
+        nzStyle: {top: '12px'},
+        nzBodyStyle: {padding: '0'},
+        nzContent: NcModalComponents[option.component],
+        nzClosable: false,
+        nzMaskClosable: true,
+        nzFooter: null
+      });
+    }
     // 表格弹窗
-    if (option.table) {
+    else if (option.table) {
       const view = option.table.view;
       // 不能重载页面
       view.reload = false;
@@ -508,8 +522,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
       this.loading = option.refresh || !!data;
       // 调用接口后需要刷新时重新查询数据
       this.http.post(option.api, body,
-        {parseReq:option.parseReq, parseRes:option.parseRes,successMsg:option.successMsg}
-        ).subscribe((res: any) => {
+        {parseReq: option.parseReq, parseRes: option.parseRes, successMsg: option.successMsg}
+      ).subscribe((res: any) => {
           if (res && option.refresh) {
             this.query();
           } else {

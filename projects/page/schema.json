@@ -759,6 +759,24 @@
                         "$ref": "#navs"
                       }
                     }
+                  },
+                  {
+                    "title": "弹出自定义页面",
+                    "type": "object",
+                    "required": [
+                      "component"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "component": {
+                        "title": "自定义的组件",
+                        "type": "string"
+                      },
+                      "width": {
+                        "title": "弹窗",
+                        "$ref": "#width"
+                      }
+                    }
                   }
                 ]
               },

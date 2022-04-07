@@ -760,6 +760,23 @@ export const NM_PAGE_SCHEMA =
                           "$ref": "#navs"
                         }
                       }
+                    },
+                    {
+                      "title": "弹出自定义页面",
+                      "type": "object",
+                      "required": [
+                        "component"
+                      ],
+                      "properties": {
+                        "component": {
+                          "title": "自定义的组件",
+                          "type": "string"
+                        },
+                        "width": {
+                          "title": "弹窗",
+                          "$ref": "#width"
+                        }
+                      }
                     }
                   ]
                 },
