@@ -164,7 +164,8 @@
                           "icon",
                           "switch",
                           "select",
-                          "action"
+                          "action",
+                          "image"
                         ]
                       },
                       "label": {
@@ -295,6 +296,17 @@
                             }
                           }
                         ]
+                      },
+                      "image": {
+                        "title": "图片列",
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "upload": {
+                            "title": "是否可上传图片",
+                            "$ref": "#upload"
+                          }
+                        }
                       },
                       "action": {
                         "title": "自定义表格操作列",
@@ -450,6 +462,20 @@
                         "if": {
                           "properties": {
                             "type": {
+                              "const": "image"
+                            }
+                          }
+                        },
+                        "then": {
+                          "required": [
+                            "image"
+                          ]
+                        }
+                      },
+                      {
+                        "if": {
+                          "properties": {
+                            "type": {
                               "const": "action"
                             }
                           }
@@ -576,6 +602,7 @@
         },
         "upload": {
           "title": "数据上传",
+          "$id": "#upload",
           "type": "object",
           "additionalProperties": false,
           "allOf": [
@@ -641,10 +668,20 @@
           "items": {
             "$id": "#action",
             "type": "object",
-            "required": [
-              "icon",
-              "tip",
-              "click"
+            "oneOf": [
+              {
+                "required": [
+                  "icon",
+                  "tip",
+                  "click"
+                ]
+              },
+              {
+                "required": [
+                  "icon",
+                  "hover"
+                ]
+              }
             ],
             "additionalProperties": false,
             "properties": {
@@ -724,6 +761,18 @@
                     }
                   }
                 ]
+              },
+              "hover": {
+                "title": "鼠标划过后触发的行为",
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "key": {
+                    "title": "鼠标划过显示的字段",
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
               }
             }
           }
@@ -772,6 +821,7 @@
               {
                 "enum": [
                   360,
+                  480,
                   560,
                   720,
                   960,
@@ -1618,6 +1668,10 @@
         "api": {
           "title": "接口地址",
           "$ref": "#api"
+        },
+        "icon": {
+          "title": "修改按钮图标",
+          "default": "edit"
         },
         "body": {
           "title": "接口参数",

@@ -68,7 +68,7 @@ export class NcHttpService {
     url = this.redirectUrl(url);
 
     // 假装查询，常用于前端筛选/过滤/排序等
-    if (url === null) {
+    if (!url) {
       return of(true)
     }
 

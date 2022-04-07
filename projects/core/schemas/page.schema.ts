@@ -50,6 +50,7 @@ export const NM_PAGE_SCHEMA =
         "required": [
           "view"
         ],
+
         "properties": {
           "title": {
             "title": "表格标题",
@@ -164,7 +165,8 @@ export const NM_PAGE_SCHEMA =
                             "icon",
                             "switch",
                             "select",
-                            "action"
+                            "action",
+                            "image"
                           ]
                         },
                         "label": {
@@ -295,6 +297,17 @@ export const NM_PAGE_SCHEMA =
                               }
                             }
                           ]
+                        },
+                        "image": {
+                          "title": "图片列",
+                          "type": "object",
+
+                          "properties": {
+                            "upload": {
+                              "title": "是否可上传图片",
+                              "$ref": "#upload"
+                            }
+                          }
                         },
                         "action": {
                           "title": "自定义表格操作列",
@@ -450,6 +463,20 @@ export const NM_PAGE_SCHEMA =
                           "if": {
                             "properties": {
                               "type": {
+                                "const": "image"
+                              }
+                            }
+                          },
+                          "then": {
+                            "required": [
+                              "image"
+                            ]
+                          }
+                        },
+                        {
+                          "if": {
+                            "properties": {
+                              "type": {
                                 "const": "action"
                               }
                             }
@@ -576,6 +603,7 @@ export const NM_PAGE_SCHEMA =
           },
           "upload": {
             "title": "数据上传",
+            "$id": "#upload",
             "type": "object",
 
             "allOf": [
@@ -641,10 +669,20 @@ export const NM_PAGE_SCHEMA =
             "items": {
               "$id": "#action",
               "type": "object",
-              "required": [
-                "icon",
-                "tip",
-                "click"
+              "oneOf": [
+                {
+                  "required": [
+                    "icon",
+                    "tip",
+                    "click"
+                  ]
+                },
+                {
+                  "required": [
+                    "icon",
+                    "hover"
+                  ]
+                }
               ],
 
               "properties": {
@@ -707,6 +745,7 @@ export const NM_PAGE_SCHEMA =
                       "required": [
                         "table"
                       ],
+
                       "properties": {
                         "table": {
                           "title": "右侧表格",
@@ -723,6 +762,18 @@ export const NM_PAGE_SCHEMA =
                       }
                     }
                   ]
+                },
+                "hover": {
+                  "title": "鼠标划过后触发的行为",
+                  "type": "object",
+
+                  "properties": {
+                    "key": {
+                      "title": "鼠标划过显示的字段",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
                 }
               }
             }
@@ -771,6 +822,7 @@ export const NM_PAGE_SCHEMA =
                 {
                   "enum": [
                     360,
+                    480,
                     560,
                     720,
                     960,
@@ -1617,6 +1669,10 @@ export const NM_PAGE_SCHEMA =
           "api": {
             "title": "接口地址",
             "$ref": "#api"
+          },
+          "icon": {
+            "title": "修改按钮图标",
+            "default": "edit"
           },
           "body": {
             "title": "接口参数",
