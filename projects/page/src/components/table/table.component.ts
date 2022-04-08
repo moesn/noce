@@ -466,6 +466,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
         nzStyle: {top: '12px'},
         nzBodyStyle: {padding: '0'},
         nzContent: NcModalComponents[option.component],
+        nzComponentParams: {parent: {data, apis:option.apis}},
         nzClosable: false,
         nzMaskClosable: true,
         nzFooter: null

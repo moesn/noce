@@ -775,6 +775,10 @@ export const NM_PAGE_SCHEMA =
                         "width": {
                           "title": "弹窗",
                           "$ref": "#width"
+                        },
+                        "apis": {
+                          "title": "自定义页面用到的接口",
+                          "type": "object"
                         }
                       }
                     }

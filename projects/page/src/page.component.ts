@@ -112,11 +112,21 @@ export class NcPageComponent implements OnDestroy {
     if (_.isPlainObject(options)) {
       // 遍历{}
       _.forEach(options, (val: any, key: string, obj: any) => {
+        // 属性是apis，并且属性值为apis.开头时，替换为真实api地址
+        if (key === 'apis' && _.isPlainObject(val)) {
+          _.forEach(val, (av: any, ak: string) => {
+            // 用于给自定义组件传接口地址
+            if (av.startsWith('apis.')) {
+              val[ak] = this.apis[av.substring(5)];
+            }
+          });
+        }
         // 属性是api，并且值为apis.开头时，替换为真实api地址
-        if (key === 'api' && val.startsWith('apis.')) {
+        else if (key === 'api' && val.startsWith('apis.')) {
           obj.api = this.apis[val.substring(5)];
-          // {}或[]时递归
-        } else if (_.isObject(val)) {
+        }
+        // {}或[]时递归
+        else if (_.isObject(val)) {
           this.convertApi(val);
         }
       });
