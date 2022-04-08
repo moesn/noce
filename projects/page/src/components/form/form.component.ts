@@ -61,6 +61,10 @@ export class NcFormComponent implements OnInit {
         if (field.value !== undefined) {
           this.data[field.key] = field.value;
         }
+        // 最长标签有tip时，最长标签长度加1
+        if (field.label.byteLength() / 2 === this.maxLabel && field.tip) {
+          this.maxLabel += 1;
+        }
       })
     }
 
