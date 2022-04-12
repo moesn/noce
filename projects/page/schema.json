@@ -695,6 +695,11 @@
                 "type": "string",
                 "minLength": 1
               },
+              "color": {
+                "title": "显示颜色",
+                "$ref": "#color",
+                "default": "default"
+              },
               "confirm": {
                 "title": "操作确认提示信息",
                 "anyOf": [

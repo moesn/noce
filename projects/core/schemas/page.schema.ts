@@ -696,6 +696,11 @@ export const NM_PAGE_SCHEMA =
                   "type": "string",
                   "minLength": 1
                 },
+                "color": {
+                  "title": "显示颜色",
+                  "$ref": "#color",
+                  "default": "default"
+                },
                 "confirm": {
                   "title": "操作确认提示信息",
                   "anyOf": [
@@ -767,13 +772,14 @@ export const NM_PAGE_SCHEMA =
                       "required": [
                         "component"
                       ],
+
                       "properties": {
                         "component": {
                           "title": "自定义的组件",
                           "type": "string"
                         },
                         "width": {
-                          "title": "弹窗",
+                          "title": "弹窗宽度",
                           "$ref": "#width"
                         },
                         "apis": {
@@ -1726,6 +1732,7 @@ export const NM_PAGE_SCHEMA =
       }
     }
   }
+
 
 
 
