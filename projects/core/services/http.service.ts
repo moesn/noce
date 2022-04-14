@@ -189,7 +189,7 @@ export class NcHttpService {
   download(url: string, body?: any, blob?: boolean, filename?: string, parseReq?: string): void {
     url = this.redirectUrl(url);
     let bodyY = {};
-    
+
     if (body) {
       // 删除分页参数
       delete body.pageIndex;
@@ -302,7 +302,7 @@ export class NcHttpService {
 
   // 测试
   redirectUrl(url: string): string {
-    const server = localStorage.getItem('nc.debug.server') || '';
+    const server = sessionStorage.getItem('nc.debug.server') || '';
     return server + url;
   }
 }
