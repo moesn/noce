@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 
-import {NcTokenService, NcAuthResult, NcAuthService} from '../../services';
+import {NcAuthResult, NcAuthService, NcTokenService} from '../../services';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {DomSanitizer} from '@angular/platform-browser';
-import {getAppOption, getAuthOption, NcCryptService} from 'noce/core';
+import {getAppOption, getAuthOption, NcCryptService, NcEventService} from 'noce/core';
 
 @Component({
   selector: 'nc-login',
@@ -62,8 +62,7 @@ export class NcLoginComponent implements OnInit {
         } else {
           // 存储其它信息
           sessionStorage.setItem('isRawPwd', result.getResponse().data.isRawPwd);
-          // 跳转到首页, 服务端返回重定向就用服务端的，没有就用配置的首页
-          location.href = getAppOption('base') + '/' + (result.getRedirect() || getAppOption('home'));
+          location.href = '';
 
           const payload = this.token.getPayload();
           // JWT时间精确到秒，todo nbf生效时间提前了2分钟

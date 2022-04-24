@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {NzMenuModeType} from 'ng-zorro-antd/menu';
 import {getAppOption, getAuthOption, NcEventService, NcHttpService, NcRegExp, NcStoreService} from 'noce/core';
 import {NcAuthService, NcTokenService} from 'noce/auth';
+import {Router} from "@angular/router";
 
 export const themeChangeEvents: any = [];
 
@@ -40,6 +41,7 @@ export class NcAppComponent implements OnInit {
 
   constructor(private http: HttpClient,
               private authService: NcAuthService,
+              private route: Router,
               private store: NcStoreService,
               private event: NcEventService,
               private ncHttp: NcHttpService,
@@ -115,6 +117,14 @@ export class NcAppComponent implements OnInit {
       .subscribe((res: any) => {
           if (res) {
             this.menu = res.data;
+
+            // 登录时跳转到第一个页面
+            if (location.pathname === '/' + getAppOption('base')) {
+              const homePage = getAppOption('base') +
+                (this.menu.length && this.menu[0].link ? '/' + this.menu[0].link : '') +
+                (this.menu.children && this.menu.children.length && this.menu.children[0].link ? '/' + this.menu.children[0].link : '');
+              this.route.navigateByUrl(homePage).then();
+            }
           }
         }
       );
