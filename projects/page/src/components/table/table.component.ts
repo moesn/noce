@@ -3,13 +3,13 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {getAuthOption, NcEventService, NcHttpService, NcModalComponents} from 'noce/core';
 import {__eval, _eval, objectExtend} from 'noce/helper';
 import * as _ from 'lodash-es';
-import {reject} from 'lodash-es';
 import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NcFormComponent} from '..';
 import {differenceInCalendarDays, format} from 'date-fns';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzUploadFile} from 'ng-zorro-antd/upload';
 import {NcTokenService} from 'noce/auth';
+import * as FilePond from 'filepond';
 
 @Component({
   selector: 'nc-table',
@@ -181,30 +181,33 @@ export class NcTableComponent implements OnInit, OnDestroy {
         if (res) {
           // 清除数据
           this.checkedData.clear();
-          // 有些接口没有数据返回的是null
-          this.datas = res.data || [];
           this.total = res.total;
 
-          // 是否初始化数据
-          this.datas.forEach(data => data._isInit = data[this.key].toString().startsWith('-') || data.isInit);
+          if (_.isArray(res.data)) {
+            // 是否初始化数据
+            res.data.forEach((data: any) => data._isInit = data[this.key].toString().startsWith('-') || data.isInit);
 
-          const parse = this.options.view.parseData;
-          // 如果需要解析表格数据
-          if (parse) {
-            this.datas.forEach(data => _eval(parse)(data));
+            const parse = this.options.view.parseData;
+            // 如果需要解析表格数据
+            if (parse) {
+              res.data.forEach((data: any) => _eval(parse)(data));
+            }
+
+            // 表格作为弹窗时反选上已选数据
+            res.data.forEach((d: any) => {
+              // 单选时非数组，转成数组
+              if (!_.isArray(this.checkedKeys)) {
+                this.checkedKeys = [this.checkedKeys];
+              }
+              // 主键包含在数组里的反选上
+              if (this.checkedKeys.includes(d[this.key])) {
+                this.checkedData.add(d);
+              }
+            });
           }
 
-          // 表格作为弹窗时反选上已选数据
-          this.datas.forEach((d: any) => {
-            // 单选时非数组，转成数组
-            if (!_.isArray(this.checkedKeys)) {
-              this.checkedKeys = [this.checkedKeys];
-            }
-            // 主键包含在数组里的反选上
-            if (this.checkedKeys.includes(d[this.key])) {
-              this.checkedData.add(d);
-            }
-          });
+          // 有些接口没有数据返回的是null
+          this.datas = res.data || [];
 
           this.refreshCheckedStatus();
         }
@@ -298,7 +301,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     this.http.delete(action.api, body, action.parseReq).subscribe((res: any) => {
       if (res) {
         // 表格数据删除一条
-        this.datas = reject(this.datas, (d: any) => d[this.options.key] === data[this.options.key]);
+        this.datas = _.reject(this.datas, (d: any) => d[this.options.key] === data[this.options.key]);
         // 总条数减1
         this.total -= 1;
       }
@@ -439,6 +442,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     } else {
       // 超长数据省略显示
       const maxChar = column.ellipsis
+
       if (data && data.toString().length > maxChar) {
         res = data.toString().substring(0, maxChar);
       } else {

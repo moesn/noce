@@ -989,7 +989,7 @@ export const NM_PAGE_SCHEMA =
                           "密码",
                           "字母数字",
                           "身份证",
-                          "手机号",
+                          "手机号码",
                           "邮箱",
                           "URL",
                           "IP",
@@ -1188,9 +1188,9 @@ export const NM_PAGE_SCHEMA =
                       },
                       "valueKey": {
                         "title": "用于关联的字段",
+                        "description": "设置为空时，使用整项数据作为值",
                         "type": "string",
-                        "default": "id",
-                        "minLength": 1
+                        "default": "id"
                       },
                       "trigger": {
                         "title": "通过其他选择框触发查询数据",
