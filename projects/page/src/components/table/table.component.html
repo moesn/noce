@@ -194,9 +194,9 @@
           <td *ngIf="column.type==='text'" nz-tooltip [ngClass]="{'ant-blue':column.tipKey}"
               [nzTooltipTitle]="data[column.tipKey]||data[column.key]"
               [class]="formatColor(data[column.key],column.color)"
-              [nzTooltipTrigger]="(column.tipKey||data[column.key]?.length>column.ellipsis)?'hover':null">
+              [nzTooltipTrigger]="(column.tipKey||data[column.key]?.length>column.ellipsis&&!column.format)?'hover':null">
             {{formatData(data[column.key], column)}}
-            <span class="ant-blue" *ngIf="column.tipKey||data[column.key]?.length>column.ellipsis">...</span>
+            <span class="ant-blue" *ngIf="column.tipKey||data[column.key]?.length>column.ellipsis&&!column.format">...</span>
           </td>
           <!--        图标-->
           <td *ngIf="column.type==='icon'">
@@ -236,9 +236,22 @@
           </td>
           <!--        图片展示-->
           <td *ngIf="column.type==='image'">
-            <img [src]="data[column.key]" alt="" width="50">
+            <img [src]="data[column.key]" alt="" width="50" *ngIf="data[column.key]">
             <!--            支持图片上传且没上传图片时显示-->
-            <i nz-icon nzType="plus" *ngIf="column.image.upload?.api&&!data[column.key]"></i>
+            <i nz-icon nzType="plus" *ngIf="column.image.upload?.api&&!data[column.key]"
+               [nzPopoverContent]="imageUpload" [nzPopoverMouseLeaveDelay]="3600" nz-popover nzPopoverTrigger="click"></i>
+            <ng-template #imageUpload>
+              <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [nzAccept]="['.png','.jpg','.jpeg']">
+                <button nz-button nzType="default">
+                  <i nz-icon nzType="upload"></i>
+                  选择文件
+                </button>
+              </nz-upload>
+              <button (click)="upload(column.image.upload,data)" [disabled]="fileList.length === 0"
+                      [nzLoading]="uploading" nzType="default" nz-button style="margin-top: 16px">
+                {{ uploading ? '上传中...' : '上传' }}
+              </button>
+            </ng-template>
           </td>
         </ng-container>
       </ng-container>

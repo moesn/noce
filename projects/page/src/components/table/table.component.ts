@@ -9,7 +9,6 @@ import {differenceInCalendarDays, format} from 'date-fns';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzUploadFile} from 'ng-zorro-antd/upload';
 import {NcTokenService} from 'noce/auth';
-import * as FilePond from 'filepond';
 
 @Component({
   selector: 'nc-table',
@@ -644,7 +643,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   };
 
   // 上传
-  upload(option: any): void {
+  upload(option: any, data?: any): void {
     const formData = new FormData();
     this.fileList.forEach((file: any) => {
       formData.append('file', file);
@@ -652,6 +651,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 合并用户配置的参数
     if (option.body) {
+      this.data = data;
       _.forEach(__eval.call(this, option.body), (val: any, key: string) => {
         formData.append(key, val);
       })
