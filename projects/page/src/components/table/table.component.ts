@@ -513,7 +513,18 @@ export class NcTableComponent implements OnInit, OnDestroy {
       if (option.method === 'download') {
         // 下载
         this.http.download(option.api);
-      }else{
+      } else if (option.api === this.options.view.api) {
+        // 转换用户参数
+        const body = option.body ? __eval.call(this, option.body) : {};
+        // 筛选表格数据
+        Object.assign(this.body, body);
+
+        if (this.pageIndex !== 1) {
+          this.pageIndex = 1;
+        } else {
+          this.query({pageIndex: 1});
+        }
+      } else {
         // 转换用户参数
         const body = option.body ? __eval.call(this, option.body) : {};
 

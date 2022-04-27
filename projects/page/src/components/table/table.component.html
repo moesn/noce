@@ -236,10 +236,13 @@
           </td>
           <!--        图片展示-->
           <td *ngIf="column.type==='image'">
-            <img [src]="data[column.key]" alt="" width="50" *ngIf="data[column.key]">
-            <!--            支持图片上传且没上传图片时显示-->
+            <!--            有图片时-->
+            <img [src]="data[column.key]" alt="" width="50" *ngIf="data[column.key]"
+                 [nzPopoverContent]="imageUpload" [nzPopoverMouseLeaveDelay]="3600" nz-popover nzPopoverTrigger="click">
+            <!--            无图片时-->
             <i nz-icon nzType="plus" *ngIf="column.image.upload?.api&&!data[column.key]"
                [nzPopoverContent]="imageUpload" [nzPopoverMouseLeaveDelay]="3600" nz-popover nzPopoverTrigger="click"></i>
+            <!--            上传窗口-->
             <ng-template #imageUpload>
               <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [nzAccept]="['.png','.jpg','.jpeg']">
                 <button nz-button nzType="default">
