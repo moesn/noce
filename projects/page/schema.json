@@ -7,6 +7,7 @@
     "$*$：动态参数时使用",
     "this：设置动态参数时的关键字",
     "this.data：当前操作的数据",
+    "this.user：当前登录的用户Token里的Payload数据",
     "this.params：当前表格查询参数",
     "this.nav：导航+表格时，当前操作的导航数据",
     "this.tab：多标签表格时，当前标签数据",

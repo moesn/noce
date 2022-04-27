@@ -19,6 +19,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   @Input() options: any; // 表格选项
   @Input() navOption: any; // 导航选项
   @Input() tabOption: any; //  标签选项
+  user: any; // 当前登录用户
 
   optionsBak: any; // 备份表格选项
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
@@ -64,6 +65,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
               private token: NcTokenService) {
     const content: any = document.getElementsByTagName('nz-content')[0];
     this.height = content.offsetHeight - 175 + 'px';
+    this.user = this.token.getPayload();
   }
 
   ngOnInit(): void {
@@ -469,7 +471,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
         nzStyle: {top: '12px'},
         nzBodyStyle: {padding: '0'},
         nzContent: NcModalComponents[option.component],
-        nzComponentParams: {parent: {data, apis:option.apis}},
+        nzComponentParams: {parent: data},
         nzClosable: false,
         nzMaskClosable: true,
         nzFooter: null
