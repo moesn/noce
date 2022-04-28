@@ -220,19 +220,21 @@
           </td>
           <!--        操作列-->
           <td *ngIf="column.type==='action'">
-            {{data[column.key]}}
-            <i [nzTooltipTitle]="column.action.tip" [nzType]="column.action.icon"
-               *ngIf="column.action.click"
-               nz-icon nz-tooltip (click)="actionClick(column.action,data)"
-               [class]="formatColor(data[column.key],column.color)"></i>
-            <i [nzType]="column.action.icon" *ngIf="column.action.hover&&data[column.key]"
-               nz-icon nz-popover [nzPopoverTitle]="hoverTpl"
-               [class]="formatColor(data[column.key],column.color)"></i>
-            <ng-template #hoverTpl>
-              <p *ngFor="let hitem of data[column.action.hover.key]">
-                {{hitem}}
-              </p>
-            </ng-template>
+            <ng-container *ngIf="isTrue(column.show,data)">
+              {{data[column.key]}}
+              <i [nzTooltipTitle]="column.action.tip" [nzType]="column.action.icon"
+                 *ngIf="column.action.click"
+                 nz-icon nz-tooltip (click)="actionClick(column.action,data)"
+                 [class]="formatColor(data[column.key],column.color)"></i>
+              <i [nzType]="column.action.icon" *ngIf="column.action.hover&&data[column.key]"
+                 nz-icon nz-popover [nzPopoverTitle]="hoverTpl"
+                 [class]="formatColor(data[column.key],column.color)"></i>
+              <ng-template #hoverTpl>
+                <p *ngFor="let hitem of data[column.action.hover.key]">
+                  {{hitem}}
+                </p>
+              </ng-template>
+            </ng-container>
           </td>
           <!--        图片展示-->
           <td *ngIf="column.type==='image'">

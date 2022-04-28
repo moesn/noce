@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {getAuthOption, NcEventService, NcHttpService, NcModalComponents} from 'noce/core';
+import {NcEventService, NcHttpService, NcModalComponents} from 'noce/core';
 import {__eval, _eval, objectExtend} from 'noce/helper';
 import * as _ from 'lodash-es';
 import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
@@ -391,7 +391,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   isTrue(value: boolean | string, data: any): boolean {
     if (_.isString(value)) {
       const payload = this.token.getPayload()
-      return _eval(value)({...data, username: payload[getAuthOption('payload.usernameKey')]});
+      return _eval(value)({...data, user: payload});
     } else {
       return value;
     }
@@ -512,10 +512,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       });
       // 仅调用接口
     } else if (option.api) {
-      if (option.method === 'download') {
-        // 下载
-        this.http.download(option.api);
-      } else if (option.api === this.options.view.api) {
+      if (option.api === this.options.view.api) {
         // 转换用户参数
         const body = option.body ? __eval.call(this, option.body) : {};
         // 筛选表格数据
@@ -541,23 +538,30 @@ export class NcTableComponent implements OnInit, OnDestroy {
         }
 
         this.loading = option.refresh || !!data;
-        // 调用接口后需要刷新时重新查询数据
-        this.http.post(option.api, body,
-          {parseReq: option.parseReq, parseRes: option.parseRes, successMsg: option.successMsg}
-        ).subscribe((res: any) => {
-            if (res && option.refresh) {
-              this.query();
-            } else {
-              // 接口异常时停止加载状态
-              this.loading = false
-              // 表格列操作时，合并操作后的数据
-              if (data) {
-                objectExtend(this.data, res.data);
+
+        // 下载
+        if (option.method === 'download') {
+          this.http.download(option.api, body, option.blob);
+          this.loading = false;
+        } else {
+          // 调用接口后需要刷新时重新查询数据
+          this.http.post(option.api, body,
+            {parseReq: option.parseReq, parseRes: option.parseRes, successMsg: option.successMsg}
+          ).subscribe((res: any) => {
+              if (res && option.refresh) {
+                this.query();
+              } else {
+                // 接口异常时停止加载状态
+                this.loading = false
+                // 表格列操作时，合并操作后的数据
+                if (data) {
+                  objectExtend(this.data, res.data);
+                }
               }
-            }
-          }, // 接口错误时停止加载状态
-          () => this.loading = false
-        );
+            }, // 接口错误时停止加载状态
+            () => this.loading = false
+          );
+        }
       }
     }
   }

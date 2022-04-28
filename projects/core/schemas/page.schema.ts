@@ -200,6 +200,11 @@ export const NM_PAGE_SCHEMA =
                           "type": "integer",
                           "default": 20
                         },
+                        "show": {
+                          "title": "是否显示表格列",
+                          "$ref": "#parseBool",
+                          "default": true
+                        },
                         "switch": {
                           "title": "开关切换",
                           "type": "object",
@@ -1704,6 +1709,11 @@ export const NM_PAGE_SCHEMA =
               "download"
             ],
             "default": "post"
+          },
+          "blob": {
+            "title": "是否是流下载",
+            "type": "boolean",
+            "default": false
           },
           "icon": {
             "title": "修改按钮图标",
