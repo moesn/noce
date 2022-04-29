@@ -41,6 +41,7 @@ export class NcFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.data)
     this.cols = this.options[0].cols;
     this._isInit = this.data[this.key]?.toString().startsWith('-')||this.data.isInit;
 
@@ -103,7 +104,7 @@ export class NcFormComponent implements OnInit {
 
               res.data.forEach((d: any) => options.push({
                 label: select.nameKey.startsWith('d=>') ? _eval(select.nameKey)(d) : d[select.nameKey],
-                value: select.valueKey ? d[select.valueKey] : d,
+                value: select.valueKey ? d[select.valueKey] : JSON.stringify(d),
               }));
               // 更新下拉选择数据
               select.options = options;

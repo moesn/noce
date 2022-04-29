@@ -143,7 +143,7 @@ export class NcAppComponent implements OnInit {
 
     body[this.passwd.body.oldKey] = this.pwdData.oldPwd;
     body[this.passwd.body.newKey] = this.pwdData.newPwd;
-    body[this.passwd.body.idKey] = this.username;
+    body[this.passwd.body.idKey] = this.token.getPayload()[getAuthOption('payload.userIdKey')];
 
     this.ncHttp.post(url, body, undefined, [this.passwd.body.oldKey, this.passwd.body.newKey]).subscribe({
       next: (res: any) => {
