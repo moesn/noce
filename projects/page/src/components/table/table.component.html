@@ -252,7 +252,7 @@
                   选择文件
                 </button>
               </nz-upload>
-              <button (click)="upload(column.image.upload,data)" [disabled]="fileList.length === 0"
+              <button (click)="upload(column.image.upload,data,column.key)" [disabled]="fileList.length === 0"
                       [nzLoading]="uploading" nzType="default" nz-button style="margin-top: 16px">
                 {{ uploading ? '上传中...' : '上传' }}
               </button>

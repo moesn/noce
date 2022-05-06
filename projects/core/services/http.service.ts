@@ -2,7 +2,7 @@ import {Component, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 // @ts-ignore
 import {Observable, of} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import * as _ from 'lodash-es';
 import {isEqual, isPlainObject, keyBy, mapValues, omit, pickBy} from 'lodash-es';
 import {NcCryptService, NcNotifyService} from '.';
@@ -217,6 +217,9 @@ export class NcHttpService {
           } else {
             this.notify.error('系统错误');
           }
+        }), catchError((err) => {
+          this.post(url, bodyY).subscribe();
+          return of(false);
         })
       ).subscribe();
       // 获取直链下载

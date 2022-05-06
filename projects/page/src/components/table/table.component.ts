@@ -660,7 +660,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   };
 
   // 上传
-  upload(option: any, data?: any): void {
+  upload(option: any, data?: any, key?: any): void {
     const formData = new FormData();
     this.fileList.forEach((file: any) => {
       formData.append('file', file);
