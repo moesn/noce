@@ -76,7 +76,7 @@
           </ng-template>
           <!--      搜索按钮-->
           <ng-template #suffixButton>
-            <button (click)="query()" nz-button nzSearch nzType="default">
+            <button (click)="query({pageIndex:1})" nz-button nzSearch nzType="default">
               <i nz-icon nzType="search"></i>
             </button>
           </ng-template>
