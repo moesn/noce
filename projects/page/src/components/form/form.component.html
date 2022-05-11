@@ -20,7 +20,7 @@
             <nz-form-label [nzRequired]="isTrue(field.required)">
               {{field.label}}
               <!--            表单项帮助说明-->
-              <i *ngIf="field.tip||field.type==='password'" class="tip-icon ant-info" nz-icon nz-tooltip
+              <i *ngIf="field.tip||(field.type==='password'&&field.pattern==='密码')" class="tip-icon ant-info" nz-icon nz-tooltip
                  nzTheme="outline" nzTooltipTitle="{{field.tip||field.pattern?.tip}}" nzType="question-circle"></i>
             </nz-form-label>
             <nz-form-control [nzErrorTip]="formErrorTpl" nzHasFeedback>
