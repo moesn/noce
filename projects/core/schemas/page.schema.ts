@@ -913,7 +913,8 @@ export const NM_PAGE_SCHEMA =
                       "modal",
                       "datetime",
                       "date",
-                      "time"
+                      "time",
+                      "cron"
                     ]
                   },
                   "label": {

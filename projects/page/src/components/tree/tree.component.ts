@@ -5,6 +5,7 @@ import {NcEventService, NcHttpService, NcNotifyService} from 'noce/core';
 import * as _ from 'lodash-es';
 import {__eval, _eval, arrayToTree, objectExtend} from 'noce/helper';
 import {NcFormComponent} from '..';
+import {cloneDeep} from "lodash-es";
 
 @Component({
   selector: 'nc-tree',
@@ -114,7 +115,7 @@ export class NcTreeComponent implements OnInit {
       nzWidth: formOne.width || formOne.cols * 360,
       nzContent: NcFormComponent,
       nzContentParams: {
-        options: this.options.form,
+        options: cloneDeep(this.options.form),
         key: this.options.key,
         action: update ? this.options.update : this.options.create,
         data: this.data

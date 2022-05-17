@@ -913,7 +913,8 @@
                     "modal",
                     "datetime",
                     "date",
-                    "time"
+                    "time",
+                    "cron"
                   ]
                 },
                 "label": {

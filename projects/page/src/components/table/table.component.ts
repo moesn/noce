@@ -9,6 +9,7 @@ import {differenceInCalendarDays, format} from 'date-fns';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzUploadFile} from 'ng-zorro-antd/upload';
 import {NcTokenService} from 'noce/auth';
+import {cloneDeep} from "lodash-es";
 
 @Component({
   selector: 'nc-table',
@@ -246,7 +247,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       nzWidth: formOne.width || formOne.cols * 360,
       nzContent: NcFormComponent,
       nzContentParams: {
-        options: this.options.form,
+        options: cloneDeep(this.options.form),
         key: this.options.key,
         action: update ? this.options.update : this.options.create,
         data: this.data,
@@ -504,8 +505,6 @@ export class NcTableComponent implements OnInit, OnDestroy {
         nzBodyStyle: {padding: '0'},
         nzContent: NcTableComponent,
         nzComponentParams: {options: option.table, tabOption: option.tabs},
-        // nzContent: NcPageComponent,
-        // nzComponentParams: {table: option.table, tabs: option.tabs, navs: option.navs},
         nzClosable: false,
         nzMaskClosable: true,
         nzFooter: null

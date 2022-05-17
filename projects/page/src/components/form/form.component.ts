@@ -6,6 +6,7 @@ import {toArray, uniqBy} from 'lodash-es';
 import {__eval, _eval, arrayToTree, objectExtend} from 'noce/helper';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NcTableComponent} from '..';
+import {cronForms, cronParse, cronStringify} from "./cron";
 
 @Component({
   selector: 'nc-form',
@@ -35,15 +36,32 @@ export class NcFormComponent implements OnInit {
   expandAll: boolean = false; // 是否展开树的所有节点
   _isInit: boolean = false; // 是否是系统内置数据
 
+  cronForms = cronForms; // 计划任务表单
+  cronKey = ''; // 计划任务字段
+
   constructor(private drawerRef: NzDrawerRef,
               private modal: NzModalService,
               private http: NcHttpService) {
   }
 
   ngOnInit(): void {
-    console.log(this.data)
+    // 插入计划任务表单
+    this.options.map((option: any) => {
+      option.fields.map((field: any) => {
+        if (field.type === 'cron') {
+          // 插入表单，记录字段key，解析cron字符串
+          option.fields.push(...cronForms);
+          this.cronKey = field.key;
+
+          if (this.data[field.key]) {
+            cronParse(this.data, field.key);
+          }
+        }
+      });
+    });
+
     this.cols = this.options[0].cols;
-    this._isInit = this.data[this.key]?.toString().startsWith('-')||this.data.isInit;
+    this._isInit = this.data[this.key]?.toString().startsWith('-') || this.data.isInit;
 
     // 合并所有表单项
     this.fields = _.flatten(_.zipWith(this.options, (o: any) => o.fields));
@@ -77,6 +95,9 @@ export class NcFormComponent implements OnInit {
     })
 
     this.renderSelect();
+
+
+    console.log(this.data);
   }
 
   // 渲染下拉选择框
@@ -311,6 +332,12 @@ export class NcFormComponent implements OnInit {
       body = _.omitBy(body, (v: any, k: string) => k !== this.key && _.isEqual(this.dataBak[k], v));
     }
 
+    // 去除cron计划任务无用的数据
+    if (this.cronKey) {
+      body[this.cronKey] = cronStringify(body);
+      body = _.omitBy(body, (v: any, k: string) => k.startsWith('_'));
+    }
+
     return body;
   }
 
@@ -349,7 +376,10 @@ export class NcFormComponent implements OnInit {
       field._required = field.required;
     }
 
-    if (this.isTrue(field.show)) {
+    // 隐藏计划任务字段
+    if (field.type === 'cron') {
+      return 0;
+    } else if (this.isTrue(field.show)) {
       // 动态显示时，使用备份的是否必填配置
       field.required = field._required || field.required;
       return field.span || 24 / this.cols;
