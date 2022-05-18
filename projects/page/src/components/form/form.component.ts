@@ -54,6 +54,9 @@ export class NcFormComponent implements OnInit {
           this.cronKey = field.key;
 
           if (this.data[field.key]) {
+            // 计划任务初始值
+            cronForms.forEach(cron => this.data[cron.key] = cron.value);
+            // 计划任务反选值
             cronParse(this.data, field.key);
           }
         }
@@ -93,11 +96,8 @@ export class NcFormComponent implements OnInit {
         this.passwords.push(field.key);
       }
     })
-
-    this.renderSelect();
-
-
     console.log(this.data);
+    this.renderSelect();
   }
 
   // 渲染下拉选择框
@@ -327,17 +327,16 @@ export class NcFormComponent implements OnInit {
     // 克隆表单数据，避免保存出错时需要恢复表单数据
     let body = _.cloneDeep(this.data);
 
-    // 修改时去除未修改的字段，保留key字段
-    if (!this.isnew) {
-      body = _.omitBy(body, (v: any, k: string) => k !== this.key && _.isEqual(this.dataBak[k], v));
-    }
-
     // 去除cron计划任务无用的数据
     if (this.cronKey) {
       body[this.cronKey] = cronStringify(body);
       body = _.omitBy(body, (v: any, k: string) => k.startsWith('_'));
     }
 
+    // 修改时去除未修改的字段，保留key字段
+    if (!this.isnew) {
+      body = _.omitBy(body, (v: any, k: string) => k !== this.key && _.isEqual(this.dataBak[k], v));
+    }
     return body;
   }
 

@@ -61,34 +61,38 @@ export const cronParse = (d: any, key: any) => {
   const month = cron[4];
   const week = cron[5];
 
-  if (hour.includes('/')) {
-    const ours = hour.split('/');
+  if(hour){
+    if (hour.includes('/')) {
+      const ours = hour.split('/');
 
-    d._cycle = 24;
-    d._our = ours[0];
-    d._ours = ours[1];
-    return;
-  } else {
-    d._hour = hour;
+      d._cycle = 24;
+      d._our = ours[0];
+      d._ours = ours[1];
+      return;
+    } else {
+      d._hour = hour;
+    }
   }
 
-  if (day === '*') {
-    d._cycle = 1;
-  } else if (day === '?') {
-    d._cycle = 7;
-    d._week = week.split(',');
-  } else if (day.includes('/')) {
-    const dates = day.split('/');
+  if (day) {
+    if (day === '*') {
+      d._cycle = 1;
+    } else if (day === '?') {
+      d._cycle = 7;
+      d._week = week.split(',');
+    } else if (day.includes('/')) {
+      const dates = day.split('/');
 
-    d._cycle = 10;
-    d._day = dates[0];
-    d._days = dates[1];
-  } else {
-    d._cycle = 30;
-    d._date = day.split(',');
+      d._cycle = 10;
+      d._day = dates[0];
+      d._days = dates[1];
+    } else {
+      d._cycle = 30;
+      d._date = day.split(',');
+    }
   }
 
-  if (month !== '*') {
+  if (month && month !== '*') {
     const months = month.split('/');
 
     d._cycle = 90;
