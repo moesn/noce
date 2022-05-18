@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "$app",
   "title": "全局配置",
   "type": "object",
   "additionalProperties": false,
