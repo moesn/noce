@@ -96,7 +96,7 @@ export class NcFormComponent implements OnInit {
         this.passwords.push(field.key);
       }
     })
-    console.log(this.data);
+
     this.renderSelect();
   }
 

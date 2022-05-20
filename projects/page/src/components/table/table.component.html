@@ -264,7 +264,7 @@
         <td *ngIf="action?.api">
           <!--          修改-->
           <ng-container *ngIf="action===options.update">
-            <i (click)="edit(data)" nz-icon [nzType]="action.icon" *ngIf="!data._isInit"></i>
+            <i (click)="edit(data)" nz-icon nzType="edit" *ngIf="!data._isInit"></i>
             <i nz-icon nzType="edit" *ngIf="data._isInit"
                class="ant-disabled" nz-tooltip nzTooltipTitle="内置数据不可修改"></i>
           </ng-container>

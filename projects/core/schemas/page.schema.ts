@@ -1717,8 +1717,7 @@ export const NM_PAGE_SCHEMA =
             "default": false
           },
           "icon": {
-            "title": "修改按钮图标",
-            "default": "edit"
+            "title": "按钮图标"
           },
           "body": {
             "title": "接口参数",
