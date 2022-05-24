@@ -221,6 +221,7 @@
           <!--        操作列-->
           <td *ngIf="column.type==='action'">
             <ng-container *ngIf="isTrue(column.show,data)">
+              {{data[column.key]}}
               <i [nzTooltipTitle]="column.action.tip" [nzType]="column.action.icon"
                  *ngIf="column.action.click"
                  nz-icon nz-tooltip (click)="actionClick(column.action,data)"
