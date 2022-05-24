@@ -1132,82 +1132,77 @@ export const NM_PAGE_SCHEMA =
                     "title": "下拉选择框专属配置",
                     "type": "object",
 
-                    "properties": {
-                      "api": {
+                    "allOf": [
+                      {
                         "title": "查询接口地址",
-                        "$ref": "#api"
+                        "$ref": "#post"
                       },
-                      "body": {
-                        "title": "查询接口参数",
-                        "$ref": "#body"
-                      },
-                      "pipe": {
-                        "title": "处理数据",
-                        "description": "调用服务接口之前处理数据",
-                        "$ref": "#parse"
-                      },
-                      "multiple": {
-                        "title": "是否多选",
-                        "type": "boolean",
-                        "default": false
-                      },
-                      "options": {
-                        "title": "固定选项数据",
-                        "type": "array",
-                        "uniqueItems": true,
-                        "minItems": 2,
-                        "items": {
-                          "type": "object",
-                          "required": [
-                            "label",
-                            "value"
-                          ],
-
-                          "properties": {
-                            "label": {
-                              "title": "选项显示的标签",
-                              "type": "string"
-                            },
-                            "value": {
-                              "title": "选项提交到后台的值",
-                              "type": [
-                                "boolean",
-                                "string",
-                                "array",
-                                "number"
-                              ]
+                      {
+                        "properties": {
+                          "multiple": {
+                            "title": "是否多选",
+                            "type": "boolean",
+                            "default": false
+                          },
+                          "options": {
+                            "title": "固定选项数据",
+                            "type": "array",
+                            "uniqueItems": true,
+                            "minItems": 2,
+                            "items": {
+                              "type": "object",
+                              "required": [
+                                "label",
+                                "value"
+                              ],
+                              "additionalProperties": false,
+                              "properties": {
+                                "label": {
+                                  "title": "选项显示的标签",
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "title": "选项提交到后台的值",
+                                  "type": [
+                                    "boolean",
+                                    "string",
+                                    "array",
+                                    "number"
+                                  ]
+                                }
+                              }
                             }
-                          }
-                        }
-                      },
-                      "nameKey": {
-                        "title": "用于展示的字段",
-                        "anyOf": [
-                          {
+                          },
+                          "nameKey": {
+                            "title": "用于展示的字段",
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              {
+                                "$ref": "#format"
+                              }
+                            ]
+                          },
+                          "valueKey": {
+                            "title": "用于关联的字段",
+                            "description": "设置为空时，使用整项数据作为值",
+                            "type": "string",
+                            "default": "id"
+                          },
+                          "trigger": {
+                            "title": "通过其他选择框触发查询数据",
                             "type": "string",
                             "minLength": 1
                           },
-                          {
-                            "$ref": "#format"
+                          "click": {
+                            "title": "切换点击事件",
+                            "$ref": "#parse"
                           }
-                        ]
-                      },
-                      "valueKey": {
-                        "title": "用于关联的字段",
-                        "description": "设置为空时，使用整项数据作为值",
-                        "type": "string",
-                        "default": "id"
-                      },
-                      "trigger": {
-                        "title": "通过其他选择框触发查询数据",
-                        "type": "string",
-                        "minLength": 1
-                      },
-                      "click": {
-                        "title": "切换点击事件",
-                        "$ref": "#parse"
+                        }
                       }
-                    },
+                    ],
                     "oneOf": [
                       {
                         "required": [
