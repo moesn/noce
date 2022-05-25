@@ -515,9 +515,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
       });
       // 仅调用接口
     } else if (option.api) {
+      // 转换用户参数
+      const body = option.body ? __eval.call(this, option.body) : {};
       if (option.api === this.options.view.api) {
-        // 转换用户参数
-        const body = option.body ? __eval.call(this, option.body) : {};
         // 筛选表格数据
         Object.assign(this.body, body);
 
@@ -527,9 +527,6 @@ export class NcTableComponent implements OnInit, OnDestroy {
           this.query({pageIndex: 1});
         }
       } else {
-        // 转换用户参数
-        const body = option.body ? __eval.call(this, option.body) : {};
-
         // 需要提交查询参数
         if (option.params) {
           objectExtend(body, this.params);
