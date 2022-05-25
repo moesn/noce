@@ -342,7 +342,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
     this.key = this.options.key;
 
     // 切换回第一页，切换了分页会触发查询，不用执行query
-    this.pageIndex = 1;
+    if (this.pageIndex !== 1) {
+      this.pageIndex = 1;
+    } else {
+      this.query({pageIndex: 1});
+    }
 
     // 过滤得到可以搜索的字段列表，设置了search并且是当前标签的
     this.searchFields = this.options.view.columns.filter((d: any) => d.search && this.isCureentTab(d.tabIndex));
@@ -467,7 +471,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 自定义页面
     if (option.component) {
       this.modal.create({
-        nzWrapClassName: ['nc', ...location.pathname.split('/'), action.icon].join('-'),
+        nzWrapClassName: ['nc', ...location.pathname.split('/'), action.icon].filter(d => !!d).join('-'),
         nzWidth: option.width || 720,
         nzStyle: {top: '12px'},
         nzBodyStyle: {padding: '0'},
@@ -499,7 +503,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       }
 
       this.modal.create({
-        nzWrapClassName: ['nc', ...location.pathname.split('/'), action.icon].join('-'),
+        nzWrapClassName: ['nc', ...location.pathname.split('/'), action.icon].filter(d => !!d).join('-'),
         nzWidth: view.width,
         nzStyle: {top: '12px'},
         nzBodyStyle: {padding: '0'},

@@ -696,6 +696,12 @@ export const NM_PAGE_SCHEMA =
                   "type": "string",
                   "minLength": 1
                 },
+                "iconOnly": {
+                  "title": "是否只显示图标",
+                  "description": "有的表格操作列需要显示值+图标",
+                  "type": "boolean",
+                  "default": true
+                },
                 "tip": {
                   "title": "按钮说明",
                   "type": "string",
