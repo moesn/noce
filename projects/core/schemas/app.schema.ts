@@ -76,10 +76,10 @@ export const NM_APP_SCHEMA =
             "type": "string",
             "default": "/assets/images/logo.png"
           },
-          "loginBg": {
+          "background": {
             "description": "登录页面背景图片",
             "type": "string",
-            "default": "/assets/images/login-bg.png"
+            "default": "/assets/images/bg.png"
           }
         }
       },

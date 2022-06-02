@@ -77,10 +77,10 @@
           "type": "string",
           "default": "/assets/images/logo.png"
         },
-        "loginBg": {
+        "background": {
           "title": "登录页面背景图片",
           "type": "string",
-          "default": "/assets/images/login-bg.png"
+          "default": "/assets/images/bg.png"
         }
       }
     },

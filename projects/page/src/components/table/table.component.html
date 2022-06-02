@@ -111,7 +111,7 @@
       <!--    拖放排序按钮-->
       <ng-container *ngIf="options.dragSort?.api">
         <button (click)="sort()" *nzSpaceItem nz-button nzType="default"
-                nz-tooltip [nzTooltipTitle]="!options.dragable?'点击拖曳排序':'保存排序结果'">
+                nz-tooltip [nzTooltipTitle]="!options.dragable?'开始拖曳排序':'保存排序结果'">
           <i nz-icon nzType="save" nzTheme="outline" *ngIf="options.dragable"></i>
           <i nz-icon nzType="sort-ascending" nzTheme="outline" *ngIf="!options.dragable"></i>
         </button>

@@ -25,7 +25,7 @@ export class NcAppComponent implements OnInit {
   title: string; // 系统标题
   menuMode: NzMenuModeType; // 左侧菜单宽度
   menuWidth: number; // 左侧菜单宽度
-  loginBg: string; // 登录背景图片
+  background: string; // 登录背景图片
 
   username = ''; // 登录用户名
   isAuthed = false; // 是否已认证，已认证才显示顶部Header
@@ -51,7 +51,7 @@ export class NcAppComponent implements OnInit {
     this.collapsible = getAppOption('layout.collapsible');
     this.menuMode = getAppOption('layout.menuMode');
     this.menuWidth = getAppOption('layout.menuWidth');
-    this.loginBg = getAppOption('images.loginBg');
+    this.background = getAppOption('images.background');
     this.passwd = getAuthOption('passwd');
 
     const payload = token.getPayload()

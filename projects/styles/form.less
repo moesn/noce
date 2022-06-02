@@ -2,7 +2,10 @@
   &-item {
     // 非必填项对齐*
     label:not(.@{form-prefix-cls}-item-required)::before {
-      content: '\00A0\00A0\00A0';
+      margin-right: 4px;
+      color: transparent;
+      line-height: 1;
+      content: '*';
     }
 
     .generate-text(10);
