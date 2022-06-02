@@ -8,15 +8,15 @@
       <i (click)="edit(false)" *nzSpaceItem nz-icon nzType="plus" class="ant-blue"></i>
     </ng-container>
     <!--    修改节点-->
-    <ng-container *ngIf="options.update?.api&&data[key]">
+    <ng-container *ngIf="options.update?.api&&data[idKey]">
       <i (click)="edit(true)" *nzSpaceItem nz-icon nzType="edit" class="ant-blue"></i>
     </ng-container>
     <!--    删除节点-->
-    <ng-container *ngIf="options.delete?.api&&data[key]">
+    <ng-container *ngIf="options.delete?.api&&data[idKey]">
       <i (click)="delete()" *nzSpaceItem nz-icon nzType="delete" class="ant-red"></i>
     </ng-container>
   </nz-space>
-  <i (click)="rollback()" nz-icon nzType="rollback" class="ant-right" *ngIf="!options.mustSelect&&data[key]!==undefined"
+  <i (click)="rollback()" nz-icon nzType="rollback" class="ant-right" *ngIf="!options.mustSelect&&data[idKey]!==undefined"
      nz-tooltip nzTooltipTitle="返回全部"></i>
 </ng-template>
 <nz-card [nzTitle]="listTitle">
@@ -24,8 +24,8 @@
   <nz-list nzSize="small" nzSplit="false" [nzLoading]="loading">
     <nz-list-item (click)="click(_data)" *ngFor="let _data of datas">
       <nz-list-item-meta-title>
-        <nz-badge *ngIf="_data[key]===data[key]" nzStatus="processing"></nz-badge>
-        <span [ngClass]="{'ant-info':_data[key]===data[key]}" class="ant-wrap">{{ _data[options.nameKey] }}</span>
+        <nz-badge *ngIf="_data[idKey]===data[idKey]" nzStatus="processing"></nz-badge>
+        <span [ngClass]="{'ant-info':_data[idKey]===data[idKey]}" class="ant-wrap">{{ _data[options.nameKey] }}</span>
       </nz-list-item-meta-title>
     </nz-list-item>
   </nz-list>

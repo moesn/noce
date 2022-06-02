@@ -1,6 +1,7 @@
 export const NM_PAGE_SCHEMA =
   {
     "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "$page",
     "title": "页面配置",
     "description": "支持表格、表单、列表、树等，examples里是关键字说明",
     "examples": [
@@ -8,6 +9,7 @@ export const NM_PAGE_SCHEMA =
       "$*$：动态参数时使用",
       "this：设置动态参数时的关键字",
       "this.data：当前操作的数据",
+      "this.user：当前登录的用户Token里的Payload数据",
       "this.params：当前表格查询参数",
       "this.nav：导航+表格时，当前操作的导航数据",
       "this.tab：多标签表格时，当前标签数据",
@@ -82,7 +84,7 @@ export const NM_PAGE_SCHEMA =
               }
             }
           },
-          "key": {
+          "idKey": {
             "title": "数据主键",
             "type": "string",
             "default": "id",
@@ -585,7 +587,7 @@ export const NM_PAGE_SCHEMA =
                     "$ref": "#body",
                     "default": {
                       "ids": [
-                        "$this.data[this.key]$"
+                        "$this.data[this.idKey]$"
                       ]
                     }
                   },
@@ -1499,7 +1501,7 @@ export const NM_PAGE_SCHEMA =
                   ],
                   "default": 0
                 },
-                "key": {
+                "idKey": {
                   "title": "数据主键",
                   "type": "string",
                   "default": "id",

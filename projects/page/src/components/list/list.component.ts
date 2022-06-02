@@ -17,7 +17,7 @@ export class NcListComponent implements OnInit {
 
   data: any = {}; // 当前操作的数据
   datas: any[] = []; // 列表数据
-  key: string = ''; // 数据主键
+  idKey: string = ''; // 数据主键
   loading: boolean = false; // 是否加载数据中
   _isInit: boolean = false; // 是否是系统内置数据
 
@@ -28,7 +28,7 @@ export class NcListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.key = this.options.key;
+    this.idKey = this.options.idKey;
     this.query();
   }
 
@@ -68,7 +68,7 @@ export class NcListComponent implements OnInit {
 
   // 点击
   click(data: any): void {
-    this._isInit = data[this.key]?.toString().startsWith('-') || data.isInit;
+    this._isInit = data[this.idKey]?.toString().startsWith('-') || data.isInit;
     // 更新选中状态
     this.data = data;
     // 发出点击事件，强制刷新时table延迟渲染，事件也需要延迟发出
@@ -90,7 +90,7 @@ export class NcListComponent implements OnInit {
       nzContent: NcFormComponent,
       nzContentParams: {
         options: cloneDeep(this.options.form),
-        key: this.options.key,
+        idKey: this.options.idKey,
         action: update ? this.options.update : this.options.create,
         data: data
       },
@@ -104,7 +104,7 @@ export class NcListComponent implements OnInit {
         if (data.id) {
           // 根据数据主键查询
           const param: any = {};
-          param[this.key] = data[this.key];
+          param[this.idKey] = data[this.idKey];
           // 修改，查找替换修改数据
           objectExtend(_.find(this.datas, param), res);
         } else {
@@ -134,7 +134,7 @@ export class NcListComponent implements OnInit {
 
     this.http.delete(action.api, body,action.parseReq).subscribe((res: any) => {
       if (res) {
-        this.datas = _.reject(this.datas, (d: any) => this.data[this.key] === d[this.key]);
+        this.datas = _.reject(this.datas, (d: any) => this.data[this.idKey] === d[this.idKey]);
         // 删除时默认选择第一个
         this.click(this.datas[0]);
       }

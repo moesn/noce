@@ -15,7 +15,7 @@ import {cronForms, cronParse, cronStringify} from "./cron";
 })
 export class NcFormComponent implements OnInit {
   options: any = {}; // 表单选项
-  key: string = ''; // 表单数据的主健
+  idKey: string = ''; // 表单数据的主健
   data: any = {}; // 表单数据
   action = {api: '', body: {}, parseReq: '', parseRes: '', successMsg: ''}; // 表单数据保存接口
 
@@ -64,7 +64,7 @@ export class NcFormComponent implements OnInit {
     });
 
     this.cols = this.options[0].cols;
-    this._isInit = this.data[this.key]?.toString().startsWith('-') || this.data.isInit;
+    this._isInit = this.data[this.idKey]?.toString().startsWith('-') || this.data.isInit;
 
     // 合并所有表单项
     this.fields = _.flatten(_.zipWith(this.options, (o: any) => o.fields));
@@ -75,7 +75,7 @@ export class NcFormComponent implements OnInit {
     this.dataBak = _.cloneDeep(this.data);
 
     // 初始数据为空则是新增
-    if (!this.data[this.key]) {
+    if (!this.data[this.idKey]) {
       this.isnew = true;
 
       // 新增数据时，设置默认值
@@ -190,7 +190,7 @@ export class NcFormComponent implements OnInit {
             // 已选项
             let checkedBody: any = {};
             // 根据修改项的ID查询
-            checkedBody[this.key] = this.data[this.key];
+            checkedBody[this.idKey] = this.data[this.idKey];
 
             if (tree.checked.body) {
               objectExtend(checkedBody, __eval.call(this, tree.checked.body))
@@ -233,17 +233,17 @@ export class NcFormComponent implements OnInit {
             // 集合转成数组，多选时数据去重，单选时取第一个数据
             const multiple = modal.view.multiple;
             const arr = toArray(comp.checkedData);
-            const data: any = multiple ? uniqBy(arr, modal.key) : arr[0];
+            const data: any = multiple ? uniqBy(arr, modal.idKey) : arr[0];
 
             // 设置关联字段和名称
             if (multiple) { // 多选
               // 需要提交到后台的数据
-              this.data[field.key] = _.zipWith(data, (d: any) => d[modal.key]);
+              this.data[field.key] = _.zipWith(data, (d: any) => d[modal.idKey]);
               // 表单显示的内容
               this.data[field.nameKey] = _.zipWith(data, (d: any) => d[modal.nameKey]);
             } else { // 单选
               // 需要提交到后台的数据
-              this.data[field.key] = data[modal.key];
+              this.data[field.key] = data[modal.idKey];
               // 表单显示的内容
               this.data[field.nameKey] = data[modal.nameKey];
             }
@@ -335,7 +335,7 @@ export class NcFormComponent implements OnInit {
 
     // 修改时去除未修改的字段，保留key字段
     if (!this.isnew) {
-      body = _.omitBy(body, (v: any, k: string) => k !== this.key && _.isEqual(this.dataBak[k], v));
+      body = _.omitBy(body, (v: any, k: string) => k !== this.idKey && _.isEqual(this.dataBak[k], v));
     }
     return body;
   }

@@ -83,7 +83,7 @@
             }
           }
         },
-        "key": {
+        "idKey": {
           "title": "数据主键",
           "type": "string",
           "default": "id",
@@ -586,7 +586,7 @@
                   "$ref": "#body",
                   "default": {
                     "ids": [
-                      "$this.data[this.key]$"
+                      "$this.data[this.idKey]$"
                     ]
                   }
                 },
@@ -1500,7 +1500,7 @@
                 ],
                 "default": 0
               },
-              "key": {
+              "idKey": {
                 "title": "数据主键",
                 "type": "string",
                 "default": "id",

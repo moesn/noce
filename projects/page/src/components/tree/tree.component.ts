@@ -44,9 +44,9 @@ export class NcTreeComponent implements OnInit {
             res.data.forEach((data: any) => _eval(parse)(data));
           }
 
-          const {key, parentKey, nameKey, rootValue} = this.options;
+          const {idKey, parentKey, nameKey, rootValue} = this.options;
           // 将数组转换成树型
-          this.datas = arrayToTree(res.data, {key, parentKey, nameKey, rootValue});
+          this.datas = arrayToTree(res.data, {key:idKey, parentKey, nameKey, rootValue});
           // 默认自动点击第一个节点
           if (this.options.selected) {
             this.click(this.datas[0]);
@@ -82,17 +82,17 @@ export class NcTreeComponent implements OnInit {
   // 新增或修改树节点
   edit(update: boolean, root?: boolean): void {
     const node = this.getTreeNode();
-    const {key, nameKey, parentKey, rootValue} = this.options;
+    const {idKey, nameKey, parentKey, rootValue} = this.options;
     const parentTitle = '$' + nameKey;
 
     // 修改时树数据转换成表单数据
     if (update) {
       this.data = _.cloneDeep(node.origin);
-      this.data[key] = node.origin.key;
+      this.data[idKey] = node.origin.idKey;
       this.data[nameKey] = node.origin.title;
 
       // 从上一级node查找父级key和title，默认0和根
-      this.data[parentKey] = node.parentNode?.origin.key || rootValue;
+      this.data[parentKey] = node.parentNode?.origin.idKey || rootValue;
     } else {
       // 新增节点数据
       this.data = {};
@@ -101,7 +101,7 @@ export class NcTreeComponent implements OnInit {
         this.data[parentKey] = rootValue;
         // 增加子节点
       } else {
-        this.data[parentKey] = node.origin.key;
+        this.data[parentKey] = node.origin.idKey;
         this.data[parentTitle] = node.origin.title;
       }
     }
@@ -116,7 +116,7 @@ export class NcTreeComponent implements OnInit {
       nzContent: NcFormComponent,
       nzContentParams: {
         options: cloneDeep(this.options.form),
-        key: this.options.key,
+        idKey: this.options.idKey,
         action: update ? this.options.update : this.options.create,
         data: this.data
       },
@@ -128,7 +128,7 @@ export class NcTreeComponent implements OnInit {
     this.drawerRef.afterClose.subscribe((res: any) => {
       if (res) {
         // 设置UI组件使用的字段
-        res.key = res.value = res[key];
+        res.key = res.value = res[idKey];
         res.title = res[nameKey];
 
         // 修改

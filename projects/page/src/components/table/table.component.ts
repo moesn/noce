@@ -39,7 +39,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   };
   params: any = {}; // 缓存参数，下载时使用
 
-  key: string = ''; // 数据主键
+  idKey: string = ''; // 数据主键
   height: string = ''; // 表格内容区域高度
   navState: string = ''; // 导航状态，从无到有f2t，从有到无t2f
 
@@ -70,7 +70,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.key = this.options.key;
+    this.idKey = this.options.idKey;
 
     // 初始选中第一个标签
     if (this.tabOption) {
@@ -87,7 +87,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       // 记录导航项的数据，供自定义操作使用
       this.nav = res;
       // 关联的值
-      const mappingValue = res[this.navOption?.key];
+      const mappingValue = res[this.navOption?.idKey];
 
       // 点击导航时设置关联参数，返回全部时删除关联参数
       if (mappingValue !== undefined) {
@@ -187,7 +187,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
           if (_.isArray(res.data)) {
             // 是否初始化数据
-            res.data.forEach((data: any) => data._isInit = data[this.key].toString().startsWith('-') || data.isInit);
+            res.data.forEach((data: any) => data._isInit = data[this.idKey].toString().startsWith('-') || data.isInit);
 
             const parse = this.options.view.parseData;
             // 如果需要解析表格数据
@@ -202,7 +202,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
                 this.checkedKeys = [this.checkedKeys];
               }
               // 主键包含在数组里的反选上
-              if (this.checkedKeys.includes(d[this.key])) {
+              if (this.checkedKeys.includes(d[this.idKey])) {
                 this.checkedData.add(d);
               }
             });
@@ -248,7 +248,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       nzContent: NcFormComponent,
       nzContentParams: {
         options: cloneDeep(this.options.form),
-        key: this.options.key,
+        idKey: this.options.idKey,
         action: update ? this.options.update : this.options.create,
         data: this.data,
         tab: this.tab,
@@ -273,9 +273,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
           this.query({});
         } else {
           // 编辑前的数据有主键时是修改操作
-          if (this.data[this.key]) {
+          if (this.data[this.idKey]) {
             // 查找替换修改数据
-            objectExtend(_.find(this.datas, d => d[this.key] === this.data[this.key]), res);
+            objectExtend(_.find(this.datas, d => d[this.idKey] === this.data[this.idKey]), res);
           } else {
             // 新增时将数据插入到最前面
             this.datas = [res, ...this.datas];
@@ -303,7 +303,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     this.http.delete(action.api, body, action.parseReq).subscribe((res: any) => {
       if (res) {
         // 表格数据删除一条
-        this.datas = _.reject(this.datas, (d: any) => d[this.options.key] === data[this.options.key]);
+        this.datas = _.reject(this.datas, (d: any) => d[this.options.idKey] === data[this.options.idKey]);
         // 总条数减1
         this.total -= 1;
       }
@@ -339,7 +339,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     }
     // 合并标签配置到表格配置，合并到新的对象{}，防止选项污染
     this.options = objectExtend({}, this.optionsBak, tab);
-    this.key = this.options.key;
+    this.idKey = this.options.idKey;
 
     // 切换回第一页，切换了分页会触发查询，不用执行query
     if (this.pageIndex !== 1) {
@@ -577,7 +577,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   sort() {
     // 切换拖拽状态
     this.options.dragable = !this.options.dragable;
-    const body = {ids: _.map(this.datas, this.key)};
+    const body = {ids: _.map(this.datas, this.idKey)};
 
     // 排序结束时保存排序
     if (!this.options.dragable) {
@@ -612,7 +612,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
     } else {
       // 删除所有id相同的
       this.checkedData.forEach((d: any) => {
-        if (d[this.key] === data[this.key]) {
+        if (d[this.idKey] === data[this.idKey]) {
           this.checkedData.delete(d);
         }
       });
@@ -645,12 +645,12 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   // 是否已选择
   isChecked(data: any): boolean {
-    return Array.from(this.checkedData).some((item: any) => item[this.key] === data[this.key]);
+    return Array.from(this.checkedData).some((item: any) => item[this.idKey] === data[this.idKey]);
   }
 
   // 获取已选数据的主键集合
   getCheckedKeys(): string[] {
-    return _.zipWith(_.toArray(this.checkedData), (d: any) => d[this.key]);
+    return _.zipWith(_.toArray(this.checkedData), (d: any) => d[this.idKey]);
   }
 
   // 手动上传
