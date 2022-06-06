@@ -21,6 +21,10 @@ export const NM_APP_SCHEMA =
         "type": "string",
         "default": "page"
       },
+      "beian": {
+        "title": "备案号",
+        "type": "string"
+      },
       "images": {
         "description": "logo、背景等图片",
         "$ref": "#/definitions/images",

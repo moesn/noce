@@ -3,13 +3,13 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {NcEventService, NcHttpService, NcModalComponents} from 'noce/core';
 import {__eval, _eval, objectExtend} from 'noce/helper';
 import * as _ from 'lodash-es';
+import {cloneDeep} from 'lodash-es';
 import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NcFormComponent} from '..';
 import {differenceInCalendarDays, format} from 'date-fns';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzUploadFile} from 'ng-zorro-antd/upload';
 import {NcTokenService} from 'noce/auth';
-import {cloneDeep} from "lodash-es";
 
 @Component({
   selector: 'nc-table',
@@ -30,6 +30,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   tab: any; // 当前标签
   data: any = {}; // 当前操作的数据
   datas: any[] = []; // 表格数据
+  datasBak: any[] = []; // 表格数据备份
   searchFields: any = []; // 可搜索的字段
 
   body: any = { // 传到服务端端查询参数
@@ -113,110 +114,136 @@ export class NcTableComponent implements OnInit, OnDestroy {
   }
 
   // 查询表格数据
-  query(params?: any): void {
-    // 查询参数
-    let body: any = {};
-    // 记录分页、过滤、排序等表格查询参数
-    objectExtend(this.body, params);
+  query(params: any = {}): void {
+    // 不分页时前台查询
+    if (this.options.view.singlePage && this.datasBak.length) {
+      this.datas = cloneDeep(this.datasBak);
+      objectExtend(this.body, params);
 
-    // 防止切换tab时，导航从无到有时，导航select的重复查询
-    if (this.navState === 'f2t' && this.navOption?.selected) {
-      this.loading = false;
-      return;
-    }
+      const filter = this.body.filter.find((d: any) => d.value);
+      const sort = this.body.sort.find((d: any) => d.value);
+      const keyword = this.body.fuzzy.keyword
 
-    // 没有分页参数页不查询
-    if (!this.body.pageIndex || !this.body.pageSize) {
-      this.loading = false;
-      return;
-    }
+      if (filter) {
+        // 查询时把包涵过滤关键字的排前面
+        this.datas = _.sortBy(this.datas, (d: any) => !filter.value.includes(d[filter.key]));
+      }
 
-    // 如果有导航选项 & 当前tab有导航 & 导航必选 & 但没有关联导航，则阻止表格自动查询
-    if (this.navOption && this.isCureentTab(this.navOption?.tabIndex) &&
-      this.navOption?.selected && this.body.exact[this.navOption?.mappingKey] === undefined) {
-      this.loading = false;
-      return;
-    }
+      if (sort) {
+        this.datas = _.orderBy(this.datas, [sort.key], [sort.value.replace('end', '')]);
+      }
 
-    // 合并用户配置的参数
-    if (this.options.view.body) {
-      objectExtend(body, __eval.call(this, this.options.view.body));
-    }
+      if (keyword) {
+        // 查询时把包涵关键字的排前面
+        this.datas = _.sortBy(this.datas, d => !JSON.stringify(d).includes(keyword));
+      }
+    } else {
+      // 查询参数
+      let body: any = {};
+      // 记录分页、过滤、排序等表格查询参数
+      objectExtend(this.body, params);
 
-    // 过滤得到需要搜索的字段列表
-    let searches = this.searchFields.filter((d: any) => d.search);
-    // 没有设置搜索字段时也是搜索全部可搜索的字段
-    if (!searches.length) {
-      searches = this.searchFields;
-    }
-    // 设置搜索字段key
-    this.body.fuzzy.field = _.zipWith(searches, (d: any) => d.key);
+      // 防止切换tab时，导航从无到有时，导航select的重复查询
+      if (this.navState === 'f2t' && this.navOption?.selected) {
+        this.loading = false;
+        return;
+      }
 
-    // 合并表格查询参数
-    objectExtend(body, this.body);
+      // 没有分页参数页不查询
+      if (!this.body.pageIndex || !this.body.pageSize) {
+        this.loading = false;
+        return;
+      }
 
-    // 单页时删除分页参数
-    if (this.options.view.singlePage) {
-      objectExtend(body, {pageIndex: null, pageSize: null});
-    }
+      // 如果有导航选项 & 当前tab有导航 & 导航必选 & 但没有关联导航，则阻止表格自动查询
+      if (this.navOption && this.isCureentTab(this.navOption?.tabIndex) &&
+        this.navOption?.selected && this.body.exact[this.navOption?.mappingKey] === undefined) {
+        this.loading = false;
+        return;
+      }
 
-    // 导航从有到无时删除导航关联字段
-    if (this.navState === 't2f' && body.exact) {
-      delete body.exact[this.navOption?.mappingKey];
-    }
+      // 合并用户配置的参数
+      if (this.options.view.body) {
+        objectExtend(body, __eval.call(this, this.options.view.body));
+      }
 
-    // 不同tab的timeKey可能不同，替换timeKey
-    if (this.options.timeKey && body.range.time) {
-      body.range[this.options.timeKey] = body.range.time;
-      delete body.range.time;
-    }
+      // 过滤得到需要搜索的字段列表
+      let searches = this.searchFields.filter((d: any) => d.search);
+      // 没有设置搜索字段时也是搜索全部可搜索的字段
+      if (!searches.length) {
+        searches = this.searchFields;
+      }
+      // 设置搜索字段key
+      this.body.fuzzy.field = _.zipWith(searches, (d: any) => d.key);
 
-    // 缓存参数，下载数据时使用
-    this.params = body;
+      // 合并表格查询参数
+      objectExtend(body, this.body);
 
-    // 清空数据
-    this.data = {};
-    this.loading = true;
+      // 单页时删除分页参数
+      if (this.options.view.singlePage) {
+        objectExtend(body, {pageIndex: null, pageSize: null});
+      }
 
-    this.http.query(this.options.view.api, body, this.options.view.parseReq, this.options.view.parseRes).subscribe(
-      (res: any) => {
-        if (res) {
-          // 清除数据
-          this.checkedData.clear();
-          this.total = res.total;
+      // 导航从有到无时删除导航关联字段
+      if (this.navState === 't2f' && body.exact) {
+        delete body.exact[this.navOption?.mappingKey];
+      }
 
-          if (_.isArray(res.data)) {
-            // 是否初始化数据
-            res.data.forEach((data: any) => data._isInit = data[this.idKey].toString().startsWith('-') || data.isInit);
+      // 不同tab的timeKey可能不同，替换timeKey
+      if (this.options.timeKey && body.range.time) {
+        body.range[this.options.timeKey] = body.range.time;
+        delete body.range.time;
+      }
 
-            const parse = this.options.view.parseData;
-            // 如果需要解析表格数据
-            if (parse) {
-              res.data.forEach((data: any) => _eval(parse)(data));
+      // 缓存参数，下载数据时使用
+      this.params = body;
+
+      // 清空数据
+      this.data = {};
+      this.loading = true;
+
+      this.http.query(this.options.view.api, body, this.options.view.parseReq, this.options.view.parseRes).subscribe(
+        (res: any) => {
+          if (res) {
+            // 清除数据
+            this.checkedData.clear();
+            this.total = res.total;
+
+            if (_.isArray(res.data)) {
+              // 是否初始化数据
+              res.data.forEach((data: any) => data._isInit = data[this.idKey].toString().startsWith('-') || data.isInit);
+
+              const parse = this.options.view.parseData;
+              // 如果需要解析表格数据
+              if (parse) {
+                res.data.forEach((data: any) => _eval(parse)(data));
+              }
+
+              // 表格作为弹窗时反选上已选数据
+              res.data.forEach((d: any) => {
+                // 单选时非数组，转成数组
+                if (!_.isArray(this.checkedKeys)) {
+                  this.checkedKeys = [this.checkedKeys];
+                }
+                // 主键包含在数组里的反选上
+                if (this.checkedKeys.includes(d[this.idKey])) {
+                  this.checkedData.add(d);
+                }
+              });
             }
 
-            // 表格作为弹窗时反选上已选数据
-            res.data.forEach((d: any) => {
-              // 单选时非数组，转成数组
-              if (!_.isArray(this.checkedKeys)) {
-                this.checkedKeys = [this.checkedKeys];
-              }
-              // 主键包含在数组里的反选上
-              if (this.checkedKeys.includes(d[this.idKey])) {
-                this.checkedData.add(d);
-              }
-            });
+            // 有些接口没有数据返回的是null
+            this.datas = res.data || [];
+            // 备份数据
+            this.datasBak = _.cloneDeep(this.datas);
+
+            this.refreshCheckedStatus();
           }
-
-          // 有些接口没有数据返回的是null
-          this.datas = res.data || [];
-
-          this.refreshCheckedStatus();
-        }
-      },
-      () => this.loading = false,
-      () => this.loading = false
-    );
+        },
+        () => this.loading = false,
+        () => this.loading = false
+      );
+    }
   }
 
   // 修改表格数据
@@ -247,7 +274,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
       nzWidth: formOne.width || formOne.cols * 360,
       nzContent: NcFormComponent,
       nzContentParams: {
-        options: cloneDeep(this.options.form),
+        options: _.cloneDeep(this.options.form),
         idKey: this.options.idKey,
         action: update ? this.options.update : this.options.create,
         data: this.data,
@@ -476,7 +503,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
         nzStyle: {top: '12px'},
         nzBodyStyle: {padding: '0'},
         nzContent: NcModalComponents[option.component],
-        nzComponentParams: {parent: data},
+        nzComponentParams: {parent: data, apis: option.apis},
         nzClosable: false,
         nzMaskClosable: true,
         nzFooter: null

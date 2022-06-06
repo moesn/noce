@@ -128,18 +128,23 @@
   <ng-template #totalTpl let-range="range" let-total>
     总{{ total }}条&emsp;当前{{ range[0] }}-{{ range[1] }}
   </ng-template>
+  <!--总条数-->
+  <ng-template #totalTplSingle let-range="range" let-total>
+    总{{ total }}条
+  </ng-template>
   <!--  表格数据-->
   <nz-table (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
             (nzQueryParams)="query($event)"
             [(nzPageIndex)]="pageIndex"
             [nzData]="datas"
             [nzFrontPagination]="false"
-            [nzHideOnSinglePage]="options.view.singlePage"
             [nzPageSizeOptions]="[10,20,50,100]"
             [nzPageSize]="options.view.singlePage?10000:options.view.pageSize"
             [nzScroll]="{y:height}"
-            [nzShowTotal]="totalTpl"
+            [nzShowTotal]="options.view.singlePage?totalTplSingle:totalTpl"
             [nzSimple]="options.view.simple"
+            [nzShowSizeChanger]="!options.view.singlePage"
+            [nzShowQuickJumper]="!options.view.singlePage"
             [nzTitle]="titleTpl"
             [nzTotal]="total"
             [nzLoading]="loading"
@@ -224,7 +229,7 @@
               <!--              是否仅显示图标-->
               {{column.action.iconOnly ? '' : data[column.key]}}
               <i [nzTooltipTitle]="column.action.tip" [nzType]="column.action.icon"
-                 *ngIf="column.action.click"
+                 *ngIf="column.action.click&&isTrue(column.action.show,data)"
                  nz-icon nz-tooltip (click)="actionClick(column.action,data)"
                  [class]="formatColor(data[column.key],column.color)"></i>
               <i [nzType]="column.action.icon" *ngIf="column.action.hover&&data[column.key]"

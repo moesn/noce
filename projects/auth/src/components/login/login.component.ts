@@ -12,6 +12,7 @@ import {getAppOption, getAuthOption, NcCryptService, NcEventService} from 'noce/
 })
 export class NcLoginComponent implements OnInit {
   title = getAuthOption('title');
+  beian = getAppOption('beian');
   user = {username: '', password: '', vercode: ''}; // 用户登录表单
   submitting = false; // 防止重复提交
   codeimg: any = ''; // 验证码图片

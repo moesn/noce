@@ -38,6 +38,7 @@ export class NcAppComponent implements OnInit {
   pwdEye: any = {}; // 存储是否显示密码的状态
   pwdReg: any = NcRegExp.find((reg: any) => reg.name === '密码')!; // 密码正则校验
   isRawPwd = false; // 是否时原始密码
+  beian = getAppOption('beian');
 
   constructor(private http: HttpClient,
               private authService: NcAuthService,

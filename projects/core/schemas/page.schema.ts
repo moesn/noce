@@ -114,7 +114,7 @@ export const NM_PAGE_SCHEMA =
                   "width": {
                     "title": "表格作为弹窗时的宽度",
                     "$ref": "#width",
-                    "default": 360
+                    "default": 560
                   },
                   "reload": {
                     "title": "是否可以重新加载页面",
@@ -704,6 +704,11 @@ export const NM_PAGE_SCHEMA =
                   "type": "boolean",
                   "default": true
                 },
+                "show": {
+                  "title": "是否显示操作按钮",
+                  "$ref": "#parseBool",
+                  "default": true
+                },
                 "tip": {
                   "title": "按钮说明",
                   "type": "string",
@@ -858,7 +863,7 @@ export const NM_PAGE_SCHEMA =
             "width": {
               "$id": "#width",
               "title": "表单宽度",
-              "oneOf": [
+              "anyOf": [
                 {
                   "enum": [
                     360,
@@ -869,6 +874,9 @@ export const NM_PAGE_SCHEMA =
                     "50%",
                     "100%"
                   ]
+                },
+                {
+                  "type": "number"
                 }
               ]
             },

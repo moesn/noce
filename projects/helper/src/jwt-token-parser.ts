@@ -1,6 +1,7 @@
 import {urlBase64Decode} from './base64';
 
 function invalidJwt(): void {
+  location.href = '/auth/login';
   throw new Error('无效的JWT');
 }
 
