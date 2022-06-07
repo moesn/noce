@@ -111,7 +111,7 @@ export class NcHttpService {
   }
 
   // 编辑数据
-  post(url: string, body: any, options?: { parseReq?: string, parseRes: string, successMsg: string }, encrypt?: string[]): Observable<any> {
+  post(url: string, body: any, options?: { parseReq?: string, parseRes?: string, successMsg?: string }, encrypt?: string[]): Observable<any> {
     url = this.redirectUrl(url);
 
     const {parseReq, parseRes, successMsg} = options || {};
