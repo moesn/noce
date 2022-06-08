@@ -20,6 +20,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
   @Input() options: any; // 表格选项
   @Input() navOption: any; // 导航选项
   @Input() tabOption: any; //  标签选项
+  _eval = _eval; // 处理动态数据
+
   user: any; // 当前登录用户
 
   optionsBak: any; // 备份表格选项

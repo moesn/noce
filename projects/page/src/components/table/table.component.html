@@ -24,7 +24,7 @@
             <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [nzAccept]="options.upload.accept">
               <button nz-button nzType="default">
                 <i nz-icon nzType="upload"></i>
-                选择文件
+                {{_eval(options.upload.buttonText)}}
               </button>
             </nz-upload>
             <button (click)="upload(options.upload)" [disabled]="fileList.length === 0"

@@ -627,6 +627,12 @@ export const NM_PAGE_SCHEMA =
                     "minLength": 1,
                     "default": "上传"
                   },
+                  "buttonText": {
+                    "title": "上传选择按钮文字",
+                    "type": "string",
+                    "minLength": 1,
+                    "default": "选择文件"
+                  },
                   "accept": {
                     "title": "支持的上传类型",
                     "type": "array",

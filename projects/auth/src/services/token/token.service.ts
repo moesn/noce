@@ -38,6 +38,7 @@ export class NcTokenService {
   // 清空Token
   clear(): void {
     location.href = '/auth/login';
-    this.tokenStorage.clear();
+    sessionStorage.clear();
+    localStorage.clear();
   }
 }
