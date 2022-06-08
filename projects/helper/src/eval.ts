@@ -22,7 +22,10 @@ export const __eval = function (this: any, data: any): any {
 
   // 记录数字前后的字符串位置
   strs = strs.map((d: string, i: number) => {
-    let str = d.startsWith('this.') ? _eval.call(this, d) : d;
+    // this从参数里取数据，that从localStorage里面取数据
+    let str = d.startsWith('this.') ? _eval.call(this, d) : d.startsWith('that.') ?
+      localStorage.getItem(d.replace('that.', '')) ||
+      sessionStorage.getItem(d.replace('that.', '')) : d;
 
     if (isNumber(str)) {
       pres.push(i - 1);

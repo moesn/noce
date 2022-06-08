@@ -7,6 +7,7 @@
     "apis：api接口配置时的关键字，例：apis.userlist",
     "$*$：动态参数时使用",
     "this：设置动态参数时的关键字",
+    "that：设置动态参数时的关键字，从浏览器storage里面取值",
     "this.data：当前操作的数据",
     "this.user：当前登录的用户Token里的Payload数据",
     "this.params：当前表格查询参数",
@@ -137,7 +138,7 @@
                 },
                 "multiple": {
                   "title": "是否支持多选",
-                  "type": "boolean",
+                  "$ref": "#parseBool",
                   "default": true
                 },
                 "setSearch": {
@@ -1168,7 +1169,7 @@
                     },
                     "multiple": {
                       "title": "是否多选",
-                      "type": "boolean",
+                      "$ref": "#parseBool",
                       "default": false
                     },
                     "options": {
@@ -1218,7 +1219,7 @@
                       "type": "string",
                       "default": "id"
                     },
-                    "trigger": {
+                    "triggerKey": {
                       "title": "通过其他选择框触发查询数据",
                       "type": "string",
                       "minLength": 1
@@ -1259,7 +1260,7 @@
                       "properties": {
                         "multiple": {
                           "title": "是否多选",
-                          "type": "boolean",
+                          "$ref": "#parseBool",
                           "default": false
                         },
                         "nameKey": {

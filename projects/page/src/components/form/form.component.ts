@@ -114,8 +114,14 @@ export class NcFormComponent implements OnInit {
           objectExtend(body, __eval.call(this, select.body))
         }
 
-        // 1、初始化时没有key，配置了api，且不需要触发加载；2、根据key延迟获取数据
-        if (((!key && !select.trigger) || select.trigger === key) && select.api) {
+        // 1、初始化时没有key，配置了api，且不需要触发加载；2、根据key延迟获取数据，
+        // 3、配置的从服务接口获取数据；4、字段是显示了的
+        if (((!key && !select.triggerKey) || select.triggerKey === key) && select.api && this.isTrue(field.show)) {
+          // 清空下拉选择数据
+          select.options = [];
+          // 清空当前字段已选数据，需要重新选择
+          this.data[field.key] = this.isTrue(select.multiple) ? [] : '';
+
           this.http.post(select.api, body,
             {parseReq: select.parseReq, parseRes: select.parseRes, successMsg: select.successMsg}
           ).subscribe((res: any) => {
@@ -231,7 +237,7 @@ export class NcFormComponent implements OnInit {
           label: '确定',
           onClick: (comp: NcTableComponent) => {
             // 集合转成数组，多选时数据去重，单选时取第一个数据
-            const multiple = modal.view.multiple;
+            const multiple = this.isTrue(modal.view.multiple);
             const arr = toArray(comp.checkedData);
             const data: any = multiple ? uniqBy(arr, modal.idKey) : arr[0];
 
