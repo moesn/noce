@@ -1566,6 +1566,10 @@ export const NM_PAGE_SCHEMA =
                 },
                 "delete": {
                   "$ref": "#delete"
+                },
+                "click": {
+                  "title": "导航点击事件",
+                  "$ref": "#parse"
                 }
               }
             },

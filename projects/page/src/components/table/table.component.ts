@@ -105,6 +105,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
       } else {
         this.query({pageIndex: 1});
       }
+
+      // 执行用户自定义点击事件
+      if (this.navOption.click) {
+        _eval(this.navOption.click)({nav: this.nav, columns: this.options.view.columns})
+      }
     })
   }
 

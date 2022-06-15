@@ -47,6 +47,7 @@
               <!--            文本输入框-->
               <textarea *ngIf="field.type==='textarea'"
                         [(ngModel)]="data[field.key]"
+                        (ngModelChange)="modelChange(field)"
                         [disabled]="isTrue(field.readonly)"
                         [maxlength]="field.input.maxLength"
                         [minlength]="field.input.minLength"
@@ -87,6 +88,7 @@
               <!--            数字输入框-->
               <nz-input-number *ngIf="field.type==='number'"
                                [(ngModel)]="data[field.key]"
+                               (ngModelChange)="modelChange(field)"
                                [disabled]="isTrue(field.readonly)"
                                [name]="field.key"
                                [nzMax]="field.number.max"

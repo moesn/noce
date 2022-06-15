@@ -88,6 +88,13 @@ export class NcFormComponent implements OnInit {
           this.maxLabel += 1;
         }
       })
+    } else {
+      // 修改时查询已关联的下拉选项
+      this.fields.forEach((field: any) => {
+        if (this.data[field.key]) {
+          this.renderSelect(field.key, true);
+        }
+      });
     }
 
     // 密码类型的字段保存时需要加密
@@ -100,8 +107,8 @@ export class NcFormComponent implements OnInit {
     this.renderSelect();
   }
 
-  // 渲染下拉选择框
-  renderSelect(key?: string): void {
+  // 渲染下拉选择框，是否是修改时初始化反选数据
+  renderSelect(key?: string, reverse?: boolean): void {
     // 从服务端获取表单下拉选择框的数据
     this.fields.forEach((field: any) => {
       // 下拉选择框
@@ -114,13 +121,16 @@ export class NcFormComponent implements OnInit {
           objectExtend(body, __eval.call(this, select.body))
         }
 
-        // 1、初始化时没有key，配置了api，且不需要触发加载；2、根据key延迟获取数据，
-        // 3、配置的从服务接口获取数据；4、字段是显示了的
+        // !key && !select.triggerKey：立即查询
+        // select.triggerKey === key：延迟查询
         if (((!key && !select.triggerKey) || select.triggerKey === key) && select.api && this.isTrue(field.show)) {
           // 清空下拉选择数据
           select.options = [];
-          // 清空当前字段已选数据，需要重新选择
-          this.data[field.key] = this.isTrue(select.multiple) ? [] : '';
+
+          // 延迟关联查询&&非修改时反选数据，切换被关联项时，清楚关联项数据，重新选择
+          if (key && !reverse) {
+            this.data[field.key] = this.isTrue(select.multiple) ? [] : '';
+          }
 
           this.http.post(select.api, body,
             {parseReq: select.parseReq, parseRes: select.parseRes, successMsg: select.successMsg}
@@ -271,7 +281,7 @@ export class NcFormComponent implements OnInit {
   modelChange(field: any): void {
     const input = field.input;
     // 处理输入变化事件
-    if (input.change) {
+    if (input?.change) {
       // 需异步执行，等待值改变
       setTimeout(() => _eval(input.change)(this.data));
     }
