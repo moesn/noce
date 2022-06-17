@@ -72,7 +72,7 @@
                        [name]="field.key"
                        [pattern]="field.pattern?.reg"
                        [placeholder]="getPlaceholder(field)"
-                       [required]="isTrue(field.required)&&!dataBak[idKey]"
+                       [required]="data._pwd_required||(isTrue(field.required)&&!dataBak[idKey])"
                        [type]="pwdEye[field.key] ? 'text' : 'password'"
                        nz-input
                        nz-tooltip

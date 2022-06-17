@@ -254,20 +254,27 @@ export class NcTableComponent implements OnInit, OnDestroy {
   }
 
   // 修改表格数据
-  edit(data: any): void {
-    let update = false;
+  edit(data: any, option?: any): void {
+    let action = this.options.create;
+    let formOptions = this.options.form;
+    // form的全局属性配置在第一个form上
+    let formOne = this.options.form[0];
 
     if (_.size(data)) {
       // 更新当前操作的数据
       this.data = _.cloneDeep(data);
-      update = true;
+      action = this.options.update;
     } else {
       // 新增时附加类型、分组等关联字段
       this.data = objectExtend(data, this.body.exact)
     }
 
-    // form的全局属性配置在第一个form上
-    const formOne = this.options.form[0];
+    // 表格自定义操作的弹窗
+    if (option) {
+      action = option.update;
+      formOptions = option.form;
+      formOne = option.form[0];
+    }
 
     // 打开编辑前数据处理
     if (formOne.beforeOpen) {
@@ -281,9 +288,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
       nzWidth: formOne.width || formOne.cols * 360,
       nzContent: NcFormComponent,
       nzContentParams: {
-        options: _.cloneDeep(this.options.form),
+        options: _.cloneDeep(formOptions),
         idKey: this.options.idKey,
-        action: update ? this.options.update : this.options.create,
+        action: action,
         data: this.data,
         tab: this.tab,
         nav: this.nav
@@ -515,9 +522,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
         nzMaskClosable: true,
         nzFooter: null
       });
-    }
-    // 表格弹窗
-    else if (option.table) {
+    } else if (option.table) { // 表格弹窗
       const view = option.table.view;
       // 不能重载页面
       view.reload = false;
@@ -548,7 +553,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
         nzFooter: null
       });
       // 仅调用接口
-    } else if (option.api) {
+    } else if (option.form) { // 表单弹窗
+      // 扩展表单弹窗密码必填
+      data._pwd_required = true;
+      this.edit(data, option);
+    } else if (option.api) { // 仅调用接口
       // 转换用户参数
       const body = option.body ? __eval.call(this, option.body) : {};
       if (option.api === this.options.view.api) {

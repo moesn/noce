@@ -174,8 +174,7 @@ export const NM_PAGE_SCHEMA =
                         },
                         "label": {
                           "title": "表格表头文字",
-                          "type": "string",
-                          "minLength": 1
+                          "type": "string"
                         },
                         "key": {
                           "title": "表格数据字段",
@@ -788,6 +787,24 @@ export const NM_PAGE_SCHEMA =
                         "navs": {
                           "title": "表格导航",
                           "$ref": "#navs"
+                        }
+                      }
+                    },
+                    {
+                      "title": "弹出新表单",
+                      "type": "object",
+                      "required": [
+                        "form",
+                        "update"
+                      ],
+                      "properties": {
+                        "form": {
+                          "title": "抽屉表单",
+                          "$ref": "#form"
+                        },
+                        "update": {
+                          "title": "表单接口",
+                          "$ref": "#post"
                         }
                       }
                     },
