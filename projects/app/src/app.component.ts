@@ -117,7 +117,8 @@ export class NcAppComponent implements OnInit {
     this.http.request(api.method, api.url, {body: {key}})
       .subscribe((res: any) => {
           if (res) {
-            this.menu = res.data;
+            // 接口是url时，哦哦低空少33url替换成link
+            this.menu = JSON.parse(JSON.stringify(res.data).replaceAll('"url":','"link":'));
 
             // 登录时跳转到第一个页面
             if (location.pathname === '/' + getAppOption('base')) {

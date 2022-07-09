@@ -51,7 +51,7 @@ const COMPONENTS = [
   declarations: [...PIPES, ...COMPONENTS],
   providers: [
     ...SERVICES,
-    {provide: NcCryptService, useClass: getAppOption('encryptMode') === 'rsa' ? NcCryptRSAService : NcCryptBase64Service},
+    {provide: NcCryptService, useClass: getAppOption('encryptMode').startsWith('rsa') ? NcCryptRSAService : NcCryptBase64Service},
   ],
 })
 export class NcCoreModule {

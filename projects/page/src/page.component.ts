@@ -1,14 +1,17 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import {getAppOption, NcEventService, ncGetPattern, NcHttpService, NcNotifyService, schemaToOption} from 'noce/core';
 import {NavigationEnd, Router} from '@angular/router';
 import * as _ from 'lodash-es';
 import {objectExtend} from 'noce/helper';
+import {NzCarouselComponent} from "ng-zorro-antd/carousel";
 
 @Component({
   templateUrl: 'page.component.html',
   styleUrls: ['page.component.less']
 })
 export class NcPageComponent implements OnDestroy {
+  @ViewChild('carouselComponent', {static: false}) carousel!: NzCarouselComponent;
+
   className: string = 'nc' + location.pathname.split('/').join('-'); // 样式名称，自定义样式时可用
   apis: any; // 页面可用服务接口
   table: any; // 左侧表格
@@ -104,6 +107,9 @@ export class NcPageComponent implements OnDestroy {
     }
     this.navs = options.navs;
     this.tabs = options.tabs;
+
+    // 重载后回到重载前的导航页
+    setTimeout(() => this.carousel?.goTo(this.navIndex), 100);
   }
 
   // api转换

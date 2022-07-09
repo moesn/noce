@@ -39,12 +39,13 @@ export const NM_APP_SCHEMA =
         "$ref": "#/definitions/layout"
       },
       "encryptMode": {
-        "description": "数据加密模式",
+        "title": "数据加密模式",
         "enum": [
-          "rsa",
+          "rsa16",
+          "rsa64",
           "base64"
         ],
-        "default": "rsa"
+        "default": "rsa16"
       },
       "pubKey": {
         "description": "数据加密公钥",

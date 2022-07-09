@@ -61,6 +61,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   uploading = false; // 文件是否上传中
   fileList: NzUploadFile[] = []; // 文件上传列表
+  mappingKey: string = ''; // 导航的关联key
 
   constructor(private drawer: NzDrawerService,
               private modal: NzModalService,
@@ -85,6 +86,13 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
     // 订阅导航点击事件
     this.navClickEvent = this.event.on('NAV_CLICK').subscribe((res: any) => {
+      // 切换导航时，删除上一个导航的关联key
+      if (this.mappingKey && this.navOption?.mappingKey !== this.mappingKey) {
+        delete this.body.exact[this.mappingKey];
+      }
+      // 保存当前关联Key
+      this.mappingKey = this.navOption?.mappingKey;
+
       // 重置tab切换
       this.navState = '';
       // 记录导航项的数据，供自定义操作使用
@@ -117,6 +125,13 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 取消订阅导航点击事件
     if (this.navClickEvent) {
       this.navClickEvent.unsubscribe();
+    }
+  }
+
+  // 回车搜索
+  search(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.query({pageIndex: 1});
     }
   }
 
@@ -164,14 +179,9 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
       // 如果有导航选项 & 当前tab有导航 & 导航必选 & 但没有关联导航，则阻止表格自动查询
       if (this.navOption && this.isCureentTab(this.navOption?.tabIndex) &&
-        this.navOption?.selected && this.body.exact[this.navOption?.mappingKey] === undefined) {
+        this.navOption?.mustSelect && this.body.exact[this.navOption?.mappingKey] === undefined) {
         this.loading = false;
         return;
-      }
-
-      // 合并用户配置的参数
-      if (this.options.view.body) {
-        objectExtend(body, __eval.call(this, this.options.view.body));
       }
 
       // 过滤得到需要搜索的字段列表
@@ -200,6 +210,11 @@ export class NcTableComponent implements OnInit, OnDestroy {
       if (this.options.timeKey && body.range.time) {
         body.range[this.options.timeKey] = body.range.time;
         delete body.range.time;
+      }
+
+      // 合并用户配置的参数
+      if (this.options.view.body) {
+        objectExtend(body, __eval.call(this, this.options.view.body));
       }
 
       // 缓存参数，下载数据时使用
@@ -291,7 +306,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
         options: _.cloneDeep(formOptions),
         idKey: this.options.idKey,
         action: action,
-        data: this.data,
+        data: cloneDeep(this.data),
         tab: this.tab,
         nav: this.nav
       },
@@ -309,8 +324,10 @@ export class NcTableComponent implements OnInit, OnDestroy {
           _eval(parse)(res)
         }
 
-        // 有导航时刷新页面
-        if (this.navOption && this.isCureentTab(this.navOption?.tabIndex)) {
+        // 有导航时刷新页面或编辑重新查询数据
+        if ((this.navOption && this.isCureentTab(this.navOption?.tabIndex)) || this.options.view.query) {
+          // 清除备份数据，避免点击时不查询数据
+          this.datasBak = [];
           this.query({});
         } else {
           // 编辑前的数据有主键时是修改操作
@@ -353,6 +370,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
 
   // 多标签时切换标签事件
   switchTab(tab: any): void {
+    // 清除备份数据，避免切换tab时不查询数据
+    this.datasBak = [];
     // tab切换前无导航
     if (this.tab && !this.isCureentTab(this.navOption?.tabIndex)) {
       this.navState = 'f';
@@ -477,8 +496,16 @@ export class NcTableComponent implements OnInit, OnDestroy {
         try {
           switch (cformat) {
             case 'datetime':
-              data = data.replace('T', ' ').substr(0, 19);
+              data = data.replace('T', ' ').substring(0, 19);
               res = format(new Date(data), 'yyyy-MM-dd HH:mm:ss');
+              break;
+            case 'date':
+              data = data.replace('T', ' ').substring(0, 19);
+              res = format(new Date(data), 'yyyy-MM-dd');
+              break;
+            case 'time':
+              data = data.replace('T', ' ').substring(0, 19);
+              res = format(new Date(data), 'HH:mm:ss');
               break;
             default:
           }
@@ -712,8 +739,8 @@ export class NcTableComponent implements OnInit, OnDestroy {
     // 合并用户配置的参数
     if (option.body) {
       this.data = data;
-      _.forEach(__eval.call(this, option.body), (val: any, key: string) => {
-        formData.append(key, val);
+      _.forEach(__eval.call(this, option.body), (v: any, k: string) => {
+        formData.append(k, v);
       })
     }
 
@@ -738,7 +765,7 @@ export class NcTableComponent implements OnInit, OnDestroy {
   // ngFor性能优化
   trackByIndex(index: number): any {
     return index;
-  };
+  }
 
   // 重新加载页面
   reloadPage(): void {

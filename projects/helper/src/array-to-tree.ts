@@ -1,17 +1,17 @@
 // 数组转树, 数据列表，id的key，pid的pkey，根id
 export const arrayToTree =
-  function (items: object[], options: { key: string, parentKey: string, nameKey: string, rootValue: string | number }): object[] {
-    const {key, parentKey, nameKey, rootValue} = options;
+  function (items: object[], options: { idKey: string, parentKey: string, nameKey: string, rootValue: string | number }): object[] {
+    const {idKey, parentKey, nameKey, rootValue} = options;
 
     let res: any = null;
     const map: any = {};
 
     items.forEach((item: any) => {
       // 支持UI组件使用的字段
-      item.key = item.value = item[key];
+      item.key = item.value = item[idKey];
       item.title = item[nameKey];
 
-      const id = item[key];
+      const id = item[idKey];
       const pid = item[parentKey];
 
       // 子节点

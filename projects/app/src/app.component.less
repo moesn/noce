@@ -21,9 +21,15 @@
 
         li {
           direction: ltr;
+        }
 
-          &:first-child {
-            margin-top: 16px;
+        &-root{
+          >li {
+            direction: ltr;
+
+            &:first-child {
+              margin-top: 16px;
+            }
           }
         }
       }

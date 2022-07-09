@@ -58,7 +58,7 @@
         <ng-container *ngIf="searchFields.length">
           <nz-input-group *nzSpaceItem [nzAddOnBefore]="options.view.setSearch?prefixMenu:''"
                           [nzAddOnAfter]="suffixButton" nzSearch>
-            <input type="text" [(ngModel)]="body.fuzzy.keyword" nz-input placeholder="模糊搜索"/>
+            <input type="text" [(ngModel)]="body.fuzzy.keyword" nz-input placeholder="模糊搜索" (keyup)="search($event)"/>
           </nz-input-group>
           <!--      搜索字段-->
           <ng-template #prefixMenu>

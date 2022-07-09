@@ -122,6 +122,11 @@ export const NM_PAGE_SCHEMA =
                     "type": "boolean",
                     "default": true
                   },
+                  "query": {
+                    "title": "编辑完成后是否重新查询数据",
+                    "type": "boolean",
+                    "default": false
+                  },
                   "singlePage": {
                     "title": "是否不分页",
                     "type": "boolean",
@@ -1123,7 +1128,6 @@ export const NM_PAGE_SCHEMA =
                     "type": "object",
                     "required": [
                       "all",
-                      "checked",
                       "nameKey"
                     ],
 
@@ -1149,7 +1153,7 @@ export const NM_PAGE_SCHEMA =
                         ],
                         "default": 0
                       },
-                      "key": {
+                      "idKey": {
                         "title": "节点关键字段",
                         "type": "string",
                         "default": "id",
@@ -1300,7 +1304,7 @@ export const NM_PAGE_SCHEMA =
                             ],
                             "default": 0
                           },
-                          "key": {
+                          "idKey": {
                             "title": "节点关键字段",
                             "type": "string",
                             "default": "id",

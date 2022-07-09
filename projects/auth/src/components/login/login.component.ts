@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {NcAuthResult, NcAuthService, NcTokenService} from '../../services';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {DomSanitizer} from '@angular/platform-browser';
-import {getAppOption, getAuthOption, NcCryptService, NcEventService} from 'noce/core';
+import {getAppOption, getAuthOption, NcCryptService} from 'noce/core';
 
 @Component({
   selector: 'nc-login',
@@ -75,6 +75,6 @@ export class NcLoginComponent implements OnInit {
       } else {
         this.notify.blank(result.getMessage(), '', {nzClass: 'ant-bg-error'});
       }
-    });
+    }, error => this.submitting = false, () => this.submitting = false);
   }
 }

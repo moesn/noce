@@ -41,10 +41,11 @@
     "encryptMode": {
       "title": "数据加密模式",
       "enum": [
-        "rsa",
+        "rsa16",
+        "rsa64",
         "base64"
       ],
-      "default": "rsa"
+      "default": "rsa16"
     },
     "pubKey": {
       "title": "数据加密公钥",

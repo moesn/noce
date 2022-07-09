@@ -2,9 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NcEventService, NcHttpService, NcNotifyService} from 'noce/core';
 import * as _ from 'lodash-es';
+import {cloneDeep} from 'lodash-es';
 import {__eval, _eval, objectExtend} from 'noce/helper';
 import {NcFormComponent} from '..';
-import {cloneDeep} from "lodash-es";
 
 @Component({
   selector: 'nc-list',
@@ -35,7 +35,14 @@ export class NcListComponent implements OnInit {
   // 查询列表
   query(): void {
     this.loading = true;
-    this.http.query(this.options.api, {}, this.options.parseReq, this.options.parseRes).subscribe(
+    const body = {};
+
+    // 合并用户配置的参数
+    if (this.options.body) {
+      objectExtend(body, __eval.call(this, this.options.body));
+    }
+
+    this.http.query(this.options.api, body, this.options.parseReq, this.options.parseRes).subscribe(
       (res: any) => {
         if (res) {
           // 有数据时

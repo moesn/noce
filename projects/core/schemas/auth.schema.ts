@@ -83,13 +83,13 @@ export const NM_AUTH_SCHEMA =
             "title": "访问token的key",
             "type": "string",
             "minLength": 1,
-            "default": "data.token"
+            "default": "data.access_token"
           },
           "refreshTokenKey": {
             "title": "刷新token的key",
             "type": "string",
             "minLength": 1,
-            "default": "data.retoken"
+            "default": "data.refresh_token"
           },
           "redirectKey": {
             "title": "重定向key",
@@ -227,13 +227,13 @@ export const NM_AUTH_SCHEMA =
                 "title": "访问token的key",
                 "type": "string",
                 "minLength": 1,
-                "default": "token"
+                "default": "access_token"
               },
               "refreshTokenKey": {
                 "title": "刷新token的key",
                 "type": "string",
                 "minLength": 1,
-                "default": "retoken"
+                "default": "refresh_token"
               }
             }
           }

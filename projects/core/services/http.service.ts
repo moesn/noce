@@ -50,7 +50,7 @@ export class NcHttpService {
     // key取路由最后一个路径
     const key = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
 
-    return this.http.post(getAppOption('apis.url'), {key}).pipe(
+    return this.http.post(getAppOption('apis.url') + '?key=' + key, {key}).pipe(
       map((res: any) => {
         if (this.isValidResponse(res)) {
           // 无效值返回false

@@ -111,19 +111,21 @@ export class NcFormComponent implements OnInit {
   renderSelect(key?: string, reverse?: boolean): void {
     // 从服务端获取表单下拉选择框的数据
     this.fields.forEach((field: any) => {
-      // 下拉选择框
-      if (field.type === 'select') {
-        const select = field.select
-        const body = {};
+      const action = field.select || field.treeselect;
 
-        // 合并用户配置的参数
-        if (select.body) {
-          objectExtend(body, __eval.call(this, select.body))
-        }
+      // !key && !select.triggerKey：立即查询
+      // select.triggerKey === key：延迟查询
+      if (action && ((!key && !action.triggerKey) || action.triggerKey === key) && action.api && this.isTrue(field.show)) {
+        // 下拉选择框
+        if (field.type === 'select') {
+          const select = field.select
+          const body = {};
 
-        // !key && !select.triggerKey：立即查询
-        // select.triggerKey === key：延迟查询
-        if (((!key && !select.triggerKey) || select.triggerKey === key) && select.api && this.isTrue(field.show)) {
+          // 合并用户配置的参数
+          if (select.body) {
+            objectExtend(body, __eval.call(this, select.body))
+          }
+
           // 清空下拉选择数据
           select.options = [];
 
@@ -148,7 +150,6 @@ export class NcFormComponent implements OnInit {
             }
           });
         }
-        }
 
         // 树型下拉选择框
         if (field.type === 'treeselect') {
@@ -164,12 +165,18 @@ export class NcFormComponent implements OnInit {
             {parseReq: tree.parseReq, parseRes: tree.parseRes, successMsg: tree.successMsg}
           ).subscribe((res: any) => {
             if (res) {
-              // 将列表转换成树型结构，更新下拉选择数据
-              tree.nodes = arrayToTree(res.data, tree);
+              // 将列表转换成树型结构，更新下拉选择数据，修改时父节点不能选自己
+              tree.nodes = arrayToTree(res.data.map((d: any) => {
+                d.disabled = d[tree.idKey] === this.data[tree.idKey];
+                return d;
+              }), tree);
             }
           });
         }
+      }
 
+      // 树形选择只渲染一次
+      if (!key) {
         // 树型选择
         if (field.type === 'tree') {
           const tree = field.tree
@@ -195,14 +202,17 @@ export class NcFormComponent implements OnInit {
               // 将列表转换成树型结构
               tree.nodes = arrayToTree(res.data, tree);
               // 第一级默认不是叶子
-              tree.nodes.forEach((d: any) => d.isLeaf = false);
+              tree.nodes.forEach((d: any) => {
+                d.isLeaf = false;
+                d.checked = true
+              });
               // 设置是否展开所有节点，没数据时设置不会生效
               this.expandAll = tree.expandAll;
             }
           });
 
-          // 如果是修改，则查询已选数据
-          if (!this.isnew) {
+          // 如果是修改且需要查询已选数据
+          if (!this.isnew && tree.checked) {
             // 已选项
             let checkedBody: any = {};
             // 根据修改项的ID查询
@@ -221,8 +231,12 @@ export class NcFormComponent implements OnInit {
                 this.data[field.key] = res.data;
               }
             });
+          } else {
+            // 由于已选Keys要在tree渲染完成后才能设置，需要重新设置已选Keys
+            setTimeout(() => this.data[field.key] = [...this.data[field.key]], 100)
           }
         }
+      }
     })
   }
 
@@ -292,9 +306,9 @@ export class NcFormComponent implements OnInit {
 
   // 下拉选择框切换事件
   optionChange(field: any): void {
-    const select = field.select;
+    const select = field.select || field.treeselect;
     // 处理监听的点击事件
-    if (select.click) {
+    if (select && select.click) {
       // 需异步执行，等待值改变
       setTimeout(() => _eval(select.click)(this.data));
     }

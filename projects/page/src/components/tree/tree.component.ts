@@ -3,9 +3,9 @@ import {NzDrawerRef, NzDrawerService} from 'ng-zorro-antd/drawer';
 import {NzTreeComponent} from 'ng-zorro-antd/tree';
 import {NcEventService, NcHttpService, NcNotifyService} from 'noce/core';
 import * as _ from 'lodash-es';
+import {cloneDeep} from 'lodash-es';
 import {__eval, _eval, arrayToTree, objectExtend} from 'noce/helper';
 import {NcFormComponent} from '..';
-import {cloneDeep} from "lodash-es";
 
 @Component({
   selector: 'nc-tree',
@@ -16,6 +16,7 @@ export class NcTreeComponent implements OnInit {
   @ViewChild('treeComponent', {static: false}) dataTree!: NzTreeComponent;
   @Input() options: any; // 树选项
   drawerRef: NzDrawerRef | undefined; // 表单弹窗实例
+  idKey: string = ''; // 数据主键
 
   data: any = {}; // 当前操作的数据
   datas: any[] = []; // 树数据
@@ -29,6 +30,7 @@ export class NcTreeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.idKey = this.options.idKey;
     this.query();
   }
 
@@ -44,9 +46,9 @@ export class NcTreeComponent implements OnInit {
             res.data.forEach((data: any) => _eval(parse)(data));
           }
 
-          const {idKey, parentKey, nameKey, rootValue} = this.options;
           // 将数组转换成树型
-          this.datas = arrayToTree(res.data, {key:idKey, parentKey, nameKey, rootValue});
+          this.datas = arrayToTree(res.data, this.options);
+
           // 默认自动点击第一个节点
           if (this.options.selected) {
             this.click(this.datas[0]);
@@ -88,11 +90,11 @@ export class NcTreeComponent implements OnInit {
     // 修改时树数据转换成表单数据
     if (update) {
       this.data = _.cloneDeep(node.origin);
-      this.data[idKey] = node.origin.idKey;
+      this.data[idKey] = node.origin[idKey];
       this.data[nameKey] = node.origin.title;
 
       // 从上一级node查找父级key和title，默认0和根
-      this.data[parentKey] = node.parentNode?.origin.idKey || rootValue;
+      this.data[parentKey] = node.parentNode?.origin[idKey] || rootValue;
     } else {
       // 新增节点数据
       this.data = {};
@@ -101,7 +103,7 @@ export class NcTreeComponent implements OnInit {
         this.data[parentKey] = rootValue;
         // 增加子节点
       } else {
-        this.data[parentKey] = node.origin.idKey;
+        this.data[parentKey] = node.origin[idKey];
         this.data[parentTitle] = node.origin.title;
       }
     }
@@ -118,7 +120,7 @@ export class NcTreeComponent implements OnInit {
         options: cloneDeep(this.options.form),
         idKey: this.options.idKey,
         action: update ? this.options.update : this.options.create,
-        data: this.data
+        data: cloneDeep(this.data)
       },
       nzClosable: false,
       nzKeyboard: true,
@@ -133,9 +135,14 @@ export class NcTreeComponent implements OnInit {
 
         // 修改
         if (this.data.key) {
-          // 修改当前节点数据，和显示标题
-          objectExtend(node.origin, res);
-          node.title = res.title;
+          // 修改父节点时重新查询数据
+          if (this.data[this.options.parentKey] !== res[this.options.parentKey]) {
+            this.query();
+          } else {
+            // 修改当前节点数据，和显示标题
+            objectExtend(node.origin, res);
+            node.title = res.title;
+          }
           // 新增
         } else {
           // 设置为子节点
