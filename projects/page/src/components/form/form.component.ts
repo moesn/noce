@@ -7,6 +7,7 @@ import {__eval, _eval, arrayToTree, objectExtend} from 'noce/helper';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NcTableComponent} from '..';
 import {cronForms, cronParse, cronStringify} from "./cron";
+import {pinyin} from 'pinyin-pro';
 
 @Component({
   selector: 'nc-form',
@@ -202,10 +203,7 @@ export class NcFormComponent implements OnInit {
               // 将列表转换成树型结构
               tree.nodes = arrayToTree(res.data, tree);
               // 第一级默认不是叶子
-              tree.nodes.forEach((d: any) => {
-                d.isLeaf = false;
-                d.checked = true
-              });
+              tree.nodes.forEach((d: any) => d.isLeaf = false);
               // 设置是否展开所有节点，没数据时设置不会生效
               this.expandAll = tree.expandAll;
             }
@@ -233,7 +231,11 @@ export class NcFormComponent implements OnInit {
             });
           } else {
             // 由于已选Keys要在tree渲染完成后才能设置，需要重新设置已选Keys
-            setTimeout(() => this.data[field.key] = [...this.data[field.key]], 100)
+            setTimeout(() => {
+              if (Array.isArray(this.data[field.key])) {
+                this.data[field.key] = [...this.data[field.key]]
+              }
+            }, 500)
           }
         }
       }
@@ -296,6 +298,8 @@ export class NcFormComponent implements OnInit {
     const input = field.input;
     // 处理输入变化事件
     if (input?.change) {
+      // 汉字转拼音
+      this.data.pinyin = (str: string) => pinyin(str, {pattern: 'first', toneType: 'none'}).toUpperCase().replaceAll(' ', '');
       // 需异步执行，等待值改变
       setTimeout(() => _eval(input.change)(this.data));
     }

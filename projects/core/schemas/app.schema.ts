@@ -1,23 +1,19 @@
 export const NM_APP_SCHEMA =
   {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "description": "全局配置",
+    "$id": "$app",
+    "title": "全局配置",
     "type": "object",
-    "additionalProperties": false,
     "properties": {
       "$schema": {
         "type": "string"
       },
       "title": {
-        "description": "应用名称",
-        "type": "string"
-      },
-      "home": {
-        "description": "首页路由地址",
+        "title": "应用标题",
         "type": "string"
       },
       "base": {
-        "description": "路由基础路径",
+        "title": "路由基础路径",
         "type": "string",
         "default": "page"
       },
@@ -25,18 +21,26 @@ export const NM_APP_SCHEMA =
         "title": "备案号",
         "type": "string"
       },
+      "home": {
+        "title": "首页路由地址",
+        "type": "string"
+      },
       "images": {
-        "description": "logo、背景等图片",
-        "$ref": "#/definitions/images",
+        "title": "logo、背景等图片",
+        "$ref": "#images",
         "default": {}
       },
       "apis": {
-        "description": "功能页面可用服务接口查询",
-        "$ref": "#/definitions/api"
+        "title": "功能页面可用服务接口查询",
+        "$ref": "#api"
+      },
+      "onlineApi": {
+        "title": "用户在线监听Socket接口",
+        "type": "string"
       },
       "layout": {
-        "description": "布局",
-        "$ref": "#/definitions/layout"
+        "title": "布局",
+        "$ref": "#layout"
       },
       "encryptMode": {
         "title": "数据加密模式",
@@ -48,11 +52,11 @@ export const NM_APP_SCHEMA =
         "default": "rsa16"
       },
       "pubKey": {
-        "description": "数据加密公钥",
+        "title": "数据加密公钥",
         "type": "string"
       },
       "okCode": {
-        "description": "接口相应正确时的状态码",
+        "title": "接口响应正确时的状态码",
         "type": [
           "string",
           "number"
@@ -73,40 +77,45 @@ export const NM_APP_SCHEMA =
     ],
     "definitions": {
       "images": {
+        "$id": "#images",
         "type": "object",
-        "additionalProperties": false,
         "properties": {
           "logo": {
-            "description": "左上角logo图标地址",
+            "title": "左上角logo图标地址",
             "type": "string",
             "default": "/assets/images/logo.png"
           },
           "background": {
-            "description": "登录页面背景图片",
+            "title": "登录页面背景图片",
             "type": "string",
             "default": "/assets/images/bg.png"
           }
         }
       },
       "layout": {
+        "$id": "#layout",
         "type": "object",
-        "additionalProperties": false,
         "properties": {
           "navApi": {
-            "description": "顶部导航菜单接口",
-            "$ref": "#/definitions/api"
+            "title": "顶部导航菜单接口",
+            "$ref": "#api"
           },
           "menuApi": {
-            "description": "左侧导航菜单接口",
-            "$ref": "#/definitions/api"
+            "title": "左侧导航菜单接口",
+            "$ref": "#api"
           },
           "menuWidth": {
-            "description": "左侧导航菜单宽度",
+            "title": "左侧导航菜单宽度",
             "type": "number",
             "default": 200
           },
+          "collapsible": {
+            "title": "左侧导航菜单是否可折叠",
+            "type": "boolean",
+            "default": false
+          },
           "menuMode": {
-            "description": "左侧导航菜单宽度",
+            "title": "左侧导航菜单宽度",
             "enum": [
               "vertical",
               "horizontal",
@@ -117,17 +126,17 @@ export const NM_APP_SCHEMA =
         }
       },
       "api": {
-        "description": "接口配置",
+        "$id": "#api",
+        "title": "接口配置",
         "type": "object",
-        "additionalProperties": false,
         "properties": {
           "url": {
-            "description": "接口地址",
+            "title": "接口地址",
             "type": "string",
             "minLength": 1
           },
           "method": {
-            "description": "接口调用方式",
+            "title": "接口调用方式",
             "enum": [
               "post",
               "get"

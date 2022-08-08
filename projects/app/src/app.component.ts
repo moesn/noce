@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NzMenuModeType} from 'ng-zorro-antd/menu';
 import {getAppOption, getAuthOption, NcEventService, NcHttpService, NcRegExp, NcStoreService} from 'noce/core';
@@ -16,7 +16,7 @@ export const addThemeChangeListener = (ctx: any, func: string) => {
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.less']
 })
-export class NcAppComponent implements OnInit {
+export class NcAppComponent implements OnInit, OnDestroy {
   collapsible = false // 左侧菜单是否可折叠
   isCollapsed = false; // 是否收缩左侧菜单
   navs: any = []; // 顶部导航列表
@@ -39,6 +39,7 @@ export class NcAppComponent implements OnInit {
   pwdReg: any = NcRegExp.find((reg: any) => reg.name === '密码')!; // 密码正则校验
   isRawPwd = false; // 是否时原始密码
   beian = getAppOption('beian');
+  ws: any; // WebSocket
 
   constructor(private http: HttpClient,
               private authService: NcAuthService,
@@ -83,6 +84,15 @@ export class NcAppComponent implements OnInit {
         this.queryMenu('');
       }
     }
+
+    // 监听用户离线
+    getAppOption('onlineApi') ? this.listenSocket(getAppOption('onlineApi')) : '';
+  }
+
+
+  ngOnDestroy(): void {
+    // 关闭socket连接
+    this.ws.close();
   }
 
 // 展开当前导航页面的父级菜单
@@ -157,6 +167,20 @@ export class NcAppComponent implements OnInit {
       error: () => this.saving = false,
       complete: () => this.saving = false
     });
+  }
+
+  // 监听socket
+  listenSocket(path: string): void {
+    if (!this.ws || this.ws.readyState > 1) {
+      const protocol = window.location.protocol.replace('http', 'ws');
+      const host = window.location.host;
+
+      this.ws = new WebSocket(`${protocol}//${host}${path}?&Author=${this.token.getToken()}`,);
+
+      window.onbeforeunload = () => {
+        this.ws.close();
+      };
+    }
   }
 
   // 触发退出事件

@@ -1,5 +1,5 @@
-export const versionCompare = (v1: any, v2: any): number => {
-  if (v1 === v2) return 0;
+export const versionCompare = (lastV: any, curtV: any): number => {
+  if (lastV === curtV) return 0;
 
   const toNum = (version: string): number => {
     version = version.toString()
@@ -16,14 +16,14 @@ export const versionCompare = (v1: any, v2: any): number => {
     return parseInt(versionArr.join(''))
   }
 
-  v1 = toNum(v1)
-  v2 = toNum(v2)
+  lastV = toNum(lastV)
+  curtV = toNum(curtV)
 
-  if (v1 > v2) {
+  if (lastV > curtV) {
     return 1
   }
 
-  if (v1 < v2) {
+  if (lastV < curtV) {
     return -1
   }
 

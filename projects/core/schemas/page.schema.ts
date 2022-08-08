@@ -1041,6 +1041,7 @@ export const NM_PAGE_SCHEMA =
                           "字母数字",
                           "身份证",
                           "手机号码",
+                          "座机号码",
                           "邮箱",
                           "URL",
                           "IP",

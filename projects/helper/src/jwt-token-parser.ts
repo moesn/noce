@@ -7,7 +7,7 @@ function invalidJwt(): void {
 
 // 解码JWT Token Paylod
 export function decodeJwtPayload(token: string): any {
-  if (token.length === 0) {
+  if (!token || token.length === 0) {
     invalidJwt();
   }
 
@@ -34,7 +34,7 @@ export function decodeJwtPayload(token: string): any {
 
 // 验证是否是有效的JWT Token
 export function isValidJwtToken(token: string): boolean {
-  if (token.length === 0) {
+  if (!token || token.length === 0) {
     return false;
   }
 
@@ -43,8 +43,8 @@ export function isValidJwtToken(token: string): boolean {
   const payload = decodeJwtPayload(token);
 
   if (payload) {
-    // JWT时间精确到秒
-    date.setUTCSeconds(payload.hasOwnProperty('exp') ? payload.exp : Number.MAX_SAFE_INTEGER);
+    // JWT时间精确到秒，提前30秒刷新
+    date.setUTCSeconds(payload.hasOwnProperty('exp') ? payload.exp - 30 : Number.MAX_SAFE_INTEGER);
   }
 
   // 处理服务器和客户端时间差问题

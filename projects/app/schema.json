@@ -34,6 +34,10 @@
       "title": "功能页面可用服务接口查询",
       "$ref": "#api"
     },
+    "onlineApi": {
+      "title": "用户在线监听Socket接口",
+      "type": "string"
+    },
     "layout": {
       "title": "布局",
       "$ref": "#layout"

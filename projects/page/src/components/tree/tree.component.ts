@@ -133,16 +133,14 @@ export class NcTreeComponent implements OnInit {
         res.key = res.value = res[idKey];
         res.title = res[nameKey];
 
-        // 修改
-        if (this.data.key) {
+        // 编辑数据的父节点发生变化时刷新数据
+        if (this.data[this.options.parentKey] !== res[this.options.parentKey]) {
+          this.query();
+        } else if (this.data.key) {          // 修改
           // 修改父节点时重新查询数据
-          if (this.data[this.options.parentKey] !== res[this.options.parentKey]) {
-            this.query();
-          } else {
-            // 修改当前节点数据，和显示标题
-            objectExtend(node.origin, res);
-            node.title = res.title;
-          }
+          // 修改当前节点数据，和显示标题
+          objectExtend(node.origin, res);
+          node.title = res.title;
           // 新增
         } else {
           // 设置为子节点

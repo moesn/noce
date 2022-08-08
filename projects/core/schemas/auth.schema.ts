@@ -115,7 +115,7 @@ export const NM_AUTH_SCHEMA =
             "title": "用户ID的key",
             "type": "string",
             "minLength": 1,
-            "default": "userId"
+            "default": "user_id"
           },
           "usernameKey": {
             "title": "用于显示的用户名的key",

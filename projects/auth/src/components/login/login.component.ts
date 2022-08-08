@@ -61,15 +61,21 @@ export class NcLoginComponent implements OnInit {
         if (result.getResponse().code !== getAppOption('okCode')) {
           this.notify.blank(result.getMessage(), '', {nzClass: 'ant-bg-warning'});
         } else {
-          // 存储其它信息
-          sessionStorage.setItem('isRawPwd', result.getResponse().data.isRawPwd);
-          location.href = '';
-
           const payload = this.token.getPayload();
-          // JWT时间精确到秒，todo nbf生效时间提前了2分钟
-          let timeDiff = payload?.nbf ? new Date(0).setUTCSeconds(payload.nbf + 2 * 60) - new Date().getTime() : 0;
-          timeDiff = timeDiff < 0 ? 0 : timeDiff;
-          localStorage.setItem('td', timeDiff + '');
+          // JWT时间精确到秒，有些token服务竟然没有iat！
+          let timeDiff = payload.iat ? new Date(0).setUTCSeconds(payload.iat) - new Date().getTime() : 0;
+
+          // 服务器和客户端时间差大于三分钟时禁止登录
+          if (Math.abs(timeDiff) > 3 * 60 * 1000) {
+            sessionStorage.clear();
+            localStorage.clear();
+            this.notify.blank('客户端和服务器时间差大于3分钟', '请校正后重新登录', {nzClass: 'ant-bg-warning', nzDuration: 10000});
+          } else {
+            // 存储其它信息
+            sessionStorage.setItem('isRawPwd', result.getResponse().data.isRawPwd);
+            location.href = '';
+            localStorage.setItem('td', timeDiff + '');
+          }
         }
         // 登录错误告警
       } else {
