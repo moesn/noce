@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NzMenuModeType} from 'ng-zorro-antd/menu';
-import {getAppOption, getAuthOption, NcEventService, NcHttpService, NcRegExp, NcStoreService} from 'noce/core';
+import {getAppOption, getAuthOption, NcEventService, NcHttpService, NcRegExp} from 'noce/core';
 import {NcAuthService, NcTokenService} from 'noce/auth';
 import {Router} from "@angular/router";
 
@@ -20,6 +20,7 @@ export class NcAppComponent implements OnInit, OnDestroy {
   collapsible = false // 左侧菜单是否可折叠
   isCollapsed = false; // 是否收缩左侧菜单
   navs: any = []; // 顶部导航列表
+  navLink: string = ''; // 当前导航
   menu: any = []; // 左侧菜单列表
   logo: string; // 系统logo图标地址
   title: string; // 系统标题
@@ -44,7 +45,6 @@ export class NcAppComponent implements OnInit, OnDestroy {
   constructor(private http: HttpClient,
               private authService: NcAuthService,
               private route: Router,
-              private store: NcStoreService,
               private event: NcEventService,
               private ncHttp: NcHttpService,
               private token: NcTokenService) {
@@ -70,15 +70,7 @@ export class NcAppComponent implements OnInit, OnDestroy {
 
       // 有顶部导航
       if (getAppOption('layout.navApi')) {
-        this.navs = this.store.getNav();
-
-        // 导航只需要查询一次
-        if (this.navs) {
-          // 查询当前导航的菜单
-          this.queryMenu(path.split('/')[1]);
-        } else {
-          this.queryNavs();
-        }
+        this.queryNavs();
       } else {
         // 查询菜单
         this.queryMenu('');
@@ -112,32 +104,45 @@ export class NcAppComponent implements OnInit, OnDestroy {
     this.http.request(api.method, api.url, {body: {}})
       .subscribe((res: any) => {
           if (res) {
-            this.navs = res.data;
-            this.store.setNav(this.navs)
-            // 查询第一个导航的菜单
-            this.queryMenu(this.navs[0].link);
+            // 接口是url时，url替换成link
+            this.navs = JSON.parse(JSON.stringify(res.data).replaceAll('"url":', '"link":'));
+            // 查询当前导航的菜单或第一个导航的菜单
+            this.queryMenu(sessionStorage.getItem('navLink') ?? this.navs[0].link);
           }
         }
       );
   }
 
   // 查询左侧菜单
-  queryMenu(key: string): void {
-    const api = getAppOption('layout.menuApi');
-    this.http.request(api.method, api.url, {body: {key}})
-      .subscribe((res: any) => {
-          if (res) {
-            // 接口是url时，哦哦低空少33url替换成link
-            this.menu = JSON.parse(JSON.stringify(res.data).replaceAll('"url":','"link":'));
+  queryMenu(scope: string): void {
+    // 存下来刷新时查菜单使用
+    sessionStorage.setItem('navLink', scope);
+    // 切换导航时用于判断是否需要调整到第一个菜单
+    this.navLink = scope;
 
-            // 登录时跳转到第一个页面
-            if (location.pathname === '/' + getAppOption('base')) {
-              const homePage = getAppOption('base') +
+    const api = getAppOption('layout.menuApi');
+
+    this.http.request(api.method, api.url, {body: {exact: {scope}}})
+      .subscribe((res: any) => {
+        if (res) {
+          // 接口是url时，url替换成link
+          this.menu = JSON.parse(JSON.stringify(res.data ?? []).replaceAll('"url":', '"link":'));
+
+          // 刷新或切换导航时跳转到第一个菜单页面，登录时跳转到第一个导航的第一个菜单页面
+          if (location.pathname === '/' + getAppOption('base') ||
+            location.pathname === '/' + getAppOption('base') + '/' + this.navLink) {
+            // 默认导航页
+            let homePage = '/' + getAppOption('base') + '/' + this.navLink;
+
+            if (this.menu.length) {
+              homePage = getAppOption('base') + '/' + this.navLink +
                 (this.menu.length && this.menu[0].link ? '/' + this.menu[0].link : '') +
                 (this.menu.children && this.menu.children.length && this.menu.children[0].link ? '/' + this.menu.children[0].link : '');
-              this.route.navigateByUrl(homePage).then();
             }
+
+            this.route.navigateByUrl(homePage).then();
           }
+        }
         }
       );
   }
