@@ -91,7 +91,7 @@ export class NcAppComponent implements OnInit, OnDestroy {
   menuOpen(menu: any): boolean {
     let open = false;
     menu.children.forEach((child: any) => {
-      if (location.pathname.includes(child.link)) {
+      if (location.pathname.split('/').includes(child.link)) {
         open = true;
       }
     });
@@ -136,8 +136,8 @@ export class NcAppComponent implements OnInit, OnDestroy {
 
             if (this.menu.length) {
               homePage = getAppOption('base') + '/' + this.navLink +
-                (this.menu.length && this.menu[0].link ? '/' + this.menu[0].link : '') +
-                (this.menu.children && this.menu.children.length && this.menu.children[0].link ? '/' + this.menu.children[0].link : '');
+                (this.menu[0].link ? '/' + this.menu[0].link : '') +
+                (this.menu[0].children && this.menu[0].children[0].link ? '/' + this.menu[0].children[0].link : '');
             }
 
             this.route.navigateByUrl(homePage).then();
