@@ -36,11 +36,11 @@
           <li *ngIf="_menu.children" [nzIcon]="_menu.icon" [nzOpen]="menuOpen(_menu)" [nzTitle]="_menu.title" nz-submenu>
             <ul>
               <li *ngFor="let _child of _menu.children" nz-menu-item nzMatchRouter>
-                <a [routerLink]="[navLink,_menu.link,_child.link]">{{_child.title}}</a>
+                <a [routerLink]="navLink?[navLink,_menu.link,_child.link]:[_menu.link,_child.link]">{{_child.title}}</a>
               </li>
             </ul>
           </li>
-          <li *ngIf="!_menu.children" [routerLink]="[navLink,_menu.link]" nz-menu-item nzMatchRouter>
+          <li *ngIf="!_menu.children" [routerLink]="navLink?[navLink,_menu.link]:[_menu.link]" nz-menu-item nzMatchRouter>
             <i [ngStyle]="{'font-size': isCollapsed?'24px':'16px'}" [nzType]="_menu.icon" nz-icon></i>
             <a *ngIf="!isCollapsed" style="padding-left: 10px">{{_menu.title}}</a>
           </li>
