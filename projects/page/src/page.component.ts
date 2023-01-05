@@ -29,6 +29,8 @@ export class NcPageComponent implements OnDestroy {
               private notify: NcNotifyService,
               private http: NcHttpService,
               private event: NcEventService) {
+    this.loadOption(true);
+    
     // 监听路由跳转，跳转时加载新的配置
     this.routerEvent = router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
